@@ -1,14 +1,23 @@
+# BSD 3-Clause License
+# Copyright (c) 2022, GM Consult Pty Ltd
+# Copyright (c) 2001, Dr Martin Porter,
+# Copyright (c) 2002, Richard Boulton.
+# All rights reserved.
+
 name: text_analysis
-description: A starting point for Dart libraries or applications.
-version: 1.0.0
-# homepage: https://www.example.com
+description: Text analyzer that extracts tokens from JSON documents for use in full-text search queries and indexes.
+version: 0.0.1
+repository: https://github.com/GM-Consult-Pty-Ltd/text_analysis
+homepage: https://github.com/GM-Consult-Pty-Ltd
+issue_tracker: https://github.com/GM-Consult-Pty-Ltd/text_analysis/issues
 
 environment:
   sdk: '>=2.17.6 <3.0.0'
 
-# dependencies:
-#   path: ^1.8.0
+dependencies:
+  # -----PubDev Packages (in alphabetic order) -----
+  porter_2_stemmer: ^0.0.4
 
 dev_dependencies:
   lints: ^2.0.0
-  test: ^1.16.0
+  test: ^1.21.1

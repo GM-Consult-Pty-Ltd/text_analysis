@@ -1,8 +1,8 @@
-/// Support for doing something awesome.
-///
-/// More dartdocs go here.
+// Copyright ©2022, GM Consult (Pty) Ltd. All rights reserved
+
+/// DART text analyzer that extracts tokens from JSON documents for use in
+/// information retrieval systems.
 library text_analysis;
 
-export 'src/text_analysis_base.dart';
-
-// TODO: Export any libraries intended for clients of this package.
+/// Exports files used by clients of the pacckage.
+export 'src/_index.dart';
