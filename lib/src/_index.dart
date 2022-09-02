@@ -2,6 +2,7 @@
 // End user is granted a non-exclusive non-transferable license the ("License")
 // to use GM Consult's proprietary software (the "Software").
 
+export 'analysis_language/_index.dart';
 export 'character_filter/_index.dart';
 export 'document_analyzer/_index.dart';
 export 'text_source/_index.dart';
