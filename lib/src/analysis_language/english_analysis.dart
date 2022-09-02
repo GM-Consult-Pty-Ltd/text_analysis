@@ -17,13 +17,19 @@ class EnglishAnalysis implements AnalysisLanguage {
   Iterable<String> get stopWords => kStopWords;
 
   @override
-  String get lineEndingSelector => EnglishAnalysis.kLineEndingSelector;
+  String get lineEndingSelector => EnglishAnalysis.reLineEndingSelector;
 
   @override
-  String get sentenceEndingSelector => EnglishAnalysis.kSentenceEndingSelector;
+  String get sentenceEndingSelector => EnglishAnalysis.reSentenceEndingSelector;
 
   @override
-  String get punctuationSelector => EnglishAnalysis.kPunctuationSelector;
+  String get punctuationSelector => EnglishAnalysis.rePunctuationSelector;
+
+  @override
+  String get bracketsAndCaretsSelector => EnglishAnalysis.reBracketsAndCarets;
+
+  /// Returns a regular expression String that selects all brackets and carets.
+  static const reBracketsAndCarets = r'\(|\)|\[|\]|\{|\}|\<|\>';
 
   /// A collection of stop-words excluded from tokenization.
   static const kStopWords = {
@@ -250,12 +256,34 @@ class EnglishAnalysis implements AnalysisLanguage {
     'yourselves',
   };
 
-  /// Returns a regular expression String that selects all line endings.
-  static const kLineEndingSelector = r'';
+  /// Matches all words that contain only letters and periods and end with
+  /// a period.
+  ///
+  /// Use for finding acronyms and abbreviations.
+  static const reWordEndsWithPeriod = r'(?)([a-zA-Z.]+)(?=([.]))';
+
+  /// Does not match characters used to write words, including:
+  ///   - numbers 0-9;
+  ///   - letters a-z;
+  ///   - letters A-Z;
+  ///   - ampersand, apostrophe, underscore and hyhpen ("&", "'", "_", "-")
+  static const reNonWordChars = r"[^a-zA-Z0-9¥Œ€@™#-\&_'-]";
+
+  /// Matches characters used to write words, including:
+  ///   - numbers 0-9;
+  ///   - letters a-z;
+  ///   - letters A-Z;
+  ///   - ampersand, apostrophe, underscore and hyhpen ("&", "'", "_", "-")
+  static const wordChars = r"[a-zA-Z0-9¥Œ€@™#-\&_'-]";
 
   /// Returns a regular expression String that selects all line endings.
-  static const kSentenceEndingSelector = r'';
+  static const reLineEndingSelector = r'[\r|\n|\r\n]';
 
   /// Returns a regular expression String that selects all line endings.
-  static const kPunctuationSelector = r'';
+  static const reSentenceEndingSelector =
+      r"(?<=[a-zA-Z0-9-¥Œ€@™#-\&_'-]|\s)(\. )(?=([^a-z])|\s+|$)|(\.)(?=$)|(?<=[^([{])([?!])(?=([^)]}])|\s+|$)";
+
+  /// Returns a regular expression String that selects all line endings.
+  static const rePunctuationSelector =
+      r"(?<=[a-zA-Z0-9¥Œ€@™#-\&_'-]|\s)[:;,\-—]+(?=[\s])|(\.{2,})";
 }

@@ -16,4 +16,7 @@ abstract class AnalysisLanguage {
 
   /// Returns a regular expression String that selects all punctuation.
   String get punctuationSelector;
+
+  /// Returns a regular expression String that selects all brackets and carets.
+  String get bracketsAndCaretsSelector;
 }

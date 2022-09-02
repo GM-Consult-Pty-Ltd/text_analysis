@@ -13,9 +13,7 @@ abstract class Sentence {
   //
 
   /// Factory constructor instantiates a [Sentence] from [source] and [tokens].
-  factory Sentence(
-          {required String source, List<Token> tokens = const <Token>[]}) =>
-      _SentenceImpl(source, tokens);
+  factory Sentence(source, List<Token> tokens) => _SentenceImpl(source, tokens);
 
   /// The source text of the [Sentence].
   String get source;

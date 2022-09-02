@@ -9,8 +9,7 @@ abstract class TextSource {
   //
 
   /// Instantiates a [Document] from the [source].
-  factory TextSource(String source,
-          {List<Sentence> sentences = const <Sentence>[]}) =>
+  factory TextSource(String source, List<Sentence> sentences) =>
       _TextSourceImpl(source, sentences);
 
   /// The source text for the document.

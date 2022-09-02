@@ -16,7 +16,7 @@ environment:
 
 dependencies:
   # -----PubDev Packages (in alphabetic order) -----
-  porter_2_stemmer: ^0.0.4
+  porter_2_stemmer: ^0.0.5
 
 dev_dependencies:
   lints: ^2.0.0
