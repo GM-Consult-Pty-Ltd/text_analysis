@@ -5,18 +5,14 @@
 abstract class AnalysisLanguage {
   //
 
-  /// A collection of stop-words excluded from tokenization.
-  Iterable<String> get stopWords;
+  /// Splits [source] into sentences at all sentence endings.
+  List<String> splitIntoSentences(String source);
 
-  /// Returns a regular expression String that selects all sentence endings.
-  String get sentenceEndingSelector;
+  /// Splits [source] into all the terms.
+  List<String> splitIntoTerms(String source);
 
-  /// Returns a regular expression String that selects all line endings.
-  String get lineEndingSelector;
-
-  /// Returns a regular expression String that selects all punctuation.
-  String get punctuationSelector;
-
-  /// Returns a regular expression String that selects all brackets and carets.
-  String get bracketsAndCaretsSelector;
+  /// A collection of words excluded from tokenization, usually common
+  /// stop words and adjectives/adverbs that have little or no relevance in
+  /// text-analysis.
+  Iterable<String> get excludedTerms;
 }

@@ -4,3 +4,4 @@
 
 export 'analysis_language.dart';
 export 'english_analysis.dart';
+export 'typedefs.dart';

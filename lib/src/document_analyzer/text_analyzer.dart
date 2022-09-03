@@ -1,8 +1,6 @@
 // BSD 3-Clause License
 // Copyright (c) 2022, GM Consult Pty Ltd
 
-// import 'package:text_analysis/text_analysis.dart';
-
 import 'package:porter_2_stemmer/porter_2_stemmer.dart';
 import 'package:text_analysis/src/_index.dart';
 
@@ -12,22 +10,34 @@ abstract class TextAnalyzerBase {
   //
 
   /// A stemmer function that returns the stem of term.
-  Stemmer get stemmerFunction;
+  Stemmer? get stemmerFunction;
 
-  /// A hashmap of terms (keys) with their stem values that will be returned
-  /// rather than being processed by the stemmer.
-  ///
-  /// The default is [Porter2Stemmer.kExceptions].
-  Map<String, String> get stemmerExceptions;
-
-  /// Returns a regular expression String that selects all sentence endings.
-  String get sentenceEndingSelector;
-
-  /// Returns a regular expression String that selects all line endings.
-  String get lineEndingSelector;
+  // /// A hashmap of terms (keys) with their stem values that will be returned
+  // /// rather than being processed by the stemmer.
+  // ///
+  // /// The default is [Porter2Stemmer.kExceptions].
+  // Map<String, String> get stemmerExceptions;
 
   /// The [AnalysisLanguage] used by the [TextAnalyzerBase].
   AnalysisLanguage get language;
+
+  /// A filter that stops some terms from being tokenized.
+  ///
+  /// The term filter
+  TermFilter? get termFilter;
+
+  /// A filter that returns a subset of tokens.
+  ///
+  /// Provide a [tokenFilter] if you want to manipulate tokens or restrict
+  /// tokenization to tokens that meet criteria for either index or count.
+  TokenFilter? get tokenFilter;
+
+  /// A function that manipulates terms prior to stemming and tokenization.
+  ///
+  /// Use a [characterFilter] to:
+  /// - convert all terms to lower case;
+  /// - remove non-word characters from terms.
+  CharacterFilter? get characterFilter;
 
   /// Extracts tokens from text for use in full-text search queries and indexes.
   ///
@@ -41,63 +51,67 @@ abstract class TextAnalyzerBase {
 class TextAnalyzer implements TextAnalyzerBase {
   //
 
-  /// Hydrates a const TextAnalyzer
-  const TextAnalyzer({this.language = EnglishAnalysis.instance});
+  /// The default [stemmerFunction] is the [Porter2Stemmer.stem] with default
+  /// stemming exceptions.
+  ///
+  /// Provide your own [Stemmer] to customize stemming.
+  static String kDefaultStemmer(String term) => term.stemPorter2();
+
+  /// The default [termFilter].
+  ///
+  /// Splits terms at periods, colons, hyphens and em-dashes and returns the
+  /// original [term] as well as any split terms.
+  static List<String> kDefaultTermFilter(String term) {
+    if (term.isEmpty) {
+      return [];
+    }
+    final splitTerms = term
+        .split(RegExp(r'(?<=[^0-9.])[\.\:\-—](?=[^0-9])'))
+        .where((element) => element.isNotEmpty)
+        .map((e) => e.replaceAll(RegExp(r'[\.\:\-—](?=$)'), ''));
+    if (splitTerms.length > 1) {
+      return [term] + splitTerms.toList();
+    }
+    return [term];
+  }
+
+  /// The default [characterFilter].
+  static String kDefaultCharacterFilter(String term) {
+    if (term.toUpperCase() == term) {
+      return term;
+    }
+    return term.toLowerCase().replaceAll(RegExp(r'[^a-z]'), '');
+  }
+
+  @override
+  final Stemmer? stemmerFunction;
+
+  /// Hydrates a const TextAnalyzer.
+  const TextAnalyzer(
+      {this.language = English.language,
+      this.characterFilter = kDefaultCharacterFilter,
+      this.stemmerFunction = kDefaultStemmer,
+      this.termFilter = kDefaultTermFilter,
+      this.tokenFilter});
 
   @override
   TextSource tokenize(String source) {
-    final sentenceStrings = _splitIntoSentences(source);
+    final sentenceStrings = language.splitIntoSentences(source);
     final sentences = _getSentences(sentenceStrings);
     return TextSource(source, sentences);
   }
 
   @override
+  final TermFilter? termFilter;
+
+  @override
+  final CharacterFilter? characterFilter;
+
+  @override
+  final TokenFilter? tokenFilter;
+
+  @override
   final AnalysisLanguage language;
-
-  /// A filter function remove terms to be excluded from analysis such as
-  /// common stopwords that have no relevance in the analysis.
-  List<String> _excludeStopWords(List<String> terms) {
-    terms.removeWhere((element) => language.stopWords.contains(element));
-    return terms;
-  }
-
-  RegExp get _punctuationRegex {
-    return RegExp(language.punctuationSelector);
-  }
-
-  /// Splits [source] into all the terms.
-  List<String> _splitIntoTerms(String source) {
-    // replace all punctuation with whitespace.
-    source = source
-        .replaceAll(_punctuationRegex, ' ')
-        // replace all brackets and carets with _kTokenDelimiter.
-        .replaceAll(RegExp(language.bracketsAndCaretsSelector), ' ')
-        // replace all repeated white-space with a single white-space.
-        .replaceAll(RegExp(r'(\s{2,})'), ' ');
-    // split at white-space
-    final terms = source.split(RegExp(' '));
-    return terms;
-  }
-
-  static const _kSentenceDelimiter = r'%~%';
-
-  /// Splits [source] into sentences at all sentence endings.
-  List<String> _splitIntoSentences(String source) {
-    source = source
-        // replace line feeds and carriage returns with %~%
-        .replaceAll(RegExp(language.lineEndingSelector), _kSentenceDelimiter)
-        // select all sentences and replace the ending punctuation with %~%
-        .replaceAllMapped(RegExp(language.sentenceEndingSelector), (match) {
-      final sentence = match.group(0) ?? '';
-      if (sentence.isNotEmpty) {
-        return '$sentence$_kSentenceDelimiter';
-      }
-      return '';
-    });
-    // split at sentence tokens
-    final sources = source.trim().split(RegExp(_kSentenceDelimiter));
-    return sources;
-  }
 
   /// Splits the [source] into [Sentence]s
   List<Sentence> _getSentences(List<String> sentences) {
@@ -110,53 +124,54 @@ class TextAnalyzer implements TextAnalyzerBase {
     return retVal;
   }
 
-  /// Returns a regular expression String that selects all sentence endings.
-  @override
-  String get sentenceEndingSelector => TextAnalyzer.kLineEndingSelector;
-
-  /// Returns a regular expression String that selects all line endings.
-  @override
-  String get lineEndingSelector => TextAnalyzer.kSentenceEndingSelector;
-
   /// Extracts tokens from [sentence] for use in full-text search queries and indexes.
   ///
   /// Returns a list of [Token].
   List<Token> _tokenizeSentence(String sentence) {
-    // TODO: remove all sentence ending punctuation? Be careful of destroying identifiers
-    sentence = sentence.replaceAll(RegExp(r'[\.|\!|\?](?=$)'), '');
-    final terms = _splitIntoTerms(sentence);
-    final filteredTerms = _excludeStopWords(terms);
+    // perform the first punctuation and white-space split
+    final terms = language.splitIntoTerms(sentence);
+    // initialize the tokens collection (return value)
     final tokens = <Token>[];
+    // initialize the index
     var index = 0;
+    // iterate through the terms
     for (var term in terms) {
+      // calculate the index increment from the raw term length
+      final increment = term.length + 1;
+      // remove white-space at start and end of term
       term = term.trim();
-      if (filteredTerms.contains(term)) {
-        final stem = stemmerFunction(term);
-        tokens.add(Token(stem, index));
-        final splitTerms = term
-            .split(RegExp(r'(?<=[^0-9.])[\.\:\-—](?=[^0-9])'))
-            .where((element) => element.isNotEmpty)
-            .map((e) => e.replaceAll(RegExp(r'[\.\:\-—](?=$)'), ''));
-        if (splitTerms.length > 1 &&
-            splitTerms.where((element) => element.length > 1).isNotEmpty) {
-          var subIndex = index;
-          for (final splitTerm in splitTerms) {
-            tokens.add(Token(splitTerm, subIndex));
+      // only tokenize non-empty strings.
+      if (term.isNotEmpty) {
+        // apply the termFilter if it is not null
+        final splitTerms = termFilter != null ? termFilter!(term) : [term];
+        // initialize a sub-index for split terms
+        var subIndex = 0;
+        var i = 0;
+        for (var splitTerm in splitTerms) {
+          // apply the characterFilter if it is not null
+          splitTerm =
+              characterFilter != null ? characterFilter!(splitTerm) : splitTerm;
+          // apply the stemmer if it is not null
+          splitTerm =
+              stemmerFunction != null ? stemmerFunction!(splitTerm) : splitTerm;
+          tokens.add(Token(splitTerm, index + subIndex));
+          // only increment the sub-index after the first term
+          if (i > 0) {
             subIndex += splitTerm.length + 1;
           }
+          i++;
         }
+        // }
       }
-      index = index + term.length + 1;
+      // increment the index
+      index = index + increment;
     }
-    return tokens;
+    // apply the tokenFilter if it is not null and return the tokens collection
+    return tokenFilter != null ? tokenFilter!(tokens) : tokens;
   }
 
-  @override
-  Map<String, String> get stemmerExceptions => Porter2Stemmer.kExceptions;
-
-  @override
-  Stemmer get stemmerFunction =>
-      Porter2Stemmer(exceptions: stemmerExceptions).stem;
+  // @override
+  // Map<String, String> get stemmerExceptions => Porter2Stemmer.kExceptions;
 
   /// Regular expression String that selects all sentence endings.
   static const kLineEndingSelector = r'';
