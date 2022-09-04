@@ -1,36 +1,123 @@
 // BSD 3-Clause License
 // Copyright (c) 2022, GM Consult Pty Ltd
 
+import 'package:porter_2_stemmer/porter_2_stemmer.dart';
 import 'package:text_analysis/text_analysis.dart';
 
-/// [AnalysisLanguage] implementation for English.
-class English implements AnalysisLanguage {
+/// A basic [TextAnalysisConfiguration] implementation for English.
+class English implements TextAnalysisConfiguration {
   //
 
   /// A const constructor to allow an instance to be used as default.
   const English();
 
   /// A static const [English] instance.
-  static const language = English();
+  static const configuration = English();
+
+  /// [Porter2Stemmer.stem] with default stemming exceptions.
+  Stemmer get stemmerFunction => ((term) => term.stemPorter2());
 
   @override
-  Iterable<String> get excludedTerms => kStopWords;
+  TermFilter? get termFilter => _termFilter;
+
+  /// Applies the following algorithm to convert a [term] to a list
+  /// of strings:
+  /// - apply the [characterFilter] to [term];
+  /// - if the resulting [term] is empty or contained in [kStopWords]
+  ///   return an empty collection; else
+  /// - insert the filterered [term] in the return value
+  ///
+  List<String> _termFilter(String term) {
+    // - apply the [characterFilter] to [term];
+
+    if (kAbbreviations.contains(term)) {
+      return [term, term.replaceAll('.', '')];
+    }
+    term = characterFilter(term);
+    // - if the resulting [term] is empty or contained in [kStopWords]
+    //   return an empty collection; else
+    if (term.isEmpty || kStopWords.contains(term)) {
+      return [];
+    }
+    // - insert [term] in the return
+    final terms = [term];
+    // split at commas, periods, hyphens and apostrophes
+    final splitTerms = term.split(RegExp(r"(?<=[^0-9.])[,\.\:\-'](?=[^0-9])"));
+
+    for (var term in splitTerms) {
+      if (term.isNotEmpty) {
+        term = configuration.characterFilter(term);
+      }
+      if (!kStopWords.contains(term)) {
+        terms.add(term);
+      }
+
+      // terms.addAll(splitTerms.toList());
+    }
+    return terms.map((e) => stemmerFunction(e)).toList();
+  }
+
+  /// The English character filter follows the following algorithm:
+  /// - return the term if it can be parsed as a number; else
+  /// - convert to lower-case;
+  /// - change all quote marks to single apostrophe +U0027;
+  /// - remove enclosing quote marks;
+  /// - change all dashes to single standard hyphen;
+  /// - remove all characters except numbers, lower-case letters, commas,
+  ///   periods, hyphens and apostrophes;
+  /// - replace all characters except letters and numbers from the end of
+  ///   the term.
+  @override
+  CharacterFilter get characterFilter => (String term) {
+        // try parsing the term to a number
+        final number = num.tryParse(term);
+        // return the term if it can be parsed as a number
+        return number != null || term.toUpperCase() == term
+            ? term
+            // if term cannot be parsed to a number, filter characters
+            : term
+                // convert to lower-case
+                .toLowerCase()
+                // change all quote marks to single apostrophe +U0027
+                .replaceAll(RegExp('[\'"“”„‟’‘‛]+'), '-')
+                // remove enclosing quote marks
+                .replaceAll(RegExp(r"(^'+)|('+(?=$))"), '')
+                // change all dashes to single standard hyphen
+                .replaceAll(RegExp(r'[\-—]+'), '-')
+                // remove all characters except numbers, lower-case letters,
+                // commas, periods, hyphens and apostrophes
+                .replaceAll(RegExp(r"[^0-9a-z,.\-']"), '')
+                // replace all characters except letters and numbers from end
+                //of term
+                .replaceAll(RegExp(r'[^0-9a-z](?=$)'), '');
+      };
 
   @override
   List<String> splitIntoSentences(String source) {
+    // insert the sentence delimiters at sentence breaks
     source = source
+        // trim leading and trailing white-space from source
+        .trim()
         // replace line feeds and carriage returns with %~%
         .replaceAll(RegExp(English.reLineEndingSelector), _kSentenceDelimiter)
         // select all sentences and replace the ending punctuation with %~%
         .replaceAllMapped(RegExp(English.reLineEndingSelector), (match) {
       final sentence = match.group(0) ?? '';
-      if (sentence.isNotEmpty) {
-        return '$sentence$_kSentenceDelimiter';
-      }
-      return '';
+      // remove white-space before delimiter
+      return '$sentence$_kSentenceDelimiter'
+          .replaceAll(RegExp(r'(\s+)(?=%~%)'), _kSentenceDelimiter);
     });
-    // split at sentence tokens
-    final sources = source.trim().split(RegExp(_kSentenceDelimiter));
+    // split into sentence strings
+    final sources = source
+        // split at _kSentenceDelimiter
+        .split(RegExp(_kSentenceDelimiter))
+        // trim leading and trailing white-space from all elements
+        .map((e) => e.trim())
+        // convert to list
+        .toList();
+    // remove empty sentences
+    sources.removeWhere((element) => element.isEmpty);
+    // return the sentences
     return sources;
   }
 

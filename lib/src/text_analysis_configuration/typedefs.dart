@@ -31,7 +31,7 @@ typedef SentenceSplitter = List<String> Function(String source);
 /// A filter function that returns a collection of terms from term:
 /// - return an empty collection if the term is to be excluded from analysis;
 /// - return multiple terms if the term is split; and/or
-/// - return modified term(s) if required.
+/// - return modified term(s), such as applying a stemmer algorithm.
 typedef TermFilter = List<String> Function(String term);
 
 /// A filter function that returns a subset of [tokens].
