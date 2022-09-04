@@ -4,6 +4,7 @@
 import 'package:porter_2_stemmer/porter_2_stemmer.dart';
 import 'package:text_analysis/text_analysis.dart';
 
+//TODO: finish code documentation in english.dart.
 /// A basic [TextAnalysisConfiguration] implementation for English.
 class English implements TextAnalysisConfiguration {
   //
