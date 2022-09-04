@@ -14,8 +14,8 @@ abstract class TextAnalyzerBase {
   // /// The default is [Porter2Stemmer.kExceptions].
   // Map<String, String> get stemmerExceptions;
 
-  /// The [TextAnalysisConfiguration] used by the [TextAnalyzerBase].
-  TextAnalysisConfiguration get configuration;
+  /// The [TextAnalyzerConfiguration] used by the [TextAnalyzerBase].
+  TextAnalyzerConfiguration get configuration;
 
   /// A filter that returns a subset of tokens.
   ///
@@ -50,7 +50,7 @@ class TextAnalyzer implements TextAnalyzerBase {
   final TokenFilter? tokenFilter;
 
   @override
-  final TextAnalysisConfiguration configuration;
+  final TextAnalyzerConfiguration configuration;
 
   /// Splits the [source] into [Sentence]s
   List<Sentence> _getSentences(List<String> sentences) {

@@ -4,7 +4,7 @@
 import 'package:text_analysis/text_analysis.dart';
 
 /// A base class/interface exposing language properties used in text analysis.
-abstract class TextAnalysisConfiguration {
+abstract class TextAnalyzerConfiguration {
   //
 
   /// A function that manipulates terms prior to stemming and tokenization.
