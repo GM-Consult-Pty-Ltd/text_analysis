@@ -18,9 +18,6 @@ class English implements TextAnalyzerConfiguration {
   /// [Porter2Stemmer.stem] with default stemming exceptions.
   Stemmer get stemmerFunction => ((term) => term.stemPorter2());
 
-  @override
-  TermFilter? get termFilter => _termFilter;
-
   /// Applies the following algorithm to convert a [term] to a list
   /// of strings:
   /// - apply the [characterFilter] to [term];
@@ -28,35 +25,35 @@ class English implements TextAnalyzerConfiguration {
   ///   return an empty collection; else
   /// - insert the filterered [term] in the return value
   ///
-  List<String> _termFilter(String term) {
-    // - apply the [characterFilter] to [term];
-
-    if (kAbbreviations.contains(term)) {
-      return [term, term.replaceAll('.', '')];
-    }
-    term = characterFilter(term);
-    // - if the resulting [term] is empty or contained in [kStopWords]
-    //   return an empty collection; else
-    if (term.isEmpty || kStopWords.contains(term)) {
-      return [];
-    }
-    // - insert [term] in the return
-    final terms = [term];
-    // split at commas, periods, hyphens and apostrophes
-    final splitTerms = term.split(RegExp(r"(?<=[^0-9.])[,\.\:\-'](?=[^0-9])"));
-
-    for (var term in splitTerms) {
-      if (term.isNotEmpty) {
-        term = configuration.characterFilter(term);
-      }
-      if (!kStopWords.contains(term)) {
-        terms.add(term);
-      }
-
-      // terms.addAll(splitTerms.toList());
-    }
-    return terms.map((e) => stemmerFunction(e)).toList();
-  }
+  @override
+  TermFilter? get termFilter => (String term) async {
+        // - apply the [characterFilter] to [term]
+        if (kAbbreviations.contains(term)) {
+          return [term, term.replaceAll('.', '')];
+        }
+        // term = characterFilter(term);
+        // - if the resulting [term] is empty or contained in [kStopWords]
+        //   return an empty collection; else
+        if (term.length < 2 || kStopWords.contains(term)) {
+          return [];
+        }
+        // - insert [term] in the return
+        final terms = [term];
+        // split at commas, periods, hyphens and apostrophes
+        final splitTerms =
+            term.split(RegExp(r"(?<=[^0-9.])[,\.\:\-'](?=[^0-9])"));
+        if (splitTerms.length > 1) {
+          for (var term in splitTerms) {
+            if (term.isNotEmpty) {
+              term = characterFilter(term);
+              if (!kStopWords.contains(term) && term.isNotEmpty) {
+                terms.add(term);
+              }
+            }
+          }
+        }
+        return terms.map((e) => stemmerFunction(e)).toList();
+      };
 
   /// The English character filter follows the following algorithm:
   /// - return the term if it can be parsed as a number; else
@@ -403,8 +400,8 @@ class English implements TextAnalyzerConfiguration {
     'Arb.',
     'Ashm.',
     'Jam.',
-    'a',
-    'c',
+    // 'a',
+    // 'c',
     'eOE',
     'lOE',
     'OE',

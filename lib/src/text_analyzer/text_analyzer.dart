@@ -27,7 +27,7 @@ abstract class TextAnalyzerBase {
   ///
   /// Returns a [TextSource] with [source] and its component [Sentence]s and
   /// [Token]s
-  TextSource tokenize(String source);
+  Future<TextSource> tokenize(String source);
 }
 
 /// A [TextAnalyzerBase] implementation that extracts tokens from text for use
@@ -40,9 +40,15 @@ class TextAnalyzer implements TextAnalyzerBase {
       {this.configuration = English.configuration, this.tokenFilter});
 
   @override
-  TextSource tokenize(String source) {
+  Future<TextSource> tokenize(String source) async {
     final sentenceStrings = configuration.splitIntoSentences(source);
-    final sentences = _getSentences(sentenceStrings);
+    final sentences = <Sentence>[];
+    // convert [sentenceStrings] into [Sentence]s
+    for (final sentence in sentenceStrings) {
+      final value =
+          await Sentence.fromString(sentence, configuration, tokenFilter);
+      sentences.add(value);
+    }
     return TextSource(source, sentences);
   }
 
@@ -51,68 +57,6 @@ class TextAnalyzer implements TextAnalyzerBase {
 
   @override
   final TextAnalyzerConfiguration configuration;
-
-  /// Splits the [source] into [Sentence]s
-  List<Sentence> _getSentences(List<String> sentences) {
-    final retVal = <Sentence>[];
-    for (final sentence in sentences) {
-      final tokens = _tokenizeSentence(sentence);
-      final value = Sentence(sentence, tokens);
-      retVal.add(value);
-    }
-    return retVal;
-  }
-
-  /// Extracts tokens from [sentence] for use in full-text search queries and indexes.
-  ///
-  /// Returns a list of [Token].
-  List<Token> _tokenizeSentence(String sentence) {
-    // perform the first punctuation and white-space split
-    final terms = configuration.splitIntoTerms(sentence);
-    // initialize the tokens collection (return value)
-    final tokens = <Token>[];
-    // initialize the index
-    var index = 0;
-    // iterate through the terms
-    for (var term in terms) {
-      // calculate the index increment from the raw term length
-      final increment = term.length + 1;
-      // remove white-space at start and end of term
-      term = term.trim();
-      // only tokenize non-empty strings.
-      if (term.isNotEmpty) {
-        // apply the termFilter if it is not null
-        final splitTerms = configuration.termFilter != null
-            ? configuration.termFilter!(term)
-            : [term];
-        // initialize a sub-index for split terms
-        var subIndex = 0;
-        var i = 0;
-        for (var splitTerm in splitTerms) {
-          // apply the characterFilter if it is not null
-          splitTerm = configuration.characterFilter != null
-              ? configuration.characterFilter!(splitTerm)
-              : splitTerm;
-          // apply the stemmer if it is not null
-
-          tokens.add(Token(splitTerm, index + subIndex));
-          // only increment the sub-index after the first term
-          if (i > 0) {
-            subIndex += splitTerm.length + 1;
-          }
-          i++;
-        }
-        // }
-      }
-      // increment the index
-      index = index + increment;
-    }
-    // apply the tokenFilter if it is not null and return the tokens collection
-    return tokenFilter != null ? tokenFilter!(tokens) : tokens;
-  }
-
-  // @override
-  // Map<String, String> get stemmerExceptions => Porter2Stemmer.kExceptions;
 
   /// Regular expression String that selects all sentence endings.
   static const kLineEndingSelector = r'';

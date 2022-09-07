@@ -30,13 +30,13 @@ void main() {
       // Additional setup goes here.
     });
 
-    test('First Test', () {
+    test('First Test', () async {
       final sourceBuilder = StringBuffer();
       for (final src in text) {
         sourceBuilder.writeln(src['body']);
       }
       final source = sourceBuilder.toString();
-      final document = TextAnalyzer().tokenize(source);
+      final document = await TextAnalyzer().tokenize(source);
       final terms = document.tokens.map((e) => e.term).toList();
       print(terms);
     });

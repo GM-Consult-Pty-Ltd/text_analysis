@@ -1,6 +1,7 @@
 // BSD 3-Clause License
 // Copyright (c) 2022, GM Consult Pty Ltd
 
+import 'dart:async';
 import 'package:text_analysis/text_analysis.dart';
 
 /// A stemmer function that returns the stem of [term].
@@ -32,10 +33,10 @@ typedef SentenceSplitter = List<String> Function(String source);
 /// - return an empty collection if the term is to be excluded from analysis;
 /// - return multiple terms if the term is split; and/or
 /// - return modified term(s), such as applying a stemmer algorithm.
-typedef TermFilter = List<String> Function(String term);
+typedef TermFilter = Future<List<String>> Function(String term);
 
 /// A filter function that returns a subset of [tokens].
-typedef TokenFilter = List<Token> Function(List<Token> tokens);
+typedef TokenFilter = Future<List<Token>> Function(List<Token> tokens);
 
 /// Type definition of a function that filters characters from the [source]
 /// text in preparation of tokenization.

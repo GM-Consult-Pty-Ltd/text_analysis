@@ -4,5 +4,4 @@
 
 export 'text_analyzer_configuration/_index.dart';
 export 'text_analyzer/_index.dart';
-export 'text_source/_index.dart';
 export 'typedefs.dart';
