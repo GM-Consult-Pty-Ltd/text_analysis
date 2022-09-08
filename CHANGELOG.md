@@ -53,3 +53,8 @@ All rights reserved.
 
 - Latest stable release.
 - Updated documentation.
+
+## 0.0.11-beta.1
+
+- Pre-release version.
+- Updated documentation.
