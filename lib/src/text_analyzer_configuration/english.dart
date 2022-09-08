@@ -1,7 +1,6 @@
 // BSD 3-Clause License
 // Copyright (c) 2022, GM Consult Pty Ltd
 
-import 'package:porter_2_stemmer/porter_2_stemmer.dart';
 import 'package:text_analysis/text_analysis.dart';
 
 /// A basic [TextAnalyzerConfiguration] implementation for English.
@@ -19,7 +18,11 @@ class English implements TextAnalyzerConfiguration {
   /// - apply the [characterFilter] to term;
   /// - if the resulting term is empty or contained in [kStopWords]
   ///   return an empty collection; else
-  /// - insert the filterered term in the return value  ///
+  /// - insert the filterered term in the return value;
+  /// - split the term at commas, periods, hyphens and apostrophes unless
+  ///   preceded and ended by a number;
+  /// - if the term can be split, add the split terms to the return value,
+  ///   unless the (split) terms are in [kStopWords] or are empty strings.
   @override
   TermFilter? get termFilter => (String term) async {
         // apply the [characterFilter] to [term]

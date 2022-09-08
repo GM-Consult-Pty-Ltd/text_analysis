@@ -68,7 +68,11 @@ of strings:</p>
 <li>apply the <a href="../../text_analysis/English/characterFilter.html">characterFilter</a> to term;</li>
 <li>if the resulting term is empty or contained in <a href="../../text_analysis/English/kStopWords-constant.html">kStopWords</a>
 return an empty collection; else</li>
-<li>insert the filterered term in the return value  ///</li>
+<li>insert the filterered term in the return value;</li>
+<li>split the term at commas, periods, hyphens and apostrophes unless
+preceded and ended by a number;</li>
+<li>if the term can be split, add the split terms to the return value,
+unless the (split) terms are in <a href="../../text_analysis/English/kStopWords-constant.html">kStopWords</a> or are empty strings.</li>
 </ul>
 </section>
 
@@ -177,7 +181,7 @@ TermFilter? get termFilter =&gt; (String term) async {
 <footer>
   <span class="no-break">
     text_analysis
-      0.0.2
+      0.0.3
   </span>
 
   
