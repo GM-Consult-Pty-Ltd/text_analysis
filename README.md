@@ -5,6 +5,7 @@ All rights reserved.
 -->
 
 # text_analysis
+
 Text analyzer that extracts tokens from text for use in full-text search queries and indexes. 
 
 *THIS PACKAGE IS IN BETA DEVELOPMENT AND SUBJECT TO DAILY BREAKING CHANGES.*
@@ -15,7 +16,7 @@ In the `pubspec.yaml` of your flutter project, add the following dependency:
 
 ```yaml
 dependencies:
-  porter_2_stemmer: ^0.0.9-beta.1
+  porter_2_stemmer: ^0.0.1-beta.1
 ```
 
 In your code file add the following import:
