@@ -62,16 +62,15 @@
 
 
 <section class="desc markdown">
-  <p>The English character filter follows the following algorithm:</p>
+  <p>The <a href="../../text_analysis/English-class.html">English</a> implementation of <a href="../../text_analysis/English/characterFilter.html">characterFilter</a>:</p>
 <ul>
-<li>return the term if it can be parsed as a number; else</li>
-<li>convert to lower-case;</li>
-<li>change all quote marks to single apostrophe +U0027;</li>
-<li>remove enclosing quote marks;</li>
-<li>change all dashes to single standard hyphen;</li>
-<li>remove all characters except numbers, lower-case letters, commas,
-periods, hyphens and apostrophes;</li>
-<li>replace all characters except letters and numbers from the end of
+<li>returns the term if it can be parsed as a number; else</li>
+<li>converts the term to lower-case;</li>
+<li>changes all quote marks to single apostrophe +U0027;</li>
+<li>removes enclosing quote marks;</li>
+<li>changes all dashes to single standard hyphen;</li>
+<li>removes all non-word characters from the term;</li>
+<li>replaces all characters except letters and numbers from the end of
 the term.</li>
 </ul>
 </section>
@@ -84,24 +83,27 @@ CharacterFilter get characterFilter =&gt; (String term) {
       &#47;&#47; try parsing the term to a number
       final number = num.tryParse(term);
       &#47;&#47; return the term if it can be parsed as a number
-      return number != null || term.toUpperCase() == term
-          ? term
-          &#47;&#47; if term cannot be parsed to a number, filter characters
-          : term
-              &#47;&#47; convert to lower-case
-              .toLowerCase()
-              &#47;&#47; change all quote marks to single apostrophe +U0027
-              .replaceAll(RegExp(&#39;[\&#39;&quot;“”„‟’‘‛]+&#39;), &#39;-&#39;)
-              &#47;&#47; remove enclosing quote marks
-              .replaceAll(RegExp(r&quot;(^&#39;+)|(&#39;+(?=$))&quot;), &#39;&#39;)
-              &#47;&#47; change all dashes to single standard hyphen
-              .replaceAll(RegExp(r&#39;[\-—]+&#39;), &#39;-&#39;)
-              &#47;&#47; remove all characters except numbers, lower-case letters,
-              &#47;&#47; commas, periods, hyphens and apostrophes
-              .replaceAll(RegExp(r&quot;[^0-9a-z,.\-&#39;]&quot;), &#39;&#39;)
-              &#47;&#47; replace all characters except letters and numbers from end
-              &#47;&#47;of term
-              .replaceAll(RegExp(r&#39;[^0-9a-z](?=$)&#39;), &#39;&#39;);
+      return number != null
+          &#47;&#47; return number.toString() if number is not null.
+          ? number.toString()
+          &#47;&#47; if the term is all-caps return it unchanged.
+          : term.toUpperCase() == term
+              ? term
+              &#47;&#47; if term cannot be parsed to a number, filter characters
+              : term
+                  &#47;&#47; convert to lower-case
+                  .toLowerCase()
+                  &#47;&#47; change all quote marks to single apostrophe +U0027
+                  .replaceAll(RegExp(&#39;[\&#39;&quot;“”„‟’‘‛]+&#39;), &quot;&#39;&quot;)
+                  &#47;&#47; remove enclosing quote marks
+                  .replaceAll(RegExp(r&quot;(^&#39;+)|(&#39;+(?=$))&quot;), &#39;&#39;)
+                  &#47;&#47; change all dashes to single standard hyphen
+                  .replaceAll(RegExp(r&#39;[\-—]+&#39;), &#39;-&#39;)
+                  &#47;&#47; remove all non-word characters
+                  .replaceAll(RegExp(r&quot;[^0-9a-z,.\-&#39;\$£₤#@]&quot;), &#39;&#39;)
+                  &#47;&#47; remove all characters except letters and numbers at end
+                  &#47;&#47; of term
+                  .replaceAll(RegExp(r&#39;[^0-9a-z](?=$)&#39;), &#39;&#39;);
     };</code></pre>
 </section>
 
@@ -138,13 +140,13 @@ CharacterFilter get characterFilter =&gt; (String term) {
     <li><a href="../../text_analysis/English/characterFilter.html">characterFilter</a></li>
     <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/hashCode.html">hashCode</a></li>
     <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/runtimeType.html">runtimeType</a></li>
+    <li><a href="../../text_analysis/English/sentenceSplitter.html">sentenceSplitter</a></li>
     <li><a href="../../text_analysis/English/stemmerFunction.html">stemmerFunction</a></li>
     <li><a href="../../text_analysis/English/termFilter.html">termFilter</a></li>
+    <li><a href="../../text_analysis/English/termSplitter.html">termSplitter</a></li>
 
-    <li class="section-title"><a href="../../text_analysis/English-class.html#instance-methods">Methods</a></li>
+    <li class="section-title inherited"><a href="../../text_analysis/English-class.html#instance-methods">Methods</a></li>
     <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/noSuchMethod.html">noSuchMethod</a></li>
-    <li><a href="../../text_analysis/English/splitIntoSentences.html">splitIntoSentences</a></li>
-    <li><a href="../../text_analysis/English/splitIntoTerms.html">splitIntoTerms</a></li>
     <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/toString.html">toString</a></li>
 
     <li class="section-title inherited"><a href="../../text_analysis/English-class.html#operators">Operators</a></li>

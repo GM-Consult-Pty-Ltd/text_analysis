@@ -57,7 +57,7 @@
   </ol>
 </div>
 
-<span class="returntype"><a href="../../text_analysis/TextSource-class.html">TextSource</a></span>
+<span class="returntype"><a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../../text_analysis/TextSource-class.html">TextSource</a></span>&gt;</span></span>
 <span class="name ">tokenize</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="tokenize-param-source"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span> <span class="parameter-name">source</span></span></li>
 </ol>)
 
@@ -67,7 +67,7 @@
     
 <section class="desc markdown">
   <p>Extracts tokens from text for use in full-text search queries and indexes.</p>
-<p>Returns a <a href="../../text_analysis/TextSource-class.html">TextSource</a> with <code>source</code> and its component <a href="../../text_analysis/Sentence-class.html">Sentence</a>s and
+<p>Returns a <code>TextSource</code> with <code>source</code> and its component <a href="../../text_analysis/Sentence-class.html">Sentence</a>s and
 <a href="../../text_analysis/Token-class.html">Token</a>s</p>
 </section>
 
@@ -76,9 +76,15 @@
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
   <pre class="language-dart"><code class="language-dart">@override
-TextSource tokenize(String source) {
-  final sentenceStrings = configuration.splitIntoSentences(source);
-  final sentences = _getSentences(sentenceStrings);
+Future&lt;TextSource&gt; tokenize(String source) async {
+  final sentenceStrings = configuration.sentenceSplitter(source);
+  final sentences = &lt;Sentence&gt;[];
+  &#47;&#47; convert [sentenceStrings] into [Sentence]s
+  for (final sentence in sentenceStrings) {
+    final value =
+        await Sentence.fromString(sentence, configuration, tokenFilter);
+    sentences.add(value);
+  }
   return TextSource(source, sentences);
 }</code></pre>
 </section>

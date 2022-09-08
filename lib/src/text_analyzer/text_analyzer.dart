@@ -5,7 +5,7 @@ import 'package:text_analysis/src/_index.dart';
 
 /// Interface for a text analyser class that extracts tokens from text for use
 /// in full-text search queries and indexes.
-abstract class TextAnalyzerBase {
+abstract class ITextAnalyzer {
   //
 
   // /// A hashmap of terms (keys) with their stem values that will be returned
@@ -14,7 +14,7 @@ abstract class TextAnalyzerBase {
   // /// The default is [Porter2Stemmer.kExceptions].
   // Map<String, String> get stemmerExceptions;
 
-  /// The [TextAnalyzerConfiguration] used by the [TextAnalyzerBase].
+  /// The [TextAnalyzerConfiguration] used by the [ITextAnalyzer].
   TextAnalyzerConfiguration get configuration;
 
   /// A filter that returns a subset of tokens.
@@ -30,9 +30,9 @@ abstract class TextAnalyzerBase {
   Future<TextSource> tokenize(String source);
 }
 
-/// A [TextAnalyzerBase] implementation that extracts tokens from text for use
+/// A [ITextAnalyzer] implementation that extracts tokens from text for use
 /// in full-text search queries and indexes.
-class TextAnalyzer implements TextAnalyzerBase {
+class TextAnalyzer implements ITextAnalyzer {
   //
 
   /// Hydrates a const TextAnalyzer.
@@ -41,7 +41,7 @@ class TextAnalyzer implements TextAnalyzerBase {
 
   @override
   Future<TextSource> tokenize(String source) async {
-    final sentenceStrings = configuration.splitIntoSentences(source);
+    final sentenceStrings = configuration.sentenceSplitter(source);
     final sentences = <Sentence>[];
     // convert [sentenceStrings] into [Sentence]s
     for (final sentence in sentenceStrings) {

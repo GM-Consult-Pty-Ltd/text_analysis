@@ -3,7 +3,7 @@
 
 import 'package:text_analysis/text_analysis.dart';
 
-/// A base class/interface exposing language properties used in text analysis.
+/// An interface exposing language properties used in text analysis.
 abstract class TextAnalyzerConfiguration {
   //
 
@@ -20,9 +20,10 @@ abstract class TextAnalyzerConfiguration {
   /// - return modified term(s), such as applying a stemmer algorithm.
   TermFilter? get termFilter;
 
-  /// Splits [source] into sentences at all sentence endings.
-  List<String> splitIntoSentences(String source);
+  /// Returns a list of sentences from text.
+  SentenceSplitter get sentenceSplitter;
 
-  /// Splits [source] into all the terms.
-  List<String> splitIntoTerms(String source);
+  /// Returns a list of terms from text.
+  TermSplitter get termSplitter;
+  //List<String> splitIntoTerms(String source);
 }

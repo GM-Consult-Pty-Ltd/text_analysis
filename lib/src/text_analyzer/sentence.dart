@@ -30,7 +30,8 @@ abstract class Sentence {
 class _SentenceImpl implements Sentence {
   //
 
-  /// Extracts tokens from [sentence] for use in full-text search queries and indexes.
+  /// Extracts tokens from [sentence] for use in full-text search queries and
+  /// indexes.
   ///
   /// Returns a list of [Token].
   static Future<List<Token>> tokenize(
@@ -38,7 +39,7 @@ class _SentenceImpl implements Sentence {
       required TextAnalyzerConfiguration configuration,
       TokenFilter? tokenFilter}) async {
     // perform the first punctuation and white-space split
-    final terms = configuration.splitIntoTerms(sentence);
+    final terms = configuration.termSplitter(sentence);
     // initialize the tokens collection (return value)
     final tokens = <Token>[];
     // initialize the index
@@ -84,7 +85,7 @@ class _SentenceImpl implements Sentence {
   /// Instantiates a [Sentence] from [source] and [tokens].
   const _SentenceImpl(this.source, this.tokens);
 
-  /// Factory function that returns a Future of [Sentence] from the [sentence]
+  /// Factory function that returns a Future [Sentence] from the [sentence] text
   /// using the [configuration].
   ///
   /// The sentence [tokens] are filtered using [tokenFilter].
@@ -95,11 +96,9 @@ class _SentenceImpl implements Sentence {
     return _SentenceImpl(sentence, tokens);
   }
 
-  /// The source text of the [Sentence].
   @override
   final String source;
 
-  /// All the tokens in the [Sentence].
   @override
   final List<Token> tokens;
 }

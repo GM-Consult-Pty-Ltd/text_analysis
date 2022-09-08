@@ -57,14 +57,14 @@
         </section>
         
 <section class="desc markdown">
-  <p>Returns a regular expression String that selects all line endings.</p>
+  <p>Matches all mid-sentence punctuation.</p>
 </section>
 
         
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
   <pre class="language-dart"><code class="language-dart">static const rePunctuationSelector =
-    r&quot;(?&lt;=[a-zA-Z0-9¥Œ€@™#-\&amp;_&#39;-]|\s)[:;,\-—]+(?=[\s])|(\.{2,})&quot;;
+    &#39;(?&lt;=$wordChars|\\s)[:;,\\-—]+(?=[\\s])|(\\.{2,})&#39;;
 
 </code></pre>
 </section>
@@ -100,13 +100,13 @@
     <li><a href="../../text_analysis/English/characterFilter.html">characterFilter</a></li>
     <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/hashCode.html">hashCode</a></li>
     <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/runtimeType.html">runtimeType</a></li>
+    <li><a href="../../text_analysis/English/sentenceSplitter.html">sentenceSplitter</a></li>
     <li><a href="../../text_analysis/English/stemmerFunction.html">stemmerFunction</a></li>
     <li><a href="../../text_analysis/English/termFilter.html">termFilter</a></li>
+    <li><a href="../../text_analysis/English/termSplitter.html">termSplitter</a></li>
 
-    <li class="section-title"><a href="../../text_analysis/English-class.html#instance-methods">Methods</a></li>
+    <li class="section-title inherited"><a href="../../text_analysis/English-class.html#instance-methods">Methods</a></li>
     <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/noSuchMethod.html">noSuchMethod</a></li>
-    <li><a href="../../text_analysis/English/splitIntoSentences.html">splitIntoSentences</a></li>
-    <li><a href="../../text_analysis/English/splitIntoTerms.html">splitIntoTerms</a></li>
     <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/toString.html">toString</a></li>
 
     <li class="section-title inherited"><a href="../../text_analysis/English-class.html#operators">Operators</a></li>

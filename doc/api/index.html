@@ -44,8 +44,76 @@
   <div id="dartdoc-main-content" class="main-content">
       
 <section class="desc markdown">
-  <h1 id="text_analysis">text_analysis</h1>
-<p>Text analyzer that extracts tokens from text for use in full-text search queries and indexes.</p><!-- TODO: finish README.MD -->
+  <!-- 
+BSD 3-Clause License
+Copyright (c) 2022, GM Consult Pty Ltd
+All rights reserved. 
+-->
+<h1 id="text_analysis">text_analysis</h1>
+<p>Text analyzer that extracts tokens from text for use in full-text search queries and indexes.</p>
+<h2 id="install">Install</h2>
+<p>In the <code>pubspec.yaml</code> of your flutter project, add the following dependency:</p>
+<pre class="language-yaml"><code class="language-yaml">dependencies:
+  porter_2_stemmer: [latest version](https://pub.dev/packages/text_analysis/changelog)
+</code></pre>
+<p>In your code file add the following import:</p>
+<pre class="language-dart"><code class="language-dart">import 'package:text_analysis/text_analysis.dart';
+</code></pre>
+<h2 id="usage">Usage</h2>
+<p>Basic <code>English</code> text analysis can be performed by using a <code>TextAnalyzer</code> instance with the default configuration and no token filter, as shown below.</p>
+<p>For more complex requirements, override <code>TextAnalyzerConfiguration</code> and/or pass in a <code>TokenFilter</code> function to manipulate the tokens after tokenization.</p>
+<pre class="language-dart"><code class="language-dart">
+/// Import the text_analysis package by adding this line at the top of your
+/// code file.
+import 'package:text_analysis/text_analysis.dart';
+
+/// For this example are using a few paragraphs of text that contains
+/// numbers, currencies, abbreviations, hyphens and identifiers.
+const exampleText = [
+  'The Dow Jones rallied even as U.S. troops were put on alert amid '
+      'the Ukraine crisis. Tesla stock fought back while Apple '
+      'stock struggled. ',
+  '[TSLA.XNGS] Tesla\'s #TeslaMotor Stock Is Getting Hammered.',
+  'Among the best EV stocks to buy and watch, Tesla (TSLA.XNGS) is pulling back '
+      r'from new highs after a failed breakout above a $1,201.05 double-bottom '
+      'entry. ',
+  'Meanwhile, Peloton reportedly finds an activist investor knocking '
+      'on its door after a major stock crash fueled by strong indications of '
+      'mismanagement. In a scathing new letter released Monday, activist '
+      'Tesla Capital is pushing for Peloton to fire CEO, Chairman and '
+      'founder John Foley and explore a sale.'
+];
+
+/// Parse the [exampleText] to a [TextSource] that enumerates a collection
+/// of [Sentence] objects with their [Token]s
+void main() async {
+  //
+
+  // Initialize a StringBuffer to hold the source text
+  final sourceBuilder = StringBuffer();
+
+  // Concatenate the elements of [text] using line-endings
+  for (final src in exampleText) {
+    sourceBuilder.writeln(src);
+  }
+
+  // convert the StringBuffer to a String
+  final source = sourceBuilder.toString();
+
+  // use a TextAnalyzer instance to tokenize the source
+  final document = await TextAnalyzer().tokenize(source);
+
+  // map the document's tokens to a list of terms (strings)
+  final terms = document.tokens.map((e) =&gt; e.term).toList();
+
+  // print the terms
+  print(terms);
+}
+
+</code></pre>
+<h2 id="issues">Issues</h2>
+<p>If you find a bug please fill an <a href="https://github.com/GM-Consult-Pty-Ltd/text_analysis/issues">issue</a>.</p>
+<p>This project is a supporting package for a revenue project that has priority call on resources, so please be patient if we don't respond immediately to issues or pull requests.</p>
 </section>
 
 

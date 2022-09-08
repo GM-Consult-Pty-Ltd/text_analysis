@@ -4,8 +4,8 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, user-scalable=no">
-  <meta name="description" content="API docs for the English constructor from Class English from the text_analysis library, for the Dart programming language.">
-  <title>English constructor - English - text_analysis library - Dart API</title>
+  <meta name="description" content="API docs for the termSplitter property from the English class, for the Dart programming language.">
+  <title>termSplitter property - English class - text_analysis library - Dart API</title>
 
 
   
@@ -32,9 +32,9 @@
     <li><a href="../../index.html">text_analysis</a></li>
     <li><a href="../../text_analysis/text_analysis-library.html">text_analysis</a></li>
     <li><a href="../../text_analysis/English-class.html">English</a></li>
-    <li class="self-crumb">English const constructor</li>
+    <li class="self-crumb">termSplitter property</li>
   </ol>
-  <div class="self-name">English</div>
+  <div class="self-name">termSplitter</div>
   <form class="search navbar-right" role="search">
     <input type="text" id="search-box" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
   </form>
@@ -45,24 +45,65 @@
 
   <div id="dartdoc-main-content" class="main-content">
       <div>
-<h1><span class="kind-constructor">English</span> constructor 
+<h1><span class="kind-property">termSplitter</span> property 
     <a href="https://dart.dev/null-safety" class="feature feature-null-safety" title="Supports the null safety language feature.">Null safety</a>
 </h1></div>
 
-    <section class="multi-line-signature">const
-      <span class="name ">English</span>(<wbr>)
-    </section>
 
-    
-<section class="desc markdown">
-  <p>A const constructor to allow an instance to be used as default.</p>
+        
+<section id="getter">
+
+<section class="multi-line-signature">
+  <span class="returntype"><a href="../../text_analysis/TermSplitter.html">TermSplitter</a></span>
+  <span class="name ">termSplitter</span>
+  <div class="features">override</div>
+
 </section>
 
 
-    
+<section class="desc markdown">
+  <p>The <a href="../../text_analysis/English-class.html">English</a> implemenation of <a href="../../text_analysis/English/termSplitter.html">termSplitter</a> replaces all text that
+matches <a href="../../text_analysis/English/rePunctuationSelector-constant.html">English.rePunctuationSelector</a> or <a href="../../text_analysis/English/reBracketsAndCarets-constant.html">English.reBracketsAndCarets</a>
+with a single space character.</p>
+<p>Repeated white-space characters are also replaced with a single space
+character.</p>
+<p>The text is then split into terms at all space characters.</p>
+<p>Leading and trailing white-space is trimmed from all terms.</p>
+<p>Unless a term matches any of <a href="../../text_analysis/English/kAbbreviations-constant.html">English.kAbbreviations</a>, any characters
+matching <a href="../../text_analysis/English/reNonWordChars-constant.html">English.reNonWordChars</a> is trimmed from the end of the term.</p>
+<p>Empty strings are removed from the returned terms.</p>
+</section>
+
+
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
-  <pre class="language-dart"><code class="language-dart">const English();</code></pre>
+  <pre class="language-dart"><code class="language-dart">@override
+TermSplitter get termSplitter =&gt; (String source) {
+      &#47;&#47; replace all punctuation with whitespace.
+      source = source
+          .replaceAll(RegExp(English.rePunctuationSelector), &#39; &#39;)
+          &#47;&#47; replace all brackets and carets with _kTokenDelimiter.
+          .replaceAll(RegExp(English.reBracketsAndCarets), &#39; &#39;)
+          &#47;&#47; replace all repeated white-space with a single white-space.
+          .replaceAll(RegExp(r&#39;(\s{2,})&#39;), &#39; &#39;);
+      &#47;&#47; split at white-space
+      final terms = source.split(RegExp(r&#39;(\s+)&#39;)).map((e) {
+        e = e.trim();
+        if (kAbbreviations.contains(e)) {
+          return e;
+        }
+        return e
+            .trim()
+            .replaceAll(RegExp(&#39;${English.reNonWordChars}(?=\$)&#39;), &#39;&#39;)
+            .trim();
+      })
+          &#47;&#47; convert to list
+          .toList();
+      terms.removeWhere((element) =&gt; element.isEmpty);
+      return terms;
+    };</code></pre>
+</section>
+
 </section>
 
 
@@ -79,7 +120,7 @@
   <li><a href="../../index.html">text_analysis</a></li>
   <li><a href="../../text_analysis/text_analysis-library.html">text_analysis</a></li>
   <li><a href="../../text_analysis/English-class.html">English</a></li>
-  <li class="self-crumb">English const constructor</li>
+  <li class="self-crumb">termSplitter property</li>
 </ol>
 
 
@@ -124,7 +165,7 @@
           <li><a href="../../text_analysis/English/wordChars-constant.html">wordChars</a></li>
 </ol>
 
-  </div><!--/.sidebar-offcanvas-left-->
+  </div><!--/.sidebar-offcanvas-->
 
   <div id="dartdoc-sidebar-right" class="sidebar sidebar-offcanvas-right">
   </div><!--/.sidebar-offcanvas-->

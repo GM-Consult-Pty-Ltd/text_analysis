@@ -67,6 +67,15 @@ information retrieval systems.</p>
   A basic <a href="../text_analysis/TextAnalyzerConfiguration-class.html">TextAnalyzerConfiguration</a> implementation for English.
 </dd>
 
+        <dt id="ITextAnalyzer">
+  <span class="name "><a href="../text_analysis/ITextAnalyzer-class.html">ITextAnalyzer</a></span> 
+
+</dt>
+<dd>
+  Interface for a text analyser class that extracts tokens from text for use
+in full-text search queries and indexes.
+</dd>
+
         <dt id="Sentence">
   <span class="name "><a href="../text_analysis/Sentence-class.html">Sentence</a></span> 
 
@@ -82,16 +91,7 @@ used in tokens, identifiers or other terms.
 
 </dt>
 <dd>
-  A <a href="../text_analysis/TextAnalyzerBase-class.html">TextAnalyzerBase</a> implementation that extracts tokens from text for use
-in full-text search queries and indexes.
-</dd>
-
-        <dt id="TextAnalyzerBase">
-  <span class="name "><a href="../text_analysis/TextAnalyzerBase-class.html">TextAnalyzerBase</a></span> 
-
-</dt>
-<dd>
-  Interface for a text analyser class that extracts tokens from text for use
+  A <a href="../text_analysis/ITextAnalyzer-class.html">ITextAnalyzer</a> implementation that extracts tokens from text for use
 in full-text search queries and indexes.
 </dd>
 
@@ -100,7 +100,7 @@ in full-text search queries and indexes.
 
 </dt>
 <dd>
-  A base class/interface exposing language properties used in text analysis.
+  An interface exposing language properties used in text analysis.
 </dd>
 
         <dt id="TextSource">
@@ -180,7 +180,7 @@ text in preparation of tokenization.
           
   <dt id="TermFilter" class="callable">
     <span class="name"><a href="../text_analysis/TermFilter.html">TermFilter</a></span><span class="signature">
-      <span class="returntype parameter">= <a href="https://api.flutter.dev/flutter/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>&gt;</span> Function<span class="signature">(<span class="parameter" id="param-term"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span> <span class="parameter-name">term</span></span>)</span></span>
+      <span class="returntype parameter">= <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>&gt;</span></span>&gt;</span> Function<span class="signature">(<span class="parameter" id="param-term"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span> <span class="parameter-name">term</span></span>)</span></span>
     </span>
     
 
@@ -208,7 +208,7 @@ text in preparation of tokenization.
           
   <dt id="TokenFilter" class="callable">
     <span class="name"><a href="../text_analysis/TokenFilter.html">TokenFilter</a></span><span class="signature">
-      <span class="returntype parameter">= <a href="https://api.flutter.dev/flutter/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../text_analysis/Token-class.html">Token</a></span>&gt;</span> Function<span class="signature">(<span class="parameter" id="param-tokens"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../text_analysis/Token-class.html">Token</a></span>&gt;</span></span> <span class="parameter-name">tokens</span></span>)</span></span>
+      <span class="returntype parameter">= <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../text_analysis/Token-class.html">Token</a></span>&gt;</span></span>&gt;</span> Function<span class="signature">(<span class="parameter" id="param-tokens"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../text_analysis/Token-class.html">Token</a></span>&gt;</span></span> <span class="parameter-name">tokens</span></span>)</span></span>
     </span>
     
 
@@ -251,9 +251,9 @@ text in preparation of tokenization.
     <ol>
   <li class="section-title"><a href="../text_analysis/text_analysis-library.html#classes">Classes</a></li>
   <li><a href="../text_analysis/English-class.html">English</a></li>
+  <li><a href="../text_analysis/ITextAnalyzer-class.html">ITextAnalyzer</a></li>
   <li><a href="../text_analysis/Sentence-class.html">Sentence</a></li>
   <li><a href="../text_analysis/TextAnalyzer-class.html">TextAnalyzer</a></li>
-  <li><a href="../text_analysis/TextAnalyzerBase-class.html">TextAnalyzerBase</a></li>
   <li><a href="../text_analysis/TextAnalyzerConfiguration-class.html">TextAnalyzerConfiguration</a></li>
   <li><a href="../text_analysis/TextSource-class.html">TextSource</a></li>
   <li><a href="../text_analysis/Token-class.html">Token</a></li>

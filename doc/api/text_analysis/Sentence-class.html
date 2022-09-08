@@ -31,7 +31,7 @@
   <ol class="breadcrumbs gt-separated dark hidden-xs">
     <li><a href="../index.html">text_analysis</a></li>
     <li><a href="../text_analysis/text_analysis-library.html">text_analysis</a></li>
-    <li class="self-crumb">Sentence class</li>
+    <li class="self-crumb">Sentence abstract class</li>
   </ol>
   <div class="self-name">Sentence</div>
   <form class="search navbar-right" role="search">
@@ -66,11 +66,10 @@ its <a href="../text_analysis/Sentence/tokens.html">tokens</a>.</p>
 
     <dl class="constructor-summary-list">
         <dt id="Sentence" class="callable">
-          <span class="name"><a href="../text_analysis/Sentence/Sentence.html">Sentence</a></span><span class="signature">(<span class="parameter" id="-param-source"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span> <span class="parameter-name">source</span>, </span><span class="parameter" id="-param-tokens"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../text_analysis/Token-class.html">Token</a></span>&gt;</span></span> <span class="parameter-name">tokens</span></span>)</span>
+          <span class="name"><a href="../text_analysis/Sentence/Sentence.html">Sentence</a></span><span class="signature">()</span>
         </dt>
         <dd>
-          Instantiates a <a href="../text_analysis/Sentence-class.html">Sentence</a> from <a href="../text_analysis/Sentence/source.html">source</a> and <a href="../text_analysis/Sentence/tokens.html">tokens</a>.
-            <div class="constructor-modifier features">const</div>
+          
         </dd>
     </dl>
   </section>
@@ -108,7 +107,7 @@ its <a href="../text_analysis/Sentence/tokens.html">tokens</a>.</p>
 </dt>
 <dd>
   The source text of the <a href="../text_analysis/Sentence-class.html">Sentence</a>.
-  <div class="features">final</div>
+  <div class="features">read-only</div>
 
 </dd>
 
@@ -119,7 +118,7 @@ its <a href="../text_analysis/Sentence/tokens.html">tokens</a>.</p>
 </dt>
 <dd>
   All the tokens in the <a href="../text_analysis/Sentence-class.html">Sentence</a>.
-  <div class="features">final</div>
+  <div class="features">read-only</div>
 
 </dd>
 
@@ -183,6 +182,25 @@ its <a href="../text_analysis/Sentence/tokens.html">tokens</a>.</p>
   </section>
     
     
+  <section class="summary offset-anchor" id="static-methods">
+    <h2>Static Methods</h2>
+    <dl class="callables">
+        <dt id="fromString" class="callable">
+  <span class="name"><a href="../text_analysis/Sentence/fromString.html">fromString</a></span><span class="signature">(<wbr><span class="parameter" id="fromString-param-sentence"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span> <span class="parameter-name">sentence</span>, </span><span class="parameter" id="fromString-param-configuration"><span class="type-annotation"><a href="../text_analysis/TextAnalyzerConfiguration-class.html">TextAnalyzerConfiguration</a></span> <span class="parameter-name">configuration</span>, </span><span class="parameter" id="fromString-param-tokenFilter"><span class="type-annotation"><a href="../text_analysis/TokenFilter.html">TokenFilter</a>?</span> <span class="parameter-name">tokenFilter</span></span>)
+    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../text_analysis/Sentence-class.html">Sentence</a></span>&gt;</span></span>
+  </span>
+  
+
+</dt>
+<dd>
+  Factory function that returns a Future of <code>Sentence</code> from the <code>sentence</code>
+using the <code>configuration</code>.
+  
+
+</dd>
+
+    </dl>
+  </section>
     
 
 
@@ -198,7 +216,7 @@ its <a href="../text_analysis/Sentence/tokens.html">tokens</a>.</p>
 <ol class="breadcrumbs gt-separated dark hidden-l" id="sidebar-nav">
   <li><a href="../index.html">text_analysis</a></li>
   <li><a href="../text_analysis/text_analysis-library.html">text_analysis</a></li>
-  <li class="self-crumb">Sentence class</li>
+  <li class="self-crumb">Sentence abstract class</li>
 </ol>
 
 
@@ -206,9 +224,9 @@ its <a href="../text_analysis/Sentence/tokens.html">tokens</a>.</p>
     <ol>
   <li class="section-title"><a href="../text_analysis/text_analysis-library.html#classes">Classes</a></li>
   <li><a href="../text_analysis/English-class.html">English</a></li>
+  <li><a href="../text_analysis/ITextAnalyzer-class.html">ITextAnalyzer</a></li>
   <li><a href="../text_analysis/Sentence-class.html">Sentence</a></li>
   <li><a href="../text_analysis/TextAnalyzer-class.html">TextAnalyzer</a></li>
-  <li><a href="../text_analysis/TextAnalyzerBase-class.html">TextAnalyzerBase</a></li>
   <li><a href="../text_analysis/TextAnalyzerConfiguration-class.html">TextAnalyzerConfiguration</a></li>
   <li><a href="../text_analysis/TextSource-class.html">TextSource</a></li>
   <li><a href="../text_analysis/Token-class.html">Token</a></li>
@@ -255,6 +273,8 @@ its <a href="../text_analysis/Sentence/tokens.html">tokens</a>.</p>
 
 
 
+        <li class="section-title"><a href="../text_analysis/Sentence-class.html#static-methods">Static methods</a></li>
+          <li><a href="../text_analysis/Sentence/fromString.html">fromString</a></li>
 
 </ol>
 
