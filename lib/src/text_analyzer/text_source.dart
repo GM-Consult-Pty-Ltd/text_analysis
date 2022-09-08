@@ -38,8 +38,8 @@ class _TextSourceImpl implements TextSource {
     final tokens = <Token>[];
     var sentenceIndex = 0;
     for (final sentence in sentences) {
-      tokens.addAll(
-          sentence.tokens.map((e) => Token(e.term, e.index + sentenceIndex)));
+      tokens.addAll(sentence.tokens
+          .map((e) => Token(e.term, e.index + sentenceIndex, e.position)));
       sentenceIndex += sentence.source.length;
     }
     return tokens;

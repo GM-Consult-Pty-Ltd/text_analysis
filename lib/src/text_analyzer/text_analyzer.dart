@@ -40,7 +40,9 @@ class TextAnalyzer implements ITextAnalyzer {
   ///
   /// Returns [tokens] with [Token.term] stemmed using the [Porter2Stemmer].
   static Future<List<Token>> defaultTokenFilter(List<Token> tokens) async =>
-      tokens.map((e) => Token(e.term.stemPorter2(), e.index)).toList();
+      tokens
+          .map((e) => Token(e.term.stemPorter2(), e.index, e.position))
+          .toList();
 
   /// Hydrates a const TextAnalyzer.
   const TextAnalyzer(

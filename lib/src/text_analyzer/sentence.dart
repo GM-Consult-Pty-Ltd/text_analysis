@@ -64,9 +64,9 @@ class _SentenceImpl implements Sentence {
           splitTerm = configuration.characterFilter != null
               ? configuration.characterFilter!(splitTerm)
               : splitTerm;
-          // apply the stemmer if it is not null
-
-          tokens.add(Token(splitTerm, index + subIndex));
+          final tokenIndex = index + subIndex;
+          final position = (sentence.length - tokenIndex) / sentence.length;
+          tokens.add(Token(splitTerm, tokenIndex, position));
           // only increment the sub-index after the first term
           if (i > 0) {
             subIndex += splitTerm.length + 1;
