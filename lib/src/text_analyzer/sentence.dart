@@ -65,7 +65,9 @@ class _SentenceImpl implements Sentence {
               ? configuration.characterFilter!(splitTerm)
               : splitTerm;
           final tokenIndex = index + subIndex;
-          final position = (sentence.length - tokenIndex) / sentence.length;
+          // calculate the position of the token as a fraction of the sentence
+          // length.
+          final position = tokenIndex / sentence.length;
           tokens.add(Token(splitTerm, tokenIndex, position));
           // only increment the sub-index after the first term
           if (i > 0) {

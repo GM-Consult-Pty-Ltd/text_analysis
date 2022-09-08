@@ -14,24 +14,19 @@ class Token {
   /// Instantiates [Token] with [term] and [index] values.
   const Token(this.term, this.index, this.position);
 
-  /// The term for this token.
-  ///
-  /// Default is an empty String.
+  /// The term/word associated with this token.
   final String term;
 
-  /// The 0-based position of the start of the [term] in the source text
-  /// (sentence).
-  ///
-  /// Default is 0.
+  /// The 0-based position of the start of the [term] in the source text.
   final int index;
 
-  /// Returns the position of the term from the end of the source text
+  /// Returns the position of the term from the start of the source text
   /// as a fraction of the source text length.
   ///
   /// The [position] can be used as a proxy of term relevance in the
   /// source text.
   ///
-  /// A position of 1.0 means the term is at the start of the source text.
+  /// A position of 0.0 means the term is at the start of the source text.
   final double position;
   //
 }
