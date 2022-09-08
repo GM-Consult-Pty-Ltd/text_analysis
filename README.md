@@ -13,7 +13,7 @@ In the `pubspec.yaml` of your flutter project, add the following dependency:
 
 ```yaml
 dependencies:
-  porter_2_stemmer: [latest version](https://pub.dev/packages/text_analysis/changelog)
+  porter_2_stemmer: ^0.0.2
 ```
 
 In your code file add the following import:
