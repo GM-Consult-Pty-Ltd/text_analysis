@@ -41,3 +41,7 @@ typedef TokenFilter = Future<List<Token>> Function(List<Token> tokens);
 /// Type definition of a function that filters characters from the [source]
 /// text in preparation of tokenization.
 typedef CharacterFilter = String Function(String source);
+
+/// Type definition of a function that returns a collection of [Token] from
+/// the [source] text.
+typedef Tokenizer = Future<Iterable<Token>> Function(String source);
