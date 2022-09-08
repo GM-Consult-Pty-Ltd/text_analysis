@@ -16,7 +16,7 @@ In the `pubspec.yaml` of your flutter project, add the following dependency:
 
 ```yaml
 dependencies:
-  porter_2_stemmer: ^0.0.1-beta.1
+  porter_2_stemmer: ^0.0.10
 ```
 
 In your code file add the following import:
