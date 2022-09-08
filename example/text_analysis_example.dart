@@ -5,7 +5,7 @@
 /// code file.
 import 'package:text_analysis/text_analysis.dart';
 
-/// For this example are using a few paragraphs of text that contains
+/// For this example we use a few paragraphs of text that contains
 /// numbers, currencies, abbreviations, hyphens and identifiers.
 const exampleText = [
   'The Dow Jones rallied even as U.S. troops were put on alert amid '

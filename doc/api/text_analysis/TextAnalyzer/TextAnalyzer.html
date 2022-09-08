@@ -51,7 +51,7 @@
 
     <section class="multi-line-signature">const
       <span class="name ">TextAnalyzer</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="-param-configuration">{<span class="type-annotation"><a href="../../text_analysis/TextAnalyzerConfiguration-class.html">TextAnalyzerConfiguration</a></span> <span class="parameter-name">configuration</span> = <span class="default-value">English.configuration</span>, </span></li>
-<li><span class="parameter" id="-param-tokenFilter"><span class="type-annotation"><a href="../../text_analysis/TokenFilter.html">TokenFilter</a>?</span> <span class="parameter-name">tokenFilter</span>}</span></li>
+<li><span class="parameter" id="-param-tokenFilter"><span class="type-annotation"><a href="../../text_analysis/TokenFilter.html">TokenFilter</a>?</span> <span class="parameter-name">tokenFilter</span> = <span class="default-value">defaultTokenFilter</span>}</span></li>
 </ol>)
     </section>
 
@@ -65,7 +65,8 @@
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
   <pre class="language-dart"><code class="language-dart">const TextAnalyzer(
-    {this.configuration = English.configuration, this.tokenFilter});</code></pre>
+    {this.configuration = English.configuration,
+    this.tokenFilter = defaultTokenFilter});</code></pre>
 </section>
 
 
@@ -111,6 +112,8 @@
 
 
 
+        <li class="section-title"><a href="../../text_analysis/TextAnalyzer-class.html#static-methods">Static methods</a></li>
+          <li><a href="../../text_analysis/TextAnalyzer/defaultTokenFilter.html">defaultTokenFilter</a></li>
 
         <li class="section-title"><a href="../../text_analysis/TextAnalyzer-class.html#constants">Constants</a></li>
           <li><a href="../../text_analysis/TextAnalyzer/kLineEndingSelector-constant.html">kLineEndingSelector</a></li>

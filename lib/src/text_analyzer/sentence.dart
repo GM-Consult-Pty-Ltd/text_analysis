@@ -92,7 +92,9 @@ class _SentenceImpl implements Sentence {
   static Future<Sentence> fromString(String sentence,
       TextAnalyzerConfiguration configuration, TokenFilter? tokenFilter) async {
     final tokens = await _SentenceImpl.tokenize(
-        sentence: sentence, configuration: configuration);
+        sentence: sentence,
+        configuration: configuration,
+        tokenFilter: tokenFilter);
     return _SentenceImpl(sentence, tokens);
   }
 

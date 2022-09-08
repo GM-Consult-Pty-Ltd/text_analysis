@@ -5,7 +5,9 @@ All rights reserved.
 -->
 
 # text_analysis
-Text analyzer that extracts tokens from text for use in full-text search queries and indexes.
+Text analyzer that extracts tokens from text for use in full-text search queries and indexes. 
+
+This package is an early beta version and subject to breaking changes until released as version 1.0.0.
 
 ## Install
 
@@ -34,7 +36,7 @@ For more complex requirements, override ```TextAnalyzerConfiguration``` and/or p
 /// code file.
 import 'package:text_analysis/text_analysis.dart';
 
-/// For this example are using a few paragraphs of text that contains
+/// For this example we use a few paragraphs of text that contains
 /// numbers, currencies, abbreviations, hyphens and identifiers.
 const exampleText = [
   'The Dow Jones rallied even as U.S. troops were put on alert amid '

@@ -11,3 +11,8 @@ All rights reserved.
 ## 0.0.2
 
 - Updated documentation.
+
+## 0.0.3
+
+- BREAKING CHANGE: stemmer removed from English configuration.
+- BREAKING CHANGE: stemmer incorporated into default tokenFilter for TextAnalyzer.

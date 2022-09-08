@@ -2,6 +2,7 @@
 // Copyright (c) 2022, GM Consult Pty Ltd
 
 import 'package:text_analysis/src/_index.dart';
+import 'package:porter_2_stemmer/porter_2_stemmer.dart';
 
 /// Interface for a text analyser class that extracts tokens from text for use
 /// in full-text search queries and indexes.
@@ -35,9 +36,16 @@ abstract class ITextAnalyzer {
 class TextAnalyzer implements ITextAnalyzer {
   //
 
+  /// The default [TokenFilter] used by [TextAnalyzer].
+  ///
+  /// Returns [tokens] with [Token.term] stemmed using the [Porter2Stemmer].
+  static Future<List<Token>> defaultTokenFilter(List<Token> tokens) async =>
+      tokens.map((e) => Token(e.term.stemPorter2(), e.index)).toList();
+
   /// Hydrates a const TextAnalyzer.
   const TextAnalyzer(
-      {this.configuration = English.configuration, this.tokenFilter});
+      {this.configuration = English.configuration,
+      this.tokenFilter = defaultTokenFilter});
 
   @override
   Future<TextSource> tokenize(String source) async {

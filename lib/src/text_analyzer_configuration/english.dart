@@ -14,9 +14,6 @@ class English implements TextAnalyzerConfiguration {
   /// Instantiates a static const [English] instance.
   static const configuration = English();
 
-  /// [English] uses the [Porter2Stemmer.stem] with default stemming exceptions.
-  Stemmer get stemmerFunction => ((term) => term.stemPorter2());
-
   /// Applies the following algorithm to convert a term to a list
   /// of strings:
   /// - apply the [characterFilter] to term;
@@ -51,7 +48,7 @@ class English implements TextAnalyzerConfiguration {
             }
           }
         }
-        return terms.map((e) => stemmerFunction(e)).toList();
+        return terms;
       };
 
   /// The [English] implementation of [characterFilter]:

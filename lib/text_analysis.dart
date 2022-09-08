@@ -6,5 +6,3 @@ library text_analysis;
 
 /// Exports files used by clients of the pacckage.
 export 'src/_index.dart';
-
-//TODO: finish README.MD
