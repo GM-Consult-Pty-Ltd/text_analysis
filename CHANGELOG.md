@@ -58,3 +58,7 @@ All rights reserved.
 
 - Pre-release version.
 - Updated documentation.
+
+## 0.0.11
+
+- Updated documentation.

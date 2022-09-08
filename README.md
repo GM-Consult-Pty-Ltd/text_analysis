@@ -16,7 +16,7 @@ In the `pubspec.yaml` of your flutter project, add the following dependency:
 
 ```yaml
 dependencies:
-  text_analysis: ^0.0.10
+  text_analysis: ^0.0.11
 ```
 
 In your code file add the following import:
