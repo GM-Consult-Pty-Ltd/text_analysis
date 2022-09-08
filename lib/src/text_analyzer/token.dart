@@ -52,16 +52,6 @@ extension TokenCollectionExtension on Iterable<Token> {
     return tokens;
   }
 
-  /// Aggregates [Token.position] values for tokens with [Token.term] == [term].
-  double relevance(String term) {
-    double relevance = 0.0;
-    final tokens = byTerm(term);
-    for (final token in tokens) {
-      relevance = relevance + token.position;
-    }
-    return relevance;
-  }
-
   /// Returns the count where [Token.term] == [term].
   int termCount(String term) => byTerm(term).length;
 

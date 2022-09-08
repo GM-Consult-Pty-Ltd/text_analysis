@@ -32,3 +32,7 @@ All rights reserved.
 ## 0.0.7
 
 - Updated documentation.
+
+## 0.0.8
+
+- BREAKING CHANGE: removed `relevance` extension method from `TokenCollectionExtension`.
