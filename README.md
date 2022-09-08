@@ -7,7 +7,6 @@ All rights reserved.
 # text_analysis
 Text analyzer that extracts tokens from text for use in full-text search queries and indexes.
 
-
 ## Install
 
 In the `pubspec.yaml` of your flutter project, add the following dependency:
@@ -41,7 +40,7 @@ const exampleText = [
   'The Dow Jones rallied even as U.S. troops were put on alert amid '
       'the Ukraine crisis. Tesla stock fought back while Apple '
       'stock struggled. ',
-  '[TSLA.XNGS] Tesla\'s #TeslaMotor Stock Is Getting Hammered.',
+  "[TSLA.XNGS] Tesla's #TeslaMotor Stock Is Getting Hammered.",
   'Among the best EV stocks to buy and watch, Tesla (TSLA.XNGS) is pulling back '
       r'from new highs after a failed breakout above a $1,201.05 double-bottom '
       'entry. ',
