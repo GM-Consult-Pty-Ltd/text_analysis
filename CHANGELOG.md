@@ -4,6 +4,11 @@ Copyright (c) 2022, GM Consult Pty Ltd
 All rights reserved. 
 -->
 
+## 0.0.12
+
+- Added == operator to `Token`, `Sentence` and `TextSource`.
+- Updated documentation.
+
 ## 0.0.11+build.1.e8af2efb
 
 - Updated documentation.

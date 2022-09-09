@@ -25,6 +25,19 @@ abstract class Sentence {
 
   /// All the tokens in the [Sentence].
   List<Token> get tokens;
+
+  /// Compares only whether:
+  /// - [other] is [Sentence];
+  /// - [source] == [other.source]; and
+  /// - [tokens.length] == [other.tokens.length].
+  @override
+  bool operator ==(Object other) =>
+      other is Sentence &&
+      source == other.source &&
+      tokens.length == other.tokens.length;
+
+  @override
+  int get hashCode => Object.hash(source, tokens);
 }
 
 class _SentenceImpl implements Sentence {

@@ -28,6 +28,22 @@ class Token {
   ///
   /// A position of 0.0 means the term is at the start of the source text.
   final double position;
+
+  /// Compares whether:
+  /// - [other] is [Token];
+  /// - [position] == [other.position];
+  /// - [term] == [other.term]; and
+  /// - [index] == [other.index].
+  @override
+  bool operator ==(Object other) =>
+      other is Token &&
+      term == other.term &&
+      index == other.index &&
+      position == other.position;
+
+  @override
+  int get hashCode => Object.hash(term, index, position);
+
   //
 }
 

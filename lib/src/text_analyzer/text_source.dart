@@ -23,6 +23,19 @@ abstract class TextSource {
 
   /// The set of unique tokens in the document.
   List<Token> get tokens;
+
+  /// Compares only whether:
+  /// - [other] is [TextSource];
+  /// - [source] == [other.source]; and
+  /// - [sentences.length] == [other.sentences.length].
+  @override
+  bool operator ==(Object other) =>
+      other is TextSource &&
+      source == other.source &&
+      sentences.length == other.sentences.length;
+
+  @override
+  int get hashCode => Object.hash(source, tokens);
 }
 
 /// Implementation class for [TextSource].
