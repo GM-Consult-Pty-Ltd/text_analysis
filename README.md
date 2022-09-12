@@ -8,6 +8,8 @@ All rights reserved.
 
 Text analyzer that extracts tokens from text for use in full-text search queries and indexes.
 
+*THIS PACKAGE IS **PRE-RELEASE**, IN ACTIVE DEVELOPMENT AND SUBJECT TO DAILY BREAKING CHANGES.*
+
 ## Objective
 
 The objective of this package is to provide utilities for analyzing and manipulating text in preparation of constructing a `dictionary` from a `corpus` of `documents` as part of text indexing in an information retrieval application.
