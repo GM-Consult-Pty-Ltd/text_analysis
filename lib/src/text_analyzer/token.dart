@@ -32,9 +32,9 @@ class Token {
 
   /// Compares whether:
   /// - [other] is [Token];
-  /// - [position] == [other.position];
-  /// - [term] == [other.term]; and
-  /// - [index] == [other.index].
+  /// - [position] == [other].position;
+  /// - [term] == [other].term; and
+  /// - [index] == [other].index.
   @override
   bool operator ==(Object other) =>
       other is Token &&

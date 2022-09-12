@@ -8,7 +8,7 @@ import 'package:text_analysis/text_analysis.dart';
 abstract class TextSource {
   //
 
-  /// Instantiates a [Document] from the [source].
+  /// Instantiates a [TextSource] from the [source].
   factory TextSource(String source, List<Sentence> sentences) =>
       _TextSourceImpl(source, sentences);
 
@@ -26,8 +26,8 @@ abstract class TextSource {
 
   /// Compares only whether:
   /// - [other] is [TextSource];
-  /// - [source] == [other.source]; and
-  /// - [sentences.length] == [other.sentences.length].
+  /// - [source] == [other].source; and
+  /// - [sentences].length == [other].sentences.length.
   @override
   bool operator ==(Object other) =>
       other is TextSource &&

@@ -28,8 +28,8 @@ abstract class Sentence {
 
   /// Compares only whether:
   /// - [other] is [Sentence];
-  /// - [source] == [other.source]; and
-  /// - [tokens.length] == [other.tokens.length].
+  /// - [source] == [other].source; and
+  /// - [tokens].length == [other].tokens.length.
   @override
   bool operator ==(Object other) =>
       other is Sentence &&

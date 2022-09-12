@@ -12,7 +12,9 @@ Text analyzer that extracts tokens from text for use in full-text search queries
 
 ## Objective
 
-The objective of this package is to provide utilities for analyzing and manipulating text in preparation of constructing a positional index on a corpus of documents.
+The objective of this package is to provide utilities for analyzing and manipulating text in preparation of constructing a `dictionary` from a `corpus` of `documents` as part of text indexing in an information retrieval application.
+
+The design of the package is consistent with [information retrieval theory](https://nlp.stanford.edu/IR-book/pdf/irbookonlinereading.pdf).
 
 ## Definitions
 
@@ -22,12 +24,14 @@ The following definitions are used throughout the [documentation](https://pub.de
 * `dictionary` - is a hash of `terms` (`vocabulary`) to the frequency of occurence in the `corpus` documents.
 * `document` - a record in the `corpus`, that has a unique identifier (`docId`) in the `corpus`'s primary key and that contains one or more text fields that are indexed.
 * `index` - an [inverted index](https://en.wikipedia.org/wiki/Inverted_index) used to look up `document` references from the `corpus` against a `vocabulary` of `terms`. The implementation in this package builds and maintains a positional inverted index, that also includes the positions of the indexed `term` in each `document`.
+* `lemmatizer` - lemmatisation (or lemmatization) in linguistics is the process of grouping together the inflected forms of a word so they can be analysed as a single item, identified by the word's lemma, or dictionary form (from [Wikipedia](https://en.wikipedia.org/wiki/Lemmatisation)).
 * `postings` - a separate index that records which `documents` the `vocabulary` occurs in. In this implementation we also record the positions of each `term` in the `text` to create a positional inverted `index`.
 * `postings list` - a record of the positions of a `term` in a `document`. A position of a `term` refers to the index of the `term` in an array that contains all the `terms` in the `text`.
 * `term` - a word or phrase that is indexed from the `corpus`. The `term` may differ from the actual word used in the corpus depending on the `tokenizer` used.
+* `stemmer` -  stemming is the process of reducing inflected (or sometimes derived) words to their word stem, base or root form—generally a written word form (from [Wikipedia](https://en.wikipedia.org/wiki/Stemming)).
 * `text` - the indexable content of a `document`.
 * `token` - representation of a `term` in a text source returned by a `tokenizer`. The token may include information about the `term` such as its position(s) in the text or frequency of occurrence.
-* `tokenizer` - a function that returns a collection of `token`s from `text`, after applying a character filter, `term` filter, [stemmer](https://en.wikipedia.org/wiki/Stemming) and / or [lemmatizer](https://en.wikipedia.org/wiki/Lemmatisation).
+* `tokenizer` - a function that returns a collection of `token`s from `text`, after applying a character filter, `term` filter, `stemmer` and / or `lemmatizer`.
 * `vocabulary` - the collection of `terms` indexed from the `corpus`.
 
 ## Interfaces
