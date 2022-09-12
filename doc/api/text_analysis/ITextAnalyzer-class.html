@@ -52,7 +52,15 @@
     
 <section class="desc markdown">
   <p>Interface for a text analyser class that extracts tokens from text for use
-in full-text search queries and indexes.</p>
+in full-text search queries and indexes:</p>
+<ul>
+<li><a href="../text_analysis/ITextAnalyzer/configuration.html">configuration</a> is a <a href="../text_analysis/TextAnalyzerConfiguration-class.html">TextAnalyzerConfiguration</a> used by the
+<a href="../text_analysis/ITextAnalyzer-class.html">ITextAnalyzer</a> to tokenize source text; and</li>
+<li>provide a <a href="../text_analysis/ITextAnalyzer/tokenFilter.html">tokenFilter</a> if you want to manipulate tokens or restrict
+tokenization to tokens that meet criteria for either index or count; and</li>
+<li>the <a href="../text_analysis/ITextAnalyzer/tokenize.html">tokenize</a> function tokenizes source text using the <a href="../text_analysis/ITextAnalyzer/configuration.html">configuration</a>
+and then manipulates the output by applying <a href="../text_analysis/ITextAnalyzer/tokenFilter.html">tokenFilter</a>.</li>
+</ul>
 </section>
 
 
@@ -294,7 +302,7 @@ in full-text search queries and indexes.</p>
 <footer>
   <span class="no-break">
     text_analysis
-      0.0.11+build.1.e8af2efb
+      0.0.12+1
   </span>
 
   

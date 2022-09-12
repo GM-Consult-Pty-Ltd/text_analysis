@@ -9,7 +9,7 @@ typedef Stemmer = String Function(String term);
 
 /// A splitter function that returns a list of terms from [source].
 ///
-/// Typically, [source] is split at punctuation marks and white space.
+/// Typically, [source] is split at punctuation marks and white-space.
 ///
 /// The term splitter should avoid splitting numbers, which may contain
 /// period marks or other punctuation delimited phrases such as domain names

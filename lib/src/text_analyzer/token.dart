@@ -17,7 +17,8 @@ class Token {
   /// The term/word associated with this token.
   final String term;
 
-  /// The 0-based position of the start of the [term] in the source text.
+  /// The 0-based position of the start of the first character of [term] in the
+  /// source text string.
   final int index;
 
   /// Returns the position of the term from the start of the source text

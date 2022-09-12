@@ -5,15 +5,15 @@ import 'package:text_analysis/src/_index.dart';
 import 'package:porter_2_stemmer/porter_2_stemmer.dart';
 
 /// Interface for a text analyser class that extracts tokens from text for use
-/// in full-text search queries and indexes.
+/// in full-text search queries and indexes:
+/// - [configuration] is a [TextAnalyzerConfiguration] used by the
+///   [ITextAnalyzer] to tokenize source text; and
+/// - provide a [tokenFilter] if you want to manipulate tokens or restrict
+///   tokenization to tokens that meet criteria for either index or count; and
+/// - the [tokenize] function tokenizes source text using the [configuration]
+///   and then manipulates the output by applying [tokenFilter].
 abstract class ITextAnalyzer {
   //
-
-  // /// A hashmap of terms (keys) with their stem values that will be returned
-  // /// rather than being processed by the stemmer.
-  // ///
-  // /// The default is [Porter2Stemmer.kExceptions].
-  // Map<String, String> get stemmerExceptions;
 
   /// The [TextAnalyzerConfiguration] used by the [ITextAnalyzer].
   TextAnalyzerConfiguration get configuration;
