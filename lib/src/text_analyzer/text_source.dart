@@ -50,13 +50,18 @@ class _TextSourceImpl implements TextSource {
   List<Token> get tokens {
     final tokens = <Token>[];
     var sentenceIndex = 0;
+    var sentenceTermPosition = 0;
     for (final sentence in sentences) {
       tokens.addAll(sentence.tokens.map((e) {
         final tokenIndex = e.index + sentenceIndex;
+        final termPosition = sentenceTermPosition + e.termPosition;
         final tokenPosition = tokenIndex / source.length;
-        return Token(e.term, tokenIndex, tokenPosition);
+        return Token(e.term, tokenIndex, tokenPosition, termPosition);
       }));
       sentenceIndex += sentence.source.length;
+      if (tokens.isNotEmpty) {
+        sentenceTermPosition = tokens.last.termPosition + 1;
+      }
     }
     return tokens;
   }

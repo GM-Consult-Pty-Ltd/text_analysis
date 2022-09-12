@@ -57,6 +57,7 @@ class _SentenceImpl implements Sentence {
     final tokens = <Token>[];
     // initialize the index
     var index = 0;
+    var termIndex = 0;
     // iterate through the terms
     for (var term in terms) {
       // calculate the index increment from the raw term length
@@ -81,7 +82,7 @@ class _SentenceImpl implements Sentence {
           // calculate the position of the token as a fraction of the sentence
           // length.
           final position = tokenIndex / sentence.length;
-          tokens.add(Token(splitTerm, tokenIndex, position));
+          tokens.add(Token(splitTerm, tokenIndex, position, termIndex));
           // only increment the sub-index after the first term
           if (i > 0) {
             subIndex += splitTerm.length + 1;
@@ -92,6 +93,8 @@ class _SentenceImpl implements Sentence {
       }
       // increment the index
       index = index + increment;
+      // increment termIndex;
+      termIndex++;
     }
     // apply the tokenFilter if it is not null and return the tokens collection
     return tokenFilter != null ? await tokenFilter(tokens) : tokens;

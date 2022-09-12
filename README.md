@@ -6,9 +6,7 @@ All rights reserved.
 
 # text_analysis
 
-Text analyzer that extracts tokens from text for use in full-text search queries and indexes. 
-
-*THIS PACKAGE IS **PRE-RELEASE**, IN ACTIVE DEVELOPMENT AND SUBJECT TO DAILY BREAKING CHANGES.*
+Text analyzer that extracts tokens from text for use in full-text search queries and indexes.
 
 ## Objective
 
@@ -18,7 +16,7 @@ The design of the package is consistent with [information retrieval theory](http
 
 ## Definitions
 
-The following definitions are used throughout the [documentation](https://pub.dev/documentation/text_indexing/latest/):
+The following definitions are used throughout the [documentation](https://pub.dev/documentation/text_analysis/latest/):
 
 * `corpus`- the collection of `documents` for which an `index` is maintained.
 * `dictionary` - is a hash of `terms` (`vocabulary`) to the frequency of occurence in the `corpus` documents.
@@ -106,8 +104,8 @@ This project is a supporting package for a revenue project that has priority cal
 
 ## References
 
-* [Manning, Raghavan and Schütze, "*Introduction to Information Retrieval*", Cambridge University Press. 2008](https://nlp.stanford.edu/IR-book/pdf/irbookprint.pdf)
-* [University of Cambridge, 2016 "*Information Retrieval*", course notes, Dr Ronan Cummins](https://www.cl.cam.ac.uk/teaching/1516/InfoRtrv/)
+* [Manning, Raghavan and Schütze, "*Introduction to Information Retrieval*", Cambridge University Press, 2008](https://nlp.stanford.edu/IR-book/pdf/irbookprint.pdf)
+* [University of Cambridge, 2016 "*Information Retrieval*", course notes, Dr Ronan Cummins, 2016](https://www.cl.cam.ac.uk/teaching/1516/InfoRtrv/)
 * [Wikipedia (1), "*Inverted Index*", from Wikipedia, the free encyclopedia](https://en.wikipedia.org/wiki/Inverted_index)
 * [Wikipedia (2), "*Lemmatisation*", from Wikipedia, the free encyclopedia](https://en.wikipedia.org/wiki/Lemmatisation)
 * [Wikipedia (3), "*Stemming*", from Wikipedia, the free encyclopedia](https://en.wikipedia.org/wiki/Stemming)

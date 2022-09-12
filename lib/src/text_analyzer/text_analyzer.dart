@@ -1,7 +1,7 @@
 // BSD 3-Clause License
 // Copyright (c) 2022, GM Consult Pty Ltd
 
-import 'package:text_analysis/src/_index.dart';
+import 'package:text_analysis/text_analysis.dart';
 import 'package:porter_2_stemmer/porter_2_stemmer.dart';
 
 /// Interface for a text analyser class that extracts tokens from text for use
@@ -41,7 +41,8 @@ class TextAnalyzer implements ITextAnalyzer {
   /// Returns [tokens] with [Token.term] stemmed using the [Porter2Stemmer].
   static Future<List<Token>> defaultTokenFilter(List<Token> tokens) async =>
       tokens
-          .map((e) => Token(e.term.stemPorter2(), e.index, e.position))
+          .map((e) =>
+              Token(e.term.stemPorter2(), e.index, e.position, e.termPosition))
           .toList();
 
   /// Hydrates a const TextAnalyzer.

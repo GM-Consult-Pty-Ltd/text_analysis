@@ -62,7 +62,7 @@
     
 <section class="desc markdown">
   <p>The default <a href="../../text_analysis/TokenFilter.html">TokenFilter</a> used by <a href="../../text_analysis/TextAnalyzer-class.html">TextAnalyzer</a>.</p>
-<p>Returns <code>tokens</code> with <a href="../../text_analysis/Token/term.html">Token.term</a> stemmed using the <a href="https://pub.dev/documentation/porter_2_stemmer/0.0.12/porter_2_stemmer/Porter2Stemmer-class.html">Porter2Stemmer</a>.</p>
+<p>Returns <code>tokens</code> with <a href="../../text_analysis/Token/term.html">Token.term</a> stemmed using the <a href="https://pub.dev/documentation/porter_2_stemmer/1.0.0+4/porter_2_stemmer/Porter2Stemmer-class.html">Porter2Stemmer</a>.</p>
 </section>
 
 
@@ -71,7 +71,8 @@
   <h2><span>Implementation</span></h2>
   <pre class="language-dart"><code class="language-dart">static Future&lt;List&lt;Token&gt;&gt; defaultTokenFilter(List&lt;Token&gt; tokens) async =&gt;
     tokens
-        .map((e) =&gt; Token(e.term.stemPorter2(), e.index, e.position))
+        .map((e) =&gt;
+            Token(e.term.stemPorter2(), e.index, e.position, e.termPosition))
         .toList();</code></pre>
 </section>
 
@@ -136,7 +137,7 @@
 <footer>
   <span class="no-break">
     text_analysis
-      0.0.12+1
+      0.1.0
   </span>
 
   

@@ -1,25 +1,46 @@
 // BSD 3-Clause License
 // Copyright (c) 2022, GM Consult Pty Ltd
 
-/// A [Token] represents a [term] (word) present in a text source with its
-/// 0-based [index] (position of first character) in the source text.
+import 'package:text_analysis/text_analysis.dart';
+
+/// A [Token] represents a [term] (word) present in a text source:
+/// - [term] is the term that will be looked up in the index;
+/// - [termPosition] is the zero-based position of the [term] in an ordered
+///   list of all the terms in the source text;
+/// - [index] is the zero-based position of the start of the first character
+///   of [term] in the source text string (deprecated); and
+/// - [position] is the position of the term from the start of the source text
+///   as a fraction of the source text length (deprecated).
 class Token {
   //
 
-  /// Instantiates [Token] with default values:
-  /// - [term] - empty string; and
-  /// - [index] - 0.
-  static const empty = Token('', 0, 0.0);
+  /// Instantiates [Token] instance:
+  /// - [term] is the term that will be looked up in the index;
+  /// - [termPosition] is the zero-based position of the [term] in an ordered
+  ///   list of all the terms in the source text;
+  /// - [index] is the zero-based position of the start of the first character
+  ///   of [term] in the source text string (deprecated); and
+  /// - [position] is the position of the term from the start of the source text
+  ///   as a fraction of the source text length (deprecated).
+  static const empty = Token('', 0, 0.0, 0);
 
   /// Instantiates [Token] with [term] and [index] values.
-  const Token(this.term, this.index, this.position);
+  const Token(this.term, this.index, this.position, this.termPosition);
 
-  /// The term/word associated with this token.
+  /// The term that will be looked up in the index. The [term] is extracted
+  /// from the query phrase by [TextAnalyzer] and may not match the String in
+  /// the phrase exactly.
   final String term;
 
-  /// The 0-based position of the start of the first character of [term] in the
+  /// The zero-based position of the start of the first character of [term] in the
   /// source text string.
+  @Deprecated('The `index` property will be removed from the token class. Use '
+      '`termPosition` instead.')
   final int index;
+
+  /// The zero-based position of the [term] in an ordered list of all the terms
+  /// in the source text.
+  final int termPosition;
 
   /// Returns the position of the term from the start of the source text
   /// as a fraction of the source text length.
@@ -28,6 +49,9 @@ class Token {
   /// source text.
   ///
   /// A position of 0.0 means the term is at the start of the source text.
+  @Deprecated(
+      'The [position] property will be removed from the token class. Use '
+      '[termPosition] instead.')
   final double position;
 
   /// Compares whether:
@@ -68,6 +92,7 @@ extension TokenCollectionExtension on Iterable<Token> {
   int termCount(String term) => byTerm(term).length;
 
   /// Returns the highest [Token.index] where [Token.term] == [term].
+  @Deprecated('The [maxIndex] extension method will be removed.')
   int maxIndex(String term) => byTerm(term).last.index;
 
   /// Returns the lowest [Token.index] where [Token.term] == [term].

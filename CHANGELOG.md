@@ -4,6 +4,24 @@ Copyright (c) 2022, GM Consult Pty Ltd
 All rights reserved. 
 -->
 
+### 0.1.0
+
+- **PRE-RELEASE, BREAKING CHANGES**
+- *BREAKING CHANGE*: added `Token.termIndex` property to token, breaks default generative constructor.
+- *DEPRECATED* property `Token.index`, use `Token.termPosition` instead.
+- *DEPRECATED* property`Token.position`, use `Token.termPosition` instead.
+- *DEPRECATED* extension method `Iterable<Token>.maxIndex`.
+
+### 1.0.0+1
+
+- **RETRACTED**
+- Updated documentation.
+
+### 1.0.0
+
+- **RETRACTED**
+- Updated dependencies.
+
 ### 0.0.12+1
 
 - **PRE-RELEASE**
