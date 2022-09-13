@@ -6,3 +6,4 @@ library text_analysis;
 
 /// Exports files used by clients of the pacckage.
 export 'src/_index.dart';
+export 'package:porter_2_stemmer/porter_2_stemmer.dart';

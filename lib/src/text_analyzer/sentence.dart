@@ -67,17 +67,13 @@ class _SentenceImpl implements Sentence {
       // only tokenize non-empty strings.
       if (term.isNotEmpty) {
         // apply the termFilter if it is not null
-        final splitTerms = configuration.termFilter != null
-            ? await configuration.termFilter!(term)
-            : [term];
+        final splitTerms = await configuration.termFilter(term);
         // initialize a sub-index for split terms
         var subIndex = 0;
         var i = 0;
         for (var splitTerm in splitTerms) {
           // apply the characterFilter if it is not null
-          splitTerm = configuration.characterFilter != null
-              ? configuration.characterFilter!(splitTerm)
-              : splitTerm;
+          splitTerm = configuration.characterFilter(splitTerm);
           final tokenIndex = index + subIndex;
           // calculate the position of the token as a fraction of the sentence
           // length.

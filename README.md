@@ -24,6 +24,98 @@ The tokenization process comprises the following steps:
 
 The design of the text analyzer is consistent with [information retrieval theory](https://nlp.stanford.edu/IR-book/pdf/irbookonlinereading.pdf).
 
+## API
+
+The package exposes two interfaces:
+* the `TextAnalyzerConfiguration` interface; and 
+* the `ITextAnalyzer` interface.
+
+The `latest version` provides the following implementation classes:
+* implementation class `English`, implements `TextAnalyzerConfiguration` and provides text analysis configuration properties for the English language; and
+* the `TextAnalyzerBase` abstract class implements `ITextAnalyzer.tokenize`; and
+* the `TextAnalyzer` class extends `TextAnalyzerBase` and implements `ITextAnalyzer.tokenFilter` and `ITextAnalyzer.configuration` as final fields with their values passed in as (optional) parameters (with defaults) at initialization.
+
+### Interface `TextAnalyzerConfiguration`
+
+The `TextAnalyzerConfiguration` interface exposes language-specific properties and methods used in text analysis: 
+* a `TextAnalyzerConfiguration.sentenceSplitter` splits the text at sentence endings such as periods, exclamations and question marks or line endings;
+* a `TextAnalyzerConfiguration.termSplitter` to split the text into terms;
+* a `TextAnalyzerConfiguration.characterFilter` to remove non-word characters.
+* a `TextAnalyzerConfiguration.termFilter` to apply a stemmer/lemmatizer or stopword list.
+
+### Interface `ITextAnalyzer`
+
+The `ITextAnalyzer` is an interface for a text analyser class that extracts tokens from text for use in full-text search queries and indexes
+
+`ITextAnalyzer.configuration` is a `TextAnalyzerConfiguration` used by the `ITextAnalyzer` to tokenize source text.
+Provide a `ITextAnalyzer.tokenFilter`  to manipulate tokens or restrict tokenization to tokens that meet criteria for either index or count.
+
+The `tokenize` function tokenizes source text using the `ITextAnalyzer.configuration` and then manipulates the output by applying `ITextAnalyzer.tokenFilter`.
+
+### class `English` (implements `TextAnalyzerConfiguration`)
+
+A basic `TextAnalyzerConfiguration` implementation for `English` language analysis.
+
+The `termFilter` applies the following algorithm:
+* apply the `characterFilter` to the term;
+* if the resulting term is empty or contained in `kStopWords`, return an empty collection; else
+* insert the filterered term in the return value;
+* split the term at commas, periods, hyphens and apostrophes unless preceded and ended by a number;
+* if the term can be split, add the split terms to the return value, unless the (split) terms are in `kStopWords` or are empty strings.
+
+The `characterFilter` function:
+* returns the term if it can be parsed as a number; else
+* converts the term to lower-case;
+* changes all quote marks to single apostrophe +U0027;
+* removes enclosing quote marks;
+* changes all dashes to single standard hyphen;
+* removes all non-word characters from the term;
+* replaces all characters except letters and numbers from the end of the term.
+
+The `sentenceSplitter` inserts`_kSentenceDelimiter` at sentence breaks and then splits the source text into a list of sentence strings (sentence breaks are characters that match `English.reLineEndingSelector` or `English.reSentenceEndingSelector`). Empty sentences are removed.
+
+### abstract class `TextAnalyzerBase` (implements `ITextAnalyzer`)
+
+The `TextAnalyzerBase` class implements the `ITextAnalyzer.tokenize` method:
+* tokenizes source text using the `configuration`;
+* manipulates the output by applying `tokenFilter`; and, finally
+* returns a `TextSource` enumerating the source text, `Sentence` collection and `Token` collection.
+
+### class `TextAnalyzer` (implements `ITextAnalyzer`, extends `TextAnalyzerBase`)
+
+The `TextAnalyzer` class extends `TextAnalyzerBase`:
+* implements `configuration` and `tokenFilter` as final fields passed in as optional parameters at instantiation;
+* `configuration` is used by the `TextAnalyzer` to tokenize source text and defaults to `English.configuration`; and
+* provide nullable function `tokenFilter` if you want to manipulate tokens or restrict tokenization to tokens that meet specific criteria. The default is `TextAnalyzer.defaultTokenFilter`, that applies the`Porter2Stemmer`).
+
+## Usage
+
+In the `pubspec.yaml` of your flutter project, add the following dependency:
+
+```yaml
+dependencies:
+  text_analysis: <latest version>
+```
+
+In your code file add the following import:
+
+```dart
+import 'package:text_analysis/text_analysis.dart';
+```
+
+Basic English text analysis can be performed by using a `TextAnalyzer` instance with the default configuration and no token filter:
+
+```dart
+  /// Use a TextAnalyzer instance to tokenize the [text] using the default 
+  /// [English] configuration.
+  final document = await TextAnalyzer().tokenize(text);
+```
+
+For more complex text analysis:
+* implement a `TextAnalyzerConfiguration` for a different language or tokenizing non-language documents;
+* implement a custom `ITextAnalyzer`or extend `TextAnalyzerBase`; and/or 
+* pass in a `TokenFilter` function to a `TextAnalyzer` to manipulate the tokens after tokenization as shown in the [examples](https://pub.dev/packages/text_analysis/example).
+
 ## Definitions
 
 The following definitions are used throughout the [documentation](https://pub.dev/documentation/text_analysis/latest/):
@@ -46,77 +138,6 @@ The following definitions are used throughout the [documentation](https://pub.de
 * `tokenizer` - a function that returns a collection of `token`s from the terms in a text source after applying a `character filter` and `term filter`.
 * `vocabulary` - the collection of `terms` indexed from the `corpus`.
 
-## Interfaces
-
-The package exposes two interfaces:
-* the `ITextAnalyzer` interface; and
-* the `TextAnalyzerConfiguration` interface.
-
-### Interface `ITextAnalyzer`
-
-The `ITextAnalyzer` is an interface for a text analyser class that extracts tokens from text for use in full-text search queries and indexes
-
-`ITextAnalyzer.configuration` is a `TextAnalyzerConfiguration` used by the [ITextAnalyzer] to tokenize source text.
-Provide a `ITextAnalyzer.tokenFilter`  to manipulate tokens or restrict tokenization to tokens that meet criteria for either index or count.
-
-The `tokenize` function tokenizes source text using the `ITextAnalyzer.configuration` and then manipulates the output by applying `ITextAnalyzer.tokenFilter`.
-
-### Interface `TextAnalyzerConfiguration`
-
-The `TextAnalyzerConfiguration` interface exposes language-specific properties and methods used in text analysis: 
-* a `TextAnalyzerConfiguration.sentenceSplitter` splits the text at sentence endings such as periods, exclamations and question marks or line endings;
-* a `TextAnalyzerConfiguration.termSplitter` to split the text into terms;
-* a `TextAnalyzerConfiguration.characterFilter` to remove non-word characters.
-* a `TextAnalyzerConfiguration.termFilter` to apply a stemmer/lemmatizer or stopword list.
-
-## Implementations
-
-The `latest version` provides the following implementation classes:
-* implementation class `English`, implements `TextAnalyzerConfiguration` and provides text analysis configuration properties for the English language; and
-* the `TextAnalyzerBase` abstract class implements `ITextAnalyzer.tokenize`; and
-* the `TextAnalyzer` class extends `TextAnalyzerBase` and implements `ITextAnalyzer.tokenFilter` and `ITextAnalyzer.configuration` as final fields with their values passed in as (optional) parameters (with defaults) at initialization.
-
-Refer to the package [API reference](https://pub.dev/documentation/text_analysis/latest/) for more details.
-
-## Usage
-
-Basic English text analysis can be performed by using a `TextAnalyzer` instance with the default configuration and no token filter:
-
-```dart
-  /// Use a TextAnalyzer instance to tokenize the [text] using the default 
-  /// English configuration.
-  final document = await TextAnalyzer().tokenize(text);
-
-```
-
-For more complex requirements, override `TextAnalyzerConfiguration` and/or pass in a `TokenFilter` function to manipulate the tokens after tokenization as shown in the [examples](https://pub.dev/packages/text_analysis/example).
-
-### Install
-
-In the `pubspec.yaml` of your flutter project, add the following dependency:
-
-```yaml
-dependencies:
-  text_analysis: <latest version>
-```
-
-In your code file add the following import:
-
-```dart
-import 'package:text_analysis/text_analysis.dart';
-```
-
-### Examples
-
-[Examples](https://pub.dev/packages/text_analysis/example) are provided. 
-
-
-## Issues
-
-If you find a bug please fill an [issue](https://github.com/GM-Consult-Pty-Ltd/text_analysis/issues).  
-
-This project is a supporting package for a revenue project that has priority call on resources, so please be patient if we don't respond immediately to issues or pull requests.
-
 ## References
 
 * [Manning, Raghavan and Schütze, "*Introduction to Information Retrieval*", Cambridge University Press, 2008](https://nlp.stanford.edu/IR-book/pdf/irbookprint.pdf)
@@ -124,4 +145,10 @@ This project is a supporting package for a revenue project that has priority cal
 * [Wikipedia (1), "*Inverted Index*", from Wikipedia, the free encyclopedia](https://en.wikipedia.org/wiki/Inverted_index)
 * [Wikipedia (2), "*Lemmatisation*", from Wikipedia, the free encyclopedia](https://en.wikipedia.org/wiki/Lemmatisation)
 * [Wikipedia (3), "*Stemming*", from Wikipedia, the free encyclopedia](https://en.wikipedia.org/wiki/Stemming)
+
+## Issues
+
+If you find a bug please fill an [issue](https://github.com/GM-Consult-Pty-Ltd/text_analysis/issues).  
+
+This project is a supporting package for a revenue project that has priority call on resources, so please be patient if we don't respond immediately to issues or pull requests.
 

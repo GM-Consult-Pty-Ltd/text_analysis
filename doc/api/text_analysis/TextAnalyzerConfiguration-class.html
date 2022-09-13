@@ -51,7 +51,17 @@
 
     
 <section class="desc markdown">
-  <p>An interface exposing language properties used in text analysis.</p>
+  <p>An interface exposing language properties used in text analysis:</p>
+<ul>
+<li><a href="../text_analysis/TextAnalyzerConfiguration/characterFilter.html">characterFilter</a> is a function that manipulates text prior to stemming
+and tokenization;</li>
+<li><a href="../text_analysis/TextAnalyzerConfiguration/termFilter.html">termFilter</a> is a filter function that returns a collection of terms from
+a term. It returns an empty collection if the term is to be excluded from
+analysis or, returns multiple terms if the term is split (e.g. at hyphens)
+and / or, returns modified term(s), such as applying a stemmer algorithm.</li>
+<li><a href="../text_analysis/TextAnalyzerConfiguration/sentenceSplitter.html">sentenceSplitter</a> returns a list of sentences from text; and</li>
+<li><a href="../text_analysis/TextAnalyzerConfiguration/termSplitter.html">termSplitter</a> returns a list of terms from text.</li>
+</ul>
 </section>
 
 
@@ -92,7 +102,7 @@
       <dl class="properties">
         <dt id="characterFilter" class="property">
   <span class="name"><a href="../text_analysis/TextAnalyzerConfiguration/characterFilter.html">characterFilter</a></span>
-  <span class="signature">&#8594; <a href="../text_analysis/CharacterFilter.html">CharacterFilter</a>?</span> 
+  <span class="signature">&#8594; <a href="../text_analysis/CharacterFilter.html">CharacterFilter</a></span> 
 
 </dt>
 <dd>
@@ -136,7 +146,7 @@
 
         <dt id="termFilter" class="property">
   <span class="name"><a href="../text_analysis/TextAnalyzerConfiguration/termFilter.html">termFilter</a></span>
-  <span class="signature">&#8594; <a href="../text_analysis/TermFilter.html">TermFilter</a>?</span> 
+  <span class="signature">&#8594; <a href="../text_analysis/TermFilter.html">TermFilter</a></span> 
 
 </dt>
 <dd>
@@ -240,6 +250,7 @@
   <li class="section-title"><a href="../text_analysis/text_analysis-library.html#classes">Classes</a></li>
   <li><a href="../text_analysis/English-class.html">English</a></li>
   <li><a href="../text_analysis/ITextAnalyzer-class.html">ITextAnalyzer</a></li>
+  <li><a href="https://pub.dev/documentation/porter_2_stemmer/1.0.0+4/porter_2_stemmer/Porter2Stemmer-class.html">Porter2Stemmer</a></li>
   <li><a href="../text_analysis/Sentence-class.html">Sentence</a></li>
   <li><a href="../text_analysis/TextAnalyzer-class.html">TextAnalyzer</a></li>
   <li><a href="../text_analysis/TextAnalyzerBase-class.html">TextAnalyzerBase</a></li>
@@ -248,6 +259,7 @@
   <li><a href="../text_analysis/Token-class.html">Token</a></li>
 
   <li class="section-title"><a href="../text_analysis/text_analysis-library.html#extensions">Extensions</a></li>
+  <li><a href="https://pub.dev/documentation/porter_2_stemmer/1.0.0+4/porter_2_stemmer/Porter2StemmerExtension.html">Porter2StemmerExtension</a></li>
   <li><a href="../text_analysis/TokenCollectionExtension.html">TokenCollectionExtension</a></li>
 
 
@@ -304,7 +316,7 @@
 <footer>
   <span class="no-break">
     text_analysis
-      0.2.0+1
+      0.3.0
   </span>
 
   

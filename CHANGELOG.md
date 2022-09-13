@@ -4,6 +4,14 @@ Copyright (c) 2022, GM Consult Pty Ltd
 All rights reserved. 
 -->
 
+### 0.3.0
+
+- **PRE-RELEASE, BREAKING CHANGES**
+- *BREAKING CHANGE*: `TextAnalyzerConfiguration.characterFilter` changed to non-nullable. Use  `(phrase) => phrase` if no `characterFilter` is required.
+- *BREAKING CHANGE*: `TextAnalyzerConfiguration.termFilter` changed to non-nullable. Use  `(phrase) => [phrase]` if no `termFilter` is required.
+- Added `porter_2_stemmer` package export so it does not need to be imported separately.
+- Updated documentation.
+
 ### 0.2.0+1
 
 - **PRE-RELEASE**

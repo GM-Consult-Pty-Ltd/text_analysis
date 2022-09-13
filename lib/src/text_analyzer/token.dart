@@ -14,6 +14,9 @@ import 'package:text_analysis/text_analysis.dart';
 class Token {
   //
 
+  /// Instantiates [Token] instance.
+  static const empty = Token('', 0, 0.0, 0);
+
   /// Instantiates [Token] instance:
   /// - [term] is the term that will be looked up in the index;
   /// - [termPosition] is the zero-based position of the [term] in an ordered
@@ -22,9 +25,6 @@ class Token {
   ///   of [term] in the source text string (deprecated); and
   /// - [position] is the position of the term from the start of the source text
   ///   as a fraction of the source text length (deprecated).
-  static const empty = Token('', 0, 0.0, 0);
-
-  /// Instantiates [Token] with [term] and [index] values.
   const Token(this.term, this.index, this.position, this.termPosition);
 
   /// The term that will be looked up in the index. The [term] is extracted

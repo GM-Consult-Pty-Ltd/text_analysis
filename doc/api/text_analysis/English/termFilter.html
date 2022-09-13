@@ -54,7 +54,7 @@
 <section id="getter">
 
 <section class="multi-line-signature">
-  <span class="returntype"><a href="../../text_analysis/TermFilter.html">TermFilter</a>?</span>
+  <span class="returntype"><a href="../../text_analysis/TermFilter.html">TermFilter</a></span>
   <span class="name ">termFilter</span>
   <div class="features">override</div>
 
@@ -80,7 +80,7 @@ unless the (split) terms are in <a href="../../text_analysis/English/kStopWords-
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
   <pre class="language-dart"><code class="language-dart">@override
-TermFilter? get termFilter =&gt; (String term) async {
+TermFilter get termFilter =&gt; (String term) async {
       &#47;&#47; apply the [characterFilter] to [term]
       if (kAbbreviations.contains(term)) {
         return [term, term.replaceAll(&#39;.&#39;, &#39;&#39;)];
@@ -181,7 +181,7 @@ TermFilter? get termFilter =&gt; (String term) async {
 <footer>
   <span class="no-break">
     text_analysis
-      0.2.0+1
+      0.3.0
   </span>
 
   

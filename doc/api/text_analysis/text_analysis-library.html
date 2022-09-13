@@ -64,7 +64,8 @@ information retrieval systems.</p>
 
 </dt>
 <dd>
-  A basic <a href="../text_analysis/TextAnalyzerConfiguration-class.html">TextAnalyzerConfiguration</a> implementation for English.
+  A basic <a href="../text_analysis/TextAnalyzerConfiguration-class.html">TextAnalyzerConfiguration</a> implementation for <a href="../text_analysis/English-class.html">English</a> language 
+analysis.
 </dd>
 
         <dt id="ITextAnalyzer">
@@ -74,6 +75,16 @@ information retrieval systems.</p>
 <dd>
   Interface for a text analyser class that extracts tokens from text for use
 in full-text search queries and indexes:
+</dd>
+
+        <dt id="Porter2Stemmer">
+  <span class="name "><a href="https://pub.dev/documentation/porter_2_stemmer/1.0.0+4/porter_2_stemmer/Porter2Stemmer-class.html">Porter2Stemmer</a></span> 
+
+</dt>
+<dd>
+  DART implementation of the Porter Stemming Algorithm
+(see <a href="https://snowballstem.org/algorithms/)">https://snowballstem.org/algorithms/)</a>, used for reducing a word to
+its word stem, base or root form.
 </dd>
 
         <dt id="Sentence">
@@ -109,7 +120,7 @@ in full-text search queries and indexes.
 
 </dt>
 <dd>
-  An interface exposing language properties used in text analysis.
+  An interface exposing language properties used in text analysis:
 </dd>
 
         <dt id="TextSource">
@@ -137,6 +148,15 @@ enumerate its <a href="../text_analysis/TextSource/sentences.html">sentences</a>
       <h2>Extensions</h2>
 
       <dl>
+        <dt id="Porter2StemmerExtension">
+    <span class="name "><a href="https://pub.dev/documentation/porter_2_stemmer/1.0.0+4/porter_2_stemmer/Porter2StemmerExtension.html">Porter2StemmerExtension</a></span> 
+
+</dt>
+<dd>
+    Extends <a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a> to provide the <code>stemPorter2</code> method.
+</dd>
+
+
         <dt id="TokenCollectionExtension">
     <span class="name "><a href="../text_analysis/TokenCollectionExtension.html">TokenCollectionExtension</a></span> 
 
@@ -290,6 +310,7 @@ the <code>source</code> text.
   <li class="section-title"><a href="../text_analysis/text_analysis-library.html#classes">Classes</a></li>
   <li><a href="../text_analysis/English-class.html">English</a></li>
   <li><a href="../text_analysis/ITextAnalyzer-class.html">ITextAnalyzer</a></li>
+  <li><a href="https://pub.dev/documentation/porter_2_stemmer/1.0.0+4/porter_2_stemmer/Porter2Stemmer-class.html">Porter2Stemmer</a></li>
   <li><a href="../text_analysis/Sentence-class.html">Sentence</a></li>
   <li><a href="../text_analysis/TextAnalyzer-class.html">TextAnalyzer</a></li>
   <li><a href="../text_analysis/TextAnalyzerBase-class.html">TextAnalyzerBase</a></li>
@@ -298,6 +319,7 @@ the <code>source</code> text.
   <li><a href="../text_analysis/Token-class.html">Token</a></li>
 
   <li class="section-title"><a href="../text_analysis/text_analysis-library.html#extensions">Extensions</a></li>
+  <li><a href="https://pub.dev/documentation/porter_2_stemmer/1.0.0+4/porter_2_stemmer/Porter2StemmerExtension.html">Porter2StemmerExtension</a></li>
   <li><a href="../text_analysis/TokenCollectionExtension.html">TokenCollectionExtension</a></li>
 
 
@@ -323,7 +345,7 @@ the <code>source</code> text.
 <footer>
   <span class="no-break">
     text_analysis
-      0.2.0+1
+      0.3.0
   </span>
 
   
