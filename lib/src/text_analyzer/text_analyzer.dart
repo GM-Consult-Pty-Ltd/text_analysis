@@ -3,7 +3,6 @@
 // All rights reserved
 
 import 'package:text_analysis/text_analysis.dart';
-import 'package:porter_2_stemmer/porter_2_stemmer.dart';
 
 /// Interface for a text analyser class that extracts tokens from text for use
 /// in full-text search queries and indexes:
