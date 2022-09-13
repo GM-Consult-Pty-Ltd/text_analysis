@@ -33,22 +33,11 @@ abstract class ITextAnalyzer {
 
 /// A [ITextAnalyzer] implementation that extracts tokens from text for use
 /// in full-text search queries and indexes.
-class TextAnalyzer implements ITextAnalyzer {
+abstract class TextAnalyzerBase implements ITextAnalyzer {
   //
 
-  /// The default [TokenFilter] used by [TextAnalyzer].
-  ///
-  /// Returns [tokens] with [Token.term] stemmed using the [Porter2Stemmer].
-  static Future<List<Token>> defaultTokenFilter(List<Token> tokens) async =>
-      tokens
-          .map((e) =>
-              Token(e.term.stemPorter2(), e.index, e.position, e.termPosition))
-          .toList();
-
-  /// Hydrates a const TextAnalyzer.
-  const TextAnalyzer(
-      {this.configuration = English.configuration,
-      this.tokenFilter = defaultTokenFilter});
+  /// Instantiates a const [TextAnalyzerBase] instance.
+  const TextAnalyzerBase();
 
   @override
   Future<TextSource> tokenize(String source) async {
@@ -62,16 +51,42 @@ class TextAnalyzer implements ITextAnalyzer {
     }
     return TextSource(source, sentences);
   }
+}
+
+/// A [ITextAnalyzer] implementation that extracts tokens from text for use
+/// in full-text search queries and indexes:
+/// - [configuration] is used by the [TextAnalyzer] to tokenize source text
+///   (default is [English.configuration]); and
+/// - provide a custom [tokenFilter] if you want to manipulate tokens or
+///   restrict tokenization to tokens that meet specific criteria (default is
+///   [TextAnalyzer.defaultTokenFilter], applies [Porter2Stemmer]); and
+/// - the [tokenize] function tokenizes source text using the [configuration]
+///   and then manipulates the output by applying [tokenFilter].
+class TextAnalyzer extends TextAnalyzerBase {
+  //
+
+  /// The default [TokenFilter] used by [TextAnalyzer].
+  ///
+  /// Returns [tokens] with [Token.term] stemmed using the [Porter2Stemmer].
+  static Future<List<Token>> defaultTokenFilter(List<Token> tokens) async =>
+      tokens
+          .map((e) =>
+              Token(e.term.stemPorter2(), e.index, e.position, e.termPosition))
+          .toList();
+
+  /// Instantiates a const [TextAnalyzerBase] instance.
+  /// - [configuration] is used by the [TextAnalyzer] to tokenize source text
+  ///   (default is [English.configuration]); and
+  /// - provide a custom [tokenFilter] if you want to manipulate tokens or
+  ///   restrict tokenization to tokens that meet specific criteria (default is
+  ///   [TextAnalyzer.defaultTokenFilter], applies [Porter2Stemmer]).
+  const TextAnalyzer(
+      {this.configuration = English.configuration,
+      this.tokenFilter = defaultTokenFilter});
 
   @override
   final TokenFilter? tokenFilter;
 
   @override
   final TextAnalyzerConfiguration configuration;
-
-  /// Regular expression String that selects all sentence endings.
-  static const kLineEndingSelector = r'';
-
-  /// Returns a regular expression String that selects all sentence endings.
-  static const kSentenceEndingSelector = r'';
 }

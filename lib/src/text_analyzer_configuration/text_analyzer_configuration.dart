@@ -7,7 +7,7 @@ import 'package:text_analysis/text_analysis.dart';
 abstract class TextAnalyzerConfiguration {
   //
 
-  /// A function that manipulates terms prior to stemming and tokenization.
+  /// A function that manipulates text prior to stemming and tokenization.
   ///
   /// Use a [characterFilter] to:
   /// - convert all terms to lower case;

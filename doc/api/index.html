@@ -53,12 +53,21 @@ All rights reserved.
 <p>Text analyzer that extracts tokens from text for use in full-text search queries and indexes.</p>
 <p><em>THIS PACKAGE IS <strong>PRE-RELEASE</strong>, IN ACTIVE DEVELOPMENT AND SUBJECT TO DAILY BREAKING CHANGES.</em></p>
 <h2 id="objective">Objective</h2>
-<p>The objective of this package is to provide utilities for analyzing and manipulating text in preparation of constructing a <code>dictionary</code> from a <code>corpus</code> of <code>documents</code> as part of text indexing in an information retrieval application.</p>
-<p>The design of the package is consistent with <a href="https://nlp.stanford.edu/IR-book/pdf/irbookonlinereading.pdf">information retrieval theory</a>.</p>
+<p>To tokenize text in preparation of constructing a <code>dictionary</code> from a <code>corpus</code> of <code>documents</code> in an information retrieval system.</p>
+<p>The tokenization process comprises the following steps:</p>
+<ul>
+<li>a <code>term splitter</code> splits text to a list of terms at appropriate places like white-space and mid-sentence punctuation;</li>
+<li>a <code>character filter</code> manipulates terms prior to stemming and tokenization (e.g. changing case and / or removing non-word characters);</li>
+<li>a <code>term filter</code> manipulates the terms by splitting compound or hyphenated terms or applying stemming and lemmatization. The <code>termFilter</code> can also filter out <code>stopwords</code>; and</li>
+<li>the <code>tokenizer</code> converts the resulting terms  to a collection of <code>tokens</code> that contain the term and a pointer to the position of the term in the source text.</li>
+</ul>
+<p><img src="https://github.com/GM-Consult-Pty-Ltd/text_indexing/raw/main/assets/images/text_analysis.png?raw=true?raw=true" alt="Index artifacts" title="Index construction overview"></p>
+<p>The design of the text analyzer is consistent with <a href="https://nlp.stanford.edu/IR-book/pdf/irbookonlinereading.pdf">information retrieval theory</a>.</p>
 <h2 id="definitions">Definitions</h2>
 <p>The following definitions are used throughout the <a href="https://pub.dev/documentation/text_analysis/latest/">documentation</a>:</p>
 <ul>
 <li><code>corpus</code>- the collection of <code>documents</code> for which an <code>index</code> is maintained.</li>
+<li><code>character filter</code> - filters characters from text in preparation of tokenization.</li>
 <li><code>dictionary</code> - is a hash of <code>terms</code> (<code>vocabulary</code>) to the frequency of occurence in the <code>corpus</code> documents.</li>
 <li><code>document</code> - a record in the <code>corpus</code>, that has a unique identifier (<code>docId</code>) in the <code>corpus</code>'s primary key and that contains one or more text fields that are indexed.</li>
 <li><code>index</code> - an <a href="https://en.wikipedia.org/wiki/Inverted_index">inverted index</a> used to look up <code>document</code> references from the <code>corpus</code> against a <code>vocabulary</code> of <code>terms</code>. The implementation in this package builds and maintains a positional inverted index, that also includes the positions of the indexed <code>term</code> in each <code>document</code>.</li>
@@ -66,36 +75,40 @@ All rights reserved.
 <li><code>postings</code> - a separate index that records which <code>documents</code> the <code>vocabulary</code> occurs in. In this implementation we also record the positions of each <code>term</code> in the <code>text</code> to create a positional inverted <code>index</code>.</li>
 <li><code>postings list</code> - a record of the positions of a <code>term</code> in a <code>document</code>. A position of a <code>term</code> refers to the index of the <code>term</code> in an array that contains all the <code>terms</code> in the <code>text</code>.</li>
 <li><code>term</code> - a word or phrase that is indexed from the <code>corpus</code>. The <code>term</code> may differ from the actual word used in the corpus depending on the <code>tokenizer</code> used.</li>
+<li><code>term filter</code> - filters unwanted terms from a collection of terms (e.g. stopwords), breaks compound terms into separate terms and / or manipulates terms by invoking a <code>stemmer</code> and / or <code>lemmatizer</code>.</li>
 <li><code>stemmer</code> -  stemming is the process of reducing inflected (or sometimes derived) words to their word stem, base or root form—generally a written word form (from <a href="https://en.wikipedia.org/wiki/Stemming">Wikipedia</a>).</li>
+<li><code>stopwords</code> - common words in a language that are excluded from indexing.</li>
 <li><code>text</code> - the indexable content of a <code>document</code>.</li>
-<li><code>token</code> - representation of a <code>term</code> in a text source returned by a <code>tokenizer</code>. The token may include information about the <code>term</code> such as its position(s) in the text or frequency of occurrence.</li>
-<li><code>tokenizer</code> - a function that returns a collection of <code>token</code>s from <code>text</code>, after applying a character filter, <code>term</code> filter, <code>stemmer</code> and / or <code>lemmatizer</code>.</li>
+<li><code>token</code> - representation of a <code>term</code> in a text source returned by a <code>tokenizer</code>. The token may include information about the <code>term</code> position in the source text.</li>
+<li><code>token filter</code> - returns a subset of <code>tokens</code> from the tokenizer output.</li>
+<li><code>tokenizer</code> - a function that returns a collection of <code>token</code>s from the terms in a text source after applying a <code>character filter</code> and <code>term filter</code>.</li>
 <li><code>vocabulary</code> - the collection of <code>terms</code> indexed from the <code>corpus</code>.</li>
 </ul>
 <h2 id="interfaces">Interfaces</h2>
-<p>The package relies on two key interfaces:</p>
+<p>The package exposes two interfaces:</p>
 <ul>
 <li>the <code>ITextAnalyzer</code> interface; and</li>
 <li>the <code>TextAnalyzerConfiguration</code> interface.</li>
 </ul>
 <h3 id="interface-itextanalyzer">Interface <code>ITextAnalyzer</code></h3>
-<p>The <code>ITextAnalyzer</code> is an interface for a text analyser class that extracts tokens from text for use in full-text search queries and indexes.</p>
+<p>The <code>ITextAnalyzer</code> is an interface for a text analyser class that extracts tokens from text for use in full-text search queries and indexes</p>
 <p><code>ITextAnalyzer.configuration</code> is a <code>TextAnalyzerConfiguration</code> used by the <a href="text_analysis/ITextAnalyzer-class.html">ITextAnalyzer</a> to tokenize source text.
 Provide a <code>ITextAnalyzer.tokenFilter</code>  to manipulate tokens or restrict tokenization to tokens that meet criteria for either index or count.</p>
 <p>The <code>tokenize</code> function tokenizes source text using the <code>ITextAnalyzer.configuration</code> and then manipulates the output by applying <code>ITextAnalyzer.tokenFilter</code>.</p>
 <h3 id="interface-textanalyzerconfiguration">Interface <code>TextAnalyzerConfiguration</code></h3>
 <p>The <code>TextAnalyzerConfiguration</code> interface exposes language-specific properties and methods used in text analysis:</p>
 <ul>
-<li>a <code>characterFilter</code> that manipulates terms prior to stemming and tokenization (e.g. changing case and / or removing non-word characters);</li>
-<li>a <code>termFilter</code> that returns a collection of terms from a term by splitting compound or hyphenated terms or applying stemming and lemmatization. The <code>termFilter</code> can also filter out stopwords by returning an empty collection;</li>
-<li>a <code>sentenceSplitter</code> returns a list of sentences from text by splitting the text and sentence endings such as periods, exclamations and question marks or line endings; and</li>
-<li>a <code>termSplitter</code> returns a list of terms from text by splitting the text at appropriate places like white-space and mid-sentence punctuation.</li>
+<li>a <code>TextAnalyzerConfiguration.sentenceSplitter</code> splits the text at sentence endings such as periods, exclamations and question marks or line endings;</li>
+<li>a <code>TextAnalyzerConfiguration.termSplitter</code> to split the text into terms;</li>
+<li>a <code>TextAnalyzerConfiguration.characterFilter</code> to remove non-word characters.</li>
+<li>a <code>TextAnalyzerConfiguration.termFilter</code> to apply a stemmer/lemmatizer or stopword list.</li>
 </ul>
 <h2 id="implementations">Implementations</h2>
 <p>The <code>latest version</code> provides the following implementation classes:</p>
 <ul>
 <li>implementation class <code>English</code>, implements <code>TextAnalyzerConfiguration</code> and provides text analysis configuration properties for the English language; and</li>
-<li>the <code>TextAnalyzer</code> class implements <code>ITextAnalyzer.tokenize</code> using a token filter and text analysis configuration passed in as parameters at initialization.</li>
+<li>the <code>TextAnalyzerBase</code> abstract class implements <code>ITextAnalyzer.tokenize</code>; and</li>
+<li>the <code>TextAnalyzer</code> class extends <code>TextAnalyzerBase</code> and implements <code>ITextAnalyzer.tokenFilter</code> and <code>ITextAnalyzer.configuration</code> as final fields with their values passed in as (optional) parameters (with defaults) at initialization.</li>
 </ul>
 <p>Refer to the package <a href="https://pub.dev/documentation/text_analysis/latest/">API reference</a> for more details.</p>
 <h2 id="usage">Usage</h2>
@@ -174,7 +187,7 @@ information retrieval systems.
 <footer>
   <span class="no-break">
     text_analysis
-      0.1.0+1
+      0.2.0+1
   </span>
 
   

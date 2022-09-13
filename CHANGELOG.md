@@ -4,6 +4,17 @@ Copyright (c) 2022, GM Consult Pty Ltd
 All rights reserved. 
 -->
 
+### 0.2.0+1
+
+- **PRE-RELEASE**
+- Updated documentation.
+
+### 0.2.0
+
+- **PRE-RELEASE**
+- Added abstract class `TextAnalyzerBase`.
+- Updated documentation.
+
 ### 0.1.0+1
 
 - **PRE-RELEASE**

@@ -51,7 +51,7 @@
 
     
 <section class="desc markdown">
-  <p>Interface for a text analyser class that extracts tokens from text for use
+  <p>A <a href="../text_analysis/ITextAnalyzer-class.html">ITextAnalyzer</a> implementation that extracts tokens from text for use
 in full-text search queries and indexes.</p>
 </section>
 
@@ -61,6 +61,12 @@ in full-text search queries and indexes.</p>
         
 
         
+  <dt>Implemented types</dt>
+  <dd>
+    <ul class="comma-separated clazz-relationships">
+        <li><a href="../text_analysis/ITextAnalyzer-class.html">ITextAnalyzer</a></li>
+    </ul>
+  </dd>
         
 
         <dt>Implementers</dt>
@@ -82,23 +88,24 @@ in full-text search queries and indexes.</p>
           <span class="name"><a href="../text_analysis/TextAnalyzerBase/TextAnalyzerBase.html">TextAnalyzerBase</a></span><span class="signature">()</span>
         </dt>
         <dd>
-          
+          Instantiates a const <a href="../text_analysis/TextAnalyzerBase-class.html">TextAnalyzerBase</a> instance.
+            <div class="constructor-modifier features">const</div>
         </dd>
     </dl>
   </section>
 
-    <section class="summary offset-anchor" id="instance-properties">
+    <section class="summary offset-anchor inherited" id="instance-properties">
       <h2>Properties</h2>
 
       <dl class="properties">
-        <dt id="configuration" class="property">
-  <span class="name"><a href="../text_analysis/TextAnalyzerBase/configuration.html">configuration</a></span>
+        <dt id="configuration" class="property inherited">
+  <span class="name"><a href="../text_analysis/ITextAnalyzer/configuration.html">configuration</a></span>
   <span class="signature">&#8594; <a href="../text_analysis/TextAnalyzerConfiguration-class.html">TextAnalyzerConfiguration</a></span> 
 
 </dt>
-<dd>
-  The <a href="../text_analysis/TextAnalyzerConfiguration-class.html">TextAnalyzerConfiguration</a> used by the <a href="../text_analysis/TextAnalyzerBase-class.html">TextAnalyzerBase</a>.
-  <div class="features">read-only</div>
+<dd class="inherited">
+  The <a href="../text_analysis/TextAnalyzerConfiguration-class.html">TextAnalyzerConfiguration</a> used by the <a href="../text_analysis/ITextAnalyzer-class.html">ITextAnalyzer</a>.
+  <div class="features">read-only, inherited</div>
 
 </dd>
 
@@ -124,14 +131,14 @@ in full-text search queries and indexes.</p>
 
 </dd>
 
-        <dt id="tokenFilter" class="property">
-  <span class="name"><a href="../text_analysis/TextAnalyzerBase/tokenFilter.html">tokenFilter</a></span>
+        <dt id="tokenFilter" class="property inherited">
+  <span class="name"><a href="../text_analysis/ITextAnalyzer/tokenFilter.html">tokenFilter</a></span>
   <span class="signature">&#8594; <a href="../text_analysis/TokenFilter.html">TokenFilter</a>?</span> 
 
 </dt>
-<dd>
+<dd class="inherited">
   A filter that returns a subset of tokens.
-  <div class="features">read-only</div>
+  <div class="features">read-only, inherited</div>
 
 </dd>
 
@@ -159,14 +166,14 @@ in full-text search queries and indexes.</p>
 
         <dt id="tokenize" class="callable">
   <span class="name"><a href="../text_analysis/TextAnalyzerBase/tokenize.html">tokenize</a></span><span class="signature">(<wbr><span class="parameter" id="tokenize-param-source"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span> <span class="parameter-name">source</span></span>)
-    <span class="returntype parameter">&#8594; <a href="../text_analysis/TextSource-class.html">TextSource</a></span>
+    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../text_analysis/TextSource-class.html">TextSource</a></span>&gt;</span></span>
   </span>
   
 
 </dt>
 <dd>
   Extracts tokens from text for use in full-text search queries and indexes.
-  
+  <div class="features">override</div>
 
 </dd>
 
@@ -231,6 +238,7 @@ in full-text search queries and indexes.</p>
     <ol>
   <li class="section-title"><a href="../text_analysis/text_analysis-library.html#classes">Classes</a></li>
   <li><a href="../text_analysis/English-class.html">English</a></li>
+  <li><a href="../text_analysis/ITextAnalyzer-class.html">ITextAnalyzer</a></li>
   <li><a href="../text_analysis/Sentence-class.html">Sentence</a></li>
   <li><a href="../text_analysis/TextAnalyzer-class.html">TextAnalyzer</a></li>
   <li><a href="../text_analysis/TextAnalyzerBase-class.html">TextAnalyzerBase</a></li>
@@ -238,6 +246,8 @@ in full-text search queries and indexes.</p>
   <li><a href="../text_analysis/TextSource-class.html">TextSource</a></li>
   <li><a href="../text_analysis/Token-class.html">Token</a></li>
 
+  <li class="section-title"><a href="../text_analysis/text_analysis-library.html#extensions">Extensions</a></li>
+  <li><a href="../text_analysis/TokenCollectionExtension.html">TokenCollectionExtension</a></li>
 
 
 
@@ -251,6 +261,7 @@ in full-text search queries and indexes.</p>
   <li><a href="../text_analysis/TermFilter.html">TermFilter</a></li>
   <li><a href="../text_analysis/TermSplitter.html">TermSplitter</a></li>
   <li><a href="../text_analysis/TokenFilter.html">TokenFilter</a></li>
+  <li><a href="../text_analysis/Tokenizer.html">Tokenizer</a></li>
 
 </ol>
 
@@ -263,13 +274,13 @@ in full-text search queries and indexes.</p>
           <li><a href="../text_analysis/TextAnalyzerBase/TextAnalyzerBase.html">TextAnalyzerBase</a></li>
 
 
-    <li class="section-title">
+    <li class="section-title inherited">
       <a href="../text_analysis/TextAnalyzerBase-class.html#instance-properties">Properties</a>
     </li>
-    <li><a href="../text_analysis/TextAnalyzerBase/configuration.html">configuration</a></li>
+    <li class="inherited"><a href="../text_analysis/ITextAnalyzer/configuration.html">configuration</a></li>
     <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/hashCode.html">hashCode</a></li>
     <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/runtimeType.html">runtimeType</a></li>
-    <li><a href="../text_analysis/TextAnalyzerBase/tokenFilter.html">tokenFilter</a></li>
+    <li class="inherited"><a href="../text_analysis/ITextAnalyzer/tokenFilter.html">tokenFilter</a></li>
 
     <li class="section-title"><a href="../text_analysis/TextAnalyzerBase-class.html#instance-methods">Methods</a></li>
     <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/noSuchMethod.html">noSuchMethod</a></li>
@@ -291,7 +302,7 @@ in full-text search queries and indexes.</p>
 <footer>
   <span class="no-break">
     text_analysis
-      0.0.1
+      0.2.0+1
   </span>
 
   
