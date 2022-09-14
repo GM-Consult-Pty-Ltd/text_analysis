@@ -3,7 +3,7 @@
 
 import 'package:text_analysis/text_analysis.dart';
 
-/// A basic [TextAnalyzerConfiguration] implementation for [English] language 
+/// A basic [TextAnalyzerConfiguration] implementation for [English] language
 /// analysis.
 ///
 /// The [termFilter] applies the following algorithm:
@@ -15,24 +15,24 @@ import 'package:text_analysis/text_analysis.dart';
 ///   preceded and ended by a number;
 /// - if the term can be split, add the split terms to the return value,
 ///   unless the (split) terms are in [kStopWords] or are empty strings.
-/// 
-  /// The [characterFilter] function:
-  /// - returns the term if it can be parsed as a number; else
-  /// - converts the term to lower-case;
-  /// - changes all quote marks to single apostrophe +U0027;
-  /// - removes enclosing quote marks;
-  /// - changes all dashes to single standard hyphen;
-  /// - removes all non-word characters from the term;
-  /// - replaces all characters except letters and numbers from the end of
-  ///   the term.
-  /// 
-  /// The [sentenceSplitter] inserts[_kSentenceDelimiter] at sentence breaks 
-  /// and then splits the source text into a list of sentence strings.
-  ///
-  /// Sentence breaks are characters that match [English.reLineEndingSelector]
-  /// or [English.reSentenceEndingSelector].
-  ///
-  /// Empty strings are removed from the returned collection.
+///
+/// The [characterFilter] function:
+/// - returns the term if it can be parsed as a number; else
+/// - converts the term to lower-case;
+/// - changes all quote marks to single apostrophe +U0027;
+/// - removes enclosing quote marks;
+/// - changes all dashes to single standard hyphen;
+/// - removes all non-word characters from the term;
+/// - replaces all characters except letters and numbers from the end of
+///   the term.
+///
+/// The [sentenceSplitter] inserts[_kSentenceDelimiter] at sentence breaks
+/// and then splits the source text into a list of sentence strings.
+///
+/// Sentence breaks are characters that match [English.reLineEndingSelector]
+/// or [English.reSentenceEndingSelector].
+///
+/// Empty strings are removed from the returned collection.
 class English implements TextAnalyzerConfiguration {
   //
 

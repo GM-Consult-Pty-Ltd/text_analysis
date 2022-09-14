@@ -4,6 +4,10 @@ Copyright (c) 2022, GM Consult Pty Ltd
 All rights reserved. 
 -->
 
+### 0.6.0+1
+- **PRE-RELEASE, BREAKING CHANGES**
+- Codebase formatted.
+
 ### 0.6.0
 - **PRE-RELEASE, BREAKING CHANGES**
 - *BREAKING CHANGE*: Changed parameters for `JsonTokenizer` type defintion.
