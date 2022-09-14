@@ -80,7 +80,7 @@ The following type definitions are included in the `text_analysis` library:
 * `TokenFilter` returns a subset of `tokens` from the tokenizer output; and
 * `Tokenizer` converts the resulting terms  to a collection of `tokens` that contain the term and a pointer to the position of the term in the source text.
 
-## Object models
+### Object models
 
 The `text_analysis` library includes the following object-model classes:
 * a `Token` represents a `term` (word) present in a `text` source with its `position` and optional `field name`.
@@ -93,7 +93,7 @@ The `text_analysis` library exposes two interfaces:
 * the [TextAnalyzerConfiguration](#textanalyzerconfiguration-interface) interface; and 
 * the [ITextAnalyzer](#itextanalyzer-interface) interface.
 
-#### TextAnalyzerConfiguration Interface
+#### *TextAnalyzerConfiguration Interface*
 
 The `TextAnalyzerConfiguration` interface exposes language-specific properties and methods used in text analysis: 
 * a `TextAnalyzerConfiguration.sentenceSplitter` splits the text at sentence endings such as periods, exclamations and question marks or line endings;
@@ -101,7 +101,7 @@ The `TextAnalyzerConfiguration` interface exposes language-specific properties a
 * a `TextAnalyzerConfiguration.characterFilter` to remove non-word characters.
 * a `TextAnalyzerConfiguration.termFilter` to apply a stemmer/lemmatizer or stopword list.
 
-#### ITextAnalyzer Interface
+#### *ITextAnalyzer Interface*
 
 The `ITextAnalyzer` is an interface for a text analyser class that extracts tokens from text for use in full-text search queries and indexes:
 * `ITextAnalyzer.configuration` is a `TextAnalyzerConfiguration` used by the `ITextAnalyzer` to tokenize source text.
@@ -116,7 +116,7 @@ The [latest version](https://pub.dev/packages/text_analysis/versions) provides t
 * the [TextAnalyzerBase](#textanalyzerbase-class) abstract class implements `ITextAnalyzer.tokenize`; and
 * the [TextAnalyzer](#textanalyzer-class) class extends [TextAnalyzerBase](#textanalyzerbase-class)  and implements `ITextAnalyzer.tokenFilter` and `ITextAnalyzer.configuration` as final fields with their values passed in as (optional) parameters (with defaults) at initialization.
 
-#### English class
+#### *English class*
 
 A basic [TextAnalyzerConfiguration](#textanalyzerconfiguration-interface) implementation for `English` language analysis.
 
@@ -138,14 +138,14 @@ The `characterFilter` function:
 
 The `sentenceSplitter` inserts`_kSentenceDelimiter` at sentence breaks and then splits the source text into a list of sentence strings (sentence breaks are characters that match `English.reLineEndingSelector` or `English.reSentenceEndingSelector`). Empty sentences are removed.
 
-#### TextAnalyzerBase Class
+#### *TextAnalyzerBase Class*
 
 The `TextAnalyzerBase` class implements the `ITextAnalyzer.tokenize` method:
 * tokenizes source text using the `configuration`;
 * manipulates the output by applying `tokenFilter`; and, finally
 * returns a `TextSource` enumerating the source text, `Sentence` collection and `Token` collection.
 
-#### TextAnalyzer Class
+#### *TextAnalyzer Class*
 
 The `TextAnalyzer` class extends [TextAnalyzerBase](#textanalyzerbase-class):
 * implements `configuration` and `tokenFilter` as final fields passed in as optional parameters at instantiation;
