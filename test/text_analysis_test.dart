@@ -3,6 +3,7 @@
 
 import 'package:text_analysis/text_analysis.dart';
 import 'package:test/test.dart';
+import 'data/sample_news.dart';
 
 void main() {
   group('TextAnalyzer', () {
@@ -24,6 +25,28 @@ void main() {
           'founder John Foley and explore a sale.'
     ];
 
+    final json = {
+      'avatarImageUrl':
+          'https://firebasestorage.googleapis.com/v0/b/buysellhold-322d1.appspot.com/o/logos%2FTSLA%3AXNGS.png?alt=media&token=c365db47-9482-4237-9267-82f72854d161',
+      'description':
+          'A 20-for-1 stock split gave a nice short-term boost to Amazon (AMZN) - Get Amazon.com Inc. Report in late May and in early June, while Alphabet (GOOGL) - Get Alphabet Inc. Report (GOOG) - Get Alphabet Inc. Report has a planned 20-for-1 stock split for next month. Tesla  (TSLA) - Get Tesla Inc. Report is also waiting on shareholder approval for a 3-for-1 stock split. ',
+      'entityType': 'NewsItem',
+      'hashTags': ['#Tesla'],
+      'id': 'ee1760a1-a259-50dc-b11d-8baf34d7d1c5',
+      'itemGuid':
+          'trading-shopify-stock-ahead-of-10-for-1-stock-split-technical-analysis-june-2022?puc=yahoo&cm_ven=YAHOO&yptr=yahoo',
+      'linkUrl':
+          'https://www.thestreet.com/investing/trading-shopify-stock-ahead-of-10-for-1-stock-split-technical-analysis-june-2022?puc=yahoo&cm_ven=YAHOO&yptr=yahoo',
+      'locale': 'Locale.en_US',
+      'name': 'Shopify Stock Split What the Charts Say Ahead of 10-for-1 Split',
+      'publicationDate': '2022-06-28T17:44:00.000Z',
+      'publisher': {
+        'linkUrl': 'http://www.thestreet.com/',
+        'title': 'TheStreet com'
+      },
+      'timestamp': 1656464362162
+    };
+
     test('TextAnalyzer.tokenize', () async {
       // Initialize a StringBuffer to hold the source text
       final sourceBuilder = StringBuffer();
@@ -39,6 +62,53 @@ void main() {
       final terms = document.tokens.map((e) => e.term).toList();
       // print the terms
       print(terms);
+    });
+
+    test('TextAnalyzer.tokenizeJson', () async {
+      // use a TextAnalyzer instance to tokenize the json
+      final textSource = await TextAnalyzer()
+          .tokenizeJson(json, ['name', 'description', 'hashTags']);
+      // map the document's tokens to a list of terms (strings)
+      final terms = textSource.tokens.map((e) => e.term).toList();
+      // print the terms
+      print(terms);
+    });
+
+    test('TextAnalyzer.tokenizeJson (performance)', () async {
+      //
+      final start = DateTime.now();
+      // initialize a term dictionary
+      final dictionary = <String, int>{};
+      // iterate through sampleNews
+      await Future.forEach(sampleNews.entries,
+          (MapEntry<String, Map<String, dynamic>> entry) async {
+        final json = entry.value;
+        final textSource = await TextAnalyzer()
+            .tokenizeJson(json, ['name', 'description', 'hashTags']);
+        for (final term
+            in Set<String>.from(textSource.tokens.map((e) => e.term))) {
+          final tf = (dictionary[term] ?? 0) + 1;
+          dictionary[term] = tf;
+        }
+      });
+      final finish = DateTime.now();
+      final delta = finish.difference(start).inMilliseconds;
+
+      print('Processed ${sampleNews.length} documents in $delta milliseconds');
+      print('=========================');
+      final entries = dictionary.entries.toList();
+      entries.sort((a, b) => b.value.compareTo(a.value));
+      print('Found ${entries.length} terms');
+      print('Printing TOP 20 terms');
+      print('Term:    Df');
+      print('=========================');
+      for (final entry in entries.sublist(0, 20)) {
+        // print the terms
+        print('${entry.key}: ${entry.value}');
+      }
+      print('=========================');
+      print('Processed ${sampleNews.length} documents in $delta milliseconds');
+      print('Found ${entries.length} terms');
     });
   });
 }

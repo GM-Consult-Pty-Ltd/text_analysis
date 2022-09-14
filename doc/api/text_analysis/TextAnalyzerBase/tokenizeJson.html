@@ -4,8 +4,8 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, user-scalable=no">
-  <meta name="description" content="API docs for the tokenize method from the TextAnalyzerBase class, for the Dart programming language.">
-  <title>tokenize method - TextAnalyzerBase class - text_analysis library - Dart API</title>
+  <meta name="description" content="API docs for the tokenizeJson method from the TextAnalyzerBase class, for the Dart programming language.">
+  <title>tokenizeJson method - TextAnalyzerBase class - text_analysis library - Dart API</title>
 
 
   
@@ -32,9 +32,9 @@
     <li><a href="../../index.html">text_analysis</a></li>
     <li><a href="../../text_analysis/text_analysis-library.html">text_analysis</a></li>
     <li><a href="../../text_analysis/TextAnalyzerBase-class.html">TextAnalyzerBase</a></li>
-    <li class="self-crumb">tokenize method</li>
+    <li class="self-crumb">tokenizeJson method</li>
   </ol>
-  <div class="self-name">tokenize</div>
+  <div class="self-name">tokenizeJson</div>
   <form class="search navbar-right" role="search">
     <input type="text" id="search-box" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
   </form>
@@ -45,7 +45,7 @@
 
   <div id="dartdoc-main-content" class="main-content">
       <div>
-<h1><span class="kind-method">tokenize</span> method 
+<h1><span class="kind-method">tokenizeJson</span> method 
     <a href="https://dart.dev/null-safety" class="feature feature-null-safety" title="Supports the null safety language feature.">Null safety</a>
 </h1></div>
 
@@ -58,8 +58,8 @@
 </div>
 
 <span class="returntype"><a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../../text_analysis/TextSource-class.html">TextSource</a></span>&gt;</span></span>
-<span class="name ">tokenize</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="tokenize-param-source"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span> <span class="parameter-name">source</span>, </span></li>
-<li><span class="parameter" id="tokenize-param-field">[<span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a>?</span> <span class="parameter-name">field</span>]</span></li>
+<span class="name ">tokenizeJson</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="tokenizeJson-param-document"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Map-class.html">Map</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>, <span class="type-parameter">dynamic</span>&gt;</span></span> <span class="parameter-name">document</span>, </span></li>
+<li><span class="parameter" id="tokenizeJson-param-fields"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>&gt;</span></span> <span class="parameter-name">fields</span></span></li>
 </ol>)
 
       <div class="features">override</div>
@@ -67,10 +67,10 @@
     </section>
     
 <section class="desc markdown">
-  <p>Extracts tokens from <code>source</code> for use in full-text search queries and
-indexes.</p>
-<p>Optional parameter <code>field</code> is the name of the field in a document in
-which the term is located.</p>
+  <p>Extracts tokens from the <code>fields</code> in a JSON <code>document</code> for use in
+full-text search queries and indexes.</p>
+<p>The required parameter <code>fields</code> is the collection of the names of the
+fields in <code>document</code> that are to be tokenized.</p>
 <p>Returns a <code>TextSource</code> with <code>source</code> and its component <a href="../../text_analysis/Sentence-class.html">Sentence</a>s and
 <a href="../../text_analysis/Token-class.html">Token</a>s</p>
 </section>
@@ -80,16 +80,23 @@ which the term is located.</p>
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
   <pre class="language-dart"><code class="language-dart">@override
-Future&lt;TextSource&gt; tokenize(String source, [String? field]) async {
-  final sentenceStrings = configuration.sentenceSplitter(source);
+Future&lt;TextSource&gt; tokenizeJson(
+    Map&lt;String, dynamic&gt; document, Iterable&lt;String&gt; fields) async {
   final sentences = &lt;Sentence&gt;[];
-  &#47;&#47; convert [sentenceStrings] into [Sentence]s
-  for (final sentence in sentenceStrings) {
-    final value = await Sentence.fromString(
-        sentence, configuration, tokenFilter, field);
-    sentences.add(value);
+  final sourceBuilder = StringBuffer();
+  fields = Set&lt;String&gt;.from(fields);
+  for (final field in fields) {
+    final value = document[field];
+    if (value != null) {
+      final source = value.toString();
+      if (source.isNotEmpty) {
+        final doc = await tokenize(source, field);
+        sentences.addAll(doc.sentences);
+        sourceBuilder.writeln(&#39;&quot;$field&quot;: &quot;$source&quot;&#39;);
+      }
+    }
   }
-  return TextSource(source, sentences);
+  return TextSource(sourceBuilder.toString(), sentences);
 }</code></pre>
 </section>
 
@@ -107,7 +114,7 @@ Future&lt;TextSource&gt; tokenize(String source, [String? field]) async {
   <li><a href="../../index.html">text_analysis</a></li>
   <li><a href="../../text_analysis/text_analysis-library.html">text_analysis</a></li>
   <li><a href="../../text_analysis/TextAnalyzerBase-class.html">TextAnalyzerBase</a></li>
-  <li class="self-crumb">tokenize method</li>
+  <li class="self-crumb">tokenizeJson method</li>
 </ol>
 
 

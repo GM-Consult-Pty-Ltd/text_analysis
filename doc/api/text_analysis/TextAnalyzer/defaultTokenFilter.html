@@ -71,8 +71,7 @@
   <h2><span>Implementation</span></h2>
   <pre class="language-dart"><code class="language-dart">static Future&lt;List&lt;Token&gt;&gt; defaultTokenFilter(List&lt;Token&gt; tokens) async =&gt;
     tokens
-        .map((e) =&gt;
-            Token(e.term.stemPorter2(), e.index, e.position, e.termPosition))
+        .map((e) =&gt; Token(e.term.stemPorter2(), e.termPosition, e.field))
         .toList();</code></pre>
 </section>
 
@@ -112,6 +111,7 @@
     <li class="section-title inherited"><a href="../../text_analysis/TextAnalyzer-class.html#instance-methods">Methods</a></li>
     <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/noSuchMethod.html">noSuchMethod</a></li>
     <li class="inherited"><a href="../../text_analysis/TextAnalyzerBase/tokenize.html">tokenize</a></li>
+    <li class="inherited"><a href="../../text_analysis/TextAnalyzerBase/tokenizeJson.html">tokenizeJson</a></li>
     <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/toString.html">toString</a></li>
 
     <li class="section-title inherited"><a href="../../text_analysis/TextAnalyzer-class.html#operators">Operators</a></li>
@@ -134,7 +134,7 @@
 <footer>
   <span class="no-break">
     text_analysis
-      0.3.0+1
+      0.4.0
   </span>
 
   

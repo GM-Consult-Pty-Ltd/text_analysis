@@ -17,8 +17,9 @@ abstract class Sentence {
   ///
   /// The sentence [tokens] are filtered using [tokenFilter].
   static Future<Sentence> fromString(String sentence,
-          TextAnalyzerConfiguration configuration, TokenFilter? tokenFilter) =>
-      _SentenceImpl.fromString(sentence, configuration, tokenFilter);
+          TextAnalyzerConfiguration configuration, TokenFilter? tokenFilter,
+          [String? field]) =>
+      _SentenceImpl.fromString(sentence, configuration, tokenFilter, field);
 
   /// The source text of the [Sentence].
   String get source;
@@ -50,14 +51,14 @@ class _SentenceImpl implements Sentence {
   static Future<List<Token>> tokenize(
       {required String sentence,
       required TextAnalyzerConfiguration configuration,
-      TokenFilter? tokenFilter}) async {
+      TokenFilter? tokenFilter,
+      String? field}) async {
     // perform the first punctuation and white-space split
     final terms = configuration.termSplitter(sentence);
     // initialize the tokens collection (return value)
     final tokens = <Token>[];
     // initialize the index
     var index = 0;
-    var termIndex = 0;
     // iterate through the terms
     for (var term in terms) {
       // calculate the index increment from the raw term length
@@ -75,22 +76,16 @@ class _SentenceImpl implements Sentence {
           // apply the characterFilter if it is not null
           splitTerm = configuration.characterFilter(splitTerm);
           final tokenIndex = index + subIndex;
-          // calculate the position of the token as a fraction of the sentence
-          // length.
-          final position = tokenIndex / sentence.length;
-          tokens.add(Token(splitTerm, tokenIndex, position, termIndex));
+          tokens.add(Token(splitTerm, tokenIndex, field));
           // only increment the sub-index after the first term
           if (i > 0) {
             subIndex += splitTerm.length + 1;
           }
           i++;
         }
-        // }
       }
       // increment the index
       index = index + increment;
-      // increment termIndex;
-      termIndex++;
     }
     // apply the tokenFilter if it is not null and return the tokens collection
     return tokenFilter != null ? await tokenFilter(tokens) : tokens;
@@ -104,11 +99,13 @@ class _SentenceImpl implements Sentence {
   ///
   /// The sentence [tokens] are filtered using [tokenFilter].
   static Future<Sentence> fromString(String sentence,
-      TextAnalyzerConfiguration configuration, TokenFilter? tokenFilter) async {
+      TextAnalyzerConfiguration configuration, TokenFilter? tokenFilter,
+      [String? field]) async {
     final tokens = await _SentenceImpl.tokenize(
         sentence: sentence,
         configuration: configuration,
-        tokenFilter: tokenFilter);
+        tokenFilter: tokenFilter,
+        field: field);
     return _SentenceImpl(sentence, tokens);
   }
 

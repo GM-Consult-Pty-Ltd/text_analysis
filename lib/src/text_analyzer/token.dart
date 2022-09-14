@@ -7,67 +7,46 @@ import 'package:text_analysis/text_analysis.dart';
 /// - [term] is the term that will be looked up in the index;
 /// - [termPosition] is the zero-based position of the [term] in an ordered
 ///   list of all the terms in the source text;
-/// - [index] is the zero-based position of the start of the first character
-///   of [term] in the source text string (deprecated); and
-/// - [position] is the position of the term from the start of the source text
-///   as a fraction of the source text length (deprecated).
+/// - [field] is the nullable name of the field the [term] is in;
 class Token {
   //
 
   /// Instantiates [Token] instance.
-  static const empty = Token('', 0, 0.0, 0);
+  static const empty = Token('', 0, null);
 
   /// Instantiates [Token] instance:
   /// - [term] is the term that will be looked up in the index;
   /// - [termPosition] is the zero-based position of the [term] in an ordered
   ///   list of all the terms in the source text;
-  /// - [index] is the zero-based position of the start of the first character
-  ///   of [term] in the source text string (deprecated); and
-  /// - [position] is the position of the term from the start of the source text
-  ///   as a fraction of the source text length (deprecated).
-  const Token(this.term, this.index, this.position, this.termPosition);
+  /// - [field] is the nullable / optional name of the field the [term] is in;
+  const Token(this.term, this.termPosition, [this.field]);
 
   /// The term that will be looked up in the index. The [term] is extracted
   /// from the query phrase by [TextAnalyzer] and may not match the String in
   /// the phrase exactly.
   final String term;
 
-  /// The zero-based position of the start of the first character of [term] in the
-  /// source text string.
-  @Deprecated('The `index` property will be removed from the token class. Use '
-      '`termPosition` instead.')
-  final int index;
+  /// The name of the field in the document that the [term] is in.
+  final String? field;
 
   /// The zero-based position of the [term] in an ordered list of all the terms
   /// in the source text.
   final int termPosition;
 
-  /// Returns the position of the term from the start of the source text
-  /// as a fraction of the source text length.
-  ///
-  /// The [position] can be used as a proxy of term relevance in the
-  /// source text.
-  ///
-  /// A position of 0.0 means the term is at the start of the source text.
-  @Deprecated(
-      'The [position] property will be removed from the token class. Use '
-      '[termPosition] instead.')
-  final double position;
-
   /// Compares whether:
   /// - [other] is [Token];
-  /// - [position] == [other].position;
+  /// - [field] == [other].field;
   /// - [term] == [other].term; and
-  /// - [index] == [other].index.
+  /// - [termPosition] == [other].termPosition.
   @override
   bool operator ==(Object other) =>
       other is Token &&
       term == other.term &&
-      index == other.index &&
-      position == other.position;
+      field == other.field &&
+      termPosition == other.termPosition;
 
   @override
-  int get hashCode => Object.hash(term, index, position);
+  int get hashCode => Object.hash(term, field, termPosition);
 
   //
 }
@@ -81,20 +60,20 @@ extension TokenCollectionExtension on Iterable<Token> {
 
   /// Filters the collection for tokens with [Token.term] == [term].
   ///
-  /// Orders the filtered [Token]s by [Token.index] in ascending order.
+  /// Orders the filtered [Token]s by [Token.termPosition] in ascending order.
   Iterable<Token> byTerm(String term) {
     final tokens = where((element) => element.term == term).toList();
-    tokens.sort((a, b) => a.index.compareTo(b.index));
+    tokens.sort((a, b) => a.termPosition.compareTo(b.termPosition));
     return tokens;
   }
 
   /// Returns the count where [Token.term] == [term].
   int termCount(String term) => byTerm(term).length;
 
-  /// Returns the highest [Token.index] where [Token.term] == [term].
+  /// Returns the highest [Token.termPosition] where [Token.term] == [term].
   @Deprecated('The [maxIndex] extension method will be removed.')
-  int maxIndex(String term) => byTerm(term).last.index;
+  int lastPosition(String term) => byTerm(term).last.termPosition;
 
-  /// Returns the lowest [Token.index] where [Token.term] == [term].
-  int minIndex(String term) => byTerm(term).first.index;
+  /// Returns the lowest [Token.termPosition] where [Token.term] == [term].
+  int firstPosition(String term) => byTerm(term).first.termPosition;
 }

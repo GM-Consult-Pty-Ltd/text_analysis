@@ -4,6 +4,20 @@ Copyright (c) 2022, GM Consult Pty Ltd
 All rights reserved. 
 -->
 
+### 0.4.0
+
+- **PRE-RELEASE, BREAKING CHANGES**
+- *BREAKING CHANGE*: added `Token.field` property to token, breaks default generative constructor.
+- *BREAKING CHANGE*: added `String? field` optional parameter to `TextAnalyzer.tokenize` method.
+- *BREAKING CHANGE*: removed deprecated property `Token.index`, use `Token.termPosition` instead.
+- *BREAKING CHANGE*: removed deprecated property `Token.position`, use `Token.termPosition` instead.
+- *BREAKING CHANGE*: removed deprecated extension method `Iterable<Token>.maxIndex`, use `Iterable<Token>.`Iterable<Token>.maxIndex`` instead'.
+- *BREAKING CHANGE*: removed extension method `Iterable<Token>.minIndex`, use `Iterable<Token>.`Iterable<Token>.firstPosition`` instead'.
+- Added new method `ITextAnalyser,tokenizeJson`.
+- Added new tests.
+- Added new examples.
+- Updated documentation.
+
 ### 0.3.1
 
 - **PRE-RELEASE**
@@ -41,7 +55,7 @@ All rights reserved.
 ### 0.1.0
 
 - **PRE-RELEASE, BREAKING CHANGES**
-- *BREAKING CHANGE*: added `Token.termIndex` property to token, breaks default generative constructor.
+- *BREAKING CHANGE*: added `Token.termPosition` property to token, breaks default generative constructor.
 - *DEPRECATED* property `Token.index`, use `Token.termPosition` instead.
 - *DEPRECATED* property`Token.position`, use `Token.termPosition` instead.
 - *DEPRECATED* extension method `Iterable<Token>.maxIndex`.

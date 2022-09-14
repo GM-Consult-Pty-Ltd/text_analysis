@@ -55,7 +55,8 @@
 <span class="returntype"><a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../../text_analysis/Sentence-class.html">Sentence</a></span>&gt;</span></span>
 <span class="name ">fromString</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="fromString-param-sentence"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span> <span class="parameter-name">sentence</span>, </span></li>
 <li><span class="parameter" id="fromString-param-configuration"><span class="type-annotation"><a href="../../text_analysis/TextAnalyzerConfiguration-class.html">TextAnalyzerConfiguration</a></span> <span class="parameter-name">configuration</span>, </span></li>
-<li><span class="parameter" id="fromString-param-tokenFilter"><span class="type-annotation"><a href="../../text_analysis/TokenFilter.html">TokenFilter</a>?</span> <span class="parameter-name">tokenFilter</span></span></li>
+<li><span class="parameter" id="fromString-param-tokenFilter"><span class="type-annotation"><a href="../../text_analysis/TokenFilter.html">TokenFilter</a>?</span> <span class="parameter-name">tokenFilter</span>, </span></li>
+<li><span class="parameter" id="fromString-param-field">[<span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a>?</span> <span class="parameter-name">field</span>]</span></li>
 </ol>)
 
       
@@ -73,8 +74,9 @@ using the <code>configuration</code>.</p>
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
   <pre class="language-dart"><code class="language-dart">static Future&lt;Sentence&gt; fromString(String sentence,
-        TextAnalyzerConfiguration configuration, TokenFilter? tokenFilter) =&gt;
-    _SentenceImpl.fromString(sentence, configuration, tokenFilter);</code></pre>
+        TextAnalyzerConfiguration configuration, TokenFilter? tokenFilter,
+        [String? field]) =&gt;
+    _SentenceImpl.fromString(sentence, configuration, tokenFilter, field);</code></pre>
 </section>
 
 
@@ -134,7 +136,7 @@ using the <code>configuration</code>.</p>
 <footer>
   <span class="no-break">
     text_analysis
-      0.3.0+1
+      0.4.0
   </span>
 
   

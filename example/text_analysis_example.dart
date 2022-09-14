@@ -22,11 +22,67 @@ const exampleText = [
       'founder John Foley and explore a sale.'
 ];
 
-/// Parse the [exampleText] to a [TextSource] that enumerates a collection
-/// of [Sentence] objects with their [Token]s
+/// A JSON document that will be tokenized by [tokenizeJson].
+final json = {
+  'avatarImageUrl':
+      'https://firebasestorage.googleapis.com/v0/b/buysellhold-322d1.appspot.com/o/logos%2FTSLA%3AXNGS.png?alt=media&token=c365db47-9482-4237-9267-82f72854d161',
+  'description':
+      'A 20-for-1 stock split gave a nice short-term boost to Amazon (AMZN) - Get Amazon.com Inc. Report in late May and in early June, while Alphabet (GOOGL) - Get Alphabet Inc. Report (GOOG) - Get Alphabet Inc. Report has a planned 20-for-1 stock split for next month. Tesla  (TSLA) - Get Tesla Inc. Report is also waiting on shareholder approval for a 3-for-1 stock split. ',
+  'entityType': 'NewsItem',
+  'hashTags': ['#Tesla'],
+  'id': 'ee1760a1-a259-50dc-b11d-8baf34d7d1c5',
+  'itemGuid':
+      'trading-shopify-stock-ahead-of-10-for-1-stock-split-technical-analysis-june-2022?puc=yahoo&cm_ven=YAHOO&yptr=yahoo',
+  'linkUrl':
+      'https://www.thestreet.com/investing/trading-shopify-stock-ahead-of-10-for-1-stock-split-technical-analysis-june-2022?puc=yahoo&cm_ven=YAHOO&yptr=yahoo',
+  'locale': 'Locale.en_US',
+  'name': 'Shopify Stock Split What the Charts Say Ahead of 10-for-1 Split',
+  'publicationDate': '2022-06-28T17:44:00.000Z',
+  'publisher': {
+    'linkUrl': 'http://www.thestreet.com/',
+    'title': 'TheStreet com'
+  },
+  'timestamp': 1656464362162
+};
+
+/// The fields in [json] to be tokenized.
+const fields = ['name', 'description', 'hashTags', 'publicationDate'];
+
 void main() async {
   //
 
+  // Tokenize the paragraphs and print the terms.
+  _printTerms(await _tokenizeParagraphs(exampleText));
+
+// Tokenize the fields in a json document and print the terms.
+  _printTerms(await _tokenizeJson(json, fields));
+}
+
+/// Print the terms in [textSource].
+void _printTerms(TextSource textSource) {
+  // map the document's tokens to a list of terms (strings)
+  final terms = textSource.tokens.map((e) => e.term).toList();
+  // print the terms
+  print(terms);
+
+  /// Tokenize the [fields] in a [json] document.
+}
+
+/// Tokenize the [fields] in a [json] document.
+Future<TextSource> _tokenizeJson(
+    Map<String, dynamic> json, List<String> fields) async {
+  // use a TextAnalyzer instance to tokenize the json
+  final textSource = await TextAnalyzer().tokenizeJson(json, fields);
+  // map the document's tokens to a list of terms (strings)
+  final terms = textSource.tokens.map((e) => e.term).toList();
+  // print the terms
+  print(terms);
+  return textSource;
+}
+
+/// Tokenize [paragraphs] to a [TextSource] that enumerates a collection
+/// of [Sentence] objects with their [Token]s
+Future<TextSource> _tokenizeParagraphs(Iterable<String> paragraphs) async {
   // Initialize a StringBuffer to hold the source text
   final sourceBuilder = StringBuffer();
 
@@ -46,4 +102,5 @@ void main() async {
 
   // print the terms
   print(terms);
+  return document;
 }

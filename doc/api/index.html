@@ -92,18 +92,38 @@ All rights reserved.
 <li>pass in a <code>TokenFilter</code> function to a <code>TextAnalyzer</code> to manipulate the tokens after tokenization as shown in the <a href="https://pub.dev/packages/text_analysis/example">examples</a>.</li>
 </ul>
 <h2 id="api">API</h2>
-<p>The package exposes two interfaces:</p>
+<p>The key members of the <code>text_analysis</code> library are briefly described in this section. Please refer to the <a href="https://pub.dev/documentation/text_analysis/latest/">documentation</a> for details.</p>
+<p>Skip to:</p>
+<ul>
+<li><a href="#type-definitions">Type definitions</a></li>
+<li><a href="#object-models">Object models</a></li>
+<li><a href="#interfaces">Interfaces</a></li>
+<li><a href="#implementation-classes">Implementation classes</a></li>
+</ul>
+<h3 id="type-definitions">Type definitions</h3>
+<p>The following type definitions are included in the <code>text_analysis</code> library:</p>
+<ul>
+<li><code>CharacterFilter</code> manipulates terms prior to stemming and tokenization (e.g. changing case and / or removing non-word characters);</li>
+<li><code>SentenceSplitter</code> returns a list of sentences from <code>text</code>. In English, the <code>text</code> is split at sentence endings marks such as periods, question marks and exclamation marks;</li>
+<li><code>TermFilter</code> manipulates the terms by splitting compound or hyphenated terms or applying stemming and lemmatization. The <code>termFilter</code> can also filter out <code>stopwords</code>;</li>
+<li><code>TermSplitter</code> splits text to a list of terms at appropriate places like white-space and mid-sentence punctuation;</li>
+<li><code>TokenFilter</code> returns a subset of <code>tokens</code> from the tokenizer output; and</li>
+<li><code>Tokenizer</code> converts the resulting terms  to a collection of <code>tokens</code> that contain the term and a pointer to the position of the term in the source text.</li>
+</ul>
+<h2 id="object-models">Object models</h2>
+<p>The <code>text_analysis</code> library includes the following object-model classes:</p>
+<ul>
+<li>a <code>Token</code> represents a <code>term</code> (word) present in a <code>text</code> source with its <code>position</code> and optional <code>field name</code>.</li>
+<li>a <code>Sentence</code> represents a <code>text</code> source not containing sentence ending  punctuation such as periods, question-marks and exclamations, except where  used in tokens, identifiers or other terms; and</li>
+<li>A <code>TextSource</code> represents a <code>text</code> source that has been analyzed to enumerate <code>Sentence</code> and <code>Token</code> collections.</li>
+</ul>
+<h3 id="interfaces">Interfaces</h3>
+<p>The <code>text_analysis</code> library exposes two interfaces:</p>
 <ul>
 <li>the <a href="#textanalyzerconfiguration-interface">TextAnalyzerConfiguration</a> interface; and</li>
 <li>the <a href="#itextanalyzer-interface">ITextAnalyzer</a> interface.</li>
 </ul>
-<p>The latest version provides the following implementation classes:</p>
-<ul>
-<li>implementation class <a href="#english-class">English</a>, implements <a href="#textanalyzerconfiguration-interface">TextAnalyzerConfiguration</a> and provides text analysis configuration properties for the English language; and</li>
-<li>the <a href="#textanalyzerbase-class">TextAnalyzerBase</a> abstract class implements <code>ITextAnalyzer.tokenize</code>; and</li>
-<li>the <a href="#textanalyzer-class">TextAnalyzer</a> class extends <a href="#textanalyzerbase-class">TextAnalyzerBase</a>  and implements <code>ITextAnalyzer.tokenFilter</code> and <code>ITextAnalyzer.configuration</code> as final fields with their values passed in as (optional) parameters (with defaults) at initialization.</li>
-</ul>
-<h3 id="textanalyzerconfiguration-interface">TextAnalyzerConfiguration Interface</h3>
+<h4 id="textanalyzerconfiguration-interface">TextAnalyzerConfiguration Interface</h4>
 <p>The <code>TextAnalyzerConfiguration</code> interface exposes language-specific properties and methods used in text analysis:</p>
 <ul>
 <li>a <code>TextAnalyzerConfiguration.sentenceSplitter</code> splits the text at sentence endings such as periods, exclamations and question marks or line endings;</li>
@@ -111,12 +131,22 @@ All rights reserved.
 <li>a <code>TextAnalyzerConfiguration.characterFilter</code> to remove non-word characters.</li>
 <li>a <code>TextAnalyzerConfiguration.termFilter</code> to apply a stemmer/lemmatizer or stopword list.</li>
 </ul>
-<h3 id="itextanalyzer-interface">ITextAnalyzer Interface</h3>
-<p>The <code>ITextAnalyzer</code> is an interface for a text analyser class that extracts tokens from text for use in full-text search queries and indexes</p>
-<p><code>ITextAnalyzer.configuration</code> is a <code>TextAnalyzerConfiguration</code> used by the <code>ITextAnalyzer</code> to tokenize source text.
-Provide a <code>ITextAnalyzer.tokenFilter</code>  to manipulate tokens or restrict tokenization to tokens that meet criteria for either index or count.</p>
-<p>The <code>tokenize</code> function tokenizes source text using the <code>ITextAnalyzer.configuration</code> and then manipulates the output by applying <code>ITextAnalyzer.tokenFilter</code>.</p>
-<h3 id="english-class">English class</h3>
+<h4 id="itextanalyzer-interface">ITextAnalyzer Interface</h4>
+<p>The <code>ITextAnalyzer</code> is an interface for a text analyser class that extracts tokens from text for use in full-text search queries and indexes:</p>
+<ul>
+<li><code>ITextAnalyzer.configuration</code> is a <code>TextAnalyzerConfiguration</code> used by the <code>ITextAnalyzer</code> to tokenize source text.</li>
+<li>Provide a <code>ITextAnalyzer.tokenFilter</code>  to manipulate tokens or restrict tokenization to tokens that meet criteria for either index or count;</li>
+<li>the <code>ITextAnalyzer.tokenize</code> function tokenizes text to a <code>TextSource</code> object that contains all the <code>Token</code>s in the text; and</li>
+<li>the <code>ITextAnalyzer.tokenizeJson</code> function tokenizes a JSON hashmap to a <code>TextSource</code> object that contains all the <code>Token</code>s in the document.</li>
+</ul>
+<h3 id="implementation-classes">Implementation classes</h3>
+<p>The <a href="https://pub.dev/packages/text_analysis/versions">latest version</a> provides the following implementation classes:</p>
+<ul>
+<li>the <a href="#english-class">English</a> class implements <a href="#textanalyzerconfiguration-interface">TextAnalyzerConfiguration</a> and provides text analysis configuration properties for the English language;</li>
+<li>the <a href="#textanalyzerbase-class">TextAnalyzerBase</a> abstract class implements <code>ITextAnalyzer.tokenize</code>; and</li>
+<li>the <a href="#textanalyzer-class">TextAnalyzer</a> class extends <a href="#textanalyzerbase-class">TextAnalyzerBase</a>  and implements <code>ITextAnalyzer.tokenFilter</code> and <code>ITextAnalyzer.configuration</code> as final fields with their values passed in as (optional) parameters (with defaults) at initialization.</li>
+</ul>
+<h4 id="english-class">English class</h4>
 <p>A basic <a href="#textanalyzerconfiguration-interface">TextAnalyzerConfiguration</a> implementation for <code>English</code> language analysis.</p>
 <p>The <code>termFilter</code> applies the following algorithm:</p>
 <ul>
@@ -137,14 +167,14 @@ Provide a <code>ITextAnalyzer.tokenFilter</code>  to manipulate tokens or restri
 <li>replaces all characters except letters and numbers from the end of the term.</li>
 </ul>
 <p>The <code>sentenceSplitter</code> inserts<code>_kSentenceDelimiter</code> at sentence breaks and then splits the source text into a list of sentence strings (sentence breaks are characters that match <code>English.reLineEndingSelector</code> or <code>English.reSentenceEndingSelector</code>). Empty sentences are removed.</p>
-<h3 id="textanalyzerbase-class">TextAnalyzerBase Class</h3>
+<h4 id="textanalyzerbase-class">TextAnalyzerBase Class</h4>
 <p>The <code>TextAnalyzerBase</code> class implements the <code>ITextAnalyzer.tokenize</code> method:</p>
 <ul>
 <li>tokenizes source text using the <code>configuration</code>;</li>
 <li>manipulates the output by applying <code>tokenFilter</code>; and, finally</li>
 <li>returns a <code>TextSource</code> enumerating the source text, <code>Sentence</code> collection and <code>Token</code> collection.</li>
 </ul>
-<h3 id="textanalyzer-class">TextAnalyzer Class</h3>
+<h4 id="textanalyzer-class">TextAnalyzer Class</h4>
 <p>The <code>TextAnalyzer</code> class extends <a href="#textanalyzerbase-class">TextAnalyzerBase</a>:</p>
 <ul>
 <li>implements <code>configuration</code> and <code>tokenFilter</code> as final fields passed in as optional parameters at instantiation;</li>
@@ -230,7 +260,7 @@ information retrieval systems.
 <footer>
   <span class="no-break">
     text_analysis
-      0.3.0+1
+      0.4.0
   </span>
 
   
