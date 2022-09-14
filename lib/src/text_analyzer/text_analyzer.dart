@@ -42,7 +42,7 @@ abstract class ITextAnalyzer {
   /// The required parameter [fields] is the collection of the names of the
   /// fields in [document] that are to be tokenized.
   ///
-  /// Returns a [TextSource] with [source] and its component [Sentence]s and
+  /// Returns a [TextSource] with [document] and its component [Sentence]s and
   /// [Token]s
   Future<TextSource> tokenizeJson(
       Map<String, dynamic> document, Iterable<String> fields);

@@ -4,6 +4,22 @@ Copyright (c) 2022, GM Consult Pty Ltd
 All rights reserved. 
 -->
 
+### 0.6.0
+- **PRE-RELEASE, BREAKING CHANGES**
+- *BREAKING CHANGE*: Changed parameters for `JsonTokenizer` type defintion.
+- Updated documentation.
+
+### 0.5.0
+- **PRE-RELEASE**
+- Added `JsonTokenizer` type defintion.
+- Updated documentation.
+
+
+### 0.4.1
+- **PRE-RELEASE**
+- Added optional, nullable `String? field` optional parameter to `Tokenizer` definition.
+- Updated documentation.
+
 ### 0.4.0+1
 
 - **PRE-RELEASE**

@@ -44,4 +44,13 @@ typedef CharacterFilter = String Function(String source);
 
 /// Type definition of a function that returns a collection of [Token] from
 /// the [source] text.
-typedef Tokenizer = Future<Iterable<Token>> Function(String source);
+///
+/// Optional parameter [field] is the name of the field in a document in
+/// which the term is located.
+typedef Tokenizer = Future<Iterable<Token>> Function(String source,
+    [String? field]);
+
+/// Type definition of a function that returns a collection of [Token] from
+/// the [fields] in a [json] document.
+typedef JsonTokenizer = Future<Iterable<Token>> Function(
+    Map<String, dynamic> json, List<String> fields);

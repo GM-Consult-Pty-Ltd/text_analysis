@@ -74,6 +74,7 @@ Skip to:
 
 The following type definitions are included in the `text_analysis` library:
 * `CharacterFilter` manipulates terms prior to stemming and tokenization (e.g. changing case and / or removing non-word characters);
+* `JsonTokenizer` returns a collection of `Token` from the fields in a JSON document;
 * `SentenceSplitter` returns a list of sentences from `text`. In English, the `text` is split at sentence endings marks such as periods, question marks and exclamation marks;
 * `TermFilter` manipulates the terms by splitting compound or hyphenated terms or applying stemming and lemmatization. The `termFilter` can also filter out `stopwords`;
 * `TermSplitter` splits text to a list of terms at appropriate places like white-space and mid-sentence punctuation;

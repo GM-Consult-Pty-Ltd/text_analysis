@@ -51,7 +51,7 @@
 
     <section class="multi-line-signature">
         <span class="name ">Tokenizer</span> =
-     <span class="returntype"><a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../text_analysis/Token-class.html">Token</a></span>&gt;</span></span>&gt;</span> Function<span class="signature">(<span class="parameter" id="param-source"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span> <span class="parameter-name">source</span></span>)</span></span>
+     <span class="returntype"><a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../text_analysis/Token-class.html">Token</a></span>&gt;</span></span>&gt;</span> Function<span class="signature">(<span class="parameter" id="param-source"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span> <span class="parameter-name">source</span>, </span><span class="parameter" id="param-field">[<span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a>?</span> <span class="parameter-name">field</span>]</span>)</span></span>
 
     </section>
 
@@ -59,12 +59,15 @@
 <section class="desc markdown">
   <p>Type definition of a function that returns a collection of <a href="../text_analysis/Token-class.html">Token</a> from
 the <code>source</code> text.</p>
+<p>Optional parameter <code>field</code> is the name of the field in a document in
+which the term is located.</p>
 </section>
 
     
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
-  <pre class="language-dart"><code class="language-dart">typedef Tokenizer = Future&lt;Iterable&lt;Token&gt;&gt; Function(String source);</code></pre>
+  <pre class="language-dart"><code class="language-dart">typedef Tokenizer = Future&lt;Iterable&lt;Token&gt;&gt; Function(String source,
+    [String? field]);</code></pre>
 </section>
 
 
@@ -108,6 +111,7 @@ the <code>source</code> text.</p>
 
   <li class="section-title"><a href="../text_analysis/text_analysis-library.html#typedefs">Typedefs</a></li>
   <li><a href="../text_analysis/CharacterFilter.html">CharacterFilter</a></li>
+  <li><a href="../text_analysis/JsonTokenizer.html">JsonTokenizer</a></li>
   <li><a href="../text_analysis/SentenceSplitter.html">SentenceSplitter</a></li>
   <li><a href="../text_analysis/Stemmer.html">Stemmer</a></li>
   <li><a href="../text_analysis/TermFilter.html">TermFilter</a></li>
@@ -127,7 +131,7 @@ the <code>source</code> text.</p>
 <footer>
   <span class="no-break">
     text_analysis
-      0.4.0+1
+      0.6.0
   </span>
 
   

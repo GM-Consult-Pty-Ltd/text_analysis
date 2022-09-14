@@ -104,6 +104,7 @@ All rights reserved.
 <p>The following type definitions are included in the <code>text_analysis</code> library:</p>
 <ul>
 <li><code>CharacterFilter</code> manipulates terms prior to stemming and tokenization (e.g. changing case and / or removing non-word characters);</li>
+<li><code>JsonTokenizer</code> returns a collection of <code>Token</code> from the fields in a JSON document;</li>
 <li><code>SentenceSplitter</code> returns a list of sentences from <code>text</code>. In English, the <code>text</code> is split at sentence endings marks such as periods, question marks and exclamation marks;</li>
 <li><code>TermFilter</code> manipulates the terms by splitting compound or hyphenated terms or applying stemming and lemmatization. The <code>termFilter</code> can also filter out <code>stopwords</code>;</li>
 <li><code>TermSplitter</code> splits text to a list of terms at appropriate places like white-space and mid-sentence punctuation;</li>
@@ -260,7 +261,7 @@ information retrieval systems.
 <footer>
   <span class="no-break">
     text_analysis
-      0.4.0+1
+      0.6.0
   </span>
 
   
