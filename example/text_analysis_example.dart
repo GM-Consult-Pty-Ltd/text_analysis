@@ -70,7 +70,7 @@ void _printTerms(TextSource textSource) {
 
 /// Tokenize the [fields] in a [json] document.
 Future<TextSource> _tokenizeJson(
-    Map<String, dynamic> json, List<String> fields) async {
+    Map<String, dynamic> json, List<FieldName> fields) async {
   // use a TextAnalyzer instance to tokenize the json
   final textSource = await TextAnalyzer().tokenizeJson(json, fields);
   // map the document's tokens to a list of terms (strings)

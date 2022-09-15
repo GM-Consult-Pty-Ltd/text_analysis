@@ -53,7 +53,7 @@ class English implements TextAnalyzerConfiguration {
   /// - if the term can be split, add the split terms to the return value,
   ///   unless the (split) terms are in [kStopWords] or are empty strings.
   @override
-  TermFilter get termFilter => (String term) async {
+  TermFilter get termFilter => (Term term) async {
         // apply the [characterFilter] to [term]
         if (kAbbreviations.contains(term)) {
           return [term, term.replaceAll('.', '')];
@@ -93,7 +93,7 @@ class English implements TextAnalyzerConfiguration {
   /// - replaces all characters except letters and numbers from the end of
   ///   the term.
   @override
-  CharacterFilter get characterFilter => (String term) {
+  CharacterFilter get characterFilter => (Term term) {
         // try parsing the term to a number
         final number = num.tryParse(term);
         // return the term if it can be parsed as a number
@@ -129,7 +129,7 @@ class English implements TextAnalyzerConfiguration {
   ///
   /// Empty strings are removed from the returned collection.
   @override
-  SentenceSplitter get sentenceSplitter => (String source) {
+  SentenceSplitter get sentenceSplitter => (SourceText source) {
         // insert the sentence delimiters at sentence breaks
         source = source
             // trim leading and trailing white-space from source
@@ -178,7 +178,7 @@ class English implements TextAnalyzerConfiguration {
   ///
   /// Empty strings are removed from the returned terms.
   @override
-  TermSplitter get termSplitter => (String source) {
+  TermSplitter get termSplitter => (SourceText source) {
         // replace all punctuation with whitespace.
         source = source
             .replaceAll(RegExp(English.rePunctuationSelector), ' ')

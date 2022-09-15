@@ -79,7 +79,7 @@ the term.</li>
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
   <pre class="language-dart"><code class="language-dart">@override
-CharacterFilter get characterFilter =&gt; (String term) {
+CharacterFilter get characterFilter =&gt; (Term term) {
       &#47;&#47; try parsing the term to a number
       final number = num.tryParse(term);
       &#47;&#47; return the term if it can be parsed as a number

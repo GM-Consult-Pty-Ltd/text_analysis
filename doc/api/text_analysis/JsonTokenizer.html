@@ -51,7 +51,7 @@
 
     <section class="multi-line-signature">
         <span class="name ">JsonTokenizer</span> =
-     <span class="returntype"><a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../text_analysis/Token-class.html">Token</a></span>&gt;</span></span>&gt;</span> Function<span class="signature">(<span class="parameter" id="param-json"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Map-class.html">Map</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>, <span class="type-parameter">dynamic</span>&gt;</span></span> <span class="parameter-name">json</span>, </span><span class="parameter" id="param-fields"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>&gt;</span></span> <span class="parameter-name">fields</span></span>)</span></span>
+     <span class="returntype"><a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../text_analysis/Token-class.html">Token</a></span>&gt;</span></span>&gt;</span> Function<span class="signature">(<span class="parameter" id="param-json"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Map-class.html">Map</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>, <span class="type-parameter">dynamic</span>&gt;</span></span> <span class="parameter-name">json</span>, </span><span class="parameter" id="param-fields"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../text_analysis/FieldName.html">FieldName</a></span>&gt;</span></span> <span class="parameter-name">fields</span></span>)</span></span>
 
     </section>
 
@@ -65,7 +65,7 @@ the <code>fields</code> in a <code>json</code> document.</p>
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
   <pre class="language-dart"><code class="language-dart">typedef JsonTokenizer = Future&lt;Iterable&lt;Token&gt;&gt; Function(
-    Map&lt;String, dynamic&gt; json, List&lt;String&gt; fields);</code></pre>
+    Map&lt;String, dynamic&gt; json, List&lt;FieldName&gt; fields);</code></pre>
 </section>
 
 
@@ -109,9 +109,13 @@ the <code>fields</code> in a <code>json</code> document.</p>
 
   <li class="section-title"><a href="../text_analysis/text_analysis-library.html#typedefs">Typedefs</a></li>
   <li><a href="../text_analysis/CharacterFilter.html">CharacterFilter</a></li>
+  <li><a href="../text_analysis/FieldName.html">FieldName</a></li>
   <li><a href="../text_analysis/JsonTokenizer.html">JsonTokenizer</a></li>
   <li><a href="../text_analysis/SentenceSplitter.html">SentenceSplitter</a></li>
+  <li><a href="../text_analysis/SourceText.html">SourceText</a></li>
   <li><a href="../text_analysis/Stemmer.html">Stemmer</a></li>
+  <li><a href="../text_analysis/StopWords.html">StopWords</a></li>
+  <li><a href="../text_analysis/Term.html">Term</a></li>
   <li><a href="../text_analysis/TermFilter.html">TermFilter</a></li>
   <li><a href="../text_analysis/TermSplitter.html">TermSplitter</a></li>
   <li><a href="../text_analysis/TokenFilter.html">TokenFilter</a></li>

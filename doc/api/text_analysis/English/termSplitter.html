@@ -78,7 +78,7 @@ matching <a href="../../text_analysis/English/reNonWordChars-constant.html">Engl
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
   <pre class="language-dart"><code class="language-dart">@override
-TermSplitter get termSplitter =&gt; (String source) {
+TermSplitter get termSplitter =&gt; (SourceText source) {
       &#47;&#47; replace all punctuation with whitespace.
       source = source
           .replaceAll(RegExp(English.rePunctuationSelector), &#39; &#39;)

@@ -9,7 +9,7 @@ abstract class TextSource {
   //
 
   /// Instantiates a [TextSource] from the [source].
-  factory TextSource(String source, List<Sentence> sentences) =>
+  factory TextSource(SourceText source, List<Sentence> sentences) =>
       _TextSourceImpl(source, sentences);
 
   /// The source text for the document.
@@ -41,7 +41,7 @@ abstract class TextSource {
 /// Implementation class for [TextSource].
 class _TextSourceImpl implements TextSource {
   @override
-  final String source;
+  final SourceText source;
 
   @override
   final List<Sentence> sentences;

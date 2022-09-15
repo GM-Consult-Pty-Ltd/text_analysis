@@ -24,10 +24,10 @@ class Token {
   /// The term that will be looked up in the index. The [term] is extracted
   /// from the query phrase by [TextAnalyzer] and may not match the String in
   /// the phrase exactly.
-  final String term;
+  final Term term;
 
   /// The name of the field in the document that the [term] is in.
-  final String? field;
+  final FieldName? field;
 
   /// The zero-based position of the [term] in an ordered list of all the terms
   /// in the source text.
@@ -61,19 +61,19 @@ extension TokenCollectionExtension on Iterable<Token> {
   /// Filters the collection for tokens with [Token.term] == [term].
   ///
   /// Orders the filtered [Token]s by [Token.termPosition] in ascending order.
-  Iterable<Token> byTerm(String term) {
+  Iterable<Token> byTerm(Term term) {
     final tokens = where((element) => element.term == term).toList();
     tokens.sort((a, b) => a.termPosition.compareTo(b.termPosition));
     return tokens;
   }
 
   /// Returns the count where [Token.term] == [term].
-  int termCount(String term) => byTerm(term).length;
+  int termCount(Term term) => byTerm(term).length;
 
   /// Returns the highest [Token.termPosition] where [Token.term] == [term].
   @Deprecated('The [maxIndex] extension method will be removed.')
-  int lastPosition(String term) => byTerm(term).last.termPosition;
+  int lastPosition(Term term) => byTerm(term).last.termPosition;
 
   /// Returns the lowest [Token.termPosition] where [Token.term] == [term].
-  int firstPosition(String term) => byTerm(term).first.termPosition;
+  int firstPosition(Term term) => byTerm(term).first.termPosition;
 }

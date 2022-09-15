@@ -101,22 +101,24 @@ All rights reserved.
 <li><a href="#implementation-classes">Implementation classes</a></li>
 </ul>
 <h3 id="type-definitions">Type definitions</h3>
-<p>The following type definitions are included in the <code>text_analysis</code> library:</p>
+<p>The API uses the following function type definitions and type aliases to improve code readability:</p>
 <ul>
-<li><code>CharacterFilter</code> manipulates terms prior to stemming and tokenization (e.g. changing case and / or removing non-word characters);</li>
-<li><code>JsonTokenizer</code> returns a collection of <code>Token</code> from the fields in a JSON document;</li>
-<li><code>SentenceSplitter</code> returns a list of sentences from <code>text</code>. In English, the <code>text</code> is split at sentence endings marks such as periods, question marks and exclamation marks;</li>
-<li><code>TermFilter</code> manipulates the terms by splitting compound or hyphenated terms or applying stemming and lemmatization. The <code>termFilter</code> can also filter out <code>stopwords</code>;</li>
-<li><code>TermSplitter</code> splits text to a list of terms at appropriate places like white-space and mid-sentence punctuation;</li>
-<li><code>TokenFilter</code> returns a subset of <code>tokens</code> from the tokenizer output; and</li>
-<li><code>Tokenizer</code> converts the resulting terms  to a collection of <code>tokens</code> that contain the term and a pointer to the position of the term in the source text.</li>
+<li><code>SourceText</code>, <code>FieldName</code> and <code>Term</code> are all aliases for the DART core type <code>String</code> when used in different contexts;</li>
+<li><code>StopWords</code> is an alias for <code>Set&lt;String&gt;</code>;</li>
+<li><code>CharacterFilter</code> is a function that manipulates terms prior to stemming and tokenization (e.g. changing case and / or removing non-word characters);</li>
+<li><code>JsonTokenizer</code> is a function that returns <code>Token</code> collection from the fields in a JSON document hashmap of <code>FieldName</code> to value;</li>
+<li><code>SentenceSplitter</code> is a function that returns a list of sentences from <code>SourceText</code>. In English, the <code>SourceText</code> is split at sentence endings marks such as periods, question marks and exclamation marks;</li>
+<li><code>TermFilter</code> is a function that manipulates a <code>Term</code> collection by splitting compound or hyphenated terms or applying stemming and lemmatization. The <code>TermFilter</code> can also filter out <code>stopwords</code>;</li>
+<li><code>TermSplitter</code> is a function that splits <code>SourceText</code> to an orderd list of <code>Term</code> at appropriate places like white-space and mid-sentence punctuation;</li>
+<li><code>TokenFilter</code> is a function that returns a subset of a <code>Token</code> collection, preserving its sort order; and</li>
+<li><code>Tokenizer</code> is a function that converts <code>SourceText</code> to a <code>Token</code> collection, preserving the order of the <code>Term</code> instances.</li>
 </ul>
 <h3 id="object-models">Object models</h3>
 <p>The <code>text_analysis</code> library includes the following object-model classes:</p>
 <ul>
-<li>a <code>Token</code> represents a <code>term</code> (word) present in a <code>text</code> source with its <code>position</code> and optional <code>field name</code>.</li>
-<li>a <code>Sentence</code> represents a <code>text</code> source not containing sentence ending  punctuation such as periods, question-marks and exclamations, except where  used in tokens, identifiers or other terms; and</li>
-<li>A <code>TextSource</code> represents a <code>text</code> source that has been analyzed to enumerate <code>Sentence</code> and <code>Token</code> collections.</li>
+<li>a <code>Token</code> represents a <code>Term</code> present in a <code>TextSource</code> with its <code>position</code> and optional <code>field name</code>.</li>
+<li>a <code>Sentence</code> represents a <code>TextSource</code> not containing sentence ending  punctuation such as periods, question-marks and exclamations, except where  used in tokens, identifiers or other terms; and</li>
+<li>A <code>TextSource</code> represents a <code>TextSource</code> that has been analyzed to enumerate <code>Sentence</code> and <code>Token</code> collections.</li>
 </ul>
 <h3 id="interfaces">Interfaces</h3>
 <p>The <code>text_analysis</code> library exposes two interfaces:</p>

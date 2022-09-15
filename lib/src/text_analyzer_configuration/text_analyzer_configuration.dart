@@ -33,5 +33,5 @@ abstract class TextAnalyzerConfiguration {
 
   /// Returns a list of terms from text.
   TermSplitter get termSplitter;
-  //List<String> splitIntoTerms(String source);
+  //List<String> splitIntoTerms(SourceText source);
 }

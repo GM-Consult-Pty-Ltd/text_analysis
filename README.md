@@ -72,21 +72,23 @@ Skip to:
 
 ### Type definitions
 
-The following type definitions are included in the `text_analysis` library:
-* `CharacterFilter` manipulates terms prior to stemming and tokenization (e.g. changing case and / or removing non-word characters);
-* `JsonTokenizer` returns a collection of `Token` from the fields in a JSON document;
-* `SentenceSplitter` returns a list of sentences from `text`. In English, the `text` is split at sentence endings marks such as periods, question marks and exclamation marks;
-* `TermFilter` manipulates the terms by splitting compound or hyphenated terms or applying stemming and lemmatization. The `termFilter` can also filter out `stopwords`;
-* `TermSplitter` splits text to a list of terms at appropriate places like white-space and mid-sentence punctuation;
-* `TokenFilter` returns a subset of `tokens` from the tokenizer output; and
-* `Tokenizer` converts the resulting terms  to a collection of `tokens` that contain the term and a pointer to the position of the term in the source text.
+The API uses the following function type definitions and type aliases to improve code readability:
+* `SourceText`, `FieldName` and `Term` are all aliases for the DART core type `String` when used in different contexts;
+* `StopWords` is an alias for `Set<String>`;
+* `CharacterFilter` is a function that manipulates terms prior to stemming and tokenization (e.g. changing case and / or removing non-word characters);
+* `JsonTokenizer` is a function that returns `Token` collection from the fields in a JSON document hashmap of `FieldName` to value;
+* `SentenceSplitter` is a function that returns a list of sentences from `SourceText`. In English, the `SourceText` is split at sentence endings marks such as periods, question marks and exclamation marks;
+* `TermFilter` is a function that manipulates a `Term` collection by splitting compound or hyphenated terms or applying stemming and lemmatization. The `TermFilter` can also filter out `stopwords`;
+* `TermSplitter` is a function that splits `SourceText` to an orderd list of `Term` at appropriate places like white-space and mid-sentence punctuation;
+* `TokenFilter` is a function that returns a subset of a `Token` collection, preserving its sort order; and
+* `Tokenizer` is a function that converts `SourceText` to a `Token` collection, preserving the order of the `Term` instances.
 
 ### Object models
 
 The `text_analysis` library includes the following object-model classes:
-* a `Token` represents a `term` (word) present in a `text` source with its `position` and optional `field name`.
-* a `Sentence` represents a `text` source not containing sentence ending  punctuation such as periods, question-marks and exclamations, except where  used in tokens, identifiers or other terms; and
-* A `TextSource` represents a `text` source that has been analyzed to enumerate `Sentence` and `Token` collections.
+* a `Token` represents a `Term` present in a `TextSource` with its `position` and optional `field name`.
+* a `Sentence` represents a `TextSource` not containing sentence ending  punctuation such as periods, question-marks and exclamations, except where  used in tokens, identifiers or other terms; and
+* A `TextSource` represents a `TextSource` that has been analyzed to enumerate `Sentence` and `Token` collections.
 
 ### Interfaces
 

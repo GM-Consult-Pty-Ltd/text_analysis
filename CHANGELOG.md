@@ -4,8 +4,14 @@ Copyright (c) 2022, GM Consult Pty Ltd
 All rights reserved. 
 -->
 
+### 0.6.1
+- **PRE-RELEASE**
+- Added type aliases to improve code readability.
+- Updated documentation.
+- Codebase formatted.
+
 ### 0.6.0+1
-- **PRE-RELEASE, BREAKING CHANGES**
+- **PRE-RELEASE**
 - Codebase formatted.
 
 ### 0.6.0
@@ -21,7 +27,7 @@ All rights reserved.
 
 ### 0.4.1
 - **PRE-RELEASE**
-- Added optional, nullable `String? field` optional parameter to `Tokenizer` definition.
+- Added optional, nullable `FieldName? field` optional parameter to `Tokenizer` definition.
 - Updated documentation.
 
 ### 0.4.0+1
@@ -33,7 +39,7 @@ All rights reserved.
 
 - **PRE-RELEASE, BREAKING CHANGES**
 - *BREAKING CHANGE*: added `Token.field` property to token, breaks default generative constructor.
-- *BREAKING CHANGE*: added `String? field` optional parameter to `TextAnalyzer.tokenize` method.
+- *BREAKING CHANGE*: added `FieldName? field` optional parameter to `TextAnalyzer.tokenize` method.
 - *BREAKING CHANGE*: removed deprecated property `Token.index`, use `Token.termPosition` instead.
 - *BREAKING CHANGE*: removed deprecated property `Token.position`, use `Token.termPosition` instead.
 - *BREAKING CHANGE*: removed deprecated extension method `Iterable<Token>.maxIndex`, use `Iterable<Token>.`Iterable<Token>.maxIndex`` instead'.

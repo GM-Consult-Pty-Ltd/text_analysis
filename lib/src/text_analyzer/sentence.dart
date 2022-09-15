@@ -18,7 +18,7 @@ abstract class Sentence {
   /// The sentence [tokens] are filtered using [tokenFilter].
   static Future<Sentence> fromString(String sentence,
           TextAnalyzerConfiguration configuration, TokenFilter? tokenFilter,
-          [String? field]) =>
+          [FieldName? field]) =>
       _SentenceImpl.fromString(sentence, configuration, tokenFilter, field);
 
   /// The source text of the [Sentence].
@@ -52,7 +52,7 @@ class _SentenceImpl implements Sentence {
       {required String sentence,
       required TextAnalyzerConfiguration configuration,
       TokenFilter? tokenFilter,
-      String? field}) async {
+      FieldName? field}) async {
     // perform the first punctuation and white-space split
     final terms = configuration.termSplitter(sentence);
     // initialize the tokens collection (return value)
@@ -100,7 +100,7 @@ class _SentenceImpl implements Sentence {
   /// The sentence [tokens] are filtered using [tokenFilter].
   static Future<Sentence> fromString(String sentence,
       TextAnalyzerConfiguration configuration, TokenFilter? tokenFilter,
-      [String? field]) async {
+      [FieldName? field]) async {
     final tokens = await _SentenceImpl.tokenize(
         sentence: sentence,
         configuration: configuration,
@@ -110,7 +110,7 @@ class _SentenceImpl implements Sentence {
   }
 
   @override
-  final String source;
+  final SourceText source;
 
   @override
   final List<Token> tokens;

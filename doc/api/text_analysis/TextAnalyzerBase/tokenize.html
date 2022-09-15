@@ -58,8 +58,8 @@
 </div>
 
 <span class="returntype"><a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../../text_analysis/TextSource-class.html">TextSource</a></span>&gt;</span></span>
-<span class="name ">tokenize</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="tokenize-param-source"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span> <span class="parameter-name">source</span>, </span></li>
-<li><span class="parameter" id="tokenize-param-field">[<span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a>?</span> <span class="parameter-name">field</span>]</span></li>
+<span class="name ">tokenize</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="tokenize-param-source"><span class="type-annotation"><a href="../../text_analysis/SourceText.html">SourceText</a></span> <span class="parameter-name">source</span>, </span></li>
+<li><span class="parameter" id="tokenize-param-field">[<span class="type-annotation"><a href="../../text_analysis/FieldName.html">FieldName</a>?</span> <span class="parameter-name">field</span>]</span></li>
 </ol>)
 
       <div class="features">override</div>
@@ -80,7 +80,7 @@ which the term is located.</p>
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
   <pre class="language-dart"><code class="language-dart">@override
-Future&lt;TextSource&gt; tokenize(String source, [String? field]) async {
+Future&lt;TextSource&gt; tokenize(SourceText source, [FieldName? field]) async {
   final sentenceStrings = configuration.sentenceSplitter(source);
   final sentences = &lt;Sentence&gt;[];
   &#47;&#47; convert [sentenceStrings] into [Sentence]s

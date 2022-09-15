@@ -34,7 +34,7 @@ abstract class ITextAnalyzer {
   ///
   /// Returns a [TextSource] with [source] and its component [Sentence]s and
   /// [Token]s
-  Future<TextSource> tokenize(String source, [String? field]);
+  Future<TextSource> tokenize(SourceText source, [FieldName? field]);
 
   /// Extracts tokens from the [fields] in a JSON [document] for use in
   /// full-text search queries and indexes.
@@ -45,7 +45,7 @@ abstract class ITextAnalyzer {
   /// Returns a [TextSource] with [document] and its component [Sentence]s and
   /// [Token]s
   Future<TextSource> tokenizeJson(
-      Map<String, dynamic> document, Iterable<String> fields);
+      Map<String, dynamic> document, Iterable<FieldName> fields);
 }
 
 /// A [ITextAnalyzer] implementation that extracts tokens from text for use
@@ -67,7 +67,7 @@ abstract class TextAnalyzerBase implements ITextAnalyzer {
 
   @override
   Future<TextSource> tokenizeJson(
-      Map<String, dynamic> document, Iterable<String> fields) async {
+      Map<String, dynamic> document, Iterable<FieldName> fields) async {
     final sentences = <Sentence>[];
     final sourceBuilder = StringBuffer();
     fields = Set<String>.from(fields);
@@ -86,7 +86,7 @@ abstract class TextAnalyzerBase implements ITextAnalyzer {
   }
 
   @override
-  Future<TextSource> tokenize(String source, [String? field]) async {
+  Future<TextSource> tokenize(SourceText source, [FieldName? field]) async {
     final sentenceStrings = configuration.sentenceSplitter(source);
     final sentences = <Sentence>[];
     // convert [sentenceStrings] into [Sentence]s

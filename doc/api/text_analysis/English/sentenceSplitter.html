@@ -74,7 +74,7 @@ or <a href="../../text_analysis/English/reSentenceEndingSelector-constant.html">
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
   <pre class="language-dart"><code class="language-dart">@override
-SentenceSplitter get sentenceSplitter =&gt; (String source) {
+SentenceSplitter get sentenceSplitter =&gt; (SourceText source) {
       &#47;&#47; insert the sentence delimiters at sentence breaks
       source = source
           &#47;&#47; trim leading and trailing white-space from source
