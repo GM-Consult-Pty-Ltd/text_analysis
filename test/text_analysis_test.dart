@@ -59,7 +59,7 @@ void main() {
       // use a TextAnalyzer instance to tokenize the source
       final document = await TextAnalyzer().tokenize(source);
       // map the document's tokens to a list of terms (strings)
-      final terms = document.tokens.map((e) => e.term).toList();
+      final terms = document.tokens.allTerms;
       // print the terms
       print(terms);
     });

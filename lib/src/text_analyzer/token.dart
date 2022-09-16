@@ -58,6 +58,14 @@ extension TokenCollectionExtension on Iterable<Token> {
   /// Returns the set of unique terms from the collection of [Token]s.
   Set<String> get terms => Set<String>.from(map((e) => e.term));
 
+  /// Returns a list of all the terms from the collection of [Token]s, in
+  /// the same order as they occur in the [SourceText].
+  List<String> get allTerms {
+    final allTerms = List<Token>.from(this);
+    allTerms.sort(((a, b) => a.termPosition.compareTo(b.termPosition)));
+    return allTerms.map((e) => e.term).toList();
+  }
+
   /// Filters the collection for tokens with [Token.term] == [term].
   ///
   /// Orders the filtered [Token]s by [Token.termPosition] in ascending order.
