@@ -4,6 +4,11 @@ Copyright (c) 2022, GM Consult Pty Ltd
 All rights reserved. 
 -->
 
+### 0.6.5
+
+- **PRE-RELEASE**
+- Added custom implementation of `TermPair.toString()`.
+
 ### 0.6.4
 
 - **PRE-RELEASE**
