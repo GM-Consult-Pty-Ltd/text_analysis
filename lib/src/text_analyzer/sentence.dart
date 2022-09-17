@@ -60,7 +60,7 @@ class _SentenceImpl implements Sentence {
     // initialize the index
     var index = 0;
     // iterate through the terms
-    for (var term in terms) {
+    await Future.forEach(terms, (String term) async {
       // calculate the index increment from the raw term length
       final increment = term.length + 1;
       // remove white-space at start and end of term
@@ -86,7 +86,7 @@ class _SentenceImpl implements Sentence {
       }
       // increment the index
       index = index + increment;
-    }
+    });
     // apply the tokenFilter if it is not null and return the tokens collection
     return tokenFilter != null ? await tokenFilter(tokens) : tokens;
   }

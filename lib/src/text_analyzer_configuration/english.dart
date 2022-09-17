@@ -61,9 +61,10 @@ class English implements TextAnalyzerConfiguration {
         term = characterFilter(term);
         // if the resulting [term] is shorter than 2 characters or contained
         // in [kStopWords] return an empty collection
-        if (term.length < 2 || kStopWords.contains(term)) {
+        if (kStopWords.contains(term)) {
           return [];
         }
+        if (term.length == 1) return [term];
         // - insert [term] in the return
         final terms = [term];
         // split at commas, periods, hyphens and apostrophes unless preceded
@@ -288,13 +289,10 @@ class English implements TextAnalyzerConfiguration {
     'little',
     'long',
     'many',
-    'me',
     'mine',
     'more',
     'most',
     'much',
-    'my',
-    'myself',
     'naught',
     'near',
     'neither',

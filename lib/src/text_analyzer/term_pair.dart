@@ -19,7 +19,7 @@ class TermPair {
   /// Returns the second [Term] in the pair. Equivalent to [terms].last.
   String get term2 => terms.last;
 
-  /// Returns the terms separated by a single whte-space, e.g. "term1 term2".
+  /// Returns the terms separated by a single white-space, e.g. "term1 term2".
   @override
   String toString() => '$term1 $term2';
 

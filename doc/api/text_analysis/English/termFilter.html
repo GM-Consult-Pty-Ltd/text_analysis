@@ -88,9 +88,10 @@ TermFilter get termFilter =&gt; (Term term) async {
       term = characterFilter(term);
       &#47;&#47; if the resulting [term] is shorter than 2 characters or contained
       &#47;&#47; in [kStopWords] return an empty collection
-      if (term.length &lt; 2 || kStopWords.contains(term)) {
+      if (kStopWords.contains(term)) {
         return [];
       }
+      if (term.length == 1) return [term];
       &#47;&#47; - insert [term] in the return
       final terms = [term];
       &#47;&#47; split at commas, periods, hyphens and apostrophes unless preceded
@@ -181,7 +182,7 @@ TermFilter get termFilter =&gt; (Term term) async {
 <footer>
   <span class="no-break">
     text_analysis
-      0.6.5
+      0.6.5+1
   </span>
 
   

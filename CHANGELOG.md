@@ -4,6 +4,11 @@ Copyright (c) 2022, GM Consult Pty Ltd
 All rights reserved. 
 -->
 
+### 0.6.5+1
+
+- **PRE-RELEASE**
+- Minor bug fixes.
+
 ### 0.6.5
 
 - **PRE-RELEASE**
