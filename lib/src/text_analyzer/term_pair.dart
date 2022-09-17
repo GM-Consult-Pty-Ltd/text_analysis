@@ -19,6 +19,17 @@ class TermPair {
   /// Returns the second [Term] in the pair. Equivalent to [terms].last.
   String get term2 => terms.last;
 
+  /// Compares only whether:
+  /// - [other] is [TermPair];
+  /// - [term1] == [other].term1; and
+  /// - [term2] == [other].term2.
+  @override
+  bool operator ==(Object other) =>
+      other is TermPair && term1 == other.term1 && term2 == other.term2;
+
+  @override
+  int get hashCode => Object.hash(term1, term2);
+
   /// Factory constructor that instantiates a [TermPair] instance:
   /// - [term1] is the first [Term] in the pair; and
   /// - [term2] is the second [Term] in the pair.

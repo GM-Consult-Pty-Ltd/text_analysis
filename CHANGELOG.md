@@ -4,6 +4,12 @@ Copyright (c) 2022, GM Consult Pty Ltd
 All rights reserved. 
 -->
 
+### 0.6.4
+
+- **PRE-RELEASE**
+- Added `==` operator and `hashCode` getter to `TermPair`.
+- Updated documentation.
+
 ### 0.6.3
 
 - **PRE-RELEASE**
