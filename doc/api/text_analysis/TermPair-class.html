@@ -4,8 +4,8 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, user-scalable=no">
-  <meta name="description" content="API docs for the TextAnalyzerBase class from the text_analysis library, for the Dart programming language.">
-  <title>TextAnalyzerBase class - text_analysis library - Dart API</title>
+  <meta name="description" content="API docs for the TermPair class from the text_analysis library, for the Dart programming language.">
+  <title>TermPair class - text_analysis library - Dart API</title>
 
 
   
@@ -31,9 +31,9 @@
   <ol class="breadcrumbs gt-separated dark hidden-xs">
     <li><a href="../index.html">text_analysis</a></li>
     <li><a href="../text_analysis/text_analysis-library.html">text_analysis</a></li>
-    <li class="self-crumb">TextAnalyzerBase abstract class</li>
+    <li class="self-crumb">TermPair class</li>
   </ol>
-  <div class="self-name">TextAnalyzerBase</div>
+  <div class="self-name">TermPair</div>
   <form class="search navbar-right" role="search">
     <input type="text" id="search-box" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
   </form>
@@ -44,82 +44,43 @@
 
   <div id="dartdoc-main-content" class="main-content">
       <div>
-<h1><span class="kind-class">TextAnalyzerBase</span> class 
+<h1><span class="kind-class">TermPair</span> class 
     <a href="https://dart.dev/null-safety" class="feature feature-null-safety" title="Supports the null safety language feature.">Null safety</a>
  
 </h1></div>
 
     
 <section class="desc markdown">
-  <p>A <a href="../text_analysis/ITextAnalyzer-class.html">ITextAnalyzer</a> implementation that extracts tokens from text for use
-in full-text search queries and indexes:</p>
+  <p>An object model for a pair of <a href="../text_analysis/Term.html">Term</a>s that are both non-empty.
+<a href="../text_analysis/TermPair/terms.html">terms</a> is an ordered list of length 2, containing non-empty <a href="../text_analysis/Term.html">Term</a>s <a href="../text_analysis/TermPair/term1.html">term1</a>
+  and <a href="../text_analysis/TermPair/term2.html">term2</a>;</p>
 <ul>
-<li><a href="../text_analysis/ITextAnalyzer/configuration.html">configuration</a> is used by the <a href="../text_analysis/TextAnalyzer-class.html">TextAnalyzer</a> to tokenize source text
-(default is <a href="../text_analysis/English/configuration-constant.html">English.configuration</a>); and</li>
-<li>provide a custom <a href="../text_analysis/ITextAnalyzer/tokenFilter.html">tokenFilter</a> if you want to manipulate tokens or
-restrict tokenization to tokens that meet specific criteria (default is
-<a href="../text_analysis/TextAnalyzer/defaultTokenFilter.html">TextAnalyzer.defaultTokenFilter</a>, applies <a href="https://pub.dev/documentation/porter_2_stemmer/1.0.0+5/porter_2_stemmer/Porter2Stemmer-class.html">Porter2Stemmer</a>); and</li>
-<li>the <a href="../text_analysis/TextAnalyzerBase/tokenize.html">tokenize</a> function tokenizes source text using the <a href="../text_analysis/ITextAnalyzer/configuration.html">configuration</a>
-and then manipulates the output by applying <a href="../text_analysis/ITextAnalyzer/tokenFilter.html">tokenFilter</a>; and</li>
-<li>the <a href="../text_analysis/TextAnalyzerBase/tokenizeJson.html">tokenizeJson</a> function extracts tokens from the fields in a JSON
-document.</li>
+<li><a href="../text_analysis/TermPair/term1.html">term1</a> is the first <a href="../text_analysis/Term.html">Term</a> in the pair (<a href="../text_analysis/TermPair/terms.html">terms</a>.first); and</li>
+<li><a href="../text_analysis/TermPair/term2.html">term2</a> is the second <a href="../text_analysis/Term.html">Term</a> in the pair (<a href="../text_analysis/TermPair/terms.html">terms</a>.last).</li>
 </ul>
 </section>
 
 
-    <section>
-      <dl class="dl-horizontal">
-        
-
-        
-  <dt>Implemented types</dt>
-  <dd>
-    <ul class="comma-separated clazz-relationships">
-        <li><a href="../text_analysis/ITextAnalyzer-class.html">ITextAnalyzer</a></li>
-    </ul>
-  </dd>
-        
-
-        <dt>Implementers</dt>
-        <dd><ul class="comma-separated clazz-relationships">
-          <li><a href="../text_analysis/TextAnalyzer-class.html">TextAnalyzer</a></li>
-        </ul></dd>
-
-
-        
-      </dl>
-    </section>
 
     
   <section class="summary offset-anchor" id="constructors">
     <h2>Constructors</h2>
 
     <dl class="constructor-summary-list">
-        <dt id="TextAnalyzerBase" class="callable">
-          <span class="name"><a href="../text_analysis/TextAnalyzerBase/TextAnalyzerBase.html">TextAnalyzerBase</a></span><span class="signature">()</span>
+        <dt id="TermPair" class="callable">
+          <span class="name"><a href="../text_analysis/TermPair/TermPair.html">TermPair</a></span><span class="signature">(<span class="parameter" id="-param-term1"><span class="type-annotation"><a href="../text_analysis/Term.html">Term</a></span> <span class="parameter-name">term1</span>, </span><span class="parameter" id="-param-term2"><span class="type-annotation"><a href="../text_analysis/Term.html">Term</a></span> <span class="parameter-name">term2</span></span>)</span>
         </dt>
         <dd>
-          Instantiates a const <a href="../text_analysis/TextAnalyzerBase-class.html">TextAnalyzerBase</a> instance.
-            <div class="constructor-modifier features">const</div>
+          Factory constructor that instantiates a <a href="../text_analysis/TermPair-class.html">TermPair</a> instance:
+            <div class="constructor-modifier features">factory</div>
         </dd>
     </dl>
   </section>
 
-    <section class="summary offset-anchor inherited" id="instance-properties">
+    <section class="summary offset-anchor" id="instance-properties">
       <h2>Properties</h2>
 
       <dl class="properties">
-        <dt id="configuration" class="property inherited">
-  <span class="name"><a href="../text_analysis/ITextAnalyzer/configuration.html">configuration</a></span>
-  <span class="signature">&#8594; <a href="../text_analysis/TextAnalyzerConfiguration-class.html">TextAnalyzerConfiguration</a></span> 
-
-</dt>
-<dd class="inherited">
-  The <a href="../text_analysis/TextAnalyzerConfiguration-class.html">TextAnalyzerConfiguration</a> used by the <a href="../text_analysis/ITextAnalyzer-class.html">ITextAnalyzer</a>.
-  <div class="features">read-only, inherited</div>
-
-</dd>
-
         <dt id="hashCode" class="property inherited">
   <span class="name"><a href="https://api.flutter.dev/flutter/dart-core/Object/hashCode.html">hashCode</a></span>
   <span class="signature">&#8594; <a href="https://api.flutter.dev/flutter/dart-core/int-class.html">int</a></span> 
@@ -142,14 +103,37 @@ document.</li>
 
 </dd>
 
-        <dt id="tokenFilter" class="property inherited">
-  <span class="name"><a href="../text_analysis/ITextAnalyzer/tokenFilter.html">tokenFilter</a></span>
-  <span class="signature">&#8594; <a href="../text_analysis/TokenFilter.html">TokenFilter</a>?</span> 
+        <dt id="term1" class="property">
+  <span class="name"><a href="../text_analysis/TermPair/term1.html">term1</a></span>
+  <span class="signature">&#8594; <a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span> 
 
 </dt>
-<dd class="inherited">
-  A filter that returns a subset of tokens.
-  <div class="features">read-only, inherited</div>
+<dd>
+  Returns the first <a href="../text_analysis/Term.html">Term</a> in the pair. Equivalent to <a href="../text_analysis/TermPair/terms.html">terms</a>.first.
+  <div class="features">read-only</div>
+
+</dd>
+
+        <dt id="term2" class="property">
+  <span class="name"><a href="../text_analysis/TermPair/term2.html">term2</a></span>
+  <span class="signature">&#8594; <a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span> 
+
+</dt>
+<dd>
+  Returns the second <a href="../text_analysis/Term.html">Term</a> in the pair. Equivalent to <a href="../text_analysis/TermPair/terms.html">terms</a>.last.
+  <div class="features">read-only</div>
+
+</dd>
+
+        <dt id="terms" class="property">
+  <span class="name"><a href="../text_analysis/TermPair/terms.html">terms</a></span>
+  <span class="signature">&#8594; <a href="https://api.flutter.dev/flutter/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../text_analysis/Term.html">Term</a></span>&gt;</span></span> 
+
+</dt>
+<dd>
+  An ordered list of length 2, containing non-empty <code>Term</code>s <a href="../text_analysis/TermPair/term1.html">term1</a>
+and <a href="../text_analysis/TermPair/term2.html">term2</a>.
+  <div class="features">final</div>
 
 </dd>
 
@@ -158,7 +142,7 @@ document.</li>
 
     
   <section
-      class="summary offset-anchor"
+      class="summary offset-anchor inherited"
       id="instance-methods">
     <h2>Methods</h2>
     <dl class="callables">
@@ -172,34 +156,6 @@ document.</li>
 <dd class="inherited">
   Invoked when a non-existent method or property is accessed.
   <div class="features">inherited</div>
-
-</dd>
-
-        <dt id="tokenize" class="callable">
-  <span class="name"><a href="../text_analysis/TextAnalyzerBase/tokenize.html">tokenize</a></span><span class="signature">(<wbr><span class="parameter" id="tokenize-param-source"><span class="type-annotation"><a href="../text_analysis/SourceText.html">SourceText</a></span> <span class="parameter-name">source</span>, </span><span class="parameter" id="tokenize-param-field">[<span class="type-annotation"><a href="../text_analysis/FieldName.html">FieldName</a>?</span> <span class="parameter-name">field</span>]</span>)
-    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../text_analysis/TextSource-class.html">TextSource</a></span>&gt;</span></span>
-  </span>
-  
-
-</dt>
-<dd>
-  Extracts tokens from <code>source</code> for use in full-text search queries and
-indexes.
-  <div class="features">override</div>
-
-</dd>
-
-        <dt id="tokenizeJson" class="callable">
-  <span class="name"><a href="../text_analysis/TextAnalyzerBase/tokenizeJson.html">tokenizeJson</a></span><span class="signature">(<wbr><span class="parameter" id="tokenizeJson-param-document"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Map-class.html">Map</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>, <span class="type-parameter">dynamic</span>&gt;</span></span> <span class="parameter-name">document</span>, </span><span class="parameter" id="tokenizeJson-param-fields"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../text_analysis/FieldName.html">FieldName</a></span>&gt;</span></span> <span class="parameter-name">fields</span></span>)
-    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../text_analysis/TextSource-class.html">TextSource</a></span>&gt;</span></span>
-  </span>
-  
-
-</dt>
-<dd>
-  Extracts tokens from the <code>fields</code> in a JSON <code>document</code> for use in
-full-text search queries and indexes.
-  <div class="features">override</div>
 
 </dd>
 
@@ -256,7 +212,7 @@ full-text search queries and indexes.
 <ol class="breadcrumbs gt-separated dark hidden-l" id="sidebar-nav">
   <li><a href="../index.html">text_analysis</a></li>
   <li><a href="../text_analysis/text_analysis-library.html">text_analysis</a></li>
-  <li class="self-crumb">TextAnalyzerBase abstract class</li>
+  <li class="self-crumb">TermPair class</li>
 </ol>
 
 
@@ -304,25 +260,24 @@ full-text search queries and indexes.
   <div id="dartdoc-sidebar-right" class="sidebar sidebar-offcanvas-right">
     <ol>
 
-        <li class="section-title"><a href="../text_analysis/TextAnalyzerBase-class.html#constructors">Constructors</a></li>
-          <li><a href="../text_analysis/TextAnalyzerBase/TextAnalyzerBase.html">TextAnalyzerBase</a></li>
+        <li class="section-title"><a href="../text_analysis/TermPair-class.html#constructors">Constructors</a></li>
+          <li><a href="../text_analysis/TermPair/TermPair.html">TermPair</a></li>
 
 
-    <li class="section-title inherited">
-      <a href="../text_analysis/TextAnalyzerBase-class.html#instance-properties">Properties</a>
+    <li class="section-title">
+      <a href="../text_analysis/TermPair-class.html#instance-properties">Properties</a>
     </li>
-    <li class="inherited"><a href="../text_analysis/ITextAnalyzer/configuration.html">configuration</a></li>
     <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/hashCode.html">hashCode</a></li>
     <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/runtimeType.html">runtimeType</a></li>
-    <li class="inherited"><a href="../text_analysis/ITextAnalyzer/tokenFilter.html">tokenFilter</a></li>
+    <li><a href="../text_analysis/TermPair/term1.html">term1</a></li>
+    <li><a href="../text_analysis/TermPair/term2.html">term2</a></li>
+    <li><a href="../text_analysis/TermPair/terms.html">terms</a></li>
 
-    <li class="section-title"><a href="../text_analysis/TextAnalyzerBase-class.html#instance-methods">Methods</a></li>
+    <li class="section-title inherited"><a href="../text_analysis/TermPair-class.html#instance-methods">Methods</a></li>
     <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/noSuchMethod.html">noSuchMethod</a></li>
-    <li><a href="../text_analysis/TextAnalyzerBase/tokenize.html">tokenize</a></li>
-    <li><a href="../text_analysis/TextAnalyzerBase/tokenizeJson.html">tokenizeJson</a></li>
     <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/toString.html">toString</a></li>
 
-    <li class="section-title inherited"><a href="../text_analysis/TextAnalyzerBase-class.html#operators">Operators</a></li>
+    <li class="section-title inherited"><a href="../text_analysis/TermPair-class.html#operators">Operators</a></li>
     <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/operator_equals.html">operator ==</a></li>
 
 

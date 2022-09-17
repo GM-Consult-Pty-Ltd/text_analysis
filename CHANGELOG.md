@@ -3,6 +3,13 @@ BSD 3-Clause License
 Copyright (c) 2022, GM Consult Pty Ltd
 All rights reserved. 
 -->
+
+### 0.6.3
+
+- **PRE-RELEASE**
+- Added object model `TermPair`.
+- Updated documentation.
+
 ### 0.6.2
 
 - **PRE-RELEASE**
