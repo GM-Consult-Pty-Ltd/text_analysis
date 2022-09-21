@@ -7,6 +7,8 @@ import 'data/sample_news.dart';
 
 void main() {
   group('TextAnalyzer', () {
+    //
+
     /// Three paragraphs of text used for testing tokenization.
     ///
     /// Includes numbers, currencies, abbreviations, hyphens and identifiers
