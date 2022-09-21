@@ -12,7 +12,7 @@ import 'package:text_analysis/text_analysis.dart';
 ///   tokenization to tokens that meet criteria for either index or count; and
 /// - the [tokenize] function tokenizes source text using the [configuration]
 ///   and then manipulates the output by applying [tokenFilter]; and
-/// - the [tokenizeJson] function extracts tokens from the fields in a JSON
+/// - the [tokenizeJson] function extracts tokens from the zones in a JSON
 ///   document.
 abstract class ITextAnalyzer {
   //
@@ -29,23 +29,23 @@ abstract class ITextAnalyzer {
   /// Extracts tokens from [source] for use in full-text search queries and
   /// indexes.
   ///
-  /// Optional parameter [field] is the name of the field in a document in
+  /// Optional parameter [zone] is the name of the zone in a document in
   /// which the term is located.
   ///
   /// Returns a [TextSource] with [source] and its component [Sentence]s and
   /// [Token]s
-  Future<TextSource> tokenize(SourceText source, [FieldName? field]);
+  Future<TextSource> tokenize(SourceText source, [Zone? zone]);
 
-  /// Extracts tokens from the [fields] in a JSON [document] for use in
+  /// Extracts tokens from the [zones] in a JSON [document] for use in
   /// full-text search queries and indexes.
   ///
-  /// The required parameter [fields] is the collection of the names of the
-  /// fields in [document] that are to be tokenized.
+  /// The required parameter [zones] is the collection of the names of the
+  /// zones in [document] that are to be tokenized.
   ///
   /// Returns a [TextSource] with [document] and its component [Sentence]s and
   /// [Token]s
   Future<TextSource> tokenizeJson(
-      Map<String, dynamic> document, Iterable<FieldName> fields);
+      Map<String, dynamic> document, Iterable<Zone> zones);
 }
 
 /// A [ITextAnalyzer] implementation that extracts tokens from text for use
@@ -57,7 +57,7 @@ abstract class ITextAnalyzer {
 ///   [TextAnalyzer.defaultTokenFilter], applies [Porter2Stemmer]); and
 /// - the [tokenize] function tokenizes source text using the [configuration]
 ///   and then manipulates the output by applying [tokenFilter]; and
-/// - the [tokenizeJson] function extracts tokens from the fields in a JSON
+/// - the [tokenizeJson] function extracts tokens from the zones in a JSON
 ///   document.
 abstract class TextAnalyzerBase implements ITextAnalyzer {
   //
@@ -67,18 +67,18 @@ abstract class TextAnalyzerBase implements ITextAnalyzer {
 
   @override
   Future<TextSource> tokenizeJson(
-      Map<String, dynamic> document, Iterable<FieldName> fields) async {
+      Map<String, dynamic> document, Iterable<Zone> zones) async {
     final sentences = <Sentence>[];
     final sourceBuilder = StringBuffer();
-    fields = Set<String>.from(fields);
-    for (final field in fields) {
-      final value = document[field];
+    zones = Set<String>.from(zones);
+    for (final zone in zones) {
+      final value = document[zone];
       if (value != null) {
         final source = value.toString();
         if (source.isNotEmpty) {
-          final doc = await tokenize(source, field);
+          final doc = await tokenize(source, zone);
           sentences.addAll(doc.sentences);
-          sourceBuilder.writeln('"$field": "$source"');
+          sourceBuilder.writeln('"$zone": "$source"');
         }
       }
     }
@@ -86,13 +86,13 @@ abstract class TextAnalyzerBase implements ITextAnalyzer {
   }
 
   @override
-  Future<TextSource> tokenize(SourceText source, [FieldName? field]) async {
+  Future<TextSource> tokenize(SourceText source, [Zone? zone]) async {
     final sentenceStrings = configuration.sentenceSplitter(source);
     final sentences = <Sentence>[];
     // convert [sentenceStrings] into [Sentence]s
     for (final sentence in sentenceStrings) {
-      final value = await Sentence.fromString(
-          sentence, configuration, tokenFilter, field);
+      final value =
+          await Sentence.fromString(sentence, configuration, tokenFilter, zone);
       sentences.add(value);
     }
     return TextSource(source, sentences);
@@ -108,7 +108,7 @@ abstract class TextAnalyzerBase implements ITextAnalyzer {
 ///   [TextAnalyzer.defaultTokenFilter], applies [Porter2Stemmer]); and
 /// - the [tokenize] function tokenizes source text using the [configuration]
 ///   and then manipulates the output by applying [tokenFilter]; and
-/// - the [tokenizeJson] function extracts tokens from the fields in a JSON
+/// - the [tokenizeJson] function extracts tokens from the zones in a JSON
 ///   document.
 class TextAnalyzer extends TextAnalyzerBase {
   //
@@ -118,7 +118,7 @@ class TextAnalyzer extends TextAnalyzerBase {
   /// Returns [tokens] with [Token.term] stemmed using the [Porter2Stemmer].
   static Future<List<Token>> defaultTokenFilter(List<Token> tokens) async =>
       tokens
-          .map((e) => Token(e.term.stemPorter2(), e.termPosition, e.field))
+          .map((e) => Token(e.term.stemPorter2(), e.termPosition, e.zone))
           .toList();
 
   /// Instantiates a const [TextAnalyzerBase] instance.

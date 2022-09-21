@@ -7,16 +7,28 @@ import 'package:text_analysis/text_analysis.dart';
 /// An alias for String.
 typedef SourceText = String;
 
-/// An alias for String.
-typedef FieldName = String;
+/// An alias for String, when used in the context of a field or meta data field
+/// in the `corpus`. Represents the name of the field/zone.
+typedef Zone = String;
 
-/// An alias for String.
+/// An alias for String, used in the context of a word, term or phrase present
+/// in a text source, document or query.
 typedef Term = String;
 
-/// An alias for a [Set] of [String]
+/// An alias for String, used in the context of a sequence of k characters
+/// from a [Term].
+///
+/// A k-gram can start with "$", dentoting the start of the [Term], and end with
+/// "$", denoting the end of the [Term].
+///
+/// The 3-grams for "castle" are { $ca, cas, ast, stl, tle, le$ }
+typedef KGram = String;
+
+/// An alias for a [Set] of [String], when used in the context of a collection
+/// of [Term] that are excluded from tokenization.
 typedef StopWords = Set<Term>;
 
-/// A stemmer function that returns the stem of [term].
+/// A language-specific function that returns the stem of [term].
 typedef Stemmer = String Function(Term term);
 
 /// A splitter function that returns a list of terms from [source].
@@ -57,12 +69,12 @@ typedef CharacterFilter = String Function(SourceText source);
 /// Type definition of a function that returns a collection of [Token] from
 /// the [source] text.
 ///
-/// Optional parameter [field] is the name of the field in a document in
+/// Optional parameter [zone] is the name of the zone in a document in
 /// which the term is located.
 typedef Tokenizer = Future<Iterable<Token>> Function(SourceText source,
-    [FieldName? field]);
+    [Zone? zone]);
 
 /// Type definition of a function that returns a collection of [Token] from
 /// the [fields] in a [json] document.
 typedef JsonTokenizer = Future<Iterable<Token>> Function(
-    Map<String, dynamic> json, List<FieldName> fields);
+    Map<String, dynamic> json, List<Zone> fields);

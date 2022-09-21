@@ -53,7 +53,7 @@ class _TextSourceImpl implements TextSource {
     for (final sentence in sentences) {
       tokens.addAll(sentence.tokens.map((e) {
         final termPosition = sentenceTermPosition + e.termPosition;
-        return Token(e.term, termPosition, e.field);
+        return Token(e.term, termPosition, e.zone);
       }));
       if (tokens.isNotEmpty) {
         sentenceTermPosition = tokens.last.termPosition + 1;

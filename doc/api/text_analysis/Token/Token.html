@@ -52,7 +52,7 @@
     <section class="multi-line-signature">const
       <span class="name ">Token</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="-param-term"><span class="type-annotation"><a href="../../text_analysis/Term.html">Term</a></span> <span class="parameter-name">term</span>, </span></li>
 <li><span class="parameter" id="-param-termPosition"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/int-class.html">int</a></span> <span class="parameter-name">termPosition</span>, </span></li>
-<li><span class="parameter" id="-param-field">[<span class="type-annotation"><a href="../../text_analysis/FieldName.html">FieldName</a>?</span> <span class="parameter-name">field</span>]</span></li>
+<li><span class="parameter" id="-param-zone">[<span class="type-annotation"><a href="../../text_analysis/Zone.html">Zone</a>?</span> <span class="parameter-name">zone</span>]</span></li>
 </ol>)
     </section>
 
@@ -63,7 +63,7 @@
 <li><a href="../../text_analysis/Token/term.html">term</a> is the term that will be looked up in the index;</li>
 <li><a href="../../text_analysis/Token/termPosition.html">termPosition</a> is the zero-based position of the <a href="../../text_analysis/Token/term.html">term</a> in an ordered
 list of all the terms in the source text;</li>
-<li><a href="../../text_analysis/Token/field.html">field</a> is the nullable / optional name of the field the <a href="../../text_analysis/Token/term.html">term</a> is in;</li>
+<li><a href="../../text_analysis/Token/zone.html">zone</a> is the nullable / optional name of the zone the <a href="../../text_analysis/Token/term.html">term</a> is in;</li>
 </ul>
 </section>
 
@@ -71,7 +71,7 @@ list of all the terms in the source text;</li>
     
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
-  <pre class="language-dart"><code class="language-dart">const Token(this.term, this.termPosition, [this.field]);</code></pre>
+  <pre class="language-dart"><code class="language-dart">const Token(this.term, this.termPosition, [this.zone]);</code></pre>
 </section>
 
 
@@ -102,11 +102,11 @@ list of all the terms in the source text;</li>
     <li class="section-title">
       <a href="../../text_analysis/Token-class.html#instance-properties">Properties</a>
     </li>
-    <li><a href="../../text_analysis/Token/field.html">field</a></li>
     <li><a href="../../text_analysis/Token/hashCode.html">hashCode</a></li>
     <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/runtimeType.html">runtimeType</a></li>
     <li><a href="../../text_analysis/Token/term.html">term</a></li>
     <li><a href="../../text_analysis/Token/termPosition.html">termPosition</a></li>
+    <li><a href="../../text_analysis/Token/zone.html">zone</a></li>
 
     <li class="section-title inherited"><a href="../../text_analysis/Token-class.html#instance-methods">Methods</a></li>
     <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/noSuchMethod.html">noSuchMethod</a></li>
@@ -132,7 +132,7 @@ list of all the terms in the source text;</li>
 <footer>
   <span class="no-break">
     text_analysis
-      0.6.5+1
+      0.7.0
   </span>
 
   

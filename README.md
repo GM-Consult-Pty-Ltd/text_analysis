@@ -28,6 +28,8 @@ The tokenization process comprises the following steps:
 * a `term filter` manipulates the terms by splitting compound or hyphenated terms or applying stemming and lemmatization. The `termFilter` can also filter out `stopwords`; and
 * the `tokenizer` converts the resulting terms  to a collection of `tokens` that contain the term and a pointer to the position of the term in the source text.
 
+This library also includes an extension method `Set<KGram> kGrams([int k = 3])` on `Term` that parses a set of k-grams of length k from a `term`.  The default k-gram length is 3 (tri-gram).
+
 ![Text analysis](https://github.com/GM-Consult-Pty-Ltd/text_analysis/raw/main/assets/images/text_analysis.png?raw=true?raw=true "Tokenizing overview")
 
 Refer to the [references](#references) to learn more about information retrieval systems and the theory behind this library.
@@ -73,11 +75,14 @@ Skip to:
 ### Type definitions
 
 The API uses the following function type definitions and type aliases to improve code readability:
-* `SourceText`, `FieldName` and `Term` are all aliases for the DART core type `String` when used in different contexts;
-* `StopWords` is an alias for `Set<String>`;
 * `CharacterFilter` is a function that manipulates terms prior to stemming and tokenization (e.g. changing case and / or removing non-word characters);
-* `JsonTokenizer` is a function that returns `Token` collection from the fields in a JSON document hashmap of `FieldName` to value;
+* `Ft` is an lias for `int` and denotes the frequency of a `Term` in an index or indexed object (the term frequency).
+* `IdFt` is an alias for `double`, where it represents the inverse document frequency of a term, defined as idft = log (N / dft), where N is the total number of terms in the index and dft is the document frequency of the term (number of documents that contain the term). 
+* `JsonTokenizer` is a function that returns `Token` collection from the fields in a JSON document hashmap of `Zone` to value;
+* `kGram` is an alias for `String`, used in the context of a sequence of k consecutive characters in a `Term`.
 * `SentenceSplitter` is a function that returns a list of sentences from `SourceText`. In English, the `SourceText` is split at sentence endings marks such as periods, question marks and exclamation marks;
+* `SourceText`, `Zone` and `Term` are all aliases for the DART core type `String` when used in different contexts;
+* `StopWords` is an alias for `Set<String>`;
 * `TermFilter` is a function that manipulates a `Term` collection by splitting compound or hyphenated terms or applying stemming and lemmatization. The `TermFilter` can also filter out `stopwords`;
 * `TermSplitter` is a function that splits `SourceText` to an orderd list of `Term` at appropriate places like white-space and mid-sentence punctuation;
 * `TokenFilter` is a function that returns a subset of a `Token` collection, preserving its sort order; and
@@ -86,7 +91,7 @@ The API uses the following function type definitions and type aliases to improve
 ### Object models
 
 The `text_analysis` library includes the following object-model classes:
-* a `Token` represents a `Term` present in a `TextSource` with its `position` and optional `field name`.
+* a `Token` represents a `Term` present in a `TextSource` with its `position` and optional `zone name`.
 * a `Sentence` represents a `TextSource` not containing sentence ending  punctuation such as periods, question-marks and exclamations, except where  used in tokens, identifiers or other terms; and
 * A `TextSource` represents a `TextSource` that has been analyzed to enumerate `Sentence` and `Token` collections.
 
@@ -162,8 +167,9 @@ The following definitions are used throughout the [documentation](https://pub.de
 * `corpus`- the collection of `documents` for which an `index` is maintained.
 * `character filter` - filters characters from text in preparation of tokenization.  
 * `dictionary` - is a hash of `terms` (`vocabulary`) to the frequency of occurence in the `corpus` documents.
-* `document` - a record in the `corpus`, that has a unique identifier (`docId`) in the `corpus`'s primary key and that contains one or more text fields that are indexed.
+* `document` - a record in the `corpus`, that has a unique identifier (`docId`) in the `corpus`'s primary key and that contains one or more text zones/fields  that are indexed.
 * `index` - an [inverted index](https://en.wikipedia.org/wiki/Inverted_index) used to look up `document` references from the `corpus` against a `vocabulary` of `terms`. The implementation in this package builds and maintains a positional inverted index, that also includes the positions of the indexed `term` in each `document`.
+`k-gram` - a sequence of (any) k consecutive characters from a `term`. A k-gram can start with "$", dentoting the start of the [Term], and end with "$", denoting the end of the [Term]. The 3-grams for "castle" are { $ca, cas, ast, stl, tle, le$ }.
 * `lemmatizer` - lemmatisation (or lemmatization) in linguistics is the process of grouping together the inflected forms of a word so they can be analysed as a single item, identified by the word's lemma, or dictionary form (from [Wikipedia](https://en.wikipedia.org/wiki/Lemmatisation)).
 * `postings` - a separate index that records which `documents` the `vocabulary` occurs in. In this implementation we also record the positions of each `term` in the `text` to create a positional inverted `index`.
 * `postings list` - a record of the positions of a `term` in a `document`. A position of a `term` refers to the index of the `term` in an array that contains all the `terms` in the `text`.
@@ -171,6 +177,8 @@ The following definitions are used throughout the [documentation](https://pub.de
 * `term filter` - filters unwanted terms from a collection of terms (e.g. stopwords), breaks compound terms into separate terms and / or manipulates terms by invoking a `stemmer` and / or `lemmatizer`.
 * `stemmer` -  stemming is the process of reducing inflected (or sometimes derived) words to their word stem, base or root form—generally a written word form (from [Wikipedia](https://en.wikipedia.org/wiki/Stemming)).
 * `stopwords` - common words in a language that are excluded from indexing.
+* `term frequency (Ft)` is the frequency of a `term` in an index or indexed object.
+* `term position` is the zero-based index of a `term` in an ordered array of `terms` tokenized from the `corpus`.
 * `text` - the indexable content of a `document`.
 * `token` - representation of a `term` in a text source returned by a `tokenizer`. The token may include information about the `term` position in the source text.
 * `token filter` - returns a subset of `tokens` from the tokenizer output.

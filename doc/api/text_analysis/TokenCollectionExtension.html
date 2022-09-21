@@ -128,6 +128,19 @@ the same order as they occur in the <a href="../text_analysis/SourceText.html">S
 
 </dd>
 
+        <dt id="kGrams" class="callable">
+  <span class="name"><a href="../text_analysis/TokenCollectionExtension/kGrams.html">kGrams</a></span><span class="signature">(<wbr><span class="parameter" id="kGrams-param-k">[<span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/int-class.html">int</a></span> <span class="parameter-name">k</span> = <span class="default-value">3</span>]</span>)
+    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-core/Map-class.html">Map</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../text_analysis/KGram.html">KGram</a></span>, <span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/Set-class.html">Set</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../text_analysis/Term.html">Term</a></span>&gt;</span></span>&gt;</span></span>
+  </span>
+  
+
+</dt>
+<dd>
+  Returns a hashmap of k-grams to terms from the collection of tokens.
+  
+
+</dd>
+
         <dt id="lastPosition" class="callable">
   <span class="name deprecated"><a class="deprecated" href="../text_analysis/TokenCollectionExtension/lastPosition.html">lastPosition</a></span><span class="signature">(<wbr><span class="parameter" id="lastPosition-param-term"><span class="type-annotation"><a href="../text_analysis/Term.html">Term</a></span> <span class="parameter-name">term</span></span>)
     <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-core/int-class.html">int</a></span>
@@ -193,6 +206,7 @@ the same order as they occur in the <a href="../text_analysis/SourceText.html">S
   <li><a href="../text_analysis/Token-class.html">Token</a></li>
 
   <li class="section-title"><a href="../text_analysis/text_analysis-library.html#extensions">Extensions</a></li>
+  <li><a href="../text_analysis/KGramParserExtension.html">KGramParserExtension</a></li>
   <li><a href="https://pub.dev/documentation/porter_2_stemmer/1.0.0+5/porter_2_stemmer/Porter2StemmerExtension.html">Porter2StemmerExtension</a></li>
   <li><a href="../text_analysis/TokenCollectionExtension.html">TokenCollectionExtension</a></li>
 
@@ -203,8 +217,8 @@ the same order as they occur in the <a href="../text_analysis/SourceText.html">S
 
   <li class="section-title"><a href="../text_analysis/text_analysis-library.html#typedefs">Typedefs</a></li>
   <li><a href="../text_analysis/CharacterFilter.html">CharacterFilter</a></li>
-  <li><a href="../text_analysis/FieldName.html">FieldName</a></li>
   <li><a href="../text_analysis/JsonTokenizer.html">JsonTokenizer</a></li>
+  <li><a href="../text_analysis/KGram.html">KGram</a></li>
   <li><a href="../text_analysis/SentenceSplitter.html">SentenceSplitter</a></li>
   <li><a href="../text_analysis/SourceText.html">SourceText</a></li>
   <li><a href="../text_analysis/Stemmer.html">Stemmer</a></li>
@@ -214,6 +228,7 @@ the same order as they occur in the <a href="../text_analysis/SourceText.html">S
   <li><a href="../text_analysis/TermSplitter.html">TermSplitter</a></li>
   <li><a href="../text_analysis/TokenFilter.html">TokenFilter</a></li>
   <li><a href="../text_analysis/Tokenizer.html">Tokenizer</a></li>
+  <li><a href="../text_analysis/Zone.html">Zone</a></li>
 
 </ol>
 
@@ -233,6 +248,7 @@ the same order as they occur in the <a href="../text_analysis/SourceText.html">S
     <li class="section-title"><a href="../text_analysis/TokenCollectionExtension.html#instance-methods">Methods</a></li>
     <li><a href="../text_analysis/TokenCollectionExtension/byTerm.html">byTerm</a></li>
     <li><a href="../text_analysis/TokenCollectionExtension/firstPosition.html">firstPosition</a></li>
+    <li><a href="../text_analysis/TokenCollectionExtension/kGrams.html">kGrams</a></li>
     <li><a class="deprecated" href="../text_analysis/TokenCollectionExtension/lastPosition.html">lastPosition</a></li>
     <li><a href="../text_analysis/TokenCollectionExtension/termCount.html">termCount</a></li>
 
@@ -248,7 +264,7 @@ the same order as they occur in the <a href="../text_analysis/SourceText.html">S
 <footer>
   <span class="no-break">
     text_analysis
-      0.6.5+1
+      0.7.0
   </span>
 
   

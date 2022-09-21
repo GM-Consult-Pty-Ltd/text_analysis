@@ -70,6 +70,7 @@ All rights reserved.
 <li>a <code>term filter</code> manipulates the terms by splitting compound or hyphenated terms or applying stemming and lemmatization. The <code>termFilter</code> can also filter out <code>stopwords</code>; and</li>
 <li>the <code>tokenizer</code> converts the resulting terms  to a collection of <code>tokens</code> that contain the term and a pointer to the position of the term in the source text.</li>
 </ul>
+<p>This library also includes an extension method <code>Set&lt;KGram&gt; kGrams([int k = 3])</code> on <code>Term</code> that parses a set of k-grams of length k from a <code>term</code>.  The default k-gram length is 3 (tri-gram).</p>
 <p><img src="https://github.com/GM-Consult-Pty-Ltd/text_analysis/raw/main/assets/images/text_analysis.png?raw=true?raw=true" alt="Text analysis" title="Tokenizing overview"></p>
 <p>Refer to the <a href="#references">references</a> to learn more about information retrieval systems and the theory behind this library.</p>
 <h2 id="usage">Usage</h2>
@@ -103,11 +104,14 @@ All rights reserved.
 <h3 id="type-definitions">Type definitions</h3>
 <p>The API uses the following function type definitions and type aliases to improve code readability:</p>
 <ul>
-<li><code>SourceText</code>, <code>FieldName</code> and <code>Term</code> are all aliases for the DART core type <code>String</code> when used in different contexts;</li>
-<li><code>StopWords</code> is an alias for <code>Set&lt;String&gt;</code>;</li>
 <li><code>CharacterFilter</code> is a function that manipulates terms prior to stemming and tokenization (e.g. changing case and / or removing non-word characters);</li>
-<li><code>JsonTokenizer</code> is a function that returns <code>Token</code> collection from the fields in a JSON document hashmap of <code>FieldName</code> to value;</li>
+<li><code>Ft</code> is an lias for <code>int</code> and denotes the frequency of a <code>Term</code> in an index or indexed object (the term frequency).</li>
+<li><code>IdFt</code> is an alias for <code>double</code>, where it represents the inverse document frequency of a term, defined as idft = log (N / dft), where N is the total number of terms in the index and dft is the document frequency of the term (number of documents that contain the term).</li>
+<li><code>JsonTokenizer</code> is a function that returns <code>Token</code> collection from the fields in a JSON document hashmap of <code>Zone</code> to value;</li>
+<li><code>kGram</code> is an alias for <code>String</code>, used in the context of a sequence of k consecutive characters in a <code>Term</code>.</li>
 <li><code>SentenceSplitter</code> is a function that returns a list of sentences from <code>SourceText</code>. In English, the <code>SourceText</code> is split at sentence endings marks such as periods, question marks and exclamation marks;</li>
+<li><code>SourceText</code>, <code>Zone</code> and <code>Term</code> are all aliases for the DART core type <code>String</code> when used in different contexts;</li>
+<li><code>StopWords</code> is an alias for <code>Set&lt;String&gt;</code>;</li>
 <li><code>TermFilter</code> is a function that manipulates a <code>Term</code> collection by splitting compound or hyphenated terms or applying stemming and lemmatization. The <code>TermFilter</code> can also filter out <code>stopwords</code>;</li>
 <li><code>TermSplitter</code> is a function that splits <code>SourceText</code> to an orderd list of <code>Term</code> at appropriate places like white-space and mid-sentence punctuation;</li>
 <li><code>TokenFilter</code> is a function that returns a subset of a <code>Token</code> collection, preserving its sort order; and</li>
@@ -116,7 +120,7 @@ All rights reserved.
 <h3 id="object-models">Object models</h3>
 <p>The <code>text_analysis</code> library includes the following object-model classes:</p>
 <ul>
-<li>a <code>Token</code> represents a <code>Term</code> present in a <code>TextSource</code> with its <code>position</code> and optional <code>field name</code>.</li>
+<li>a <code>Token</code> represents a <code>Term</code> present in a <code>TextSource</code> with its <code>position</code> and optional <code>zone name</code>.</li>
 <li>a <code>Sentence</code> represents a <code>TextSource</code> not containing sentence ending  punctuation such as periods, question-marks and exclamations, except where  used in tokens, identifiers or other terms; and</li>
 <li>A <code>TextSource</code> represents a <code>TextSource</code> that has been analyzed to enumerate <code>Sentence</code> and <code>Token</code> collections.</li>
 </ul>
@@ -190,8 +194,9 @@ All rights reserved.
 <li><code>corpus</code>- the collection of <code>documents</code> for which an <code>index</code> is maintained.</li>
 <li><code>character filter</code> - filters characters from text in preparation of tokenization.</li>
 <li><code>dictionary</code> - is a hash of <code>terms</code> (<code>vocabulary</code>) to the frequency of occurence in the <code>corpus</code> documents.</li>
-<li><code>document</code> - a record in the <code>corpus</code>, that has a unique identifier (<code>docId</code>) in the <code>corpus</code>'s primary key and that contains one or more text fields that are indexed.</li>
-<li><code>index</code> - an <a href="https://en.wikipedia.org/wiki/Inverted_index">inverted index</a> used to look up <code>document</code> references from the <code>corpus</code> against a <code>vocabulary</code> of <code>terms</code>. The implementation in this package builds and maintains a positional inverted index, that also includes the positions of the indexed <code>term</code> in each <code>document</code>.</li>
+<li><code>document</code> - a record in the <code>corpus</code>, that has a unique identifier (<code>docId</code>) in the <code>corpus</code>'s primary key and that contains one or more text zones/fields  that are indexed.</li>
+<li><code>index</code> - an <a href="https://en.wikipedia.org/wiki/Inverted_index">inverted index</a> used to look up <code>document</code> references from the <code>corpus</code> against a <code>vocabulary</code> of <code>terms</code>. The implementation in this package builds and maintains a positional inverted index, that also includes the positions of the indexed <code>term</code> in each <code>document</code>.
+<code>k-gram</code> - a sequence of (any) k consecutive characters from a <code>term</code>. A k-gram can start with "$", dentoting the start of the <a href="text_analysis/Term.html">Term</a>, and end with "$", denoting the end of the <a href="text_analysis/Term.html">Term</a>. The 3-grams for "castle" are { $ca, cas, ast, stl, tle, le$ }.</li>
 <li><code>lemmatizer</code> - lemmatisation (or lemmatization) in linguistics is the process of grouping together the inflected forms of a word so they can be analysed as a single item, identified by the word's lemma, or dictionary form (from <a href="https://en.wikipedia.org/wiki/Lemmatisation">Wikipedia</a>).</li>
 <li><code>postings</code> - a separate index that records which <code>documents</code> the <code>vocabulary</code> occurs in. In this implementation we also record the positions of each <code>term</code> in the <code>text</code> to create a positional inverted <code>index</code>.</li>
 <li><code>postings list</code> - a record of the positions of a <code>term</code> in a <code>document</code>. A position of a <code>term</code> refers to the index of the <code>term</code> in an array that contains all the <code>terms</code> in the <code>text</code>.</li>
@@ -199,6 +204,8 @@ All rights reserved.
 <li><code>term filter</code> - filters unwanted terms from a collection of terms (e.g. stopwords), breaks compound terms into separate terms and / or manipulates terms by invoking a <code>stemmer</code> and / or <code>lemmatizer</code>.</li>
 <li><code>stemmer</code> -  stemming is the process of reducing inflected (or sometimes derived) words to their word stem, base or root form—generally a written word form (from <a href="https://en.wikipedia.org/wiki/Stemming">Wikipedia</a>).</li>
 <li><code>stopwords</code> - common words in a language that are excluded from indexing.</li>
+<li><code>term frequency (Ft)</code> is the frequency of a <code>term</code> in an index or indexed object.</li>
+<li><code>term position</code> is the zero-based index of a <code>term</code> in an ordered array of <code>terms</code> tokenized from the <code>corpus</code>.</li>
 <li><code>text</code> - the indexable content of a <code>document</code>.</li>
 <li><code>token</code> - representation of a <code>term</code> in a text source returned by a <code>tokenizer</code>. The token may include information about the <code>term</code> position in the source text.</li>
 <li><code>token filter</code> - returns a subset of <code>tokens</code> from the tokenizer output.</li>
@@ -263,7 +270,7 @@ information retrieval systems.
 <footer>
   <span class="no-break">
     text_analysis
-      0.6.5+1
+      0.7.0
   </span>
 
   

@@ -4,7 +4,7 @@
 
 name: text_analysis
 description: Text analyzer that extracts tokens from text for use in full-text search queries and indexes.
-version: 0.6.5+1
+version: 0.8.0
 repository: https://github.com/GM-Consult-Pty-Ltd/text_analysis
 homepage: https://github.com/GM-Consult-Pty-Ltd
 issue_tracker: https://github.com/GM-Consult-Pty-Ltd/text_analysis/issues

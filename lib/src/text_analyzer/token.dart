@@ -7,7 +7,7 @@ import 'package:text_analysis/text_analysis.dart';
 /// - [term] is the term that will be looked up in the index;
 /// - [termPosition] is the zero-based position of the [term] in an ordered
 ///   list of all the terms in the source text;
-/// - [field] is the nullable name of the field the [term] is in;
+/// - [zone] is the nullable name of the zone the [term] is in;
 class Token {
   //
 
@@ -18,16 +18,16 @@ class Token {
   /// - [term] is the term that will be looked up in the index;
   /// - [termPosition] is the zero-based position of the [term] in an ordered
   ///   list of all the terms in the source text;
-  /// - [field] is the nullable / optional name of the field the [term] is in;
-  const Token(this.term, this.termPosition, [this.field]);
+  /// - [zone] is the nullable / optional name of the zone the [term] is in;
+  const Token(this.term, this.termPosition, [this.zone]);
 
   /// The term that will be looked up in the index. The [term] is extracted
   /// from the query phrase by [TextAnalyzer] and may not match the String in
   /// the phrase exactly.
   final Term term;
 
-  /// The name of the field in the document that the [term] is in.
-  final FieldName? field;
+  /// The name of the zone in the document that the [term] is in.
+  final Zone? zone;
 
   /// The zero-based position of the [term] in an ordered list of all the terms
   /// in the source text.
@@ -35,25 +35,65 @@ class Token {
 
   /// Compares whether:
   /// - [other] is [Token];
-  /// - [field] == [other].field;
+  /// - [zone] == [other].zone;
   /// - [term] == [other].term; and
   /// - [termPosition] == [other].termPosition.
   @override
   bool operator ==(Object other) =>
       other is Token &&
       term == other.term &&
-      field == other.field &&
+      zone == other.zone &&
       termPosition == other.termPosition;
 
   @override
-  int get hashCode => Object.hash(term, field, termPosition);
+  int get hashCode => Object.hash(term, zone, termPosition);
 
   //
+}
+
+/// Extension methods on [Term].
+extension KGramParserExtension on Term {
+  //
+
+  /// Returns a set of k-grams in the term.
+  Set<KGram> kGrams([int k = 3]) {
+    final Set<KGram> kGrams = {};
+    if (isNotEmpty) {
+      // get the opening k-gram
+      kGrams.add(r'$' + substring(0, length < k ? null : k - 1));
+      // get the closing k-gram
+      kGrams.add(length < k ? this : (substring(length - k + 1)) + r'$');
+      if (length <= k) {
+        kGrams.add(this);
+      } else {
+        for (var i = 0; i <= length - k; i++) {
+          kGrams.add(substring(i, i + k));
+        }
+      }
+    }
+    return kGrams;
+  }
 }
 
 /// Extension methods on a collection of [Token].
 extension TokenCollectionExtension on Iterable<Token> {
 //
+
+  /// Returns a hashmap of k-grams to terms from the collection of tokens.
+  Map<KGram, Set<Term>> kGrams([int k = 3]) {
+    final terms = this.terms;
+    // print the terms
+    final Map<String, Set<Term>> kGramIndex = {};
+    for (final term in terms) {
+      final kGrams = term.kGrams(k);
+      for (final kGram in kGrams) {
+        final set = kGramIndex[kGram] ?? {};
+        set.add(term);
+        kGramIndex[kGram] = set;
+      }
+    }
+    return kGramIndex;
+  }
 
   /// Returns the set of unique terms from the collection of [Token]s.
   Set<String> get terms => Set<String>.from(map((e) => e.term));

@@ -4,8 +4,8 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, user-scalable=no">
-  <meta name="description" content="API docs for the operator == method from the TextSource class, for the Dart programming language.">
-  <title>operator == method - TextSource class - text_analysis library - Dart API</title>
+  <meta name="description" content="API docs for the zone property from the Token class, for the Dart programming language.">
+  <title>zone property - Token class - text_analysis library - Dart API</title>
 
 
   
@@ -31,10 +31,10 @@
   <ol class="breadcrumbs gt-separated dark hidden-xs">
     <li><a href="../../index.html">text_analysis</a></li>
     <li><a href="../../text_analysis/text_analysis-library.html">text_analysis</a></li>
-    <li><a href="../../text_analysis/TextSource-class.html">TextSource</a></li>
-    <li class="self-crumb">operator == method</li>
+    <li><a href="../../text_analysis/Token-class.html">Token</a></li>
+    <li class="self-crumb">zone property</li>
   </ol>
-  <div class="self-name">operator ==</div>
+  <div class="self-name">zone</div>
   <form class="search navbar-right" role="search">
     <input type="text" id="search-box" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
   </form>
@@ -45,44 +45,27 @@
 
   <div id="dartdoc-main-content" class="main-content">
       <div>
-<h1><span class="kind-method">operator ==</span> method 
+<h1><span class="kind-property">zone</span> property 
     <a href="https://dart.dev/null-safety" class="feature feature-null-safety" title="Supports the null safety language feature.">Null safety</a>
 </h1></div>
 
-    <section class="multi-line-signature">
-      
-<div>
-  <ol class="annotation-list">
-    <li>@<a href="https://api.flutter.dev/flutter/dart-core/override-constant.html">override</a></li>
-  </ol>
-</div>
+        <section class="multi-line-signature">
+          <a href="../../text_analysis/Zone.html">Zone</a>?
+          <span class="name ">zone</span>
+          <div class="features">final</div>
 
-<span class="returntype"><a href="https://api.flutter.dev/flutter/dart-core/bool-class.html">bool</a></span>
-<span class="name ">operator ==</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="==-param-other"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Object-class.html">Object</a></span> <span class="parameter-name">other</span></span></li>
-</ol>)
-
-      <div class="features">override</div>
-
-    </section>
-    
+        </section>
+        
 <section class="desc markdown">
-  <p>Compares only whether:</p>
-<ul>
-<li><code>other</code> is <a href="../../text_analysis/TextSource-class.html">TextSource</a>;</li>
-<li><a href="../../text_analysis/TextSource/source.html">source</a> == <code>other</code>.source; and</li>
-<li><a href="../../text_analysis/TextSource/sentences.html">sentences</a>.length == <code>other</code>.sentences.length.</li>
-</ul>
+  <p>The name of the zone in the document that the <a href="../../text_analysis/Token/term.html">term</a> is in.</p>
 </section>
 
-
-    
+        
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
-  <pre class="language-dart"><code class="language-dart">@override
-bool operator ==(Object other) =&gt;
-    other is TextSource &amp;&amp;
-    source == other.source &amp;&amp;
-    sentences.length == other.sentences.length;</code></pre>
+  <pre class="language-dart"><code class="language-dart">final Zone? zone;
+
+</code></pre>
 </section>
 
 
@@ -98,37 +81,39 @@ bool operator ==(Object other) =&gt;
 <ol class="breadcrumbs gt-separated dark hidden-l" id="sidebar-nav">
   <li><a href="../../index.html">text_analysis</a></li>
   <li><a href="../../text_analysis/text_analysis-library.html">text_analysis</a></li>
-  <li><a href="../../text_analysis/TextSource-class.html">TextSource</a></li>
-  <li class="self-crumb">operator == method</li>
+  <li><a href="../../text_analysis/Token-class.html">Token</a></li>
+  <li class="self-crumb">zone property</li>
 </ol>
 
 
-    <h5>TextSource class</h5>
+    <h5>Token class</h5>
     <ol>
 
-        <li class="section-title"><a href="../../text_analysis/TextSource-class.html#constructors">Constructors</a></li>
-          <li><a href="../../text_analysis/TextSource/TextSource.html">TextSource</a></li>
+        <li class="section-title"><a href="../../text_analysis/Token-class.html#constructors">Constructors</a></li>
+          <li><a href="../../text_analysis/Token/Token.html">Token</a></li>
 
 
     <li class="section-title">
-      <a href="../../text_analysis/TextSource-class.html#instance-properties">Properties</a>
+      <a href="../../text_analysis/Token-class.html#instance-properties">Properties</a>
     </li>
-    <li><a href="../../text_analysis/TextSource/hashCode.html">hashCode</a></li>
+    <li><a href="../../text_analysis/Token/hashCode.html">hashCode</a></li>
     <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/runtimeType.html">runtimeType</a></li>
-    <li><a href="../../text_analysis/TextSource/sentences.html">sentences</a></li>
-    <li><a href="../../text_analysis/TextSource/source.html">source</a></li>
-    <li><a href="../../text_analysis/TextSource/tokens.html">tokens</a></li>
+    <li><a href="../../text_analysis/Token/term.html">term</a></li>
+    <li><a href="../../text_analysis/Token/termPosition.html">termPosition</a></li>
+    <li><a href="../../text_analysis/Token/zone.html">zone</a></li>
 
-    <li class="section-title inherited"><a href="../../text_analysis/TextSource-class.html#instance-methods">Methods</a></li>
+    <li class="section-title inherited"><a href="../../text_analysis/Token-class.html#instance-methods">Methods</a></li>
     <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/noSuchMethod.html">noSuchMethod</a></li>
     <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/toString.html">toString</a></li>
 
-    <li class="section-title"><a href="../../text_analysis/TextSource-class.html#operators">Operators</a></li>
-    <li><a href="../../text_analysis/TextSource/operator_equals.html">operator ==</a></li>
+    <li class="section-title"><a href="../../text_analysis/Token-class.html#operators">Operators</a></li>
+    <li><a href="../../text_analysis/Token/operator_equals.html">operator ==</a></li>
 
 
 
 
+        <li class="section-title"><a href="../../text_analysis/Token-class.html#constants">Constants</a></li>
+          <li><a href="../../text_analysis/Token/empty-constant.html">empty</a></li>
 </ol>
 
   </div><!--/.sidebar-offcanvas-->

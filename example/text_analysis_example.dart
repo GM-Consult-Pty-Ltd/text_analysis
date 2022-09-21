@@ -45,17 +45,20 @@ final json = {
   'timestamp': 1656464362162
 };
 
-/// The fields in [json] to be tokenized.
-const fields = ['name', 'description', 'hashTags', 'publicationDate'];
+/// The zones in [json] to be tokenized.
+const zones = ['name', 'description', 'hashTags', 'publicationDate'];
 
 void main() async {
   //
 
-  // Tokenize the paragraphs and print the terms.
+  // tokenize the paragraphs and print the terms.
   _printTerms(await _tokenizeParagraphs(exampleText));
 
-// Tokenize the fields in a json document and print the terms.
-  _printTerms(await _tokenizeJson(json, fields));
+  // tokenize the zones in a json document and print the terms.
+  _printTerms(await _tokenizeJson(json, zones));
+
+  // get a a hashmap of tri-gram to terms in exampleText.first
+  await _getKgramIndex(exampleText.first, 3);
 }
 
 /// Print the terms in [textSource].
@@ -65,14 +68,29 @@ void _printTerms(TextSource textSource) {
   // print the terms
   print(terms);
 
-  /// Tokenize the [fields] in a [json] document.
+  /// Tokenize the [zones] in a [json] document.
 }
 
-/// Tokenize the [fields] in a [json] document.
+/// Gets the k-grams for the terms in [text] and returns a hashmap of k-gram
+/// to term.
+Future<Map<KGram, Set<Term>>> _getKgramIndex(SourceText text, int k) async {
+  final document = await TextAnalyzer().tokenize(text);
+  // get the bi-grams
+  final Map<String, Set<Term>> kGramIndex = document.tokens.kGrams(3);
+  // add the tri-grams
+  // kGramIndex.addAll(document.tokens.kGrams(3));
+  print('${'k-gram'.padRight(8)} Terms Set');
+  for (final entry in kGramIndex.entries) {
+    print('${entry.key.padRight(8)} ${entry.value}');
+  }
+  return kGramIndex;
+}
+
+/// Tokenize the [zones] in a [json] document.
 Future<TextSource> _tokenizeJson(
-    Map<String, dynamic> json, List<FieldName> fields) async {
+    Map<String, dynamic> json, List<Zone> zones) async {
   // use a TextAnalyzer instance to tokenize the json
-  final textSource = await TextAnalyzer().tokenizeJson(json, fields);
+  final textSource = await TextAnalyzer().tokenizeJson(json, zones);
   // map the document's tokens to a list of terms (strings)
   final terms = textSource.tokens.map((e) => e.term).toList();
   // print the terms

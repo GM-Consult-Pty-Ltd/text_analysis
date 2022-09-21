@@ -158,6 +158,15 @@ enumerate its <a href="../text_analysis/TextSource/sentences.html">sentences</a>
       <h2>Extensions</h2>
 
       <dl>
+        <dt id="KGramParserExtension">
+    <span class="name "><a href="../text_analysis/KGramParserExtension.html">KGramParserExtension</a></span> 
+
+</dt>
+<dd>
+    Extension methods on <a href="../text_analysis/Term.html">Term</a>.
+</dd>
+
+
         <dt id="Porter2StemmerExtension">
     <span class="name "><a href="https://pub.dev/documentation/porter_2_stemmer/1.0.0+5/porter_2_stemmer/Porter2StemmerExtension.html">Porter2StemmerExtension</a></span> 
 
@@ -203,24 +212,9 @@ text in preparation of tokenization.
   </dd>
 
           
-  <dt id="FieldName" class="">
-  <span class="name"><a href="../text_analysis/FieldName.html">FieldName</a></span>
-    = <a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a>
-  </span>
-  
-
-</dt>
-<dd>
-  An alias for String.
-  
-
-</dd>
-
-
-          
   <dt id="JsonTokenizer" class="callable">
     <span class="name"><a href="../text_analysis/JsonTokenizer.html">JsonTokenizer</a></span><span class="signature">
-      <span class="returntype parameter">= <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../text_analysis/Token-class.html">Token</a></span>&gt;</span></span>&gt;</span> Function<span class="signature">(<span class="parameter" id="param-json"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Map-class.html">Map</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>, <span class="type-parameter">dynamic</span>&gt;</span></span> <span class="parameter-name">json</span>, </span><span class="parameter" id="param-fields"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../text_analysis/FieldName.html">FieldName</a></span>&gt;</span></span> <span class="parameter-name">fields</span></span>)</span></span>
+      <span class="returntype parameter">= <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../text_analysis/Token-class.html">Token</a></span>&gt;</span></span>&gt;</span> Function<span class="signature">(<span class="parameter" id="param-json"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Map-class.html">Map</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>, <span class="type-parameter">dynamic</span>&gt;</span></span> <span class="parameter-name">json</span>, </span><span class="parameter" id="param-fields"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../text_analysis/Zone.html">Zone</a></span>&gt;</span></span> <span class="parameter-name">fields</span></span>)</span></span>
     </span>
     
 
@@ -231,6 +225,22 @@ the <code>fields</code> in a <code>json</code> document.
     
 
   </dd>
+
+          
+  <dt id="KGram" class="">
+  <span class="name"><a href="../text_analysis/KGram.html">KGram</a></span>
+    = <a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a>
+  </span>
+  
+
+</dt>
+<dd>
+  An alias for String, used in the context of a sequence of k characters
+from a <a href="../text_analysis/Term.html">Term</a>.
+  
+
+</dd>
+
 
           
   <dt id="SentenceSplitter" class="callable">
@@ -270,7 +280,7 @@ the <code>fields</code> in a <code>json</code> document.
 
   </dt>
   <dd>
-    A stemmer function that returns the stem of <code>term</code>.
+    A language-specific function that returns the stem of <code>term</code>.
     
 
   </dd>
@@ -284,7 +294,8 @@ the <code>fields</code> in a <code>json</code> document.
 
 </dt>
 <dd>
-  An alias for a <a href="https://api.flutter.dev/flutter/dart-core/Set-class.html">Set</a> of <a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a>
+  An alias for a <a href="https://api.flutter.dev/flutter/dart-core/Set-class.html">Set</a> of <a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a>, when used in the context of a collection
+of <a href="../text_analysis/Term.html">Term</a> that are excluded from tokenization.
   
 
 </dd>
@@ -299,7 +310,8 @@ the <code>fields</code> in a <code>json</code> document.
 
 </dt>
 <dd>
-  An alias for String.
+  An alias for String, used in the context of a word, term or phrase present
+in a text source, document or query.
   
 
 </dd>
@@ -350,7 +362,7 @@ the <code>fields</code> in a <code>json</code> document.
           
   <dt id="Tokenizer" class="callable">
     <span class="name"><a href="../text_analysis/Tokenizer.html">Tokenizer</a></span><span class="signature">
-      <span class="returntype parameter">= <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../text_analysis/Token-class.html">Token</a></span>&gt;</span></span>&gt;</span> Function<span class="signature">(<span class="parameter" id="param-source"><span class="type-annotation"><a href="../text_analysis/SourceText.html">SourceText</a></span> <span class="parameter-name">source</span>, </span><span class="parameter" id="param-field">[<span class="type-annotation"><a href="../text_analysis/FieldName.html">FieldName</a>?</span> <span class="parameter-name">field</span>]</span>)</span></span>
+      <span class="returntype parameter">= <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../text_analysis/Token-class.html">Token</a></span>&gt;</span></span>&gt;</span> Function<span class="signature">(<span class="parameter" id="param-source"><span class="type-annotation"><a href="../text_analysis/SourceText.html">SourceText</a></span> <span class="parameter-name">source</span>, </span><span class="parameter" id="param-zone">[<span class="type-annotation"><a href="../text_analysis/Zone.html">Zone</a>?</span> <span class="parameter-name">zone</span>]</span>)</span></span>
     </span>
     
 
@@ -361,6 +373,22 @@ the <code>source</code> text.
     
 
   </dd>
+
+          
+  <dt id="Zone" class="">
+  <span class="name"><a href="../text_analysis/Zone.html">Zone</a></span>
+    = <a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a>
+  </span>
+  
+
+</dt>
+<dd>
+  An alias for String, when used in the context of a field or meta data field
+in the <code>corpus</code>. Represents the name of the field/zone.
+  
+
+</dd>
+
 
       </dl>
     </section>
@@ -405,6 +433,7 @@ the <code>source</code> text.
   <li><a href="../text_analysis/Token-class.html">Token</a></li>
 
   <li class="section-title"><a href="../text_analysis/text_analysis-library.html#extensions">Extensions</a></li>
+  <li><a href="../text_analysis/KGramParserExtension.html">KGramParserExtension</a></li>
   <li><a href="https://pub.dev/documentation/porter_2_stemmer/1.0.0+5/porter_2_stemmer/Porter2StemmerExtension.html">Porter2StemmerExtension</a></li>
   <li><a href="../text_analysis/TokenCollectionExtension.html">TokenCollectionExtension</a></li>
 
@@ -415,8 +444,8 @@ the <code>source</code> text.
 
   <li class="section-title"><a href="../text_analysis/text_analysis-library.html#typedefs">Typedefs</a></li>
   <li><a href="../text_analysis/CharacterFilter.html">CharacterFilter</a></li>
-  <li><a href="../text_analysis/FieldName.html">FieldName</a></li>
   <li><a href="../text_analysis/JsonTokenizer.html">JsonTokenizer</a></li>
+  <li><a href="../text_analysis/KGram.html">KGram</a></li>
   <li><a href="../text_analysis/SentenceSplitter.html">SentenceSplitter</a></li>
   <li><a href="../text_analysis/SourceText.html">SourceText</a></li>
   <li><a href="../text_analysis/Stemmer.html">Stemmer</a></li>
@@ -426,6 +455,7 @@ the <code>source</code> text.
   <li><a href="../text_analysis/TermSplitter.html">TermSplitter</a></li>
   <li><a href="../text_analysis/TokenFilter.html">TokenFilter</a></li>
   <li><a href="../text_analysis/Tokenizer.html">Tokenizer</a></li>
+  <li><a href="../text_analysis/Zone.html">Zone</a></li>
 
 </ol>
 
@@ -436,7 +466,7 @@ the <code>source</code> text.
 <footer>
   <span class="no-break">
     text_analysis
-      0.6.5+1
+      0.7.0
   </span>
 
   

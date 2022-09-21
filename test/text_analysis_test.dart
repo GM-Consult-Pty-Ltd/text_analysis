@@ -47,6 +47,20 @@ void main() {
       'timestamp': 1656464362162
     };
 
+    test('kGram(k)', () async {
+      final source = text.first;
+      // use a TextAnalyzer instance to tokenize the source
+      final document = await TextAnalyzer().tokenize(source);
+      // get the bi-grams
+      final Map<String, Set<Term>> kGramIndex = document.tokens.kGrams(3);
+      // add the tri-grams
+      // kGramIndex.addAll(document.tokens.kGrams(3));
+      print('${'k-gram'.padRight(8)} Terms Set');
+      for (final entry in kGramIndex.entries) {
+        print('${entry.key.padRight(8)} ${entry.value}');
+      }
+    });
+
     test('TextAnalyzer.tokenize', () async {
       // Initialize a StringBuffer to hold the source text
       final sourceBuilder = StringBuffer();

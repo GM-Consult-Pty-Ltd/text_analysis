@@ -71,7 +71,7 @@
   <h2><span>Implementation</span></h2>
   <pre class="language-dart"><code class="language-dart">static Future&lt;List&lt;Token&gt;&gt; defaultTokenFilter(List&lt;Token&gt; tokens) async =&gt;
     tokens
-        .map((e) =&gt; Token(e.term.stemPorter2(), e.termPosition, e.field))
+        .map((e) =&gt; Token(e.term.stemPorter2(), e.termPosition, e.zone))
         .toList();</code></pre>
 </section>
 
@@ -134,7 +134,7 @@
 <footer>
   <span class="no-break">
     text_analysis
-      0.6.5+1
+      0.7.0
   </span>
 
   

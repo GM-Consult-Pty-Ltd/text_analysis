@@ -4,8 +4,8 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, user-scalable=no">
-  <meta name="description" content="API docs for the firstPosition method from the TokenCollectionExtension extension, for the Dart programming language.">
-  <title>firstPosition method - TokenCollectionExtension extension - text_analysis library - Dart API</title>
+  <meta name="description" content="API docs for the kGrams method from the TokenCollectionExtension extension, for the Dart programming language.">
+  <title>kGrams method - TokenCollectionExtension extension - text_analysis library - Dart API</title>
 
 
   
@@ -32,9 +32,9 @@
     <li><a href="../../index.html">text_analysis</a></li>
     <li><a href="../../text_analysis/text_analysis-library.html">text_analysis</a></li>
     <li><a href="../../text_analysis/TokenCollectionExtension.html">TokenCollectionExtension</a></li>
-    <li class="self-crumb">firstPosition method</li>
+    <li class="self-crumb">kGrams method</li>
   </ol>
-  <div class="self-name">firstPosition</div>
+  <div class="self-name">kGrams</div>
   <form class="search navbar-right" role="search">
     <input type="text" id="search-box" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
   </form>
@@ -45,15 +45,15 @@
 
   <div id="dartdoc-main-content" class="main-content">
       <div>
-<h1><span class="kind-method">firstPosition</span> method 
+<h1><span class="kind-method">kGrams</span> method 
     <a href="https://dart.dev/null-safety" class="feature feature-null-safety" title="Supports the null safety language feature.">Null safety</a>
 </h1></div>
 
     <section class="multi-line-signature">
       
 
-<span class="returntype"><a href="https://api.flutter.dev/flutter/dart-core/int-class.html">int</a></span>
-<span class="name ">firstPosition</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="firstPosition-param-term"><span class="type-annotation"><a href="../../text_analysis/Term.html">Term</a></span> <span class="parameter-name">term</span></span></li>
+<span class="returntype"><a href="https://api.flutter.dev/flutter/dart-core/Map-class.html">Map</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../../text_analysis/KGram.html">KGram</a></span>, <span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/Set-class.html">Set</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../../text_analysis/Term.html">Term</a></span>&gt;</span></span>&gt;</span></span>
+<span class="name ">kGrams</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="kGrams-param-k">[<span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/int-class.html">int</a></span> <span class="parameter-name">k</span> = <span class="default-value">3</span>]</span></li>
 </ol>)
 
       
@@ -61,14 +61,27 @@
     </section>
     
 <section class="desc markdown">
-  <p>Returns the lowest <a href="../../text_analysis/Token/termPosition.html">Token.termPosition</a> where <a href="../../text_analysis/Token/term.html">Token.term</a> == <code>term</code>.</p>
+  <p>Returns a hashmap of k-grams to terms from the collection of tokens.</p>
 </section>
 
 
     
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
-  <pre class="language-dart"><code class="language-dart">int firstPosition(Term term) =&gt; byTerm(term).first.termPosition;</code></pre>
+  <pre class="language-dart"><code class="language-dart">Map&lt;KGram, Set&lt;Term&gt;&gt; kGrams([int k = 3]) {
+  final terms = this.terms;
+  &#47;&#47; print the terms
+  final Map&lt;String, Set&lt;Term&gt;&gt; kGramIndex = {};
+  for (final term in terms) {
+    final kGrams = term.kGrams(k);
+    for (final kGram in kGrams) {
+      final set = kGramIndex[kGram] ?? {};
+      set.add(term);
+      kGramIndex[kGram] = set;
+    }
+  }
+  return kGramIndex;
+}</code></pre>
 </section>
 
 
@@ -85,7 +98,7 @@
   <li><a href="../../index.html">text_analysis</a></li>
   <li><a href="../../text_analysis/text_analysis-library.html">text_analysis</a></li>
   <li><a href="../../text_analysis/TokenCollectionExtension.html">TokenCollectionExtension</a></li>
-  <li class="self-crumb">firstPosition method</li>
+  <li class="self-crumb">kGrams method</li>
 </ol>
 
 

@@ -18,8 +18,8 @@ abstract class Sentence {
   /// The sentence [tokens] are filtered using [tokenFilter].
   static Future<Sentence> fromString(String sentence,
           TextAnalyzerConfiguration configuration, TokenFilter? tokenFilter,
-          [FieldName? field]) =>
-      _SentenceImpl.fromString(sentence, configuration, tokenFilter, field);
+          [Zone? zone]) =>
+      _SentenceImpl.fromString(sentence, configuration, tokenFilter, zone);
 
   /// The source text of the [Sentence].
   String get source;
@@ -52,7 +52,7 @@ class _SentenceImpl implements Sentence {
       {required String sentence,
       required TextAnalyzerConfiguration configuration,
       TokenFilter? tokenFilter,
-      FieldName? field}) async {
+      Zone? zone}) async {
     // perform the first punctuation and white-space split
     final terms = configuration.termSplitter(sentence);
     // initialize the tokens collection (return value)
@@ -76,7 +76,7 @@ class _SentenceImpl implements Sentence {
           // apply the characterFilter if it is not null
           splitTerm = configuration.characterFilter(splitTerm);
           final tokenIndex = index + subIndex;
-          tokens.add(Token(splitTerm, tokenIndex, field));
+          tokens.add(Token(splitTerm, tokenIndex, zone));
           // only increment the sub-index after the first term
           if (i > 0) {
             subIndex += splitTerm.length + 1;
@@ -100,12 +100,12 @@ class _SentenceImpl implements Sentence {
   /// The sentence [tokens] are filtered using [tokenFilter].
   static Future<Sentence> fromString(String sentence,
       TextAnalyzerConfiguration configuration, TokenFilter? tokenFilter,
-      [FieldName? field]) async {
+      [Zone? zone]) async {
     final tokens = await _SentenceImpl.tokenize(
         sentence: sentence,
         configuration: configuration,
         tokenFilter: tokenFilter,
-        field: field);
+        zone: zone);
     return _SentenceImpl(sentence, tokens);
   }
 
