@@ -44,8 +44,8 @@ abstract class ITextAnalyzer {
   ///
   /// Returns a [TextSource] with [document] and its component [Sentence]s and
   /// [Token]s
-  Future<TextSource> tokenizeJson(
-      Map<String, dynamic> document, Iterable<Zone> zones);
+  Future<TextSource> tokenizeJson(Map<String, dynamic> document,
+      [Iterable<Zone>? zones]);
 }
 
 /// A [ITextAnalyzer] implementation that extracts tokens from text for use
@@ -66,19 +66,33 @@ abstract class TextAnalyzerBase implements ITextAnalyzer {
   const TextAnalyzerBase();
 
   @override
-  Future<TextSource> tokenizeJson(
-      Map<String, dynamic> document, Iterable<Zone> zones) async {
+  Future<TextSource> tokenizeJson(Map<String, dynamic> document,
+      [Iterable<Zone>? zones]) async {
     final sentences = <Sentence>[];
     final sourceBuilder = StringBuffer();
-    zones = Set<String>.from(zones);
-    for (final zone in zones) {
-      final value = document[zone];
-      if (value != null) {
-        final source = value.toString();
-        if (source.isNotEmpty) {
-          final doc = await tokenize(source, zone);
-          sentences.addAll(doc.sentences);
-          sourceBuilder.writeln('"$zone": "$source"');
+    if (zones == null || zones.isEmpty) {
+      final valueBuilder = StringBuffer();
+      for (final fieldValue in document.values) {
+        valueBuilder.writeln(fieldValue.toString());
+      }
+      final value = valueBuilder.toString();
+      final source = value.toString();
+      if (source.isNotEmpty) {
+        final doc = await tokenize(source);
+        sentences.addAll(doc.sentences);
+        sourceBuilder.writeln(document.toString());
+      }
+    } else {
+      zones = Set<String>.from(zones);
+      for (final zone in zones) {
+        final value = document[zone];
+        if (value != null) {
+          final source = value.toString();
+          if (source.isNotEmpty) {
+            final doc = await tokenize(source, zone);
+            sentences.addAll(doc.sentences);
+            sourceBuilder.writeln('"$zone": "$source"');
+          }
         }
       }
     }

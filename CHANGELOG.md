@@ -4,9 +4,17 @@ Copyright (c) 2022, GM Consult Pty Ltd
 All rights reserved. 
 -->
 
+### 0.8.1 (PRE-RELEASE, BUG FIX)
+
+#### Bug Fixes:
+- Fixed `TextAnalyzerBase.tokenizeJson` would not tokenize documents if `Iterable<Zone> zones` parameter is empty.
+
+#### Non-breaking Changes:
+- `TextAnalyzerBase.tokenizeJson` required non-nullable parameter `Iterable<Zone> zones` to optional nullable `[Iterable<Zone>? zones]`.
+
 ### 0.8.0 (PRE-RELEASE, BREAKING CHANGES)
 
-#### New:
+#### Breaking Changes:
 - Added type definitions for `kGram` and `Trigram`.
 - New extension method `Set<kGram> Term.kGrams([int k = 3])`.
 - New extension method `Set<kGram> Iterable<Token>.kGrams([int k = 3])`.

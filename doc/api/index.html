@@ -195,7 +195,7 @@ All rights reserved.
 <li><code>character filter</code> - filters characters from text in preparation of tokenization.</li>
 <li><code>dictionary</code> - is a hash of <code>terms</code> (<code>vocabulary</code>) to the frequency of occurence in the <code>corpus</code> documents.</li>
 <li><code>document</code> - a record in the <code>corpus</code>, that has a unique identifier (<code>docId</code>) in the <code>corpus</code>'s primary key and that contains one or more text zones/fields  that are indexed.</li>
-<li><code>index</code> - an <a href="https://en.wikipedia.org/wiki/Inverted_index">inverted index</a> used to look up <code>document</code> references from the <code>corpus</code> against a <code>vocabulary</code> of <code>terms</code>. The implementation in this package builds and maintains a positional inverted index, that also includes the positions of the indexed <code>term</code> in each <code>document</code>.
+<li><code>index</code> - an <a href="https://en.wikipedia.org/wiki/Inverted_index">inverted index</a> used to look up <code>document</code> references from the <code>corpus</code> against a <code>vocabulary</code> of <code>terms</code>. 
 <code>k-gram</code> - a sequence of (any) k consecutive characters from a <code>term</code>. A k-gram can start with "$", dentoting the start of the <a href="text_analysis/Term.html">Term</a>, and end with "$", denoting the end of the <a href="text_analysis/Term.html">Term</a>. The 3-grams for "castle" are { $ca, cas, ast, stl, tle, le$ }.</li>
 <li><code>lemmatizer</code> - lemmatisation (or lemmatization) in linguistics is the process of grouping together the inflected forms of a word so they can be analysed as a single item, identified by the word's lemma, or dictionary form (from <a href="https://en.wikipedia.org/wiki/Lemmatisation">Wikipedia</a>).</li>
 <li><code>postings</code> - a separate index that records which <code>documents</code> the <code>vocabulary</code> occurs in. In this implementation we also record the positions of each <code>term</code> in the <code>text</code> to create a positional inverted <code>index</code>.</li>
@@ -270,7 +270,7 @@ information retrieval systems.
 <footer>
   <span class="no-break">
     text_analysis
-      0.7.0
+      0.8.1
   </span>
 
   

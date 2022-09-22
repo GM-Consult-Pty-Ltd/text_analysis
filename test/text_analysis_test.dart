@@ -81,9 +81,19 @@ void main() {
     });
 
     test('TextAnalyzer.tokenizeJson', () async {
-      // use a TextAnalyzer instance to tokenize the json
+      // use a TextAnalyzer instance to tokenize the json with 3 zones
       final textSource = await TextAnalyzer()
           .tokenizeJson(json, ['name', 'description', 'hashTags']);
+      // map the document's tokens to a list of terms (strings)
+      final terms = textSource.tokens.map((e) => e.term).toList();
+      // print the terms
+      print(terms);
+    });
+
+    /// Tokenize JSON with NO zones.
+    test('TextAnalyzer.tokenizeJson', () async {
+      // use a TextAnalyzer instance to tokenize the json with NO zones
+      final textSource = await TextAnalyzer().tokenizeJson(json);
       // map the document's tokens to a list of terms (strings)
       final terms = textSource.tokens.map((e) => e.term).toList();
       // print the terms
