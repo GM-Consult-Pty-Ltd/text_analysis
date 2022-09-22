@@ -4,6 +4,7 @@
 import 'package:text_analysis/text_analysis.dart';
 import 'package:test/test.dart';
 import 'data/sample_news.dart';
+import 'data/sample_stocks.dart';
 
 void main() {
   group('TextAnalyzer', () {
@@ -52,9 +53,9 @@ void main() {
     test('kGram(k)', () async {
       final source = text.first;
       // use a TextAnalyzer instance to tokenize the source
-      final document = await TextAnalyzer().tokenize(source);
+      final tokens = await TextAnalyzer().tokenize(source);
       // get the bi-grams
-      final Map<String, Set<Term>> kGramIndex = document.tokens.kGrams(3);
+      final Map<String, Set<Term>> kGramIndex = tokens.kGrams(3);
       // add the tri-grams
       // kGramIndex.addAll(document.tokens.kGrams(3));
       print('${'k-gram'.padRight(8)} Terms Set');
@@ -73,19 +74,19 @@ void main() {
       // convert the StringBuffer to a String
       final source = sourceBuilder.toString();
       // use a TextAnalyzer instance to tokenize the source
-      final document = await TextAnalyzer().tokenize(source);
+      final tokens = await TextAnalyzer().tokenize(source);
       // map the document's tokens to a list of terms (strings)
-      final terms = document.tokens.allTerms;
+      final terms = tokens.allTerms;
       // print the terms
       print(terms);
     });
 
     test('TextAnalyzer.tokenizeJson', () async {
       // use a TextAnalyzer instance to tokenize the json with 3 zones
-      final textSource = await TextAnalyzer()
+      final tokens = await TextAnalyzer()
           .tokenizeJson(json, ['name', 'description', 'hashTags']);
       // map the document's tokens to a list of terms (strings)
-      final terms = textSource.tokens.map((e) => e.term).toList();
+      final terms = tokens.map((e) => e.term).toList();
       // print the terms
       print(terms);
     });
@@ -93,9 +94,9 @@ void main() {
     /// Tokenize JSON with NO zones.
     test('TextAnalyzer.tokenizeJson', () async {
       // use a TextAnalyzer instance to tokenize the json with NO zones
-      final textSource = await TextAnalyzer().tokenizeJson(json);
+      final tokens = await TextAnalyzer().tokenizeJson(json);
       // map the document's tokens to a list of terms (strings)
-      final terms = textSource.tokens.map((e) => e.term).toList();
+      final terms = tokens.map((e) => e.term).toList();
       // print the terms
       print(terms);
     });
@@ -106,13 +107,12 @@ void main() {
       // initialize a term dictionary
       final dictionary = <String, int>{};
       // iterate through sampleNews
-      await Future.forEach(sampleNews.entries,
+      await Future.forEach(sampleStocks.entries,
           (MapEntry<String, Map<String, dynamic>> entry) async {
         final json = entry.value;
-        final textSource = await TextAnalyzer()
-            .tokenizeJson(json, ['name', 'description', 'hashTags']);
-        for (final term
-            in Set<String>.from(textSource.tokens.map((e) => e.term))) {
+        final tokens = await TextAnalyzer().tokenizeJson(
+            json, ['ticker', 'name', 'description', 'hashTag', 'symbol']);
+        for (final term in Set<String>.from(tokens.map((e) => e.term))) {
           final tf = (dictionary[term] ?? 0) + 1;
           dictionary[term] = tf;
         }
@@ -128,7 +128,9 @@ void main() {
       print('Printing TOP 20 terms');
       print('Term:    Df');
       print('=========================');
-      for (final entry in entries.sublist(0, 20)) {
+
+      for (final entry
+          in entries.length < 20 ? entries : entries.sublist(0, 20)) {
         // print the terms
         print('${entry.key}: ${entry.value}');
       }

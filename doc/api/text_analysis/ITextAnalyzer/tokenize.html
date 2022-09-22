@@ -52,7 +52,7 @@
     <section class="multi-line-signature">
       
 
-<span class="returntype"><a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../../text_analysis/TextSource-class.html">TextSource</a></span>&gt;</span></span>
+<span class="returntype"><a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../../text_analysis/Token-class.html">Token</a></span>&gt;</span></span>&gt;</span></span>
 <span class="name ">tokenize</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="tokenize-param-source"><span class="type-annotation"><a href="../../text_analysis/SourceText.html">SourceText</a></span> <span class="parameter-name">source</span>, </span></li>
 <li><span class="parameter" id="tokenize-param-zone">[<span class="type-annotation"><a href="../../text_analysis/Zone.html">Zone</a>?</span> <span class="parameter-name">zone</span>]</span></li>
 </ol>)
@@ -66,15 +66,14 @@
 indexes.</p>
 <p>Optional parameter <code>zone</code> is the name of the zone in a document in
 which the term is located.</p>
-<p>Returns a <code>TextSource</code> with <code>source</code> and its component <a href="../../text_analysis/Sentence-class.html">Sentence</a>s and
-<a href="../../text_analysis/Token-class.html">Token</a>s</p>
+<p>Returns a List&lt;<a href="../../text_analysis/Token-class.html">Token</a>&gt;.</p>
 </section>
 
 
     
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
-  <pre class="language-dart"><code class="language-dart">Future&lt;TextSource&gt; tokenize(SourceText source, [Zone? zone]);</code></pre>
+  <pre class="language-dart"><code class="language-dart">Future&lt;List&lt;Token&gt;&gt; tokenize(SourceText source, [Zone? zone]);</code></pre>
 </section>
 
 
@@ -134,7 +133,7 @@ which the term is located.</p>
 <footer>
   <span class="no-break">
     text_analysis
-      0.8.1
+      0.9.0
   </span>
 
   

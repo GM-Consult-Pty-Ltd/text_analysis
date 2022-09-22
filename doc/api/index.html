@@ -68,7 +68,7 @@ All rights reserved.
 <li>a <code>term splitter</code> splits text to a list of terms at appropriate places like white-space and mid-sentence punctuation;</li>
 <li>a <code>character filter</code> manipulates terms prior to stemming and tokenization (e.g. changing case and / or removing non-word characters);</li>
 <li>a <code>term filter</code> manipulates the terms by splitting compound or hyphenated terms or applying stemming and lemmatization. The <code>termFilter</code> can also filter out <code>stopwords</code>; and</li>
-<li>the <code>tokenizer</code> converts the resulting terms  to a collection of <code>tokens</code> that contain the term and a pointer to the position of the term in the source text.</li>
+<li>the <code>tokenizer</code> converts the resulting terms to a collection of <code>tokens</code> that contain the term and a pointer to the position of the term in the source text.</li>
 </ul>
 <p>This library also includes an extension method <code>Set&lt;KGram&gt; kGrams([int k = 3])</code> on <code>Term</code> that parses a set of k-grams of length k from a <code>term</code>.  The default k-gram length is 3 (tri-gram).</p>
 <p><img src="https://github.com/GM-Consult-Pty-Ltd/text_analysis/raw/main/assets/images/text_analysis.png?raw=true?raw=true" alt="Text analysis" title="Tokenizing overview"></p>
@@ -109,7 +109,6 @@ All rights reserved.
 <li><code>IdFt</code> is an alias for <code>double</code>, where it represents the inverse document frequency of a term, defined as idft = log (N / dft), where N is the total number of terms in the index and dft is the document frequency of the term (number of documents that contain the term).</li>
 <li><code>JsonTokenizer</code> is a function that returns <code>Token</code> collection from the fields in a JSON document hashmap of <code>Zone</code> to value;</li>
 <li><code>kGram</code> is an alias for <code>String</code>, used in the context of a sequence of k consecutive characters in a <code>Term</code>.</li>
-<li><code>SentenceSplitter</code> is a function that returns a list of sentences from <code>SourceText</code>. In English, the <code>SourceText</code> is split at sentence endings marks such as periods, question marks and exclamation marks;</li>
 <li><code>SourceText</code>, <code>Zone</code> and <code>Term</code> are all aliases for the DART core type <code>String</code> when used in different contexts;</li>
 <li><code>StopWords</code> is an alias for <code>Set&lt;String&gt;</code>;</li>
 <li><code>TermFilter</code> is a function that manipulates a <code>Term</code> collection by splitting compound or hyphenated terms or applying stemming and lemmatization. The <code>TermFilter</code> can also filter out <code>stopwords</code>;</li>
@@ -120,9 +119,7 @@ All rights reserved.
 <h3 id="object-models">Object models</h3>
 <p>The <code>text_analysis</code> library includes the following object-model classes:</p>
 <ul>
-<li>a <code>Token</code> represents a <code>Term</code> present in a <code>TextSource</code> with its <code>position</code> and optional <code>zone name</code>.</li>
-<li>a <code>Sentence</code> represents a <code>TextSource</code> not containing sentence ending  punctuation such as periods, question-marks and exclamations, except where  used in tokens, identifiers or other terms; and</li>
-<li>A <code>TextSource</code> represents a <code>TextSource</code> that has been analyzed to enumerate <code>Sentence</code> and <code>Token</code> collections.</li>
+<li>a <code>Token</code> represents a <code>Term</code> present in a <code>List&lt;Token&gt;</code> with its <code>position</code> and optional <code>zone name</code>.</li>
 </ul>
 <h3 id="interfaces">Interfaces</h3>
 <p>The <code>text_analysis</code> library exposes two interfaces:</p>
@@ -133,7 +130,6 @@ All rights reserved.
 <h4 id="textanalyzerconfiguration-interface"><em>TextAnalyzerConfiguration Interface</em></h4>
 <p>The <code>TextAnalyzerConfiguration</code> interface exposes language-specific properties and methods used in text analysis:</p>
 <ul>
-<li>a <code>TextAnalyzerConfiguration.sentenceSplitter</code> splits the text at sentence endings such as periods, exclamations and question marks or line endings;</li>
 <li>a <code>TextAnalyzerConfiguration.termSplitter</code> to split the text into terms;</li>
 <li>a <code>TextAnalyzerConfiguration.characterFilter</code> to remove non-word characters.</li>
 <li>a <code>TextAnalyzerConfiguration.termFilter</code> to apply a stemmer/lemmatizer or stopword list.</li>
@@ -143,14 +139,14 @@ All rights reserved.
 <ul>
 <li><code>ITextAnalyzer.configuration</code> is a <code>TextAnalyzerConfiguration</code> used by the <code>ITextAnalyzer</code> to tokenize source text.</li>
 <li>Provide a <code>ITextAnalyzer.tokenFilter</code>  to manipulate tokens or restrict tokenization to tokens that meet criteria for either index or count;</li>
-<li>the <code>ITextAnalyzer.tokenize</code> function tokenizes text to a <code>TextSource</code> object that contains all the <code>Token</code>s in the text; and</li>
-<li>the <code>ITextAnalyzer.tokenizeJson</code> function tokenizes a JSON hashmap to a <code>TextSource</code> object that contains all the <code>Token</code>s in the document.</li>
+<li>the <code>ITextAnalyzer.tokenize</code> function tokenizes text to a <code>List&lt;Token&gt;</code> that contains all the <code>Token</code>s in the text; and</li>
+<li>the <code>ITextAnalyzer.tokenizeJson</code> function tokenizes a JSON hashmap to a <code>List&lt;Token&gt;</code> that contains all the <code>Token</code>s in the document.</li>
 </ul>
 <h3 id="implementation-classes">Implementation classes</h3>
 <p>The <a href="https://pub.dev/packages/text_analysis/versions">latest version</a> provides the following implementation classes:</p>
 <ul>
 <li>the <a href="#english-class">English</a> class implements <a href="#textanalyzerconfiguration-interface">TextAnalyzerConfiguration</a> and provides text analysis configuration properties for the English language;</li>
-<li>the <a href="#textanalyzerbase-class">TextAnalyzerBase</a> abstract class implements <code>ITextAnalyzer.tokenize</code>; and</li>
+<li>the <a href="#textanalyzerbase-class">TextAnalyzerBase</a> abstract class implements <code>ITextAnalyzer.tokenize</code> and <code>ITextAnalyzer.tokenizeJson</code>; and</li>
 <li>the <a href="#textanalyzer-class">TextAnalyzer</a> class extends <a href="#textanalyzerbase-class">TextAnalyzerBase</a>  and implements <code>ITextAnalyzer.tokenFilter</code> and <code>ITextAnalyzer.configuration</code> as final fields with their values passed in as (optional) parameters (with defaults) at initialization.</li>
 </ul>
 <h4 id="english-class"><em>English class</em></h4>
@@ -173,13 +169,12 @@ All rights reserved.
 <li>removes all non-word characters from the term;</li>
 <li>replaces all characters except letters and numbers from the end of the term.</li>
 </ul>
-<p>The <code>sentenceSplitter</code> inserts<code>_kSentenceDelimiter</code> at sentence breaks and then splits the source text into a list of sentence strings (sentence breaks are characters that match <code>English.reLineEndingSelector</code> or <code>English.reSentenceEndingSelector</code>). Empty sentences are removed.</p>
-<h4 id="textanalyzerbase-class"><em>TextAnalyzerBase Class</em></h4>
+<h4 id="textanalyzerbase-class"><em>TextAnalyzerBase class</em></h4>
 <p>The <code>TextAnalyzerBase</code> class implements the <code>ITextAnalyzer.tokenize</code> method:</p>
 <ul>
 <li>tokenizes source text using the <code>configuration</code>;</li>
 <li>manipulates the output by applying <code>tokenFilter</code>; and, finally</li>
-<li>returns a <code>TextSource</code> enumerating the source text, <code>Sentence</code> collection and <code>Token</code> collection.</li>
+<li>returns a <code>List&lt;Token&gt;</code> enumerating all the <code>Tokens</code> in the source text.</li>
 </ul>
 <h4 id="textanalyzer-class"><em>TextAnalyzer Class</em></h4>
 <p>The <code>TextAnalyzer</code> class extends <a href="#textanalyzerbase-class">TextAnalyzerBase</a>:</p>
@@ -270,7 +265,7 @@ information retrieval systems.
 <footer>
   <span class="no-break">
     text_analysis
-      0.8.1
+      0.9.0
   </span>
 
   

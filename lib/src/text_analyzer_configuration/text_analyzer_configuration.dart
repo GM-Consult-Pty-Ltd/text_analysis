@@ -9,8 +9,7 @@ import 'package:text_analysis/text_analysis.dart';
 /// - [termFilter] is a filter function that returns a collection of terms from
 ///   a term. It returns an empty collection if the term is to be excluded from
 ///   analysis or, returns multiple terms if the term is split (e.g. at hyphens)
-///   and / or, returns modified term(s), such as applying a stemmer algorithm.
-/// - [sentenceSplitter] returns a list of sentences from text; and
+///   and / or, returns modified term(s), such as applying a stemmer algorithm; and
 /// - [termSplitter] returns a list of terms from text.
 abstract class TextAnalyzerConfiguration {
   //
@@ -27,9 +26,6 @@ abstract class TextAnalyzerConfiguration {
   /// - return multiple terms if the term is split; and/or
   /// - return modified term(s), such as applying a stemmer algorithm.
   TermFilter get termFilter;
-
-  /// Returns a list of sentences from text.
-  SentenceSplitter get sentenceSplitter;
 
   /// Returns a list of terms from text.
   TermSplitter get termSplitter;

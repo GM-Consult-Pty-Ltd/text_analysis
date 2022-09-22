@@ -57,8 +57,8 @@
   </ol>
 </div>
 
-<span class="returntype"><a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../../text_analysis/TextSource-class.html">TextSource</a></span>&gt;</span></span>
-<span class="name ">tokenize</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="tokenize-param-source"><span class="type-annotation"><a href="../../text_analysis/SourceText.html">SourceText</a></span> <span class="parameter-name">source</span>, </span></li>
+<span class="returntype"><a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../../text_analysis/Token-class.html">Token</a></span>&gt;</span></span>&gt;</span></span>
+<span class="name ">tokenize</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="tokenize-param-text"><span class="type-annotation"><a href="../../text_analysis/SourceText.html">SourceText</a></span> <span class="parameter-name">text</span>, </span></li>
 <li><span class="parameter" id="tokenize-param-zone">[<span class="type-annotation"><a href="../../text_analysis/Zone.html">Zone</a>?</span> <span class="parameter-name">zone</span>]</span></li>
 </ol>)
 
@@ -71,8 +71,7 @@
 indexes.</p>
 <p>Optional parameter <code>zone</code> is the name of the zone in a document in
 which the term is located.</p>
-<p>Returns a <code>TextSource</code> with <code>source</code> and its component <a href="../../text_analysis/Sentence-class.html">Sentence</a>s and
-<a href="../../text_analysis/Token-class.html">Token</a>s</p>
+<p>Returns a List&lt;<a href="../../text_analysis/Token-class.html">Token</a>&gt;.</p>
 </section>
 
 
@@ -80,16 +79,32 @@ which the term is located.</p>
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
   <pre class="language-dart"><code class="language-dart">@override
-Future&lt;TextSource&gt; tokenize(SourceText source, [Zone? zone]) async {
-  final sentenceStrings = configuration.sentenceSplitter(source);
-  final sentences = &lt;Sentence&gt;[];
-  &#47;&#47; convert [sentenceStrings] into [Sentence]s
-  for (final sentence in sentenceStrings) {
-    final value =
-        await Sentence.fromString(sentence, configuration, tokenFilter, zone);
-    sentences.add(value);
-  }
-  return TextSource(source, sentences);
+Future&lt;List&lt;Token&gt;&gt; tokenize(SourceText text, [Zone? zone]) async {
+  int position = 0;
+&#47;&#47; perform the first punctuation and white-space split
+  final terms = configuration.termSplitter(text.trim());
+  &#47;&#47; initialize the tokens collection (return value)
+  final tokens = &lt;Token&gt;[];
+
+  &#47;&#47; iterate through the terms
+  await Future.forEach(terms, (String term) async {
+    &#47;&#47; remove white-space at start and end of term
+    term = term.trim();
+    &#47;&#47; only tokenize non-empty strings.
+    if (term.isNotEmpty) {
+      &#47;&#47; apply the termFilter if it is not null
+      final splitTerms = await configuration.termFilter(term);
+      for (var splitTerm in splitTerms) {
+        if (splitTerm.isNotEmpty) {
+          tokens.add(Token(splitTerm, position, zone));
+        }
+      }
+    }
+    &#47;&#47; increment the index
+    position = position++;
+  });
+  &#47;&#47; apply the tokenFilter if it is not null and return the tokens collection
+  return tokenFilter != null ? await tokenFilter!(tokens) : tokens;
 }</code></pre>
 </section>
 
@@ -150,7 +165,7 @@ Future&lt;TextSource&gt; tokenize(SourceText source, [Zone? zone]) async {
 <footer>
   <span class="no-break">
     text_analysis
-      0.8.1
+      0.9.0
   </span>
 
   

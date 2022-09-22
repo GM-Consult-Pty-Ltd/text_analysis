@@ -4,6 +4,16 @@ Copyright (c) 2022, GM Consult Pty Ltd
 All rights reserved. 
 -->
 
+### 0.9.0 (PRE-RELEASE, BREAKING CHANGES)
+
+#### Breaking Changes:
+- Removed class `TextSource`.
+- Removed class `Sentence`.
+- Removed class `TermPair`.
+- Removed `TextAnalyzerConfiguration.sentenceSplitter` from `TextAnalyzerConfiguration` interface.
+- Changed `TextAnalyzer.tokenize` return value to `List<Token>`.
+- Changed `TextAnalyzer.tokenizeJson` return value to `List<Token>`.
+
 ### 0.8.1 (PRE-RELEASE, BUG FIX)
 
 #### Bug Fixes:

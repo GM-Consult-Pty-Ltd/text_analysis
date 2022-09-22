@@ -57,7 +57,7 @@
   </ol>
 </div>
 
-<span class="returntype"><a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../../text_analysis/TextSource-class.html">TextSource</a></span>&gt;</span></span>
+<span class="returntype"><a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../../text_analysis/Token-class.html">Token</a></span>&gt;</span></span>&gt;</span></span>
 <span class="name ">tokenizeJson</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="tokenizeJson-param-document"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Map-class.html">Map</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>, <span class="type-parameter">dynamic</span>&gt;</span></span> <span class="parameter-name">document</span>, </span></li>
 <li><span class="parameter" id="tokenizeJson-param-zones">[<span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../../text_analysis/Zone.html">Zone</a></span>&gt;</span>?</span> <span class="parameter-name">zones</span>]</span></li>
 </ol>)
@@ -71,8 +71,7 @@
 full-text search queries and indexes.</p>
 <p>The required parameter <code>zones</code> is the collection of the names of the
 zones in <code>document</code> that are to be tokenized.</p>
-<p>Returns a <code>TextSource</code> with <code>document</code> and its component <a href="../../text_analysis/Sentence-class.html">Sentence</a>s and
-<a href="../../text_analysis/Token-class.html">Token</a>s</p>
+<p>Returns a List&lt;<a href="../../text_analysis/Token-class.html">Token</a>&gt;.</p>
 </section>
 
 
@@ -80,10 +79,9 @@ zones in <code>document</code> that are to be tokenized.</p>
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
   <pre class="language-dart"><code class="language-dart">@override
-Future&lt;TextSource&gt; tokenizeJson(Map&lt;String, dynamic&gt; document,
+Future&lt;List&lt;Token&gt;&gt; tokenizeJson(Map&lt;String, dynamic&gt; document,
     [Iterable&lt;Zone&gt;? zones]) async {
-  final sentences = &lt;Sentence&gt;[];
-  final sourceBuilder = StringBuffer();
+  final tokens = &lt;Token&gt;[];
   if (zones == null || zones.isEmpty) {
     final valueBuilder = StringBuffer();
     for (final fieldValue in document.values) {
@@ -92,25 +90,22 @@ Future&lt;TextSource&gt; tokenizeJson(Map&lt;String, dynamic&gt; document,
     final value = valueBuilder.toString();
     final source = value.toString();
     if (source.isNotEmpty) {
-      final doc = await tokenize(source);
-      sentences.addAll(doc.sentences);
-      sourceBuilder.writeln(document.toString());
+      tokens.addAll(await tokenize(source));
     }
   } else {
-    zones = Set&lt;String&gt;.from(zones);
+    zones = zones.toSet();
+
     for (final zone in zones) {
       final value = document[zone];
       if (value != null) {
         final source = value.toString();
         if (source.isNotEmpty) {
-          final doc = await tokenize(source, zone);
-          sentences.addAll(doc.sentences);
-          sourceBuilder.writeln(&#39;&quot;$zone&quot;: &quot;$source&quot;&#39;);
+          tokens.addAll(await tokenize(source, zone));
         }
       }
     }
   }
-  return TextSource(sourceBuilder.toString(), sentences);
+  return tokens;
 }</code></pre>
 </section>
 
@@ -171,7 +166,7 @@ Future&lt;TextSource&gt; tokenizeJson(Map&lt;String, dynamic&gt; document,
 <footer>
   <span class="no-break">
     text_analysis
-      0.8.1
+      0.9.0
   </span>
 
   

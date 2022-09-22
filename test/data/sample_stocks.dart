@@ -1,0 +1,98 @@
+const sampleStocks = {
+  "AAPL:XNGS": {
+    "avatarImageUrl":
+        "https://firebasestorage.googleapis.com/v0/b/buysellhold-322d1.appspot.com/o/logos%2FAAPL%3AXNGS.png?alt=media&token=fb44cde6-4552-42e7-b1b0-7eddc92b1dfc",
+    "country": "Country.US",
+    "currency": "Currency.USD",
+    "description": "Securities for Apple Inc listed on NASDAQ.",
+    "descriptions": {"en_US": "Securities for Apple Inc listed on NASDAQ."},
+    "entityType": "SecurityData",
+    "exchange": "Exchange.XNGS",
+    "gics": "00000000",
+    "hashTag": "#Apple",
+    "id": "AAPL:XNGS",
+    "isin": "",
+    "locale": "Locale.en_US",
+    "logoUrl":
+        "https://firebasestorage.googleapis.com/v0/b/buysellhold-322d1.appspot.com/o/logos%2FAAPL%3AXNGS.png?alt=media&token=fb44cde6-4552-42e7-b1b0-7eddc92b1dfc",
+    "name": "Apple Inc",
+    "names": {"en_US": "Apple Inc"},
+    "securityGroup": "SecurityGroup.ES",
+    "symbol": "AAPL",
+    "ticker": "AAPL:XNGS",
+    "timestamp": 1648985936008,
+    "websiteUrl": "https://finance.yahoo.com/quote/AAPL"
+  },
+  "GOOG:XNGS": {
+    "avatarImageUrl":
+        "https://firebasestorage.googleapis.com/v0/b/buysellhold-322d1.appspot.com/o/logos%2FGOOG%3AXNGS.png?alt=media&token=31b07ad4-05e5-478c-9ae2-431dd48091e3",
+    "country": "Country.US",
+    "currency": "Currency.USD",
+    "description": "Securities for Alphabet Inc listed on NASDAQ.",
+    "descriptions": {"en_US": "Securities for Alphabet Inc listed on NASDAQ."},
+    "entityType": "SecurityData",
+    "exchange": "Exchange.XNGS",
+    "gics": "00000000",
+    "hashTag": "#Alphabet",
+    "id": "GOOG:XNGS",
+    "isin": "",
+    "locale": "Locale.en_US",
+    "logoUrl":
+        "https://firebasestorage.googleapis.com/v0/b/buysellhold-322d1.appspot.com/o/logos%2FGOOG%3AXNGS.png?alt=media&token=31b07ad4-05e5-478c-9ae2-431dd48091e3",
+    "name": "Alphabet Inc",
+    "names": {"en_US": "Alphabet Inc"},
+    "securityGroup": "SecurityGroup.ES",
+    "symbol": "GOOG",
+    "ticker": "GOOG:XNGS",
+    "timestamp": 1648985937537,
+    "websiteUrl": "https://finance.yahoo.com/quote/GOOG"
+  },
+  "GOOGL:XNGS": {
+    "avatarImageUrl":
+        "https://firebasestorage.googleapis.com/v0/b/buysellhold-322d1.appspot.com/o/logos%2FGOOG%3AXNGS.png?alt=media&token=31b07ad4-05e5-478c-9ae2-431dd48091e3",
+    "country": "Country.US",
+    "currency": "Currency.USD",
+    "description": "Securities for Alphabet Inc listed on NASDAQ.",
+    "descriptions": {"en_US": "Securities for Alphabet Inc listed on NASDAQ."},
+    "entityType": "SecurityData",
+    "exchange": "Exchange.XNGS",
+    "gics": "00000000",
+    "hashTag": "#Alphabet",
+    "id": "GOOGL:XNGS",
+    "isin": "",
+    "locale": "Locale.en_US",
+    "logoUrl":
+        "https://firebasestorage.googleapis.com/v0/b/buysellhold-322d1.appspot.com/o/logos%2FGOOGL%3AXNGS.png?alt=media&token=4e5038ef-11ad-4a84-822c-25aa5eff9d74",
+    "name": "Alphabet Inc",
+    "names": {"en_US": "Alphabet Inc"},
+    "securityGroup": "SecurityGroup.ES",
+    "symbol": "GOOGL",
+    "ticker": "GOOGL:XNGS",
+    "timestamp": 1656051559982,
+    "websiteUrl": "https://finance.yahoo.com/quote/GOOGL"
+  },
+  "TSLA:XNGS": {
+    "avatarImageUrl":
+        "https://firebasestorage.googleapis.com/v0/b/buysellhold-322d1.appspot.com/o/logos%2FTSLA%3AXNGS.png?alt=media&token=c365db47-9482-4237-9267-82f72854d161",
+    "country": "Country.US",
+    "currency": "Currency.USD",
+    "description": "Securities for Tesla Inc listed on NASDAQ.",
+    "descriptions": {"en_US": "Securities for Tesla Inc listed on NASDAQ."},
+    "entityType": "SecurityData",
+    "exchange": "Exchange.XNGS",
+    "gics": "00000000",
+    "hashTag": "#Tesla",
+    "id": "TSLA:XNGS",
+    "isin": "",
+    "locale": "Locale.en_US",
+    "logoUrl":
+        "https://firebasestorage.googleapis.com/v0/b/buysellhold-322d1.appspot.com/o/logos%2FTSLA%3AXNGS.png?alt=media&token=c365db47-9482-4237-9267-82f72854d161",
+    "name": "Tesla Inc",
+    "names": {"en_US": "Tesla Inc"},
+    "securityGroup": "SecurityGroup.ES",
+    "symbol": "TSLA",
+    "ticker": "TSLA:XNGS",
+    "timestamp": 1648985926633,
+    "websiteUrl": "https://finance.yahoo.com/quote/TSLA"
+  },
+};

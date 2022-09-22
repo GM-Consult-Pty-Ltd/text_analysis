@@ -26,12 +26,6 @@ import 'package:text_analysis/text_analysis.dart';
 /// - replaces all characters except letters and numbers from the end of
 ///   the term.
 ///
-/// The [sentenceSplitter] inserts[_kSentenceDelimiter] at sentence breaks
-/// and then splits the source text into a list of sentence strings.
-///
-/// Sentence breaks are characters that match [English.reLineEndingSelector]
-/// or [English.reSentenceEndingSelector].
-///
 /// Empty strings are removed from the returned collection.
 class English implements TextAnalyzerConfiguration {
   //
@@ -58,30 +52,47 @@ class English implements TextAnalyzerConfiguration {
         if (kAbbreviations.contains(term)) {
           return [term, term.replaceAll('.', '')];
         }
-        term = characterFilter(term);
+        term = cleanTerm(term);
         // if the resulting [term] is shorter than 2 characters or contained
         // in [kStopWords] return an empty collection
-        if (kStopWords.contains(term)) {
+        if (kStopWords.contains(term) || term.length < 2) {
           return [];
         }
-        if (term.length == 1) return [term];
-        // - insert [term] in the return
-        final terms = [term];
-        // split at commas, periods, hyphens and apostrophes unless preceded
-        // and ended by a number.
+
+        // - insert [term] in the return value
+        final terms = {term};
+
+        // insert an unhyphenated version if necessary
+        if (term.contains('-')) {
+          final unHyphenated = term.replaceAll('-', '');
+          if (unHyphenated.isNotEmpty) {
+            terms.add(unHyphenated);
+          }
+        }
+
+        // split at all non-word characters unless preceded and ended by a number.
         final splitTerms =
-            term.split(RegExp(r'(?<=[^0-9.])[,\.\:\-](?=[^0-9])'));
+            term.split(RegExp(r'(?<=[a-zA-Z])[^a-zA-Z0-9]+(?=[a-zA-Z])'));
         if (splitTerms.length > 1) {
-          for (var term in splitTerms) {
-            if (term.isNotEmpty) {
-              term = characterFilter(term);
-              if (!kStopWords.contains(term) && term.isNotEmpty) {
-                terms.add(term);
+          for (var splitTerm in splitTerms) {
+            if (splitTerm.isNotEmpty) {
+              splitTerm = characterFilter(splitTerm)
+                  .replaceAll(RegExp(r'[^a-zA-Z0-9]'), '')
+                  .trim();
+              if (!kStopWords.contains(splitTerm) && splitTerm.length > 1) {
+                terms.add(splitTerm);
               }
             }
           }
+        } else {
+          final alpha = characterFilter(term)
+              .replaceAll(RegExp(r'[^a-zA-Z0-9]'), '')
+              .trim();
+          if (alpha.isNotEmpty) {
+            terms.add(alpha);
+          }
         }
-        return terms;
+        return terms.toList();
       };
 
   /// The [English] implementation of the [characterFilter] function:
@@ -102,66 +113,39 @@ class English implements TextAnalyzerConfiguration {
             // return number.toString() if number is not null.
             ? number.toString()
             // if the term is all-caps return it unchanged.
-            : term.toUpperCase() == term
-                ? term
-                // if term cannot be parsed to a number, filter characters
-                : term
-                    // convert to lower-case
-                    .toLowerCase()
-                    // change all quote marks to single apostrophe +U0027
-                    .replaceAll(RegExp('[\'"“”„‟’‘‛]+'), "'")
-                    // remove enclosing quote marks
-                    .replaceAll(RegExp(r"(^'+)|('+(?=$))"), '')
-                    // change all dashes to single standard hyphen
-                    .replaceAll(RegExp(r'[\-—]+'), '-')
-                    // remove all non-word characters
-                    .replaceAll(RegExp(r"[^0-9a-z,.\-'\$£₤#@]"), '')
-                    // remove all characters except letters and numbers at end
-                    // of term
-                    .replaceAll(RegExp(r'[^0-9a-z](?=$)'), '');
+            : term
+                // convert to lower-case
+                .toLowerCase()
+                // change all quote marks to single apostrophe +U0027
+                .replaceAll(RegExp('[\'"“”„‟’‘‛]+'), "'")
+                // remove enclosing quote marks
+                .replaceAll(RegExp(r"(^'+)|('+(?=$))"), '')
+                // change all dashes to single standard hyphen
+                .replaceAll(RegExp(r'[\-—]+'), '-')
+                // remove all non-word characters
+                .replaceAll(RegExp(r"[^0-9a-z,.\-'\$£₤#@]"), '')
+                // remove all characters except letters and numbers at end
+                // of term
+                .replaceAll(RegExp(r'[^0-9a-z](?=$)'), '')
+                .trim();
       };
 
-  /// The [English] implementation of [sentenceSplitter] inserts
-  /// [_kSentenceDelimiter] at sentence breaks and then splits the source text
-  /// into a list of sentence strings.
-  ///
-  /// Sentence breaks are characters that match [English.reLineEndingSelector]
-  /// or [English.reSentenceEndingSelector].
-  ///
-  /// Empty strings are removed from the returned collection.
-  @override
-  SentenceSplitter get sentenceSplitter => (SourceText source) {
-        // insert the sentence delimiters at sentence breaks
-        source = source
-            // trim leading and trailing white-space from source
-            .trim()
-            // replace line feeds and carriage returns with %~%
-            .replaceAll(
-                RegExp(English.reLineEndingSelector), _kSentenceDelimiter)
-            // select all sentences and replace the ending punctuation with %~%
-            .replaceAllMapped(RegExp(English.reSentenceEndingSelector),
-                (match) {
-          final sentence = match.group(0) ?? '';
-          // remove white-space before delimiter
-          return '$sentence$_kSentenceDelimiter'
-              .replaceAll(RegExp(r'(\s+)(?=%~%)'), _kSentenceDelimiter);
-        });
-        // split into sentence strings
-        final sources = source
-            // split at _kSentenceDelimiter
-            .split(RegExp(_kSentenceDelimiter))
-            // trim leading and trailing white-space from all elements
-            .map((e) => e
-                .trim()
-                .replaceAll(RegExp(English.reSentenceEndingSelector), '')
-                .trim())
-            // convert to list
-            .toList();
-        // remove empty sentences
-        sources.removeWhere((element) => element.isEmpty);
-        // return the sentences
-        return sources;
-      };
+  /// Cleans the term as follows:
+  /// - change all quote marks to single apostrophe +U0027;
+  /// - remove enclosing quote marks;
+  /// - hange all dashes to single standard hyphen;
+  /// - remove all characters except letters and numbers at end of term
+  Term cleanTerm(Term term) => term
+      .toLowerCase()
+      // change all quote marks to single apostrophe +U0027
+      .replaceAll(RegExp('[\'"“”„‟’‘‛]+'), "'")
+      // remove enclosing quote marks
+      .replaceAll(RegExp(r"(^'+)|('+(?=$))"), '')
+      // change all dashes to single standard hyphen
+      .replaceAll(RegExp(r'[\-—]+'), '-')
+      // remove all characters except letters and numbers at end of term
+      .replaceAll(RegExp(r'[^0-9a-z](?=$)'), '')
+      .trim();
 
   /// The [English] implemenation of [termSplitter] replaces all text that
   /// matches [English.rePunctuationSelector] or [English.reBracketsAndCarets]
@@ -182,6 +166,7 @@ class English implements TextAnalyzerConfiguration {
   TermSplitter get termSplitter => (SourceText source) {
         // replace all punctuation with whitespace.
         source = source
+            .replaceAll(RegExp(English.reSentenceEndingSelector), ' ')
             .replaceAll(RegExp(English.rePunctuationSelector), ' ')
             // replace all brackets and carets with _kTokenDelimiter.
             .replaceAll(RegExp(English.reBracketsAndCarets), ' ')
@@ -460,10 +445,6 @@ class English implements TextAnalyzerConfiguration {
   /// Matches all mid-sentence punctuation.
   static const rePunctuationSelector =
       '(?<=$wordChars|\\s)[:;,\\-—]+(?=[\\s])|(\\.{2,})';
-
-  /// The delimiter inserted at sentence endings to allow splitting of the text
-  /// into sentences.
-  static const _kSentenceDelimiter = r'%~%';
 
   /// A list of English abbreviations.
   static const kAbbreviations = [

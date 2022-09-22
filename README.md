@@ -26,7 +26,7 @@ The tokenization process comprises the following steps:
 * a `term splitter` splits text to a list of terms at appropriate places like white-space and mid-sentence punctuation;
 * a `character filter` manipulates terms prior to stemming and tokenization (e.g. changing case and / or removing non-word characters);
 * a `term filter` manipulates the terms by splitting compound or hyphenated terms or applying stemming and lemmatization. The `termFilter` can also filter out `stopwords`; and
-* the `tokenizer` converts the resulting terms  to a collection of `tokens` that contain the term and a pointer to the position of the term in the source text.
+* the `tokenizer` converts the resulting terms to a collection of `tokens` that contain the term and a pointer to the position of the term in the source text.
 
 This library also includes an extension method `Set<KGram> kGrams([int k = 3])` on `Term` that parses a set of k-grams of length k from a `term`.  The default k-gram length is 3 (tri-gram).
 
@@ -80,7 +80,6 @@ The API uses the following function type definitions and type aliases to improve
 * `IdFt` is an alias for `double`, where it represents the inverse document frequency of a term, defined as idft = log (N / dft), where N is the total number of terms in the index and dft is the document frequency of the term (number of documents that contain the term). 
 * `JsonTokenizer` is a function that returns `Token` collection from the fields in a JSON document hashmap of `Zone` to value;
 * `kGram` is an alias for `String`, used in the context of a sequence of k consecutive characters in a `Term`.
-* `SentenceSplitter` is a function that returns a list of sentences from `SourceText`. In English, the `SourceText` is split at sentence endings marks such as periods, question marks and exclamation marks;
 * `SourceText`, `Zone` and `Term` are all aliases for the DART core type `String` when used in different contexts;
 * `StopWords` is an alias for `Set<String>`;
 * `TermFilter` is a function that manipulates a `Term` collection by splitting compound or hyphenated terms or applying stemming and lemmatization. The `TermFilter` can also filter out `stopwords`;
@@ -91,9 +90,7 @@ The API uses the following function type definitions and type aliases to improve
 ### Object models
 
 The `text_analysis` library includes the following object-model classes:
-* a `Token` represents a `Term` present in a `TextSource` with its `position` and optional `zone name`.
-* a `Sentence` represents a `TextSource` not containing sentence ending  punctuation such as periods, question-marks and exclamations, except where  used in tokens, identifiers or other terms; and
-* A `TextSource` represents a `TextSource` that has been analyzed to enumerate `Sentence` and `Token` collections.
+* a `Token` represents a `Term` present in a `List<Token>` with its `position` and optional `zone name`.
 
 ### Interfaces
 
@@ -104,7 +101,6 @@ The `text_analysis` library exposes two interfaces:
 #### *TextAnalyzerConfiguration Interface*
 
 The `TextAnalyzerConfiguration` interface exposes language-specific properties and methods used in text analysis: 
-* a `TextAnalyzerConfiguration.sentenceSplitter` splits the text at sentence endings such as periods, exclamations and question marks or line endings;
 * a `TextAnalyzerConfiguration.termSplitter` to split the text into terms;
 * a `TextAnalyzerConfiguration.characterFilter` to remove non-word characters.
 * a `TextAnalyzerConfiguration.termFilter` to apply a stemmer/lemmatizer or stopword list.
@@ -114,14 +110,14 @@ The `TextAnalyzerConfiguration` interface exposes language-specific properties a
 The `ITextAnalyzer` is an interface for a text analyser class that extracts tokens from text for use in full-text search queries and indexes:
 * `ITextAnalyzer.configuration` is a `TextAnalyzerConfiguration` used by the `ITextAnalyzer` to tokenize source text.
 * Provide a `ITextAnalyzer.tokenFilter`  to manipulate tokens or restrict tokenization to tokens that meet criteria for either index or count; 
-* the `ITextAnalyzer.tokenize` function tokenizes text to a `TextSource` object that contains all the `Token`s in the text; and
-* the `ITextAnalyzer.tokenizeJson` function tokenizes a JSON hashmap to a `TextSource` object that contains all the `Token`s in the document.
+* the `ITextAnalyzer.tokenize` function tokenizes text to a `List<Token>` that contains all the `Token`s in the text; and
+* the `ITextAnalyzer.tokenizeJson` function tokenizes a JSON hashmap to a `List<Token>` that contains all the `Token`s in the document.
 
 ### Implementation classes
 
 The [latest version](https://pub.dev/packages/text_analysis/versions) provides the following implementation classes:
 * the [English](#english-class) class implements [TextAnalyzerConfiguration](#textanalyzerconfiguration-interface) and provides text analysis configuration properties for the English language;
-* the [TextAnalyzerBase](#textanalyzerbase-class) abstract class implements `ITextAnalyzer.tokenize`; and
+* the [TextAnalyzerBase](#textanalyzerbase-class) abstract class implements `ITextAnalyzer.tokenize` and `ITextAnalyzer.tokenizeJson`; and
 * the [TextAnalyzer](#textanalyzer-class) class extends [TextAnalyzerBase](#textanalyzerbase-class)  and implements `ITextAnalyzer.tokenFilter` and `ITextAnalyzer.configuration` as final fields with their values passed in as (optional) parameters (with defaults) at initialization.
 
 #### *English class*
@@ -144,14 +140,12 @@ The `characterFilter` function:
 * removes all non-word characters from the term;
 * replaces all characters except letters and numbers from the end of the term.
 
-The `sentenceSplitter` inserts`_kSentenceDelimiter` at sentence breaks and then splits the source text into a list of sentence strings (sentence breaks are characters that match `English.reLineEndingSelector` or `English.reSentenceEndingSelector`). Empty sentences are removed.
-
-#### *TextAnalyzerBase Class*
+#### *TextAnalyzerBase class*
 
 The `TextAnalyzerBase` class implements the `ITextAnalyzer.tokenize` method:
 * tokenizes source text using the `configuration`;
 * manipulates the output by applying `tokenFilter`; and, finally
-* returns a `TextSource` enumerating the source text, `Sentence` collection and `Token` collection.
+* returns a `List<Token>` enumerating all the `Tokens` in the source text.
 
 #### *TextAnalyzer Class*
 

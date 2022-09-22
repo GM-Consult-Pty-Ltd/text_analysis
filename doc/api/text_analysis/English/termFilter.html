@@ -85,30 +85,47 @@ TermFilter get termFilter =&gt; (Term term) async {
       if (kAbbreviations.contains(term)) {
         return [term, term.replaceAll(&#39;.&#39;, &#39;&#39;)];
       }
-      term = characterFilter(term);
+      term = cleanTerm(term);
       &#47;&#47; if the resulting [term] is shorter than 2 characters or contained
       &#47;&#47; in [kStopWords] return an empty collection
-      if (kStopWords.contains(term)) {
+      if (kStopWords.contains(term) || term.length &lt; 2) {
         return [];
       }
-      if (term.length == 1) return [term];
-      &#47;&#47; - insert [term] in the return
-      final terms = [term];
-      &#47;&#47; split at commas, periods, hyphens and apostrophes unless preceded
-      &#47;&#47; and ended by a number.
+
+      &#47;&#47; - insert [term] in the return value
+      final terms = {term};
+
+      &#47;&#47; insert an unhyphenated version if necessary
+      if (term.contains(&#39;-&#39;)) {
+        final unHyphenated = term.replaceAll(&#39;-&#39;, &#39;&#39;);
+        if (unHyphenated.isNotEmpty) {
+          terms.add(unHyphenated);
+        }
+      }
+
+      &#47;&#47; split at all non-word characters unless preceded and ended by a number.
       final splitTerms =
-          term.split(RegExp(r&#39;(?&lt;=[^0-9.])[,\.\:\-](?=[^0-9])&#39;));
+          term.split(RegExp(r&#39;(?&lt;=[a-zA-Z])[^a-zA-Z0-9]+(?=[a-zA-Z])&#39;));
       if (splitTerms.length &gt; 1) {
-        for (var term in splitTerms) {
-          if (term.isNotEmpty) {
-            term = characterFilter(term);
-            if (!kStopWords.contains(term) &amp;&amp; term.isNotEmpty) {
-              terms.add(term);
+        for (var splitTerm in splitTerms) {
+          if (splitTerm.isNotEmpty) {
+            splitTerm = characterFilter(splitTerm)
+                .replaceAll(RegExp(r&#39;[^a-zA-Z0-9]&#39;), &#39;&#39;)
+                .trim();
+            if (!kStopWords.contains(splitTerm) &amp;&amp; splitTerm.length &gt; 1) {
+              terms.add(splitTerm);
             }
           }
         }
+      } else {
+        final alpha = characterFilter(term)
+            .replaceAll(RegExp(r&#39;[^a-zA-Z0-9]&#39;), &#39;&#39;)
+            .trim();
+        if (alpha.isNotEmpty) {
+          terms.add(alpha);
+        }
       }
-      return terms;
+      return terms.toList();
     };</code></pre>
 </section>
 
@@ -145,11 +162,11 @@ TermFilter get termFilter =&gt; (Term term) async {
     <li><a href="../../text_analysis/English/characterFilter.html">characterFilter</a></li>
     <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/hashCode.html">hashCode</a></li>
     <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/runtimeType.html">runtimeType</a></li>
-    <li><a href="../../text_analysis/English/sentenceSplitter.html">sentenceSplitter</a></li>
     <li><a href="../../text_analysis/English/termFilter.html">termFilter</a></li>
     <li><a href="../../text_analysis/English/termSplitter.html">termSplitter</a></li>
 
-    <li class="section-title inherited"><a href="../../text_analysis/English-class.html#instance-methods">Methods</a></li>
+    <li class="section-title"><a href="../../text_analysis/English-class.html#instance-methods">Methods</a></li>
+    <li><a href="../../text_analysis/English/cleanTerm.html">cleanTerm</a></li>
     <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/noSuchMethod.html">noSuchMethod</a></li>
     <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/toString.html">toString</a></li>
 
@@ -182,7 +199,7 @@ TermFilter get termFilter =&gt; (Term term) async {
 <footer>
   <span class="no-break">
     text_analysis
-      0.8.1
+      0.9.0
   </span>
 
   

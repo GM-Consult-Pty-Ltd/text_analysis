@@ -32,9 +32,8 @@ abstract class ITextAnalyzer {
   /// Optional parameter [zone] is the name of the zone in a document in
   /// which the term is located.
   ///
-  /// Returns a [TextSource] with [source] and its component [Sentence]s and
-  /// [Token]s
-  Future<TextSource> tokenize(SourceText source, [Zone? zone]);
+  /// Returns a List<[Token]>.
+  Future<List<Token>> tokenize(SourceText source, [Zone? zone]);
 
   /// Extracts tokens from the [zones] in a JSON [document] for use in
   /// full-text search queries and indexes.
@@ -42,9 +41,8 @@ abstract class ITextAnalyzer {
   /// The required parameter [zones] is the collection of the names of the
   /// zones in [document] that are to be tokenized.
   ///
-  /// Returns a [TextSource] with [document] and its component [Sentence]s and
-  /// [Token]s
-  Future<TextSource> tokenizeJson(Map<String, dynamic> document,
+  /// Returns a List<[Token]>.
+  Future<List<Token>> tokenizeJson(Map<String, dynamic> document,
       [Iterable<Zone>? zones]);
 }
 
@@ -66,10 +64,9 @@ abstract class TextAnalyzerBase implements ITextAnalyzer {
   const TextAnalyzerBase();
 
   @override
-  Future<TextSource> tokenizeJson(Map<String, dynamic> document,
+  Future<List<Token>> tokenizeJson(Map<String, dynamic> document,
       [Iterable<Zone>? zones]) async {
-    final sentences = <Sentence>[];
-    final sourceBuilder = StringBuffer();
+    final tokens = <Token>[];
     if (zones == null || zones.isEmpty) {
       final valueBuilder = StringBuffer();
       for (final fieldValue in document.values) {
@@ -78,38 +75,51 @@ abstract class TextAnalyzerBase implements ITextAnalyzer {
       final value = valueBuilder.toString();
       final source = value.toString();
       if (source.isNotEmpty) {
-        final doc = await tokenize(source);
-        sentences.addAll(doc.sentences);
-        sourceBuilder.writeln(document.toString());
+        tokens.addAll(await tokenize(source));
       }
     } else {
-      zones = Set<String>.from(zones);
+      zones = zones.toSet();
+
       for (final zone in zones) {
         final value = document[zone];
         if (value != null) {
           final source = value.toString();
           if (source.isNotEmpty) {
-            final doc = await tokenize(source, zone);
-            sentences.addAll(doc.sentences);
-            sourceBuilder.writeln('"$zone": "$source"');
+            tokens.addAll(await tokenize(source, zone));
           }
         }
       }
     }
-    return TextSource(sourceBuilder.toString(), sentences);
+    return tokens;
   }
 
   @override
-  Future<TextSource> tokenize(SourceText source, [Zone? zone]) async {
-    final sentenceStrings = configuration.sentenceSplitter(source);
-    final sentences = <Sentence>[];
-    // convert [sentenceStrings] into [Sentence]s
-    for (final sentence in sentenceStrings) {
-      final value =
-          await Sentence.fromString(sentence, configuration, tokenFilter, zone);
-      sentences.add(value);
-    }
-    return TextSource(source, sentences);
+  Future<List<Token>> tokenize(SourceText text, [Zone? zone]) async {
+    int position = 0;
+// perform the first punctuation and white-space split
+    final terms = configuration.termSplitter(text.trim());
+    // initialize the tokens collection (return value)
+    final tokens = <Token>[];
+
+    // iterate through the terms
+    await Future.forEach(terms, (String term) async {
+      // remove white-space at start and end of term
+      term = term.trim();
+      // only tokenize non-empty strings.
+      if (term.isNotEmpty) {
+        // apply the termFilter if it is not null
+        final splitTerms = await configuration.termFilter(term);
+        for (var splitTerm in splitTerms) {
+          if (splitTerm.isNotEmpty) {
+            tokens.add(Token(splitTerm, position, zone));
+          }
+        }
+      }
+      // increment the index
+      position = position++;
+    });
+    // apply the tokenFilter if it is not null and return the tokens collection
+    return tokenFilter != null ? await tokenFilter!(tokens) : tokens;
   }
 }
 

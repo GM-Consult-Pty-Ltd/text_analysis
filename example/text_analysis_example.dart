@@ -61,10 +61,10 @@ void main() async {
   await _getKgramIndex(exampleText.first, 3);
 }
 
-/// Print the terms in [textSource].
-void _printTerms(TextSource textSource) {
+/// Print the terms in List<[Token]>.
+void _printTerms(Iterable<Token> tokens) {
   // map the document's tokens to a list of terms (strings)
-  final terms = textSource.tokens.map((e) => e.term).toList();
+  final terms = tokens.map((e) => e.term).toList();
   // print the terms
   print(terms);
 
@@ -74,9 +74,9 @@ void _printTerms(TextSource textSource) {
 /// Gets the k-grams for the terms in [text] and returns a hashmap of k-gram
 /// to term.
 Future<Map<KGram, Set<Term>>> _getKgramIndex(SourceText text, int k) async {
-  final document = await TextAnalyzer().tokenize(text);
+  final tokens = await TextAnalyzer().tokenize(text);
   // get the bi-grams
-  final Map<String, Set<Term>> kGramIndex = document.tokens.kGrams(3);
+  final Map<String, Set<Term>> kGramIndex = tokens.kGrams(3);
   // add the tri-grams
   // kGramIndex.addAll(document.tokens.kGrams(3));
   print('${'k-gram'.padRight(8)} Terms Set');
@@ -87,20 +87,19 @@ Future<Map<KGram, Set<Term>>> _getKgramIndex(SourceText text, int k) async {
 }
 
 /// Tokenize the [zones] in a [json] document.
-Future<TextSource> _tokenizeJson(
+Future<List<Token>> _tokenizeJson(
     Map<String, dynamic> json, List<Zone> zones) async {
   // use a TextAnalyzer instance to tokenize the json
-  final textSource = await TextAnalyzer().tokenizeJson(json, zones);
+  final tokens = await TextAnalyzer().tokenizeJson(json, zones);
   // map the document's tokens to a list of terms (strings)
-  final terms = textSource.tokens.map((e) => e.term).toList();
+  final terms = tokens.map((e) => e.term).toList();
   // print the terms
   print(terms);
-  return textSource;
+  return tokens;
 }
 
-/// Tokenize [paragraphs] to a [TextSource] that enumerates a collection
-/// of [Sentence] objects with their [Token]s
-Future<TextSource> _tokenizeParagraphs(Iterable<String> paragraphs) async {
+/// Tokenize [paragraphs] to a List<[Token]>.
+Future<List<Token>> _tokenizeParagraphs(Iterable<String> paragraphs) async {
   // Initialize a StringBuffer to hold the source text
   final sourceBuilder = StringBuffer();
 
@@ -113,12 +112,12 @@ Future<TextSource> _tokenizeParagraphs(Iterable<String> paragraphs) async {
   final source = sourceBuilder.toString();
 
   // use a TextAnalyzer instance to tokenize the source
-  final document = await TextAnalyzer().tokenize(source);
+  final tokens = await TextAnalyzer().tokenize(source);
 
   // map the document's tokens to a list of terms (strings)
-  final terms = document.tokens.map((e) => e.term).toList();
+  final terms = tokens.map((e) => e.term).toList();
 
   // print the terms
   print(terms);
-  return document;
+  return tokens;
 }
