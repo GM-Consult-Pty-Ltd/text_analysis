@@ -55,6 +55,30 @@ class Token {
 extension KGramParserExtension on Term {
   //
 
+  /// Returns the Jaccard Similarity Index between this term  and [other]
+  /// using a k-gram length of [k].
+  double jaccardSimilarity(Term other, [int k = 3]) {
+    final termGrams = kGrams(k);
+    final otherGrams = other.kGrams(k);
+    final intersection = termGrams.intersection(otherGrams);
+    final union = termGrams.union(otherGrams);
+    return intersection.length / union.length;
+  }
+
+  /// Returns a hashmap of [terms] to Jaccard Similarity Index with this term
+  /// using a k-gram length of [k].
+  Map<Term, double> jaccardSimilarityMap(Iterable<Term> terms, [int k = 3]) {
+    final retVal = <Term, double>{};
+    final termGrams = kGrams(k);
+    for (final other in terms) {
+      final otherGrams = other.kGrams(k);
+      final intersection = termGrams.intersection(otherGrams);
+      final union = termGrams.union(otherGrams);
+      retVal[other] = intersection.length / union.length;
+    }
+    return retVal;
+  }
+
   /// Returns a set of k-grams in the term.
   Set<KGram> kGrams([int k = 3]) {
     final Set<KGram> kGrams = {};

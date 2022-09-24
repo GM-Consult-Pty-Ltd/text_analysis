@@ -139,4 +139,32 @@ void main() {
       print('Found ${entries.length} terms');
     });
   });
+
+  group('k-grams', (() {
+    //
+    test('jaccardSimilarity', (() {
+      final k = 2;
+      final term = 'bord';
+      final candidates = ['board', 'broad', 'boardroom', 'border'];
+      print('k-grams with k = $k');
+      for (final other in candidates) {
+        final jCf = term.jaccardSimilarity(other, k);
+        print(
+            'Similarity between $term and $other = ${jCf.toStringAsFixed(4)}');
+      }
+    }));
+
+    test('jaccardSimilarityMap', (() {
+      final k = 2;
+      final term = 'broder';
+      final candidates = ['board', 'broad', 'boardroom', 'border'];
+      print('k-grams with k = $k');
+      final map = term.jaccardSimilarityMap(candidates, k);
+
+      for (final other in map.entries) {
+        print(
+            'Similarity between $term and ${other.key} = ${other.value.toStringAsFixed(4)}');
+      }
+    }));
+  }));
 }

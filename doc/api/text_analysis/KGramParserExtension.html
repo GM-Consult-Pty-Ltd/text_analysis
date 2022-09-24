@@ -73,6 +73,34 @@
       id="instance-methods">
     <h2>Methods</h2>
     <dl class="callables">
+        <dt id="jaccardSimilarity" class="callable">
+  <span class="name"><a href="../text_analysis/KGramParserExtension/jaccardSimilarity.html">jaccardSimilarity</a></span><span class="signature">(<wbr><span class="parameter" id="jaccardSimilarity-param-other"><span class="type-annotation"><a href="../text_analysis/Term.html">Term</a></span> <span class="parameter-name">other</span>, </span><span class="parameter" id="jaccardSimilarity-param-k">[<span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/int-class.html">int</a></span> <span class="parameter-name">k</span> = <span class="default-value">3</span>]</span>)
+    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-core/double-class.html">double</a></span>
+  </span>
+  
+
+</dt>
+<dd>
+  Returns the Jaccard Similarity Index between this term  and <code>other</code>
+using a k-gram length of <code>k</code>.
+  
+
+</dd>
+
+        <dt id="jaccardSimilarityMap" class="callable">
+  <span class="name"><a href="../text_analysis/KGramParserExtension/jaccardSimilarityMap.html">jaccardSimilarityMap</a></span><span class="signature">(<wbr><span class="parameter" id="jaccardSimilarityMap-param-terms"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../text_analysis/Term.html">Term</a></span>&gt;</span></span> <span class="parameter-name">terms</span>, </span><span class="parameter" id="jaccardSimilarityMap-param-k">[<span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/int-class.html">int</a></span> <span class="parameter-name">k</span> = <span class="default-value">3</span>]</span>)
+    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-core/Map-class.html">Map</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../text_analysis/Term.html">Term</a></span>, <span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/double-class.html">double</a></span>&gt;</span></span>
+  </span>
+  
+
+</dt>
+<dd>
+  Returns a hashmap of <code>terms</code> to Jaccard Similarity Index with this term
+using a k-gram length of <code>k</code>.
+  
+
+</dd>
+
         <dt id="kGrams" class="callable">
   <span class="name"><a href="../text_analysis/KGramParserExtension/kGrams.html">kGrams</a></span><span class="signature">(<wbr><span class="parameter" id="kGrams-param-k">[<span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/int-class.html">int</a></span> <span class="parameter-name">k</span> = <span class="default-value">3</span>]</span>)
     <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-core/Set-class.html">Set</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../text_analysis/KGram.html">KGram</a></span>&gt;</span></span>
@@ -158,6 +186,8 @@
 
 
     <li class="section-title"><a href="../text_analysis/KGramParserExtension.html#instance-methods">Methods</a></li>
+    <li><a href="../text_analysis/KGramParserExtension/jaccardSimilarity.html">jaccardSimilarity</a></li>
+    <li><a href="../text_analysis/KGramParserExtension/jaccardSimilarityMap.html">jaccardSimilarityMap</a></li>
     <li><a href="../text_analysis/KGramParserExtension/kGrams.html">kGrams</a></li>
 
 
@@ -172,7 +202,7 @@
 <footer>
   <span class="no-break">
     text_analysis
-      0.9.0
+      0.9.1
   </span>
 
   

@@ -4,7 +4,16 @@ Copyright (c) 2022, GM Consult Pty Ltd
 All rights reserved. 
 -->
 
-### 0.9.0 (PRE-RELEASE, BREAKING CHANGES)
+### 0.9.1
+
+#### New:
+- Added extension on String `double jaccardSimilarity(Term other, [int k = 3])`.
+- Added extension on String `double jaccardSimilarity(Term other, [int k = 3])`.
+
+Updated dependencies, tests, examples and documentation.
+
+### 0.9.0 
+**BREAKING CHANGES**
 
 #### Breaking Changes:
 - Removed class `TextSource`.
