@@ -54,6 +54,9 @@ class Token {
 /// Extension methods on [Term].
 extension KGramParserExtension on Term {
   //
+double termLengthSimilarity(Term other){}
+
+Map<Term, double> termLengthSimilarityMap(Iterable<Term> terms)
 
   /// Returns the Jaccard Similarity Index between this term  and [other]
   /// using a k-gram length of [k].
