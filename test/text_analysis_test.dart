@@ -3,7 +3,7 @@
 
 // ignore_for_file: unused_local_variable
 
-import 'package:text_analysis/text_analysis.dart';
+import 'package:text_analysis/src/_index.dart';
 import 'package:test/test.dart';
 import 'data/sample_news.dart';
 import 'data/sample_stocks.dart';
@@ -65,16 +65,19 @@ void main() {
       final source = sourceBuilder.toString();
       // final source = json['description'] as String;
 
-      final textDoc = await TextDocument.tokenize(sourceText: source);
+      final sample =
+          'The Australian platypus is seemingly a hybrid of a mammal and reptilian creature.';
 
-      print('Average sentence length: ${textDoc.averageSentenceLength}');
+      final textDoc = await TextDocument.analyze(sourceText: sample);
+
+      print('Average sentence length: ${textDoc.averageSentenceLength()}');
 
       print(
-          'Average syllable count: ${textDoc.averageSyllableCount.toStringAsFixed(2)}');
+          'Average syllable count: ${textDoc.averageSyllableCount().toStringAsFixed(2)}');
 
       print(
-          'Flesch Reading Ease: ${textDoc.fleschReadingEaseScore.toStringAsFixed(1)}');
-      print('Flesch-Kincaid Grade Level: ${textDoc.fleschKincaidGradeLevel}');
+          'Flesch Reading Ease: ${textDoc.fleschReadingEaseScore().toStringAsFixed(1)}');
+      print('Flesch-Kincaid Grade Level: ${textDoc.fleschKincaidGradeLevel()}');
     }));
 
     test('jaccardSimilarityMap', (() {

@@ -1,7 +1,8 @@
 // BSD 3-Clause License
 // Copyright (c) 2022, GM Consult Pty Ltd
 
-import 'package:text_analysis/text_analysis.dart';
+import 'package:text_analysis/src/_index.dart';
+import 'package:porter_2_stemmer/porter_2_stemmer.dart';
 
 /// A basic [TextAnalyzer] implementation for [English] language
 /// analysis.
@@ -34,7 +35,7 @@ class English implements TextAnalyzer {
   const English();
 
   /// Instantiates a static const [English] instance.
-  static const configuration = English();
+  static const analyzer = English();
 
   /// Applies the following algorithm to convert a term to a list
   /// of strings:

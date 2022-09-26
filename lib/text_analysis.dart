@@ -5,5 +5,8 @@
 library text_analysis;
 
 /// Exports files used by clients of the pacckage.
-export 'src/_index.dart';
+export 'src/text_analyzer.dart';
+export 'src/text_document.dart';
+export 'src/text_tokenizer.dart';
+export 'src/token.dart';
 export 'package:porter_2_stemmer/porter_2_stemmer.dart';

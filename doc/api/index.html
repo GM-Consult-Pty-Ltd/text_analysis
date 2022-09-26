@@ -50,7 +50,7 @@ Copyright (c) 2022, GM Consult Pty Ltd
 All rights reserved. 
 -->
 <p><a href="https://github.com/GM-Consult-Pty-Ltd"><img src="https://raw.githubusercontent.com/GM-Consult-Pty-Ltd/text_analysis/main/assets/images/text_analysis_header.png?raw=true" alt="GM Consult Pty Ltd" title="GM Consult Pty Ltd"></a></p>
-<h2 id="text-analyzer-that-extracts-tokens-and-k-grams-from-text"><strong>Text analyzer that extracts tokens and k-grams from text.</strong></h2>
+<h2 id="text-analyzer-that-tokenizes-text-computes-document-readbility-and-compares-terms"><strong>Text analyzer that tokenizes text, computes document readbility and compares terms.</strong></h2>
 <p><em>THIS PACKAGE IS <strong>PRE-RELEASE</strong>, IN ACTIVE DEVELOPMENT AND SUBJECT TO DAILY BREAKING CHANGES.</em></p>
 <p>Skip to section:</p>
 <ul>
@@ -62,126 +62,98 @@ All rights reserved.
 <li><a href="#issues">Issues</a></li>
 </ul>
 <h2 id="overview">Overview</h2>
-<p>To tokenize text in preparation of constructing a <code>dictionary</code> from a <code>corpus</code> of <code>documents</code> in an information retrieval system.</p>
-<p>The tokenization process comprises the following steps:</p>
+<p>The <code>text_analysis</code> library provides methods to tokenize text, compute readibility scores for a document and compare similarity of words. It is intended to be used as part of an information retrieval system.</p>
+<p>Refer to the <a href="#references">references</a> to learn more about information retrieval systems and the theory behind this library.</p>
+<h4 id="tokenization">Tokenization</h4>
+<p>Tokenization comprises the following steps:</p>
 <ul>
 <li>a <code>term splitter</code> splits text to a list of terms at appropriate places like white-space and mid-sentence punctuation;</li>
 <li>a <code>character filter</code> manipulates terms prior to stemming and tokenization (e.g. changing case and / or removing non-word characters);</li>
 <li>a <code>term filter</code> manipulates the terms by splitting compound or hyphenated terms or applying stemming and lemmatization. The <code>termFilter</code> can also filter out <code>stopwords</code>; and</li>
 <li>the <code>tokenizer</code> converts the resulting terms to a collection of <code>tokens</code> that contain the term and a pointer to the position of the term in the source text.</li>
 </ul>
-<p>This library also includes an extension method <code>Set&lt;KGram&gt; kGrams([int k = 3])</code> on <code>Term</code> that parses a set of k-grams of length k from a <code>term</code>.  The default k-gram length is 3 (tri-gram).</p>
+<p>A String extension method <code>Set&lt;KGram&gt; kGrams([int k = 3])</code> that parses a set of k-grams of length k from a <code>term</code>.  The default k-gram length is 3 (tri-gram).</p>
 <p><img src="https://github.com/GM-Consult-Pty-Ltd/text_analysis/raw/main/assets/images/text_analysis.png?raw=true?raw=true" alt="Text analysis" title="Tokenizing overview"></p>
-<p>Refer to the <a href="#references">references</a> to learn more about information retrieval systems and the theory behind this library.</p>
+<h3 id="readibility">Readibility</h3>
+<p>The <a href="#textdocument">TextDocument</a> enumerates a text document's <em>paragraphs</em>, <em>sentences</em>, <em>terms</em> and <em>tokens</em> and computes readability measures:</p>
+<ul>
+<li>the average number of words in each sentence;</li>
+<li>the average number of syllables for words;</li>
+<li>the <code>Flesch reading ease score</code>, a readibility measure calculated from  sentence length and word length on a 100-point scale; and</li>
+<li><code>Flesch-Kincaid grade level</code>, a readibility measure relative to U.S. school grade level.</li>
+</ul>
+<h3 id="string-comparison">String Comparison</h3>
+<p>The following String extension methods can be used for comparing <code>terms</code>:</p>
+<ul>
+<li><code>lengthDistance</code> returns a normalized measure of difference between two terms on a log (base 2) scale;</li>
+<li><code>lengthSimilarity</code> returns the similarity in length between two terms on a scale of 0 to 1.0 (equivalent to <code>1-lengthSimilarity</code> with a lower bound of 0.0);</li>
+<li><code>lengthSimilarityMap</code> returns a hashmap of <code>terms</code> to their <code>lengthSimilarity</code> with a term;</li>
+<li><code>jaccardSimilarity</code> returns the Jaccard Similarity Index of two terms; and</li>
+<li><code>jaccardSimilarityMap</code> returns a hashmap of <code>terms</code> to Jaccard Similarity Index with a term.</li>
+</ul>
 <h2 id="usage">Usage</h2>
 <p>In the <code>pubspec.yaml</code> of your flutter project, add the following dependency:</p>
 <pre class="language-yaml"><code class="language-yaml">dependencies:
   text_analysis: &lt;latest version&gt;
 </code></pre>
 <p>In your code file add the following import:</p>
-<pre class="language-dart"><code class="language-dart">import 'package:text_analysis/text_analysis.dart';
+<pre class="language-dart"><code class="language-dart">import 'package:text_analysis/src/_index.dart';
 </code></pre>
-<p>Basic English text analysis can be performed by using a <code>TextAnalyzer</code> instance with the default configuration and no token filter:</p>
-<pre class="language-dart"><code class="language-dart">  /// Use a TextAnalyzer instance to tokenize the [text] using the default 
-  /// [English] configuration.
-  final document = await TextAnalyzer().tokenize(text);
+<p>Basic English tokenization can be performed by using a <code>TextTokenizer</code> instance with the default text analyzer and no token filter:</p>
+<pre class="language-dart"><code class="language-dart">  /// Use a TextTokenizer instance to tokenize the [text] using the default 
+  /// [English] analyzer.
+  final document = await TextTokenizer().tokenize(text);
+</code></pre>
+<p>To analyze text or a document, hydrate a <a href="text_analysis/TextDocument-class.html">TextDocument</a> to obtain the text statistics and readibility scores:</p>
+<pre class="language-dart"><code class="language-dart">      // get some sample text
+      final sample =
+          'The Australian platypus is seemingly a hybrid of a mammal and reptilian creature.';
+
+      // hydrate the TextDocument
+      final textDoc = await TextDocument.analyze(sourceText: sample);
+
+      // print the `Flesch reading ease score`
+      print(
+          'Flesch Reading Ease: ${textDoc.fleschReadingEaseScore().toStringAsFixed(1)}');
+      // prints "Flesch Reading Ease: 37.5"
 </code></pre>
 <p>For more complex text analysis:</p>
 <ul>
-<li>implement a <code>TextAnalyzerConfiguration</code> for a different language or tokenizing non-language documents;</li>
-<li>implement a custom <code>ITextAnalyzer</code>or extend <code>TextAnalyzerBase</code>; and/or</li>
-<li>pass in a <code>TokenFilter</code> function to a <code>TextAnalyzer</code> to manipulate the tokens after tokenization as shown in the <a href="https://pub.dev/packages/text_analysis/example">examples</a>.</li>
+<li>implement a <code>TextAnalyzer</code> for a different language or non-language documents;</li>
+<li>implement a custom <code>TextTokenizer</code>or extend <code>TextTokenizerBase</code>; and/or</li>
+<li>pass in a <code>TokenFilter</code> function to a <code>TextTokenizer</code> to manipulate the tokens after tokenization as shown in the <a href="https://pub.dev/packages/text_analysis/example">examples</a>; and/or
+extend <a href="text_analysis/TextDocumentBase-class.html">TextDocumentBase</a>.</li>
 </ul>
+<p>Please see the <a href="https://pub.dev/packages/text_analysis/example">examples</a> for more details.</p>
 <h2 id="api">API</h2>
-<p>The key members of the <code>text_analysis</code> library are briefly described in this section. Please refer to the <a href="https://pub.dev/documentation/text_analysis/latest/">documentation</a> for details.</p>
-<p>Skip to:</p>
+<p>The key interfaces of the <code>text_analysis</code> library are briefly described in this section. Please refer to the <a href="https://pub.dev/documentation/text_analysis/latest/">documentation</a> for details.</p>
+<h4 id="textanalyzer">TextAnalyzer</h4>
+<p>The <a href="https://pub.dev/documentation/text_analysis/latest/text_analysis/TextAnalyzer-class.html">TextAnalyzer</a> interface exposes language-specific properties and methods used in text analysis:</p>
 <ul>
-<li><a href="#type-definitions">Type definitions</a></li>
-<li><a href="#object-models">Object models</a></li>
-<li><a href="#interfaces">Interfaces</a></li>
-<li><a href="#implementation-classes">Implementation classes</a></li>
+<li><a href="https://pub.dev/documentation/text_analysis/latest/text_analysis/TextAnalyzer/characterFilter.html">characterFilter</a> is a function that manipulates text prior to stemming and tokenization;</li>
+<li><a href="https://pub.dev/documentation/text_analysis/latest/text_analysis/TextAnalyzer/termFilter.html">termFilter</a> is a filter function that returns a collection of terms from a term. It returns an empty collection if the term is to be excluded from analysis or, returns multiple terms if the term is split (at hyphens) and / or, returns modified term(s), such as applying a stemmer algorithm;</li>
+<li><a href="https://pub.dev/documentation/text_analysis/latest/text_analysis/TextAnalyzer/termSplitter.html">termSplitter</a> returns a list of terms from text;</li>
+<li><a href="https://pub.dev/documentation/text_analysis/latest/text_analysis/TextAnalyzer/sentenceSplitter.html">sentenceSplitter</a> splits text into a list of sentences at sentence and line endings;</li>
+<li><a href="https://pub.dev/documentation/text_analysis/latest/text_analysis/TextAnalyzer/paragraphSplitter.html">paragraphSplitter</a> splits text into a list of paragraphs at line endings; and</li>
+<li><a href="https://pub.dev/documentation/text_analysis/latest/text_analysis/TextAnalyzer/syllableCounter.html">syllableCounter</a> returns the number of syllables in a word or text.</li>
 </ul>
-<h3 id="type-definitions">Type definitions</h3>
-<p>The API uses the following function type definitions and type aliases to improve code readability:</p>
+<p>The <a href="">English</a> implementation of <a href="">TextAnalyzer</a> is included in this library.</p>
+<h4 id="texttokenizer">TextTokenizer</h4>
+<p>The <a href="https://pub.dev/documentation/text_analysis/latest/text_analysis/TextTokenizer-class.html">TextTokenizer</a> extracts tokens from text for use in full-text search queries and indexes. It uses a <a href="#textanalyzer">TextAnalyzer</a> and <a href="https://pub.dev/documentation/text_analysis/latest/text_analysis/TextTokenizer/tokenFilter.html">token filter</a> in the <a href="https://pub.dev/documentation/text_analysis/latest/text_analysis/TextTokenizer/tokenize.html">tokenize</a> and <a href="https://pub.dev/documentation/text_analysis/latest/text_analysis/TextTokenizer/tokenizeJson.html">tokenizeJson</a> methods that return a list of <a href="">tokens</a> from text or a document.</p>
+<p>An <a href="https://pub.dev/documentation/text_analysis/latest/text_analysis/TextTokenizer/TextTokenizer.html">unnamed factory constructor</a> hydrates an implementation class.</p>
+<h3 id="textdocument">TextDocument</h3>
+<p>The <a href="https://pub.dev/documentation/text_analysis/latest/text_analysis/TextTDocument-class.html">TextDocument</a> object model enumerates a text document's <em>paragraphs</em>, <em>sentences</em>, <em>terms</em> and <em>tokens</em> and provides functions that return text analysis measures:</p>
 <ul>
-<li><code>CharacterFilter</code> is a function that manipulates terms prior to stemming and tokenization (e.g. changing case and / or removing non-word characters);</li>
-<li><code>Ft</code> is an lias for <code>int</code> and denotes the frequency of a <code>Term</code> in an index or indexed object (the term frequency).</li>
-<li><code>IdFt</code> is an alias for <code>double</code>, where it represents the inverse document frequency of a term, defined as idft = log (N / dft), where N is the total number of terms in the index and dft is the document frequency of the term (number of documents that contain the term).</li>
-<li><code>JsonTokenizer</code> is a function that returns <code>Token</code> collection from the fields in a JSON document hashmap of <code>Zone</code> to value;</li>
-<li><code>kGram</code> is an alias for <code>String</code>, used in the context of a sequence of k consecutive characters in a <code>Term</code>.</li>
-<li><code>SourceText</code>, <code>Zone</code> and <code>Term</code> are all aliases for the DART core type <code>String</code> when used in different contexts;</li>
-<li><code>StopWords</code> is an alias for <code>Set&lt;String&gt;</code>;</li>
-<li><code>TermFilter</code> is a function that manipulates a <code>Term</code> collection by splitting compound or hyphenated terms or applying stemming and lemmatization. The <code>TermFilter</code> can also filter out <code>stopwords</code>;</li>
-<li><code>TermSplitter</code> is a function that splits <code>SourceText</code> to an orderd list of <code>Term</code> at appropriate places like white-space and mid-sentence punctuation;</li>
-<li><code>TokenFilter</code> is a function that returns a subset of a <code>Token</code> collection, preserving its sort order; and</li>
-<li><code>Tokenizer</code> is a function that converts <code>SourceText</code> to a <code>Token</code> collection, preserving the order of the <code>Term</code> instances.</li>
-</ul>
-<h3 id="object-models">Object models</h3>
-<p>The <code>text_analysis</code> library includes the following object-model classes:</p>
-<ul>
-<li>a <code>Token</code> represents a <code>Term</code> present in a <code>List&lt;Token&gt;</code> with its <code>position</code> and optional <code>zone name</code>.</li>
-</ul>
-<h3 id="interfaces">Interfaces</h3>
-<p>The <code>text_analysis</code> library exposes two interfaces:</p>
-<ul>
-<li>the <a href="#textanalyzerconfiguration-interface">TextAnalyzerConfiguration</a> interface; and</li>
-<li>the <a href="#itextanalyzer-interface">ITextAnalyzer</a> interface.</li>
-</ul>
-<h4 id="textanalyzerconfiguration-interface"><em>TextAnalyzerConfiguration Interface</em></h4>
-<p>The <code>TextAnalyzerConfiguration</code> interface exposes language-specific properties and methods used in text analysis:</p>
-<ul>
-<li>a <code>TextAnalyzerConfiguration.termSplitter</code> to split the text into terms;</li>
-<li>a <code>TextAnalyzerConfiguration.characterFilter</code> to remove non-word characters.</li>
-<li>a <code>TextAnalyzerConfiguration.termFilter</code> to apply a stemmer/lemmatizer or stopword list.</li>
-</ul>
-<h4 id="itextanalyzer-interface"><em>ITextAnalyzer Interface</em></h4>
-<p>The <code>ITextAnalyzer</code> is an interface for a text analyser class that extracts tokens from text for use in full-text search queries and indexes:</p>
-<ul>
-<li><code>ITextAnalyzer.configuration</code> is a <code>TextAnalyzerConfiguration</code> used by the <code>ITextAnalyzer</code> to tokenize source text.</li>
-<li>Provide a <code>ITextAnalyzer.tokenFilter</code>  to manipulate tokens or restrict tokenization to tokens that meet criteria for either index or count;</li>
-<li>the <code>ITextAnalyzer.tokenize</code> function tokenizes text to a <code>List&lt;Token&gt;</code> that contains all the <code>Token</code>s in the text; and</li>
-<li>the <code>ITextAnalyzer.tokenizeJson</code> function tokenizes a JSON hashmap to a <code>List&lt;Token&gt;</code> that contains all the <code>Token</code>s in the document.</li>
-</ul>
-<h3 id="implementation-classes">Implementation classes</h3>
-<p>The <a href="https://pub.dev/packages/text_analysis/versions">latest version</a> provides the following implementation classes:</p>
-<ul>
-<li>the <a href="#english-class">English</a> class implements <a href="#textanalyzerconfiguration-interface">TextAnalyzerConfiguration</a> and provides text analysis configuration properties for the English language;</li>
-<li>the <a href="#textanalyzerbase-class">TextAnalyzerBase</a> abstract class implements <code>ITextAnalyzer.tokenize</code> and <code>ITextAnalyzer.tokenizeJson</code>; and</li>
-<li>the <a href="#textanalyzer-class">TextAnalyzer</a> class extends <a href="#textanalyzerbase-class">TextAnalyzerBase</a>  and implements <code>ITextAnalyzer.tokenFilter</code> and <code>ITextAnalyzer.configuration</code> as final fields with their values passed in as (optional) parameters (with defaults) at initialization.</li>
-</ul>
-<h4 id="english-class"><em>English class</em></h4>
-<p>A basic <a href="#textanalyzerconfiguration-interface">TextAnalyzerConfiguration</a> implementation for <code>English</code> language analysis.</p>
-<p>The <code>termFilter</code> applies the following algorithm:</p>
-<ul>
-<li>apply the <code>characterFilter</code> to the term;</li>
-<li>if the resulting term is empty or contained in <code>kStopWords</code>, return an empty collection; else</li>
-<li>insert the filterered term in the return value;</li>
-<li>split the term at commas, periods, hyphens and apostrophes unless preceded and ended by a number;</li>
-<li>if the term can be split, add the split terms to the return value, unless the (split) terms are in <code>kStopWords</code> or are empty strings.</li>
-</ul>
-<p>The <code>characterFilter</code> function:</p>
-<ul>
-<li>returns the term if it can be parsed as a number; else</li>
-<li>converts the term to lower-case;</li>
-<li>changes all quote marks to single apostrophe +U0027;</li>
-<li>removes enclosing quote marks;</li>
-<li>changes all dashes to single standard hyphen;</li>
-<li>removes all non-word characters from the term;</li>
-<li>replaces all characters except letters and numbers from the end of the term.</li>
-</ul>
-<h4 id="textanalyzerbase-class"><em>TextAnalyzerBase class</em></h4>
-<p>The <code>TextAnalyzerBase</code> class implements the <code>ITextAnalyzer.tokenize</code> method:</p>
-<ul>
-<li>tokenizes source text using the <code>configuration</code>;</li>
-<li>manipulates the output by applying <code>tokenFilter</code>; and, finally</li>
-<li>returns a <code>List&lt;Token&gt;</code> enumerating all the <code>Tokens</code> in the source text.</li>
-</ul>
-<h4 id="textanalyzer-class"><em>TextAnalyzer Class</em></h4>
-<p>The <code>TextAnalyzer</code> class extends <a href="#textanalyzerbase-class">TextAnalyzerBase</a>:</p>
-<ul>
-<li>implements <code>configuration</code> and <code>tokenFilter</code> as final fields passed in as optional parameters at instantiation;</li>
-<li><code>configuration</code> is used by the <code>TextAnalyzer</code> to tokenize source text and defaults to <code>English.configuration</code>; and</li>
-<li>provide nullable function <code>tokenFilter</code> if you want to manipulate tokens or restrict tokenization to tokens that meet specific criteria. The default is <code>TextAnalyzer.defaultTokenFilter</code>, that applies the<code>Porter2Stemmer</code>).</li>
+<li><a href="https://pub.dev/documentation/text_analysis/latest/text_analysis/TextDocument/averageSentenceLength.html">averageSentenceLength</a> is the average number of words in <a href="https://pub.dev/documentation/text_analysis/latest/text_analysis/TextDocument/sentences.html">sentences</a>;</li>
+<li><a href="https://pub.dev/documentation/text_analysis/latest/text_analysis/TextDocument/averageSyllableCount.html">averageSyllableCount</a> is the average number of syllables per word in
+<a href="https://pub.dev/documentation/text_analysis/latest/text_analysis/TextDocument/terms.html">terms</a>;</li>
+<li><a href="https://pub.dev/documentation/text_analysis/latest/text_analysis/TextDocument/wordCount.html">wordCount</a> the total number of words in the <a href="https://pub.dev/documentation/text_analysis/latest/text_analysis/TextDocument/sourceText.html">sourceText</a>;</li>
+<li><a href="https://pub.dev/documentation/text_analysis/latest/text_analysis/TextDocument/fleschReadingEaseScore.html">fleschReadingEaseScore</a> is a readibility measure calculated from
+sentence length and word length on a 100-point scale. The higher the
+score, the easier it is to understand the document;</li>
+<li><a href="https://pub.dev/documentation/text_analysis/latest/text_analysis/TextDocument/fleschKincaidGradeLevel.html">fleschKincaidGradeLevel</a> is a readibility measure relative to U.S.
+school grade level.  It is also calculated from sentence length and word
+length .</li>
 </ul>
 <h2 id="definitions">Definitions</h2>
 <p>The following definitions are used throughout the <a href="https://pub.dev/documentation/text_analysis/latest/">documentation</a>:</p>
@@ -189,12 +161,23 @@ All rights reserved.
 <li><code>corpus</code>- the collection of <code>documents</code> for which an <code>index</code> is maintained.</li>
 <li><code>character filter</code> - filters characters from text in preparation of tokenization.</li>
 <li><code>dictionary</code> - is a hash of <code>terms</code> (<code>vocabulary</code>) to the frequency of occurence in the <code>corpus</code> documents.</li>
-<li><code>document</code> - a record in the <code>corpus</code>, that has a unique identifier (<code>docId</code>) in the <code>corpus</code>'s primary key and that contains one or more text zones/fields  that are indexed.</li>
-<li><code>index</code> - an <a href="https://en.wikipedia.org/wiki/Inverted_index">inverted index</a> used to look up <code>document</code> references from the <code>corpus</code> against a <code>vocabulary</code> of <code>terms</code>. 
-<code>k-gram</code> - a sequence of (any) k consecutive characters from a <code>term</code>. A k-gram can start with "$", dentoting the start of the <a href="text_analysis/Term.html">Term</a>, and end with "$", denoting the end of the <a href="text_analysis/Term.html">Term</a>. The 3-grams for "castle" are { $ca, cas, ast, stl, tle, le$ }.</li>
+<li><code>document</code> - a record in the <code>corpus</code>, that has a unique identifier (<code>docId</code>) in the <code>corpus</code>'s primary key and that contains one or more text fields that are indexed.</li>
+<li><code>document frequency (dFt)</code> is number of documents in the <code>corpus</code> that contain a term.</li>
+</ul>
+<ul>
+<li><code>Flesch reading ease score</code> - a readibility measure calculated from  sentence length and word length on a 100-point scale. The higher the score, the easier it is to understand the document (<a href="https://en.wikipedia.org/wiki/Flesch%E2%80%93Kincaid_readability_tests">Wikipedia(6)</a>).</li>
+<li><code>Flesch-Kincaid grade level</code> - a readibility measure relative to U.S. school grade level.  It is also calculated from sentence length and word length (<a href="https://en.wikipedia.org/wiki/Flesch%E2%80%93Kincaid_readability_tests">Wikipedia(6)</a>).</li>
+</ul>
+<ul>
+<li><code>index</code> - an <a href="https://en.wikipedia.org/wiki/Inverted_index">inverted index</a> used to look up <code>document</code> references from the <code>corpus</code> against a <code>vocabulary</code> of <code>terms</code>.</li>
+<li><code>index-elimination</code> - selecting a subset of the entries in an index where the <code>term</code> is in the collection of <code>terms</code> in a search phrase.</li>
+<li><code>inverse document frequency</code> or <code>iDft</code> is equal to log (N / <code>dft</code>), where N is the total number of terms in the index. The <code>IdFt</code> of a rare term is high, whereas the <code>IdFt</code> of a frequent term is likely to be low.</li>
+<li><code>Jaccard index</code> measures similarity between finite sample sets, and is defined as the size of the intersection divided by the size of the union of the sample sets (from <a href="https://en.wikipedia.org/wiki/Jaccard_index">Wikipedia</a>).</li>
+<li><code>JSON</code> is an acronym for <code>"Java Script Object Notation"</code>, a common format for persisting data.</li>
+<li><code>k-gram</code> - a sequence of (any) k consecutive characters from a <code>term</code>. A <code>k-gram</code> can start with "$", denoting the start of the term, and end with "$", denoting the end of the term. The 3-grams for "castle" are { $ca, cas, ast, stl, tle, le$ }.</li>
 <li><code>lemmatizer</code> - lemmatisation (or lemmatization) in linguistics is the process of grouping together the inflected forms of a word so they can be analysed as a single item, identified by the word's lemma, or dictionary form (from <a href="https://en.wikipedia.org/wiki/Lemmatisation">Wikipedia</a>).</li>
-<li><code>postings</code> - a separate index that records which <code>documents</code> the <code>vocabulary</code> occurs in. In this implementation we also record the positions of each <code>term</code> in the <code>text</code> to create a positional inverted <code>index</code>.</li>
-<li><code>postings list</code> - a record of the positions of a <code>term</code> in a <code>document</code>. A position of a <code>term</code> refers to the index of the <code>term</code> in an array that contains all the <code>terms</code> in the <code>text</code>.</li>
+<li><code>postings</code> - a separate index that records which <code>documents</code> the <code>vocabulary</code> occurs in.  In a positional <code>index</code>, the postings also records the positions of each <code>term</code> in the <code>text</code> to create a positional inverted <code>index</code>.</li>
+<li><code>postings list</code> - a record of the positions of a <code>term</code> in a <code>document</code>. A position of a <code>term</code> refers to the index of the <code>term</code> in an array that contains all the <code>terms</code> in the <code>text</code>. In a zoned <code>index</code>, the <code>postings lists</code> records the positions of each <code>term</code> in the <code>text</code> a <code>zone</code>.</li>
 <li><code>term</code> - a word or phrase that is indexed from the <code>corpus</code>. The <code>term</code> may differ from the actual word used in the corpus depending on the <code>tokenizer</code> used.</li>
 <li><code>term filter</code> - filters unwanted terms from a collection of terms (e.g. stopwords), breaks compound terms into separate terms and / or manipulates terms by invoking a <code>stemmer</code> and / or <code>lemmatizer</code>.</li>
 <li><code>stemmer</code> -  stemming is the process of reducing inflected (or sometimes derived) words to their word stem, base or root form—generally a written word form (from <a href="https://en.wikipedia.org/wiki/Stemming">Wikipedia</a>).</li>
@@ -202,10 +185,11 @@ All rights reserved.
 <li><code>term frequency (Ft)</code> is the frequency of a <code>term</code> in an index or indexed object.</li>
 <li><code>term position</code> is the zero-based index of a <code>term</code> in an ordered array of <code>terms</code> tokenized from the <code>corpus</code>.</li>
 <li><code>text</code> - the indexable content of a <code>document</code>.</li>
-<li><code>token</code> - representation of a <code>term</code> in a text source returned by a <code>tokenizer</code>. The token may include information about the <code>term</code> position in the source text.</li>
+<li><code>token</code> - representation of a <code>term</code> in a text source returned by a <code>tokenizer</code>. The token may include information about the <code>term</code> such as its position(s) (<code>term position</code>) in the text or frequency of occurrence (<code>term frequency</code>).</li>
 <li><code>token filter</code> - returns a subset of <code>tokens</code> from the tokenizer output.</li>
-<li><code>tokenizer</code> - a function that returns a collection of <code>token</code>s from the terms in a text source after applying a <code>character filter</code> and <code>term filter</code>.</li>
+<li><code>tokenizer</code> - a function that returns a collection of <code>token</code>s from <code>text</code>, after applying a character filter, <code>term</code> filter, <a href="https://en.wikipedia.org/wiki/Stemming">stemmer</a> and / or <a href="https://en.wikipedia.org/wiki/Lemmatisation">lemmatizer</a>.</li>
 <li><code>vocabulary</code> - the collection of <code>terms</code> indexed from the <code>corpus</code>.</li>
+<li><code>zone</code> is the field or zone of a document that a term occurs in, used for parametric indexes or where scoring and ranking of search results attribute a higher score to documents that contain a term in a specific zone (e.g. the title rather that the body of a document).</li>
 </ul>
 <h2 id="references">References</h2>
 <ul>
@@ -214,6 +198,9 @@ All rights reserved.
 <li><a href="https://en.wikipedia.org/wiki/Inverted_index">Wikipedia (1), "<em>Inverted Index</em>", from Wikipedia, the free encyclopedia</a></li>
 <li><a href="https://en.wikipedia.org/wiki/Lemmatisation">Wikipedia (2), "<em>Lemmatisation</em>", from Wikipedia, the free encyclopedia</a></li>
 <li><a href="https://en.wikipedia.org/wiki/Stemming">Wikipedia (3), "<em>Stemming</em>", from Wikipedia, the free encyclopedia</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Synonym">Wikipedia (4), "<em>Synonym</em>", from Wikipedia, the free encyclopedia</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Jaccard_index">Wikipedia (5), "<em>Jaccard Index</em>", from Wikipedia, the free encyclopedia</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Flesch%E2%80%93Kincaid_readability_tests">Wikipedia (6), "<em>Flesch–Kincaid readability tests</em>", from Wikipedia, the free encyclopedia</a></li>
 </ul>
 <h2 id="issues">Issues</h2>
 <p>If you find a bug please fill an <a href="https://github.com/GM-Consult-Pty-Ltd/text_analysis/issues">issue</a>.</p>
@@ -265,7 +252,7 @@ information retrieval systems.
 <footer>
   <span class="no-break">
     text_analysis
-      0.9.1
+      0.10.0
   </span>
 
   

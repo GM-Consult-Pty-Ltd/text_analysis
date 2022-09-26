@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, user-scalable=no">
+  <meta name="description" content="API docs for the TextAnalysisExtension extension from the text_analysis library, for the Dart programming language.">
+  <title>TextAnalysisExtension extension - text_analysis library - Dart API</title>
+
+
+  
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,300;0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  
+  <link rel="stylesheet" href="../static-assets/github.css?v1">
+  <link rel="stylesheet" href="../static-assets/styles.css?v1">
+  <link rel="icon" href="../static-assets/favicon.png?v1">
+
+  
+</head>
+
+
+<body data-base-href="../"
+      data-using-base-href="false">
+
+<div id="overlay-under-drawer"></div>
+
+<header id="title">
+  <button id="sidenav-left-toggle" type="button">&nbsp;</button>
+  <ol class="breadcrumbs gt-separated dark hidden-xs">
+    <li><a href="../index.html">text_analysis</a></li>
+    <li><a href="../text_analysis/text_analysis-library.html">text_analysis</a></li>
+    <li class="self-crumb">TextAnalysisExtension extension</li>
+  </ol>
+  <div class="self-name">TextAnalysisExtension</div>
+  <form class="search navbar-right" role="search">
+    <input type="text" id="search-box" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
+  </form>
+</header>
+
+<main>
+
+
+<div id="dartdoc-main-content" class="main-content">
+    <div>
+<h1><span class="kind-class">TextAnalysisExtension</span> extension 
+    <a href="https://dart.dev/null-safety" class="feature feature-null-safety" title="Supports the null safety language feature.">Null safety</a>
+ 
+</h1></div>
+
+    
+<section class="desc markdown">
+  <p>Extension methods on <code>Term</code>.</p>
+</section>
+
+    <section>
+      <dl class="dl-horizontal">
+        <dt>on</dt>
+        <dd>
+          <ul class="comma-separated clazz-relationships">
+              <li>Term</li>
+          </ul>
+        </dd>
+      </dl>
+      
+    </section>
+
+
+    
+  <section
+      class="summary offset-anchor"
+      id="instance-methods">
+    <h2>Methods</h2>
+    <dl class="callables">
+        <dt id="jaccardSimilarity" class="callable">
+  <span class="name"><a href="../text_analysis/TextAnalysisExtension/jaccardSimilarity.html">jaccardSimilarity</a></span><span class="signature">(<wbr><span class="parameter" id="jaccardSimilarity-param-other"><span class="type-annotation">Term</span> <span class="parameter-name">other</span>, </span><span class="parameter" id="jaccardSimilarity-param-k">[<span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/int-class.html">int</a></span> <span class="parameter-name">k</span> = <span class="default-value">3</span>]</span>)
+    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-core/double-class.html">double</a></span>
+  </span>
+  
+
+</dt>
+<dd>
+  Returns the Jaccard Similarity Index between this term and <code>other</code>
+using a k-gram length of <code>k</code>.
+  
+
+</dd>
+
+        <dt id="jaccardSimilarityMap" class="callable">
+  <span class="name"><a href="../text_analysis/TextAnalysisExtension/jaccardSimilarityMap.html">jaccardSimilarityMap</a></span><span class="signature">(<wbr><span class="parameter" id="jaccardSimilarityMap-param-terms"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter">Term</span>&gt;</span></span> <span class="parameter-name">terms</span>, </span><span class="parameter" id="jaccardSimilarityMap-param-k">[<span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/int-class.html">int</a></span> <span class="parameter-name">k</span> = <span class="default-value">3</span>]</span>)
+    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-core/Map-class.html">Map</a><span class="signature">&lt;<wbr><span class="type-parameter">Term</span>, <span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/double-class.html">double</a></span>&gt;</span></span>
+  </span>
+  
+
+</dt>
+<dd>
+  Returns a hashmap of <code>terms</code> to Jaccard Similarity Index with this term
+using a k-gram length of <code>k</code>.
+  
+
+</dd>
+
+        <dt id="kGrams" class="callable">
+  <span class="name"><a href="../text_analysis/TextAnalysisExtension/kGrams.html">kGrams</a></span><span class="signature">(<wbr><span class="parameter" id="kGrams-param-k">[<span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/int-class.html">int</a></span> <span class="parameter-name">k</span> = <span class="default-value">3</span>]</span>)
+    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-core/Set-class.html">Set</a><span class="signature">&lt;<wbr><span class="type-parameter">KGram</span>&gt;</span></span>
+  </span>
+  
+
+</dt>
+<dd>
+  Returns a set of k-grams in the term.
+  
+
+</dd>
+
+        <dt id="lengthDistance" class="callable">
+  <span class="name"><a href="../text_analysis/TextAnalysisExtension/lengthDistance.html">lengthDistance</a></span><span class="signature">(<wbr><span class="parameter" id="lengthDistance-param-other"><span class="type-annotation">Term</span> <span class="parameter-name">other</span></span>)
+    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-core/double-class.html">double</a></span>
+  </span>
+  
+
+</dt>
+<dd>
+  Returns a normalized measure of difference between this <code>Term</code> and
+<code>other</code> on a log (base 2) scale:
+  
+
+</dd>
+
+        <dt id="lengthSimilarity" class="callable">
+  <span class="name"><a href="../text_analysis/TextAnalysisExtension/lengthSimilarity.html">lengthSimilarity</a></span><span class="signature">(<wbr><span class="parameter" id="lengthSimilarity-param-other"><span class="type-annotation">Term</span> <span class="parameter-name">other</span></span>)
+    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-core/double-class.html">double</a></span>
+  </span>
+  
+
+</dt>
+<dd>
+  Returns the similarity in length between this string and <code>other</code> where:
+lengthSimilarity = 1 - <a href="../text_analysis/TextAnalysisExtension/lengthDistance.html">lengthDistance</a>.
+  
+
+</dd>
+
+        <dt id="lengthSimilarityMap" class="callable">
+  <span class="name"><a href="../text_analysis/TextAnalysisExtension/lengthSimilarityMap.html">lengthSimilarityMap</a></span><span class="signature">(<wbr><span class="parameter" id="lengthSimilarityMap-param-terms"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter">Term</span>&gt;</span></span> <span class="parameter-name">terms</span></span>)
+    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-core/Map-class.html">Map</a><span class="signature">&lt;<wbr><span class="type-parameter">Term</span>, <span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/double-class.html">double</a></span>&gt;</span></span>
+  </span>
+  
+
+</dt>
+<dd>
+  Returns a hashmap of <code>terms</code> to their <a href="../text_analysis/TextAnalysisExtension/lengthSimilarity.html">lengthSimilarity</a> with this.
+  
+
+</dd>
+
+    </dl>
+  </section>
+    
+    
+    
+    
+
+
+</div> <!-- /.main-content -->
+
+<div id="dartdoc-sidebar-left" class="sidebar sidebar-offcanvas-left">
+    <header id="header-search-sidebar" class="hidden-l">
+  <form class="search-sidebar" role="search">
+    <input type="text" id="search-sidebar" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
+  </form>
+</header>
+
+<ol class="breadcrumbs gt-separated dark hidden-l" id="sidebar-nav">
+  <li><a href="../index.html">text_analysis</a></li>
+  <li><a href="../text_analysis/text_analysis-library.html">text_analysis</a></li>
+  <li class="self-crumb">TextAnalysisExtension extension</li>
+</ol>
+
+
+    <h5>text_analysis library</h5>
+    <ol>
+  <li class="section-title"><a href="../text_analysis/text_analysis-library.html#classes">Classes</a></li>
+  <li><a href="https://pub.dev/documentation/porter_2_stemmer/1.0.0+6/porter_2_stemmer/Porter2Stemmer-class.html">Porter2Stemmer</a></li>
+  <li><a href="../text_analysis/TextAnalyzer-class.html">TextAnalyzer</a></li>
+  <li><a href="../text_analysis/TextDocument-class.html">TextDocument</a></li>
+  <li><a href="../text_analysis/TextDocumentBase-class.html">TextDocumentBase</a></li>
+  <li><a href="../text_analysis/TextDocumentMixin-class.html">TextDocumentMixin</a></li>
+  <li><a href="../text_analysis/TextTokenizer-class.html">TextTokenizer</a></li>
+  <li><a href="../text_analysis/TextTokenizerBase-class.html">TextTokenizerBase</a></li>
+  <li><a href="../text_analysis/TextTokenizerMixin-class.html">TextTokenizerMixin</a></li>
+  <li><a href="../text_analysis/Token-class.html">Token</a></li>
+
+  <li class="section-title"><a href="../text_analysis/text_analysis-library.html#extensions">Extensions</a></li>
+  <li><a href="https://pub.dev/documentation/porter_2_stemmer/1.0.0+6/porter_2_stemmer/Porter2StemmerExtension.html">Porter2StemmerExtension</a></li>
+  <li><a href="../text_analysis/TextAnalysisExtension.html">TextAnalysisExtension</a></li>
+  <li><a href="../text_analysis/TokenCollectionExtension.html">TokenCollectionExtension</a></li>
+
+
+
+
+
+
+
+</ol>
+
+</div>
+
+<div id="dartdoc-sidebar-right" class="sidebar sidebar-offcanvas-right">
+    <ol>
+
+
+
+
+
+    <li class="section-title"><a href="../text_analysis/TextAnalysisExtension.html#instance-methods">Methods</a></li>
+    <li><a href="../text_analysis/TextAnalysisExtension/jaccardSimilarity.html">jaccardSimilarity</a></li>
+    <li><a href="../text_analysis/TextAnalysisExtension/jaccardSimilarityMap.html">jaccardSimilarityMap</a></li>
+    <li><a href="../text_analysis/TextAnalysisExtension/kGrams.html">kGrams</a></li>
+    <li><a href="../text_analysis/TextAnalysisExtension/lengthDistance.html">lengthDistance</a></li>
+    <li><a href="../text_analysis/TextAnalysisExtension/lengthSimilarity.html">lengthSimilarity</a></li>
+    <li><a href="../text_analysis/TextAnalysisExtension/lengthSimilarityMap.html">lengthSimilarityMap</a></li>
+
+
+
+
+</ol>
+
+</div><!--/.sidebar-offcanvas-->
+
+</main>
+
+<footer>
+  <span class="no-break">
+    text_analysis
+      0.10.0
+  </span>
+
+  
+</footer>
+
+
+
+<script src="../static-assets/highlight.pack.js?v1"></script>
+<script src="../static-assets/script.js?v1"></script>
+
+
+
+</body>
+
+</html>
+
+

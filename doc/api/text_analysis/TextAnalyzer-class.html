@@ -31,7 +31,7 @@
   <ol class="breadcrumbs gt-separated dark hidden-xs">
     <li><a href="../index.html">text_analysis</a></li>
     <li><a href="../text_analysis/text_analysis-library.html">text_analysis</a></li>
-    <li class="self-crumb">TextAnalyzer class</li>
+    <li class="self-crumb">TextAnalyzer abstract class</li>
   </ol>
   <div class="self-name">TextAnalyzer</div>
   <form class="search navbar-right" role="search">
@@ -51,42 +51,25 @@
 
     
 <section class="desc markdown">
-  <p>A <a href="../text_analysis/ITextAnalyzer-class.html">ITextAnalyzer</a> implementation that extracts tokens from text for use
-in full-text search queries and indexes:</p>
+  <p>An interface exposes language-specific properties and methods used in
+text analysis:</p>
 <ul>
-<li><a href="../text_analysis/TextAnalyzer/configuration.html">configuration</a> is used by the <a href="../text_analysis/TextAnalyzer-class.html">TextAnalyzer</a> to tokenize source text
-(default is <a href="../text_analysis/English/configuration-constant.html">English.configuration</a>); and</li>
-<li>provide a custom <a href="../text_analysis/TextAnalyzer/tokenFilter.html">tokenFilter</a> if you want to manipulate tokens or
-restrict tokenization to tokens that meet specific criteria (default is
-<a href="../text_analysis/TextAnalyzer/defaultTokenFilter.html">TextAnalyzer.defaultTokenFilter</a>, applies <a href="https://pub.dev/documentation/porter_2_stemmer/1.0.0+5/porter_2_stemmer/Porter2Stemmer-class.html">Porter2Stemmer</a>); and</li>
-<li>the <a href="../text_analysis/TextAnalyzerBase/tokenize.html">tokenize</a> function tokenizes source text using the <a href="../text_analysis/TextAnalyzer/configuration.html">configuration</a>
-and then manipulates the output by applying <a href="../text_analysis/TextAnalyzer/tokenFilter.html">tokenFilter</a>; and</li>
-<li>the <a href="../text_analysis/TextAnalyzerBase/tokenizeJson.html">tokenizeJson</a> function extracts tokens from the zones in a JSON
-document.</li>
+<li><a href="../text_analysis/TextAnalyzer/characterFilter.html">characterFilter</a> is a function that manipulates text prior to stemming
+and tokenization;</li>
+<li><a href="../text_analysis/TextAnalyzer/termFilter.html">termFilter</a> is a filter function that returns a collection of terms from
+a term. It returns an empty collection if the term is to be excluded from
+analysis or, returns multiple terms if the term is split (e.g. at hyphens)
+and / or, returns modified term(s), such as applying a stemmer algorithm; and</li>
+<li><a href="../text_analysis/TextAnalyzer/termSplitter.html">termSplitter</a> returns a list of terms from text;</li>
+<li><a href="../text_analysis/TextAnalyzer/sentenceSplitter.html">sentenceSplitter</a> splits text into a list of sentences at sentence and
+line endings;</li>
+<li><a href="../text_analysis/TextAnalyzer/paragraphSplitter.html">paragraphSplitter</a> splits text into a list of paragraphs at line
+endings; and</li>
+<li><a href="../text_analysis/TextAnalyzer/syllableCounter.html">syllableCounter</a> returns the number of syllables in a word or text.</li>
 </ul>
 </section>
 
 
-    <section>
-      <dl class="dl-horizontal">
-        
-  <dt>Inheritance</dt>
-  <dd>
-    <ul class="gt-separated dark clazz-relationships">
-      <li><a href="https://api.flutter.dev/flutter/dart-core/Object-class.html">Object</a></li>
-        <li><a href="../text_analysis/TextAnalyzerBase-class.html">TextAnalyzerBase</a></li>
-      <li>TextAnalyzer</li>
-    </ul>
-  </dd>
-
-        
-        
-
-
-
-        
-      </dl>
-    </section>
 
     
   <section class="summary offset-anchor" id="constructors">
@@ -94,11 +77,10 @@ document.</li>
 
     <dl class="constructor-summary-list">
         <dt id="TextAnalyzer" class="callable">
-          <span class="name"><a href="../text_analysis/TextAnalyzer/TextAnalyzer.html">TextAnalyzer</a></span><span class="signature">(<span class="parameter" id="-param-configuration">{<span class="type-annotation"><a href="../text_analysis/TextAnalyzerConfiguration-class.html">TextAnalyzerConfiguration</a></span> <span class="parameter-name">configuration</span> = <span class="default-value">English.configuration</span>, </span><span class="parameter" id="-param-tokenFilter"><span class="type-annotation"><a href="../text_analysis/TokenFilter.html">TokenFilter</a>?</span> <span class="parameter-name">tokenFilter</span> = <span class="default-value">defaultTokenFilter</span>}</span>)</span>
+          <span class="name"><a href="../text_analysis/TextAnalyzer/TextAnalyzer.html">TextAnalyzer</a></span><span class="signature">()</span>
         </dt>
         <dd>
-          Instantiates a const <a href="../text_analysis/TextAnalyzerBase-class.html">TextAnalyzerBase</a> instance.
-            <div class="constructor-modifier features">const</div>
+          
         </dd>
     </dl>
   </section>
@@ -107,14 +89,14 @@ document.</li>
       <h2>Properties</h2>
 
       <dl class="properties">
-        <dt id="configuration" class="property">
-  <span class="name"><a href="../text_analysis/TextAnalyzer/configuration.html">configuration</a></span>
-  <span class="signature">&#8594; <a href="../text_analysis/TextAnalyzerConfiguration-class.html">TextAnalyzerConfiguration</a></span> 
+        <dt id="characterFilter" class="property">
+  <span class="name"><a href="../text_analysis/TextAnalyzer/characterFilter.html">characterFilter</a></span>
+  <span class="signature">&#8594; CharacterFilter</span> 
 
 </dt>
 <dd>
-  The <a href="../text_analysis/TextAnalyzerConfiguration-class.html">TextAnalyzerConfiguration</a> used by the <a href="../text_analysis/ITextAnalyzer-class.html">ITextAnalyzer</a>.
-  <div class="features">final</div>
+  A function that manipulates text prior to stemming and tokenization.
+  <div class="features">read-only</div>
 
 </dd>
 
@@ -129,6 +111,17 @@ document.</li>
 
 </dd>
 
+        <dt id="paragraphSplitter" class="property">
+  <span class="name"><a href="../text_analysis/TextAnalyzer/paragraphSplitter.html">paragraphSplitter</a></span>
+  <span class="signature">&#8594; ParagraphSplitter</span> 
+
+</dt>
+<dd>
+  Returns a list of paragraphs from text.
+  <div class="features">read-only</div>
+
+</dd>
+
         <dt id="runtimeType" class="property inherited">
   <span class="name"><a href="https://api.flutter.dev/flutter/dart-core/Object/runtimeType.html">runtimeType</a></span>
   <span class="signature">&#8594; <a href="https://api.flutter.dev/flutter/dart-core/Type-class.html">Type</a></span> 
@@ -140,14 +133,48 @@ document.</li>
 
 </dd>
 
-        <dt id="tokenFilter" class="property">
-  <span class="name"><a href="../text_analysis/TextAnalyzer/tokenFilter.html">tokenFilter</a></span>
-  <span class="signature">&#8594; <a href="../text_analysis/TokenFilter.html">TokenFilter</a>?</span> 
+        <dt id="sentenceSplitter" class="property">
+  <span class="name"><a href="../text_analysis/TextAnalyzer/sentenceSplitter.html">sentenceSplitter</a></span>
+  <span class="signature">&#8594; SentenceSplitter</span> 
 
 </dt>
 <dd>
-  A filter that returns a subset of tokens.
-  <div class="features">final</div>
+  Returns a list of sentences from text.
+  <div class="features">read-only</div>
+
+</dd>
+
+        <dt id="syllableCounter" class="property">
+  <span class="name"><a href="../text_analysis/TextAnalyzer/syllableCounter.html">syllableCounter</a></span>
+  <span class="signature">&#8594; SyllableCounter</span> 
+
+</dt>
+<dd>
+  Returns the number of syllables in a string after stripping out all
+white-space and punctuation.
+  <div class="features">read-only</div>
+
+</dd>
+
+        <dt id="termFilter" class="property">
+  <span class="name"><a href="../text_analysis/TextAnalyzer/termFilter.html">termFilter</a></span>
+  <span class="signature">&#8594; TermFilter</span> 
+
+</dt>
+<dd>
+  A filter function that returns a collection of terms from term:
+  <div class="features">read-only</div>
+
+</dd>
+
+        <dt id="termSplitter" class="property">
+  <span class="name"><a href="../text_analysis/TextAnalyzer/termSplitter.html">termSplitter</a></span>
+  <span class="signature">&#8594; TermSplitter</span> 
+
+</dt>
+<dd>
+  Returns a list of terms from text.
+  <div class="features">read-only</div>
 
 </dd>
 
@@ -169,34 +196,6 @@ document.</li>
 </dt>
 <dd class="inherited">
   Invoked when a non-existent method or property is accessed.
-  <div class="features">inherited</div>
-
-</dd>
-
-        <dt id="tokenize" class="callable inherited">
-  <span class="name"><a href="../text_analysis/TextAnalyzerBase/tokenize.html">tokenize</a></span><span class="signature">(<wbr><span class="parameter" id="tokenize-param-text"><span class="type-annotation"><a href="../text_analysis/SourceText.html">SourceText</a></span> <span class="parameter-name">text</span>, </span><span class="parameter" id="tokenize-param-zone">[<span class="type-annotation"><a href="../text_analysis/Zone.html">Zone</a>?</span> <span class="parameter-name">zone</span>]</span>)
-    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../text_analysis/Token-class.html">Token</a></span>&gt;</span></span>&gt;</span></span>
-  </span>
-  
-
-</dt>
-<dd class="inherited">
-  Extracts tokens from <code>source</code> for use in full-text search queries and
-indexes.
-  <div class="features">inherited</div>
-
-</dd>
-
-        <dt id="tokenizeJson" class="callable inherited">
-  <span class="name"><a href="../text_analysis/TextAnalyzerBase/tokenizeJson.html">tokenizeJson</a></span><span class="signature">(<wbr><span class="parameter" id="tokenizeJson-param-document"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Map-class.html">Map</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>, <span class="type-parameter">dynamic</span>&gt;</span></span> <span class="parameter-name">document</span>, </span><span class="parameter" id="tokenizeJson-param-zones">[<span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../text_analysis/Zone.html">Zone</a></span>&gt;</span>?</span> <span class="parameter-name">zones</span>]</span>)
-    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../text_analysis/Token-class.html">Token</a></span>&gt;</span></span>&gt;</span></span>
-  </span>
-  
-
-</dt>
-<dd class="inherited">
-  Extracts tokens from the <code>zones</code> in a JSON <code>document</code> for use in
-full-text search queries and indexes.
   <div class="features">inherited</div>
 
 </dd>
@@ -239,24 +238,6 @@ full-text search queries and indexes.
   </section>
     
     
-  <section class="summary offset-anchor" id="static-methods">
-    <h2>Static Methods</h2>
-    <dl class="callables">
-        <dt id="defaultTokenFilter" class="callable">
-  <span class="name"><a href="../text_analysis/TextAnalyzer/defaultTokenFilter.html">defaultTokenFilter</a></span><span class="signature">(<wbr><span class="parameter" id="defaultTokenFilter-param-tokens"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../text_analysis/Token-class.html">Token</a></span>&gt;</span></span> <span class="parameter-name">tokens</span></span>)
-    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../text_analysis/Token-class.html">Token</a></span>&gt;</span></span>&gt;</span></span>
-  </span>
-  
-
-</dt>
-<dd>
-  The default <a href="../text_analysis/TokenFilter.html">TokenFilter</a> used by <a href="../text_analysis/TextAnalyzer-class.html">TextAnalyzer</a>.
-  
-
-</dd>
-
-    </dl>
-  </section>
     
 
 
@@ -272,24 +253,26 @@ full-text search queries and indexes.
 <ol class="breadcrumbs gt-separated dark hidden-l" id="sidebar-nav">
   <li><a href="../index.html">text_analysis</a></li>
   <li><a href="../text_analysis/text_analysis-library.html">text_analysis</a></li>
-  <li class="self-crumb">TextAnalyzer class</li>
+  <li class="self-crumb">TextAnalyzer abstract class</li>
 </ol>
 
 
     <h5>text_analysis library</h5>
     <ol>
   <li class="section-title"><a href="../text_analysis/text_analysis-library.html#classes">Classes</a></li>
-  <li><a href="../text_analysis/English-class.html">English</a></li>
-  <li><a href="../text_analysis/ITextAnalyzer-class.html">ITextAnalyzer</a></li>
-  <li><a href="https://pub.dev/documentation/porter_2_stemmer/1.0.0+5/porter_2_stemmer/Porter2Stemmer-class.html">Porter2Stemmer</a></li>
+  <li><a href="https://pub.dev/documentation/porter_2_stemmer/1.0.0+6/porter_2_stemmer/Porter2Stemmer-class.html">Porter2Stemmer</a></li>
   <li><a href="../text_analysis/TextAnalyzer-class.html">TextAnalyzer</a></li>
-  <li><a href="../text_analysis/TextAnalyzerBase-class.html">TextAnalyzerBase</a></li>
-  <li><a href="../text_analysis/TextAnalyzerConfiguration-class.html">TextAnalyzerConfiguration</a></li>
+  <li><a href="../text_analysis/TextDocument-class.html">TextDocument</a></li>
+  <li><a href="../text_analysis/TextDocumentBase-class.html">TextDocumentBase</a></li>
+  <li><a href="../text_analysis/TextDocumentMixin-class.html">TextDocumentMixin</a></li>
+  <li><a href="../text_analysis/TextTokenizer-class.html">TextTokenizer</a></li>
+  <li><a href="../text_analysis/TextTokenizerBase-class.html">TextTokenizerBase</a></li>
+  <li><a href="../text_analysis/TextTokenizerMixin-class.html">TextTokenizerMixin</a></li>
   <li><a href="../text_analysis/Token-class.html">Token</a></li>
 
   <li class="section-title"><a href="../text_analysis/text_analysis-library.html#extensions">Extensions</a></li>
-  <li><a href="../text_analysis/KGramParserExtension.html">KGramParserExtension</a></li>
-  <li><a href="https://pub.dev/documentation/porter_2_stemmer/1.0.0+5/porter_2_stemmer/Porter2StemmerExtension.html">Porter2StemmerExtension</a></li>
+  <li><a href="https://pub.dev/documentation/porter_2_stemmer/1.0.0+6/porter_2_stemmer/Porter2StemmerExtension.html">Porter2StemmerExtension</a></li>
+  <li><a href="../text_analysis/TextAnalysisExtension.html">TextAnalysisExtension</a></li>
   <li><a href="../text_analysis/TokenCollectionExtension.html">TokenCollectionExtension</a></li>
 
 
@@ -297,20 +280,6 @@ full-text search queries and indexes.
 
 
 
-  <li class="section-title"><a href="../text_analysis/text_analysis-library.html#typedefs">Typedefs</a></li>
-  <li><a href="../text_analysis/CharacterFilter.html">CharacterFilter</a></li>
-  <li><a href="../text_analysis/JsonTokenizer.html">JsonTokenizer</a></li>
-  <li><a href="../text_analysis/KGram.html">KGram</a></li>
-  <li><a href="../text_analysis/SentenceSplitter.html">SentenceSplitter</a></li>
-  <li><a href="../text_analysis/SourceText.html">SourceText</a></li>
-  <li><a href="../text_analysis/Stemmer.html">Stemmer</a></li>
-  <li><a href="../text_analysis/StopWords.html">StopWords</a></li>
-  <li><a href="../text_analysis/Term.html">Term</a></li>
-  <li><a href="../text_analysis/TermFilter.html">TermFilter</a></li>
-  <li><a href="../text_analysis/TermSplitter.html">TermSplitter</a></li>
-  <li><a href="../text_analysis/TokenFilter.html">TokenFilter</a></li>
-  <li><a href="../text_analysis/Tokenizer.html">Tokenizer</a></li>
-  <li><a href="../text_analysis/Zone.html">Zone</a></li>
 
 </ol>
 
@@ -326,15 +295,17 @@ full-text search queries and indexes.
     <li class="section-title">
       <a href="../text_analysis/TextAnalyzer-class.html#instance-properties">Properties</a>
     </li>
-    <li><a href="../text_analysis/TextAnalyzer/configuration.html">configuration</a></li>
+    <li><a href="../text_analysis/TextAnalyzer/characterFilter.html">characterFilter</a></li>
     <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/hashCode.html">hashCode</a></li>
+    <li><a href="../text_analysis/TextAnalyzer/paragraphSplitter.html">paragraphSplitter</a></li>
     <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/runtimeType.html">runtimeType</a></li>
-    <li><a href="../text_analysis/TextAnalyzer/tokenFilter.html">tokenFilter</a></li>
+    <li><a href="../text_analysis/TextAnalyzer/sentenceSplitter.html">sentenceSplitter</a></li>
+    <li><a href="../text_analysis/TextAnalyzer/syllableCounter.html">syllableCounter</a></li>
+    <li><a href="../text_analysis/TextAnalyzer/termFilter.html">termFilter</a></li>
+    <li><a href="../text_analysis/TextAnalyzer/termSplitter.html">termSplitter</a></li>
 
     <li class="section-title inherited"><a href="../text_analysis/TextAnalyzer-class.html#instance-methods">Methods</a></li>
     <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/noSuchMethod.html">noSuchMethod</a></li>
-    <li class="inherited"><a href="../text_analysis/TextAnalyzerBase/tokenize.html">tokenize</a></li>
-    <li class="inherited"><a href="../text_analysis/TextAnalyzerBase/tokenizeJson.html">tokenizeJson</a></li>
     <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/toString.html">toString</a></li>
 
     <li class="section-title inherited"><a href="../text_analysis/TextAnalyzer-class.html#operators">Operators</a></li>
@@ -342,8 +313,6 @@ full-text search queries and indexes.
 
 
 
-        <li class="section-title"><a href="../text_analysis/TextAnalyzer-class.html#static-methods">Static methods</a></li>
-          <li><a href="../text_analysis/TextAnalyzer/defaultTokenFilter.html">defaultTokenFilter</a></li>
 
 </ol>
 
@@ -354,7 +323,7 @@ full-text search queries and indexes.
 <footer>
   <span class="no-break">
     text_analysis
-      0.9.1
+      0.10.0
   </span>
 
   

@@ -4,7 +4,7 @@
 @Timeout(Duration(seconds: 600))
 
 import 'dart:io';
-import 'package:text_analysis/text_analysis.dart';
+import 'package:porter_2_stemmer/porter_2_stemmer.dart';
 import 'package:test/test.dart';
 import 'data/terms.dart';
 

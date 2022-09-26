@@ -2,7 +2,7 @@
 // Copyright (c) 2022, GM Consult Pty Ltd
 
 import 'dart:math';
-import 'package:text_analysis/text_analysis.dart';
+import 'package:text_analysis/src/_index.dart';
 
 /// A [Token] represents a [term] (word) present in a text source:
 /// - [term] is the term that will be looked up in the index;
@@ -53,7 +53,7 @@ class Token {
 }
 
 /// Extension methods on [Term].
-extension KGramParserExtension on Term {
+extension TextAnalysisExtension on Term {
   //
 
   /// Returns a normalized measure of difference between this [Term] and
@@ -73,11 +73,11 @@ extension KGramParserExtension on Term {
           : (log(other.length / length) / log(2)).abs();
 
   /// Returns the similarity in length between this string and [other] where:
-  /// lengthSimilarity = 1 - [lengthDistance] if [lengthDistance].
+  /// lengthSimilarity = 1 - [lengthDistance].
   ///
   /// Returns:
   /// - 1.0 if this and [other] are the same length; and
-  /// - 0.0 if [lengthDistance] >= 1.0, i.e when [other.length] is less than
+  /// - 0.0 if [lengthDistance] >= 1.0, i.e when [other].length is less than
   ///   50% or more than 200% of [length].
   double lengthSimilarity(Term other) {
     final ld = lengthDistance(other);
@@ -93,7 +93,7 @@ extension KGramParserExtension on Term {
     return retVal;
   }
 
-  /// Returns the Jaccard Similarity Index between this term  and [other]
+  /// Returns the Jaccard Similarity Index between this term and [other]
   /// using a k-gram length of [k].
   double jaccardSimilarity(Term other, [int k = 3]) {
     final termGrams = kGrams(k);

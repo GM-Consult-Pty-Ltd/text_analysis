@@ -1,16 +1,22 @@
 // BSD 3-Clause License
 // Copyright (c) 2022, GM Consult Pty Ltd
 
-import 'package:text_analysis/text_analysis.dart';
+import 'package:text_analysis/src/_index.dart';
 
-/// An interface exposing language properties used in text analysis:
+/// An interface exposes language-specific properties and methods used in
+/// text analysis:
 /// - [characterFilter] is a function that manipulates text prior to stemming
 ///   and tokenization;
 /// - [termFilter] is a filter function that returns a collection of terms from
 ///   a term. It returns an empty collection if the term is to be excluded from
 ///   analysis or, returns multiple terms if the term is split (e.g. at hyphens)
 ///   and / or, returns modified term(s), such as applying a stemmer algorithm; and
-/// - [termSplitter] returns a list of terms from text.
+/// - [termSplitter] returns a list of terms from text;
+/// - [sentenceSplitter] splits text into a list of sentences at sentence and
+///   line endings;
+/// - [paragraphSplitter] splits text into a list of paragraphs at line
+///   endings; and
+/// - [syllableCounter] returns the number of syllables in a word or text.
 abstract class TextAnalyzer {
   //
 

@@ -5,7 +5,7 @@ All rights reserved.
 -->
 
 [![GM Consult Pty Ltd](https://raw.githubusercontent.com/GM-Consult-Pty-Ltd/text_analysis/main/assets/images/text_analysis_header.png?raw=true "GM Consult Pty Ltd")](https://github.com/GM-Consult-Pty-Ltd)
-## **Text analyzer that tokenizes text and calculates readbility measures.**
+## **Text analyzer that tokenizes text, computes document readbility and compares terms.**
 
 *THIS PACKAGE IS **PRE-RELEASE**, IN ACTIVE DEVELOPMENT AND SUBJECT TO DAILY BREAKING CHANGES.*
 
@@ -19,19 +19,38 @@ Skip to section:
 
 ## Overview
 
-The `text_analysis` library provides methods to tokenize text in preparation of constructing a `dictionary` from a `corpus` of `documents` in an information retrieval system. 
+The `text_analysis` library provides methods to tokenize text, compute readibility scores for a document and compare similarity of words. It is intended to be used as part of an information retrieval system. 
 
-The tokenization process comprises the following steps:
+Refer to the [references](#references) to learn more about information retrieval systems and the theory behind this library.
+
+#### Tokenization
+
+Tokenization comprises the following steps:
 * a `term splitter` splits text to a list of terms at appropriate places like white-space and mid-sentence punctuation;
 * a `character filter` manipulates terms prior to stemming and tokenization (e.g. changing case and / or removing non-word characters);
 * a `term filter` manipulates the terms by splitting compound or hyphenated terms or applying stemming and lemmatization. The `termFilter` can also filter out `stopwords`; and
 * the `tokenizer` converts the resulting terms to a collection of `tokens` that contain the term and a pointer to the position of the term in the source text.
 
-This library also includes an extension method `Set<KGram> kGrams([int k = 3])` on `Term` that parses a set of k-grams of length k from a `term`.  The default k-gram length is 3 (tri-gram).
+A String extension method `Set<KGram> kGrams([int k = 3])` that parses a set of k-grams of length k from a `term`.  The default k-gram length is 3 (tri-gram).
 
 ![Text analysis](https://github.com/GM-Consult-Pty-Ltd/text_analysis/raw/main/assets/images/text_analysis.png?raw=true?raw=true "Tokenizing overview")
 
-Refer to the [references](#references) to learn more about information retrieval systems and the theory behind this library.
+### Readibility
+
+The [TextDocument](#textdocument) enumerates a text document's *paragraphs*, *sentences*, *terms* and *tokens* and computes readability measures:
+* the average number of words in each sentence;
+* the average number of syllables for words;
+* the `Flesch reading ease score`, a readibility measure calculated from  sentence length and word length on a 100-point scale; and
+* `Flesch-Kincaid grade level`, a readibility measure relative to U.S. school grade level.
+
+### String Comparison
+
+The following String extension methods can be used for comparing `terms`:
+* `lengthDistance` returns a normalized measure of difference between two terms on a log (base 2) scale;
+* `lengthSimilarity` returns the similarity in length between two terms on a scale of 0 to 1.0 (equivalent to `1-lengthSimilarity` with a lower bound of 0.0); 
+* `lengthSimilarityMap` returns a hashmap of `terms` to their `lengthSimilarity` with a term;
+* `jaccardSimilarity` returns the Jaccard Similarity Index of two terms; and
+* `jaccardSimilarityMap` returns a hashmap of `terms` to Jaccard Similarity Index with a term.
 
 ## Usage
 
@@ -45,115 +64,91 @@ dependencies:
 In your code file add the following import:
 
 ```dart
-import 'package:text_analysis/text_analysis.dart';
+import 'package:text_analysis/src/_index.dart';
 ```
 
-Basic English text analysis can be performed by using a `TextTokenizer` instance with the default configuration and no token filter:
+Basic English tokenization can be performed by using a `TextTokenizer` instance with the default text analyzer and no token filter:
 
 ```dart
   /// Use a TextTokenizer instance to tokenize the [text] using the default 
-  /// [English] configuration.
+  /// [English] analyzer.
   final document = await TextTokenizer().tokenize(text);
 ```
+To analyze text or a document, hydrate a [TextDocument] to obtain the text statistics and readibility scores:
 
+```dart
+      // get some sample text
+      final sample =
+          'The Australian platypus is seemingly a hybrid of a mammal and reptilian creature.';
+
+      // hydrate the TextDocument
+      final textDoc = await TextDocument.analyze(sourceText: sample);
+
+      // print the `Flesch reading ease score`
+      print(
+          'Flesch Reading Ease: ${textDoc.fleschReadingEaseScore().toStringAsFixed(1)}');
+      // prints "Flesch Reading Ease: 37.5"
+```
 For more complex text analysis:
-* implement a `TextAnalyzer` for a different language or tokenizing non-language documents;
-* implement a custom `ITextTokenizer`or extend `TextTokenizerBase`; and/or 
-* pass in a `TokenFilter` function to a `TextTokenizer` to manipulate the tokens after tokenization as shown in the [examples](https://pub.dev/packages/text_analysis/example).
+* implement a `TextAnalyzer` for a different language or non-language documents;
+* implement a custom `TextTokenizer`or extend `TextTokenizerBase`; and/or 
+* pass in a `TokenFilter` function to a `TextTokenizer` to manipulate the tokens after tokenization as shown in the [examples](https://pub.dev/packages/text_analysis/example); and/or
+extend [TextDocumentBase].
+
+Please see the [examples](https://pub.dev/packages/text_analysis/example) for more details.
 
 ## API
 
-The key members of the `text_analysis` library are briefly described in this section. Please refer to the [documentation](https://pub.dev/documentation/text_analysis/latest/) for details.
+The key interfaces of the `text_analysis` library are briefly described in this section. Please refer to the [documentation](https://pub.dev/documentation/text_analysis/latest/) for details.
 
-Skip to:
-- [Type definitions](#type-definitions)
-- [Object models](#object-models)
-- [Interfaces](#interfaces)
-- [Implementation classes](#implementation-classes)
+#### TextAnalyzer
 
-### Type definitions
+ The [TextAnalyzer](https://pub.dev/documentation/text_analysis/latest/text_analysis/TextAnalyzer-class.html) interface exposes language-specific properties and methods used in text analysis:
+ - [characterFilter](https://pub.dev/documentation/text_analysis/latest/text_analysis/TextAnalyzer/characterFilter.html) is a function that manipulates text prior to stemming and tokenization;
+- [termFilter](https://pub.dev/documentation/text_analysis/latest/text_analysis/TextAnalyzer/termFilter.html) is a filter function that returns a collection of terms from a term. It returns an empty collection if the term is to be excluded from analysis or, returns multiple terms if the term is split (at hyphens) and / or, returns modified term(s), such as applying a stemmer algorithm;
+- [termSplitter](https://pub.dev/documentation/text_analysis/latest/text_analysis/TextAnalyzer/termSplitter.html) returns a list of terms from text;
+- [sentenceSplitter](https://pub.dev/documentation/text_analysis/latest/text_analysis/TextAnalyzer/sentenceSplitter.html) splits text into a list of sentences at sentence and line endings;
+- [paragraphSplitter](https://pub.dev/documentation/text_analysis/latest/text_analysis/TextAnalyzer/paragraphSplitter.html) splits text into a list of paragraphs at line endings; and
+- [syllableCounter](https://pub.dev/documentation/text_analysis/latest/text_analysis/TextAnalyzer/syllableCounter.html) returns the number of syllables in a word or text.
 
-The API uses the following function type definitions and type aliases to improve code legibility:
-* `CharacterFilter` is a function that manipulates terms prior to stemming and tokenization (e.g. changing case and / or removing non-word characters);
-* `Ft` is an lias for `int` and denotes the frequency of a `Term` in an index or indexed object (the term frequency).
-* `IdFt` is an alias for `double`, where it represents the inverse document frequency of a term, defined as idft = log (N / dft), where N is the total number of terms in the index and dft is the document frequency of the term (number of documents that contain the term). 
-* `JsonTokenizer` is a function that returns `Token` collection from the fields in a JSON document hashmap of `Zone` to value;
-* `kGram` is an alias for `String`, used in the context of a sequence of k consecutive characters in a `Term`.
-* `SourceText`, `Zone` and `Term` are all aliases for the DART core type `String` when used in different contexts;
-* `StopWords` is an alias for `Set<String>`;
-* `TermFilter` is a function that manipulates a `Term` collection by splitting compound or hyphenated terms or applying stemming and lemmatization. The `TermFilter` can also filter out `stopwords`;
-* `TermSplitter` is a function that splits `SourceText` to an orderd list of `Term` at appropriate places like white-space and mid-sentence punctuation;
-* `TokenFilter` is a function that returns a subset of a `Token` collection, preserving its sort order; and
-* `Tokenizer` is a function that converts `SourceText` to a `Token` collection, preserving the order of the `Term` instances.
+The [English]() implementation of [TextAnalyzer]() is included in this library.
 
-### Object models
+#### TextTokenizer
 
-The `text_analysis` library includes the following object-model classes:
-* a `Token` represents a `Term` present in a `List<Token>` with its `position` and optional `zone name`.
+The [TextTokenizer](https://pub.dev/documentation/text_analysis/latest/text_analysis/TextTokenizer-class.html) extracts tokens from text for use in full-text search queries and indexes. It uses a [TextAnalyzer](#textanalyzer) and [token filter](https://pub.dev/documentation/text_analysis/latest/text_analysis/TextTokenizer/tokenFilter.html) in the [tokenize](https://pub.dev/documentation/text_analysis/latest/text_analysis/TextTokenizer/tokenize.html) and [tokenizeJson](https://pub.dev/documentation/text_analysis/latest/text_analysis/TextTokenizer/tokenizeJson.html) methods that return a list of [tokens]() from text or a document. 
 
-### Interfaces
+An [unnamed factory constructor](https://pub.dev/documentation/text_analysis/latest/text_analysis/TextTokenizer/TextTokenizer.html) hydrates an implementation class.
 
-The `text_analysis` library exposes three interfaces:
-* the [TextAnalyzer](https://pub.dev/documentation/text_analysis/latest/text_analysis/TextAnalyzer-class.html) interface; and 
-* a [TextTokenizer](https://pub.dev/documentation/text_analysis/latest/text_analysis/TextTokenizer-class.html) extracts tokens from text for use in full-text search queries and indexes.
+### TextDocument
 
-
-### Implementation classes
-
-The [latest version](https://pub.dev/packages/text_analysis/versions) provides the following implementation classes:
-* the [English](#english-class) class implements [TextAnalyzer](#textanalyzerconfiguration-interface) and provides text analysis configuration properties for the English language;
-* the [TextTokenizerBase](#textanalyzerbase-class) abstract class implements `ITextTokenizer.tokenize` and `ITextTokenizer.tokenizeJson`; and
-* the [TextTokenizer](#textanalyzer-class) class extends [TextTokenizerBase](#textanalyzerbase-class)  and implements `ITextTokenizer.tokenFilter` and `ITextTokenizer.configuration` as final fields with their values passed in as (optional) parameters (with defaults) at initialization.
-
-#### *English class*
-
-A basic [TextAnalyzer](#textanalyzerconfiguration-interface) implementation for `English` language analysis.
-
-The `termFilter` applies the following algorithm:
-* apply the `characterFilter` to the term;
-* if the resulting term is empty or contained in `kStopWords`, return an empty collection; else
-* insert the filterered term in the return value;
-* split the term at commas, periods, hyphens and apostrophes unless preceded and ended by a number;
-* if the term can be split, add the split terms to the return value, unless the (split) terms are in `kStopWords` or are empty strings.
-
-The `characterFilter` function:
-* returns the term if it can be parsed as a number; else
-* converts the term to lower-case;
-* changes all quote marks to single apostrophe +U0027;
-* removes enclosing quote marks;
-* changes all dashes to single standard hyphen;
-* removes all non-word characters from the term;
-* replaces all characters except letters and numbers from the end of the term.
-
-#### *TextTokenizerBase class*
-
-The `TextTokenizerBase` class implements the `ITextTokenizer.tokenize` method:
-* tokenizes source text using the `configuration`;
-* manipulates the output by applying `tokenFilter`; and, finally
-* returns a `List<Token>` enumerating all the `Tokens` in the source text.
-
-#### *TextTokenizer Class*
-
-The `TextTokenizer` class extends [TextTokenizerBase](#textanalyzerbase-class):
-* implements `configuration` and `tokenFilter` as final fields passed in as optional parameters at instantiation;
-* `configuration` is used by the `TextTokenizer` to tokenize source text and defaults to `English.configuration`; and
-* provide nullable function `tokenFilter` if you want to manipulate tokens or restrict tokenization to tokens that meet specific criteria. The default is `TextTokenizer.defaultTokenFilter`, that applies the`Porter2Stemmer`).
+The [TextDocument](https://pub.dev/documentation/text_analysis/latest/text_analysis/TextTDocument-class.html) object model enumerates a text document's *paragraphs*, *sentences*, *terms* and *tokens* and provides functions that return text analysis measures:
+- [averageSentenceLength](https://pub.dev/documentation/text_analysis/latest/text_analysis/TextDocument/averageSentenceLength.html) is the average number of words in [sentences](https://pub.dev/documentation/text_analysis/latest/text_analysis/TextDocument/sentences.html);
+- [averageSyllableCount](https://pub.dev/documentation/text_analysis/latest/text_analysis/TextDocument/averageSyllableCount.html) is the average number of syllables per word in
+  [terms](https://pub.dev/documentation/text_analysis/latest/text_analysis/TextDocument/terms.html);
+- [wordCount](https://pub.dev/documentation/text_analysis/latest/text_analysis/TextDocument/wordCount.html) the total number of words in the [sourceText](https://pub.dev/documentation/text_analysis/latest/text_analysis/TextDocument/sourceText.html);
+- [fleschReadingEaseScore](https://pub.dev/documentation/text_analysis/latest/text_analysis/TextDocument/fleschReadingEaseScore.html) is a readibility measure calculated from
+  sentence length and word length on a 100-point scale. The higher the
+  score, the easier it is to understand the document;
+- [fleschKincaidGradeLevel](https://pub.dev/documentation/text_analysis/latest/text_analysis/TextDocument/fleschKincaidGradeLevel.html) is a readibility measure relative to U.S.
+  school grade level.  It is also calculated from sentence length and word
+  length .
 
 ## Definitions
 
 The following definitions are used throughout the [documentation](https://pub.dev/documentation/text_analysis/latest/):
-
 * `corpus`- the collection of `documents` for which an `index` is maintained.
 * `character filter` - filters characters from text in preparation of tokenization.  
 * `dictionary` - is a hash of `terms` (`vocabulary`) to the frequency of occurence in the `corpus` documents.
 * `document` - a record in the `corpus`, that has a unique identifier (`docId`) in the `corpus`'s primary key and that contains one or more text fields that are indexed.
 * `document frequency (dFt)` is number of documents in the `corpus` that contain a term.
+- `Flesch reading ease score` - a readibility measure calculated from  sentence length and word length on a 100-point scale. The higher the score, the easier it is to understand the document ([Wikipedia(6)](https://en.wikipedia.org/wiki/Flesch%E2%80%93Kincaid_readability_tests)).
+- `Flesch-Kincaid grade level` - a readibility measure relative to U.S. school grade level.  It is also calculated from sentence length and word length ([Wikipedia(6)](https://en.wikipedia.org/wiki/Flesch%E2%80%93Kincaid_readability_tests)).
 * `index` - an [inverted index](https://en.wikipedia.org/wiki/Inverted_index) used to look up `document` references from the `corpus` against a `vocabulary` of `terms`. 
 * `index-elimination` - selecting a subset of the entries in an index where the `term` is in the collection of `terms` in a search phrase.
-* `inverse document frequency` or `iDft` is equal to log (N / `dft`), where N is the total number of terms in the index. The `IdFt` of a rare term is high, whereas the [IdFt] of a frequent term is likely to be low.
+* `inverse document frequency` or `iDft` is equal to log (N / `dft`), where N is the total number of terms in the index. The `IdFt` of a rare term is high, whereas the `IdFt` of a frequent term is likely to be low.
 * `Jaccard index` measures similarity between finite sample sets, and is defined as the size of the intersection divided by the size of the union of the sample sets (from [Wikipedia](https://en.wikipedia.org/wiki/Jaccard_index)).
 * `JSON` is an acronym for `"Java Script Object Notation"`, a common format for persisting data.
-* `k-gram` - a sequence of (any) k consecutive characters from a `term`. A k-gram can start with "$", denoting the start of the [Term], and end with "$", denoting the end of the [Term]. The 3-grams for "castle" are { $ca, cas, ast, stl, tle, le$ }.
+* `k-gram` - a sequence of (any) k consecutive characters from a `term`. A `k-gram` can start with "$", denoting the start of the term, and end with "$", denoting the end of the term. The 3-grams for "castle" are { $ca, cas, ast, stl, tle, le$ }.
 * `lemmatizer` - lemmatisation (or lemmatization) in linguistics is the process of grouping together the inflected forms of a word so they can be analysed as a single item, identified by the word's lemma, or dictionary form (from [Wikipedia](https://en.wikipedia.org/wiki/Lemmatisation)).
 * `postings` - a separate index that records which `documents` the `vocabulary` occurs in.  In a positional `index`, the postings also records the positions of each `term` in the `text` to create a positional inverted `index`.
 * `postings list` - a record of the positions of a `term` in a `document`. A position of a `term` refers to the index of the `term` in an array that contains all the `terms` in the `text`. In a zoned `index`, the `postings lists` records the positions of each `term` in the `text` a `zone`.
@@ -179,6 +174,7 @@ The following definitions are used throughout the [documentation](https://pub.de
 * [Wikipedia (3), "*Stemming*", from Wikipedia, the free encyclopedia](https://en.wikipedia.org/wiki/Stemming)
 * [Wikipedia (4), "*Synonym*", from Wikipedia, the free encyclopedia](https://en.wikipedia.org/wiki/Synonym)
 * [Wikipedia (5), "*Jaccard Index*", from Wikipedia, the free encyclopedia](https://en.wikipedia.org/wiki/Jaccard_index)
+* [Wikipedia (6), "*Flesch–Kincaid readability tests*", from Wikipedia, the free encyclopedia](https://en.wikipedia.org/wiki/Flesch%E2%80%93Kincaid_readability_tests)
 
 ## Issues
 

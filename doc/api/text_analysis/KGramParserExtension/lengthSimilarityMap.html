@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, user-scalable=no">
+  <meta name="description" content="API docs for the lengthSimilarityMap method from the KGramParserExtension extension, for the Dart programming language.">
+  <title>lengthSimilarityMap method - KGramParserExtension extension - text_analysis library - Dart API</title>
+
+
+  
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,300;0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  
+  <link rel="stylesheet" href="../../static-assets/github.css?v1">
+  <link rel="stylesheet" href="../../static-assets/styles.css?v1">
+  <link rel="icon" href="../../static-assets/favicon.png?v1">
+
+  
+</head>
+
+
+<body data-base-href="../../"
+      data-using-base-href="false">
+
+<div id="overlay-under-drawer"></div>
+
+<header id="title">
+  <button id="sidenav-left-toggle" type="button">&nbsp;</button>
+  <ol class="breadcrumbs gt-separated dark hidden-xs">
+    <li><a href="../../index.html">text_analysis</a></li>
+    <li><a href="../../text_analysis/text_analysis-library.html">text_analysis</a></li>
+    <li><a href="../../text_analysis/KGramParserExtension.html">KGramParserExtension</a></li>
+    <li class="self-crumb">lengthSimilarityMap method</li>
+  </ol>
+  <div class="self-name">lengthSimilarityMap</div>
+  <form class="search navbar-right" role="search">
+    <input type="text" id="search-box" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
+  </form>
+</header>
+
+<main>
+
+
+  <div id="dartdoc-main-content" class="main-content">
+      <div>
+<h1><span class="kind-method">lengthSimilarityMap</span> method 
+    <a href="https://dart.dev/null-safety" class="feature feature-null-safety" title="Supports the null safety language feature.">Null safety</a>
+</h1></div>
+
+    <section class="multi-line-signature">
+      
+
+<span class="returntype"><a href="https://api.flutter.dev/flutter/dart-core/Map-class.html">Map</a><span class="signature">&lt;<wbr><span class="type-parameter">Term</span>, <span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/double-class.html">double</a></span>&gt;</span></span>
+<span class="name ">lengthSimilarityMap</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="lengthSimilarityMap-param-terms"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter">Term</span>&gt;</span></span> <span class="parameter-name">terms</span></span></li>
+</ol>)
+
+      
+
+    </section>
+    
+<section class="desc markdown">
+  <p>Returns a hashmap of <code>terms</code> to their <a href="../../text_analysis/KGramParserExtension/lengthSimilarity.html">lengthSimilarity</a> with this.</p>
+</section>
+
+
+    
+<section class="summary source-code" id="source">
+  <h2><span>Implementation</span></h2>
+  <pre class="language-dart"><code class="language-dart">Map&lt;Term, double&gt; lengthSimilarityMap(Iterable&lt;Term&gt; terms) {
+  final retVal = &lt;Term, double&gt;{};
+  for (var other in terms) {
+    retVal[other] = lengthSimilarity(other);
+  }
+  return retVal;
+}</code></pre>
+</section>
+
+
+  </div> <!-- /.main-content -->
+
+  <div id="dartdoc-sidebar-left" class="sidebar sidebar-offcanvas-left">
+    <header id="header-search-sidebar" class="hidden-l">
+  <form class="search-sidebar" role="search">
+    <input type="text" id="search-sidebar" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
+  </form>
+</header>
+
+<ol class="breadcrumbs gt-separated dark hidden-l" id="sidebar-nav">
+  <li><a href="../../index.html">text_analysis</a></li>
+  <li><a href="../../text_analysis/text_analysis-library.html">text_analysis</a></li>
+  <li><a href="../../text_analysis/KGramParserExtension.html">KGramParserExtension</a></li>
+  <li class="self-crumb">lengthSimilarityMap method</li>
+</ol>
+
+
+    <h5>KGramParserExtension extension</h5>
+    <ol>
+
+
+
+
+
+    <li class="section-title"><a href="../../text_analysis/KGramParserExtension.html#instance-methods">Methods</a></li>
+    <li><a href="../../text_analysis/KGramParserExtension/jaccardSimilarity.html">jaccardSimilarity</a></li>
+    <li><a href="../../text_analysis/KGramParserExtension/jaccardSimilarityMap.html">jaccardSimilarityMap</a></li>
+    <li><a href="../../text_analysis/KGramParserExtension/kGrams.html">kGrams</a></li>
+    <li><a href="../../text_analysis/KGramParserExtension/lengthDistance.html">lengthDistance</a></li>
+    <li><a href="../../text_analysis/KGramParserExtension/lengthSimilarity.html">lengthSimilarity</a></li>
+    <li><a href="../../text_analysis/KGramParserExtension/lengthSimilarityMap.html">lengthSimilarityMap</a></li>
+
+
+
+
+</ol>
+
+  </div><!--/.sidebar-offcanvas-->
+
+  <div id="dartdoc-sidebar-right" class="sidebar sidebar-offcanvas-right">
+  </div><!--/.sidebar-offcanvas-->
+
+</main>
+
+<footer>
+  <span class="no-break">
+    text_analysis
+      0.10.0
+  </span>
+
+  
+</footer>
+
+
+
+<script src="../../static-assets/highlight.pack.js?v1"></script>
+<script src="../../static-assets/script.js?v1"></script>
+
+
+
+</body>
+
+</html>
+

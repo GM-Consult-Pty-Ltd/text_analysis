@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, user-scalable=no">
+  <meta name="description" content="API docs for the TextDocument constructor from Class TextDocument from the text_analysis library, for the Dart programming language.">
+  <title>TextDocument constructor - TextDocument - text_analysis library - Dart API</title>
+
+
+  
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,300;0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  
+  <link rel="stylesheet" href="../../static-assets/github.css?v1">
+  <link rel="stylesheet" href="../../static-assets/styles.css?v1">
+  <link rel="icon" href="../../static-assets/favicon.png?v1">
+
+  
+</head>
+
+
+<body data-base-href="../../"
+      data-using-base-href="false">
+
+<div id="overlay-under-drawer"></div>
+
+<header id="title">
+  <button id="sidenav-left-toggle" type="button">&nbsp;</button>
+  <ol class="breadcrumbs gt-separated dark hidden-xs">
+    <li><a href="../../index.html">text_analysis</a></li>
+    <li><a href="../../text_analysis/text_analysis-library.html">text_analysis</a></li>
+    <li><a href="../../text_analysis/TextDocument-class.html">TextDocument</a></li>
+    <li class="self-crumb">TextDocument factory constructor</li>
+  </ol>
+  <div class="self-name">TextDocument</div>
+  <form class="search navbar-right" role="search">
+    <input type="text" id="search-box" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
+  </form>
+</header>
+
+<main>
+
+
+  <div id="dartdoc-main-content" class="main-content">
+      <div>
+<h1><span class="kind-constructor">TextDocument</span> constructor 
+    <a href="https://dart.dev/null-safety" class="feature feature-null-safety" title="Supports the null safety language feature.">Null safety</a>
+</h1></div>
+
+    <section class="multi-line-signature">
+      <span class="name ">TextDocument</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="-param-sourceText">{<span>required</span> <span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span> <span class="parameter-name">sourceText</span>, </span></li>
+<li><span class="parameter" id="-param-tokens"><span>required</span> <span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../../text_analysis/Token-class.html">Token</a></span>&gt;</span></span> <span class="parameter-name">tokens</span>, </span></li>
+<li><span class="parameter" id="-param-analyzer"><span class="type-annotation"><a href="../../text_analysis/TextAnalyzer-class.html">TextAnalyzer</a></span> <span class="parameter-name">analyzer</span> = <span class="default-value">English.analyzer</span>}</span></li>
+</ol>)
+    </section>
+
+    
+<section class="desc markdown">
+  <p>Hydrates a <a href="../../text_analysis/TextDocument-class.html">TextDocument</a> from the <code>sourceText</code>, <code>tokens</code> and
+<code>analyzer</code> parameters:</p>
+<ul>
+<li><code>sourceText</code> is all the analysed text in the document;</li>
+<li><code>tokens</code> is all the tokens extracted from <code>sourceText</code>; and</li>
+<li><code>analyzer</code> is a <a href="../../text_analysis/TextAnalyzer-class.html">TextAnalyzer</a> used to split the <code>sourceText</code> into
+<a href="../../text_analysis/TextDocument/paragraphs.html">paragraphs</a>, <a href="../../text_analysis/TextDocument/sentences.html">sentences</a> and <a href="../../text_analysis/TextDocument/terms.html">terms</a>.</li>
+</ul>
+</section>
+
+
+    
+<section class="summary source-code" id="source">
+  <h2><span>Implementation</span></h2>
+  <pre class="language-dart"><code class="language-dart">factory TextDocument(
+        {required String sourceText,
+        required List&lt;Token&gt; tokens,
+        TextAnalyzer analyzer = English.analyzer}) =&gt;
+    _TextDocumentImpl(analyzer, sourceText, tokens);</code></pre>
+</section>
+
+
+  </div> <!-- /.main-content -->
+
+  <div id="dartdoc-sidebar-left" class="sidebar sidebar-offcanvas-left">
+    <header id="header-search-sidebar" class="hidden-l">
+  <form class="search-sidebar" role="search">
+    <input type="text" id="search-sidebar" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
+  </form>
+</header>
+
+<ol class="breadcrumbs gt-separated dark hidden-l" id="sidebar-nav">
+  <li><a href="../../index.html">text_analysis</a></li>
+  <li><a href="../../text_analysis/text_analysis-library.html">text_analysis</a></li>
+  <li><a href="../../text_analysis/TextDocument-class.html">TextDocument</a></li>
+  <li class="self-crumb">TextDocument factory constructor</li>
+</ol>
+
+
+    <h5>TextDocument class</h5>
+    <ol>
+
+        <li class="section-title"><a href="../../text_analysis/TextDocument-class.html#constructors">Constructors</a></li>
+          <li><a href="../../text_analysis/TextDocument/TextDocument.html">TextDocument</a></li>
+
+
+    <li class="section-title">
+      <a href="../../text_analysis/TextDocument-class.html#instance-properties">Properties</a>
+    </li>
+    <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/hashCode.html">hashCode</a></li>
+    <li><a href="../../text_analysis/TextDocument/paragraphs.html">paragraphs</a></li>
+    <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/runtimeType.html">runtimeType</a></li>
+    <li><a href="../../text_analysis/TextDocument/sentences.html">sentences</a></li>
+    <li><a href="../../text_analysis/TextDocument/sourceText.html">sourceText</a></li>
+    <li><a href="../../text_analysis/TextDocument/terms.html">terms</a></li>
+    <li><a href="../../text_analysis/TextDocument/tokens.html">tokens</a></li>
+
+    <li class="section-title"><a href="../../text_analysis/TextDocument-class.html#instance-methods">Methods</a></li>
+    <li><a href="../../text_analysis/TextDocument/averageSentenceLength.html">averageSentenceLength</a></li>
+    <li><a href="../../text_analysis/TextDocument/averageSyllableCount.html">averageSyllableCount</a></li>
+    <li><a href="../../text_analysis/TextDocument/fleschKincaidGradeLevel.html">fleschKincaidGradeLevel</a></li>
+    <li><a href="../../text_analysis/TextDocument/fleschReadingEaseScore.html">fleschReadingEaseScore</a></li>
+    <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/noSuchMethod.html">noSuchMethod</a></li>
+    <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/toString.html">toString</a></li>
+    <li><a href="../../text_analysis/TextDocument/wordCount.html">wordCount</a></li>
+
+    <li class="section-title inherited"><a href="../../text_analysis/TextDocument-class.html#operators">Operators</a></li>
+    <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/operator_equals.html">operator ==</a></li>
+
+
+
+        <li class="section-title"><a href="../../text_analysis/TextDocument-class.html#static-methods">Static methods</a></li>
+          <li><a href="../../text_analysis/TextDocument/analyze.html">analyze</a></li>
+          <li><a href="../../text_analysis/TextDocument/analyzeJson.html">analyzeJson</a></li>
+
+</ol>
+
+  </div><!--/.sidebar-offcanvas-left-->
+
+  <div id="dartdoc-sidebar-right" class="sidebar sidebar-offcanvas-right">
+  </div><!--/.sidebar-offcanvas-->
+
+</main>
+
+<footer>
+  <span class="no-break">
+    text_analysis
+      0.10.0
+  </span>
+
+  
+</footer>
+
+
+
+<script src="../../static-assets/highlight.pack.js?v1"></script>
+<script src="../../static-assets/script.js?v1"></script>
+
+
+
+</body>
+
+</html>
+
