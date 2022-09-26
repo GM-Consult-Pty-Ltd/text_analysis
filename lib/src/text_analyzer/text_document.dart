@@ -10,14 +10,14 @@ abstract class TextDocument {
   factory TextDocument(
           {required String sourceText,
           required List<Token> tokens,
-          TextAnalyzerConfiguration configuration = English.configuration}) =>
+          TextAnalyzer configuration = English.configuration}) =>
       _TextDocumentImpl(configuration, sourceText, tokens);
 
   static Future<TextDocument> tokenize(
       {required String sourceText,
       Zone? zone,
-      TextAnalyzerConfiguration configuration = English.configuration}) async {
-    final tokens = await TextAnalyzer(configuration: configuration)
+      TextAnalyzer configuration = English.configuration}) async {
+    final tokens = await TextTokenizer(configuration: configuration)
         .tokenize(sourceText, zone);
     return _TextDocumentImpl(configuration, sourceText, tokens);
   }
@@ -25,7 +25,7 @@ abstract class TextDocument {
   static Future<TextDocument> tokenizeJson(
       {required Map<String, dynamic> document,
       Iterable<Zone>? zones,
-      TextAnalyzerConfiguration configuration = English.configuration}) async {
+      TextAnalyzer configuration = English.configuration}) async {
     final sourceText = StringBuffer();
     if (zones == null || zones.isEmpty) {
       for (final fieldValue in document.values) {
@@ -42,7 +42,7 @@ abstract class TextDocument {
         }
       }
     }
-    final tokens = await TextAnalyzer(configuration: configuration)
+    final tokens = await TextTokenizer(configuration: configuration)
         .tokenizeJson(document, zones);
     return _TextDocumentImpl(configuration, sourceText.toString(), tokens);
   }
@@ -93,7 +93,7 @@ abstract class TextDocumentMixin implements TextDocument {
   //
 
   /// The language properties and methods used in text analysis.
-  TextAnalyzerConfiguration get configuration;
+  TextAnalyzer get configuration;
 
   @override
   int get wordCount => terms.length;
@@ -119,7 +119,7 @@ abstract class TextDocumentMixin implements TextDocument {
 
 class _TextDocumentImpl with TextDocumentMixin {
   @override
-  final TextAnalyzerConfiguration configuration;
+  final TextAnalyzer configuration;
 
   @override
   final List<String> paragraphs;

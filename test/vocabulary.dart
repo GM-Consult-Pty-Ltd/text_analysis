@@ -15,7 +15,7 @@ void main() {
     test('stem vocab', () async {
       final out = File('vocabulary.txt').openWrite();
       out.write('const vocabulary = [\n');
-      // final analyzer = TextAnalyzer();
+      // final analyzer = TextTokenizer();
       for (var e in terms) {
         // final splitTerms = await analyzer.configuration.termFilter(term);
         e = e.stemPorter2();

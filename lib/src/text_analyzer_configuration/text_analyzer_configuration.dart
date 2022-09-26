@@ -11,7 +11,7 @@ import 'package:text_analysis/text_analysis.dart';
 ///   analysis or, returns multiple terms if the term is split (e.g. at hyphens)
 ///   and / or, returns modified term(s), such as applying a stemmer algorithm; and
 /// - [termSplitter] returns a list of terms from text.
-abstract class TextAnalyzerConfiguration {
+abstract class TextAnalyzer {
   //
 
   /// A function that manipulates text prior to stemming and tokenization.

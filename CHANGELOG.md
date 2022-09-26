@@ -7,16 +7,16 @@ All rights reserved.
 ### 0.10.0 
 
 #### Breaking Changes:
-- Added `SentenceSplitter get sentenceSplitter` to `TextAnalyzerConfiguration` interface.
-- Added `ParagraphSplitter get paragraphSplitter` to `TextAnalyzerConfiguration` interface.
-- Added `SyllableCounter get syllableCounter` to `TextAnalyzerConfiguration` interface.
-- Added `List<String> paragraphs(SourceText source)` to `ITextAnalyzer` interface.
-- Moved class `TextAnalyzer` to a private implementation class `_TextAnalyzerImpl` and renamed `ITextAnalyzer` interface to `TextAnalyzer`.
+- Added `SentenceSplitter get sentenceSplitter` to `TextAnalyzer` interface.
+- Added `ParagraphSplitter get paragraphSplitter` to `TextAnalyzer` interface.
+- Added `SyllableCounter get syllableCounter` to `TextAnalyzer` interface.
+- Added `List<String> paragraphs(SourceText source)` to `ITextTokenizer` interface.
+- Moved class `TextTokenizer` to a private implementation class `_TextTokenizerImpl` and renamed `ITextTokenizer` interface to `TextTokenizer`.
 
 #### New:
-- Added mixin class `TextAnalyzerMixin`.
+- Added mixin class `TextTokenizerMixin`.
 - Added object model `TextDocument`.
-- Added unnamed factory constructor to `TextAnalyzer` that initializes a `_TextAnalyzerImpl`.
+- Added unnamed factory constructor to `TextTokenizer` that initializes a `_TextTokenizerImpl`.
 - Added `SentenceSplitter get sentenceSplitter` to `English` class.
 - Added `ParagraphSplitter get paragraphSplitter` to `English` class.
 - Added `SyllableCounter get syllableCounter` to `English` class.
@@ -37,17 +37,17 @@ Updated dependencies, tests, examples and documentation.
 - Removed class `TextSource`.
 - Removed class `Sentence`.
 - Removed class `TermPair`.
-- Removed `TextAnalyzerConfiguration.sentenceSplitter` from `TextAnalyzerConfiguration` interface.
-- Changed `TextAnalyzer.tokenize` return value to `List<Token>`.
-- Changed `TextAnalyzer.tokenizeJson` return value to `List<Token>`.
+- Removed `TextAnalyzer.sentenceSplitter` from `TextAnalyzer` interface.
+- Changed `TextTokenizer.tokenize` return value to `List<Token>`.
+- Changed `TextTokenizer.tokenizeJson` return value to `List<Token>`.
 
 ### 0.8.1 (PRE-RELEASE, BUG FIX)
 
 #### Bug Fixes:
-- Fixed `TextAnalyzerBase.tokenizeJson` would not tokenize documents if `Iterable<Zone> zones` parameter is empty.
+- Fixed `TextTokenizerBase.tokenizeJson` would not tokenize documents if `Iterable<Zone> zones` parameter is empty.
 
 #### Non-breaking Changes:
-- `TextAnalyzerBase.tokenizeJson` required non-nullable parameter `Iterable<Zone> zones` to optional nullable `[Iterable<Zone>? zones]`.
+- `TextTokenizerBase.tokenizeJson` required non-nullable parameter `Iterable<Zone> zones` to optional nullable `[Iterable<Zone>? zones]`.
 
 ### 0.8.0 (PRE-RELEASE, BREAKING CHANGES)
 
@@ -143,7 +143,7 @@ Updated dependencies, tests, examples and documentation.
 
 #### Breaking Changes:
 - Added `Token.field` property to token, breaks default generative constructor.
-- Added `FieldName? field` optional parameter to `TextAnalyzer.tokenize` method.
+- Added `FieldName? field` optional parameter to `TextTokenizer.tokenize` method.
 - Removed deprecated property `Token.index`, use `Token.termPosition` instead.
 - Removed deprecated property `Token.position`, use `Token.termPosition` instead.
 - Removed deprecated extension method `Iterable<Token>.maxIndex`, use `Iterable<Token>.`Iterable<Token>.maxIndex`` instead'.
@@ -167,8 +167,8 @@ Updated dependencies, tests, examples and documentation.
 ### 0.3.0 (PRE-RELEASE, BREAKING CHANGES)
 
 #### Breaking Changes:
-- `TextAnalyzerConfiguration.characterFilter` changed to non-nullable. Use  `(phrase) => phrase` if no `characterFilter` is required.
-- `TextAnalyzerConfiguration.termFilter` changed to non-nullable. Use  `(phrase) => [phrase]` if no `termFilter` is required.
+- `TextAnalyzer.characterFilter` changed to non-nullable. Use  `(phrase) => phrase` if no `characterFilter` is required.
+- `TextAnalyzer.termFilter` changed to non-nullable. Use  `(phrase) => [phrase]` if no `termFilter` is required.
 
 #### New:
 - Added `porter_2_stemmer` package export so it does not need to be imported separately.
@@ -181,7 +181,7 @@ Updated dependencies, tests, examples and documentation.
 ### 0.2.0 (PRE-RELEASE)
 
 #### New:
-- Added abstract class `TextAnalyzerBase`.
+- Added abstract class `TextTokenizerBase`.
 - Updated documentation.
 
 ### 0.1.0+1 (PRE-RELEASE)
@@ -270,7 +270,7 @@ Updated dependencies, tests, examples and documentation.
 
 #### Breaking Changes:
 - Stemmer removed from English configuration.
-- Stemmer incorporated into default tokenFilter for `TextAnalyzer`.
+- Stemmer incorporated into default tokenFilter for `TextTokenizer`.
 
 ### 0.0.2 (PRE-RELEASE, BREAKING CHANGES)
 

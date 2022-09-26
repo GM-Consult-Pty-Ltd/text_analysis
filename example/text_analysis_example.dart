@@ -74,7 +74,7 @@ void _printTerms(Iterable<Token> tokens) {
 /// Gets the k-grams for the terms in [text] and returns a hashmap of k-gram
 /// to term.
 Future<Map<KGram, Set<Term>>> _getKgramIndex(SourceText text, int k) async {
-  final tokens = await TextAnalyzer().tokenize(text);
+  final tokens = await TextTokenizer().tokenize(text);
   // get the bi-grams
   final Map<String, Set<Term>> kGramIndex = tokens.kGrams(3);
   // add the tri-grams
@@ -89,8 +89,8 @@ Future<Map<KGram, Set<Term>>> _getKgramIndex(SourceText text, int k) async {
 /// Tokenize the [zones] in a [json] document.
 Future<List<Token>> _tokenizeJson(
     Map<String, dynamic> json, List<Zone> zones) async {
-  // use a TextAnalyzer instance to tokenize the json
-  final tokens = await TextAnalyzer().tokenizeJson(json, zones);
+  // use a TextTokenizer instance to tokenize the json
+  final tokens = await TextTokenizer().tokenizeJson(json, zones);
   // map the document's tokens to a list of terms (strings)
   final terms = tokens.map((e) => e.term).toList();
   // print the terms
@@ -111,8 +111,8 @@ Future<List<Token>> _tokenizeParagraphs(Iterable<String> paragraphs) async {
   // convert the StringBuffer to a String
   final source = sourceBuilder.toString();
 
-  // use a TextAnalyzer instance to tokenize the source
-  final tokens = await TextAnalyzer().tokenize(source);
+  // use a TextTokenizer instance to tokenize the source
+  final tokens = await TextTokenizer().tokenize(source);
 
   // map the document's tokens to a list of terms (strings)
   final terms = tokens.map((e) => e.term).toList();

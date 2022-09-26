@@ -3,7 +3,7 @@
 
 import 'package:text_analysis/text_analysis.dart';
 
-/// A basic [TextAnalyzerConfiguration] implementation for [English] language
+/// A basic [TextAnalyzer] implementation for [English] language
 /// analysis.
 ///
 /// The [termFilter] applies the following algorithm:
@@ -27,7 +27,7 @@ import 'package:text_analysis/text_analysis.dart';
 ///   the term.
 ///
 /// Empty strings are removed from the returned collection.
-class English implements TextAnalyzerConfiguration {
+class English implements TextAnalyzer {
   //
 
   /// A const constructor to allow an instance to be used as default.

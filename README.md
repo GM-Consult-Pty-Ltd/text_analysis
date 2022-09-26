@@ -48,18 +48,18 @@ In your code file add the following import:
 import 'package:text_analysis/text_analysis.dart';
 ```
 
-Basic English text analysis can be performed by using a `TextAnalyzer` instance with the default configuration and no token filter:
+Basic English text analysis can be performed by using a `TextTokenizer` instance with the default configuration and no token filter:
 
 ```dart
-  /// Use a TextAnalyzer instance to tokenize the [text] using the default 
+  /// Use a TextTokenizer instance to tokenize the [text] using the default 
   /// [English] configuration.
-  final document = await TextAnalyzer().tokenize(text);
+  final document = await TextTokenizer().tokenize(text);
 ```
 
 For more complex text analysis:
-* implement a `TextAnalyzerConfiguration` for a different language or tokenizing non-language documents;
-* implement a custom `ITextAnalyzer`or extend `TextAnalyzerBase`; and/or 
-* pass in a `TokenFilter` function to a `TextAnalyzer` to manipulate the tokens after tokenization as shown in the [examples](https://pub.dev/packages/text_analysis/example).
+* implement a `TextAnalyzer` for a different language or tokenizing non-language documents;
+* implement a custom `ITextTokenizer`or extend `TextTokenizerBase`; and/or 
+* pass in a `TokenFilter` function to a `TextTokenizer` to manipulate the tokens after tokenization as shown in the [examples](https://pub.dev/packages/text_analysis/example).
 
 ## API
 
@@ -93,35 +93,21 @@ The `text_analysis` library includes the following object-model classes:
 
 ### Interfaces
 
-The `text_analysis` library exposes two interfaces:
-* the [TextAnalyzerConfiguration](#textanalyzerconfiguration-interface) interface; and 
-* the [ITextAnalyzer](#itextanalyzer-interface) interface.
+The `text_analysis` library exposes three interfaces:
+* the [TextAnalyzer](https://pub.dev/documentation/text_analysis/latest/text_analysis/TextAnalyzer-class.html) interface; and 
+* a [TextTokenizer](https://pub.dev/documentation/text_analysis/latest/text_analysis/TextTokenizer-class.html) extracts tokens from text for use in full-text search queries and indexes.
 
-#### *TextAnalyzerConfiguration Interface*
-
-The `TextAnalyzerConfiguration` interface exposes language-specific properties and methods used in text analysis: 
-* a `TextAnalyzerConfiguration.termSplitter` to split the text into terms;
-* a `TextAnalyzerConfiguration.characterFilter` to remove non-word characters.
-* a `TextAnalyzerConfiguration.termFilter` to apply a stemmer/lemmatizer or stopword list.
-
-#### *ITextAnalyzer Interface*
-
-The `ITextAnalyzer` is an interface for a text analyser class that extracts tokens from text for use in full-text search queries and indexes:
-* `ITextAnalyzer.configuration` is a `TextAnalyzerConfiguration` used by the `ITextAnalyzer` to tokenize source text.
-* Provide a `ITextAnalyzer.tokenFilter`  to manipulate tokens or restrict tokenization to tokens that meet criteria for either index or count; 
-* the `ITextAnalyzer.tokenize` function tokenizes text to a `List<Token>` that contains all the `Token`s in the text; and
-* the `ITextAnalyzer.tokenizeJson` function tokenizes a JSON hashmap to a `List<Token>` that contains all the `Token`s in the document.
 
 ### Implementation classes
 
 The [latest version](https://pub.dev/packages/text_analysis/versions) provides the following implementation classes:
-* the [English](#english-class) class implements [TextAnalyzerConfiguration](#textanalyzerconfiguration-interface) and provides text analysis configuration properties for the English language;
-* the [TextAnalyzerBase](#textanalyzerbase-class) abstract class implements `ITextAnalyzer.tokenize` and `ITextAnalyzer.tokenizeJson`; and
-* the [TextAnalyzer](#textanalyzer-class) class extends [TextAnalyzerBase](#textanalyzerbase-class)  and implements `ITextAnalyzer.tokenFilter` and `ITextAnalyzer.configuration` as final fields with their values passed in as (optional) parameters (with defaults) at initialization.
+* the [English](#english-class) class implements [TextAnalyzer](#textanalyzerconfiguration-interface) and provides text analysis configuration properties for the English language;
+* the [TextTokenizerBase](#textanalyzerbase-class) abstract class implements `ITextTokenizer.tokenize` and `ITextTokenizer.tokenizeJson`; and
+* the [TextTokenizer](#textanalyzer-class) class extends [TextTokenizerBase](#textanalyzerbase-class)  and implements `ITextTokenizer.tokenFilter` and `ITextTokenizer.configuration` as final fields with their values passed in as (optional) parameters (with defaults) at initialization.
 
 #### *English class*
 
-A basic [TextAnalyzerConfiguration](#textanalyzerconfiguration-interface) implementation for `English` language analysis.
+A basic [TextAnalyzer](#textanalyzerconfiguration-interface) implementation for `English` language analysis.
 
 The `termFilter` applies the following algorithm:
 * apply the `characterFilter` to the term;
@@ -139,19 +125,19 @@ The `characterFilter` function:
 * removes all non-word characters from the term;
 * replaces all characters except letters and numbers from the end of the term.
 
-#### *TextAnalyzerBase class*
+#### *TextTokenizerBase class*
 
-The `TextAnalyzerBase` class implements the `ITextAnalyzer.tokenize` method:
+The `TextTokenizerBase` class implements the `ITextTokenizer.tokenize` method:
 * tokenizes source text using the `configuration`;
 * manipulates the output by applying `tokenFilter`; and, finally
 * returns a `List<Token>` enumerating all the `Tokens` in the source text.
 
-#### *TextAnalyzer Class*
+#### *TextTokenizer Class*
 
-The `TextAnalyzer` class extends [TextAnalyzerBase](#textanalyzerbase-class):
+The `TextTokenizer` class extends [TextTokenizerBase](#textanalyzerbase-class):
 * implements `configuration` and `tokenFilter` as final fields passed in as optional parameters at instantiation;
-* `configuration` is used by the `TextAnalyzer` to tokenize source text and defaults to `English.configuration`; and
-* provide nullable function `tokenFilter` if you want to manipulate tokens or restrict tokenization to tokens that meet specific criteria. The default is `TextAnalyzer.defaultTokenFilter`, that applies the`Porter2Stemmer`).
+* `configuration` is used by the `TextTokenizer` to tokenize source text and defaults to `English.configuration`; and
+* provide nullable function `tokenFilter` if you want to manipulate tokens or restrict tokenization to tokens that meet specific criteria. The default is `TextTokenizer.defaultTokenFilter`, that applies the`Porter2Stemmer`).
 
 ## Definitions
 

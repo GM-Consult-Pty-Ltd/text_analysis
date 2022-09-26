@@ -6,18 +6,18 @@ import 'package:text_analysis/text_analysis.dart';
 
 /// Interface for a text analyser class that extracts tokens from text for use
 /// in full-text search queries and indexes:
-/// - [configuration] is a [TextAnalyzerConfiguration] used by the
-///   [TextAnalyzer] to tokenize source text; and
+/// - [configuration] is a [TextAnalyzer] used by the
+///   [TextTokenizer] to tokenize source text; and
 /// - provide a [tokenFilter] if you want to manipulate tokens or restrict
 ///   tokenization to tokens that meet criteria for either index or count; and
 /// - the [tokenize] function tokenizes source text using the [configuration]
 ///   and then manipulates the output by applying [tokenFilter]; and
 /// - the [tokenizeJson] function extracts tokens from the zones in a JSON
 ///   document.
-abstract class TextAnalyzer {
+abstract class TextTokenizer {
   //
 
-  /// The default [TokenFilter] used by [TextAnalyzer].
+  /// The default [TokenFilter] used by [TextTokenizer].
   ///
   /// Returns [tokens] with [Token.term] stemmed using the [Porter2Stemmer].
   static Future<List<Token>> defaultTokenFilter(List<Token> tokens) async =>
@@ -25,16 +25,16 @@ abstract class TextAnalyzer {
           .map((e) => Token(e.term.stemPorter2(), e.termPosition, e.zone))
           .toList();
 
-  /// Instantiates a const [TextAnalyzerBase] instance.
-  /// - [configuration] is used by the [TextAnalyzer] to tokenize source text
+  /// Instantiates a const [TextTokenizerBase] instance.
+  /// - [configuration] is used by the [TextTokenizer] to tokenize source text
   ///   (default is [English.configuration]); and
   /// - provide a custom [tokenFilter] if you want to manipulate tokens or
   ///   restrict tokenization to tokens that meet specific criteria (default is
-  ///   [TextAnalyzer.defaultTokenFilter], applies [Porter2Stemmer]).
-  factory TextAnalyzer(
-          {TextAnalyzerConfiguration configuration = English.configuration,
+  ///   [TextTokenizer.defaultTokenFilter], applies [Porter2Stemmer]).
+  factory TextTokenizer(
+          {TextAnalyzer configuration = English.configuration,
           TokenFilter tokenFilter = defaultTokenFilter}) =>
-      _TextAnalyzerImpl(configuration, tokenFilter);
+      _TextTokenizerImpl(configuration, tokenFilter);
 
   // /// Splits the [source] into paragraphs at line ending marks.
   // List<String> paragraphs(SourceText source);
@@ -42,8 +42,8 @@ abstract class TextAnalyzer {
   // /// Splits the [source] into sentences at sentence ending punctuation.
   // List<String> sentences(SourceText source);
 
-  /// The [TextAnalyzerConfiguration] used by the [TextAnalyzer].
-  TextAnalyzerConfiguration get configuration;
+  /// The [TextAnalyzer] used by the [TextTokenizer].
+  TextAnalyzer get configuration;
 
   /// A filter that returns a subset of tokens.
   ///
@@ -71,18 +71,18 @@ abstract class TextAnalyzer {
       [Iterable<Zone>? zones]);
 }
 
-/// A [TextAnalyzer] implementation that mixes in [TextAnalyzerMixin], which
-/// implements [TextAnalyzer.tokenize] and [TextAnalyzer.tokenizeJson].
-abstract class TextAnalyzerBase with TextAnalyzerMixin {
+/// A [TextTokenizer] implementation that mixes in [TextTokenizerMixin], which
+/// implements [TextTokenizer.tokenize] and [TextTokenizer.tokenizeJson].
+abstract class TextTokenizerBase with TextTokenizerMixin {
   //
 
-  /// Instantiates a const [TextAnalyzerBase] instance.
-  const TextAnalyzerBase();
+  /// Instantiates a const [TextTokenizerBase] instance.
+  const TextTokenizerBase();
 }
 
-/// A mixin class that implements [TextAnalyzer.tokenize] and
-///  [TextAnalyzer.tokenizeJson].
-abstract class TextAnalyzerMixin implements TextAnalyzer {
+/// A mixin class that implements [TextTokenizer.tokenize] and
+///  [TextTokenizer.tokenizeJson].
+abstract class TextTokenizerMixin implements TextTokenizer {
   //
 
   @override
@@ -145,33 +145,33 @@ abstract class TextAnalyzerMixin implements TextAnalyzer {
   }
 }
 
-/// A [TextAnalyzer] implementation that extracts tokens from text for use
+/// A [TextTokenizer] implementation that extracts tokens from text for use
 /// in full-text search queries and indexes:
-/// - [configuration] is used by the [TextAnalyzer] to tokenize source text
+/// - [configuration] is used by the [TextTokenizer] to tokenize source text
 ///   (default is [English.configuration]); and
 /// - provide a custom [tokenFilter] if you want to manipulate tokens or
 ///   restrict tokenization to tokens that meet specific criteria (default is
-///   [TextAnalyzer.defaultTokenFilter], applies [Porter2Stemmer]); and
+///   [TextTokenizer.defaultTokenFilter], applies [Porter2Stemmer]); and
 /// - the [tokenize] function tokenizes source text using the [configuration]
 ///   and then manipulates the output by applying [tokenFilter]; and
 /// - the [tokenizeJson] function extracts tokens from the zones in a JSON
 ///   document.
-class _TextAnalyzerImpl with TextAnalyzerMixin {
+class _TextTokenizerImpl with TextTokenizerMixin {
   //
 
-  /// Instantiates a const [TextAnalyzerBase] instance.
-  /// - [configuration] is used by the [TextAnalyzer] to tokenize source text
+  /// Instantiates a const [TextTokenizerBase] instance.
+  /// - [configuration] is used by the [TextTokenizer] to tokenize source text
   ///   (default is [English.configuration]); and
   /// - provide a custom [tokenFilter] if you want to manipulate tokens or
   ///   restrict tokenization to tokens that meet specific criteria (default is
-  ///   [TextAnalyzer.defaultTokenFilter], applies [Porter2Stemmer]).
-  const _TextAnalyzerImpl(this.configuration, this.tokenFilter);
+  ///   [TextTokenizer.defaultTokenFilter], applies [Porter2Stemmer]).
+  const _TextTokenizerImpl(this.configuration, this.tokenFilter);
 
   @override
   final TokenFilter? tokenFilter;
 
   @override
-  final TextAnalyzerConfiguration configuration;
+  final TextAnalyzer configuration;
 
   // @override
   // List<String> paragraphs(SourceText source) =>

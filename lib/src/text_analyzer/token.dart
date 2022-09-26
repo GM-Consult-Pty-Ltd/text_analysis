@@ -23,7 +23,7 @@ class Token {
   const Token(this.term, this.termPosition, [this.zone]);
 
   /// The term that will be looked up in the index. The [term] is extracted
-  /// from the query phrase by [TextAnalyzer] and may not match the String in
+  /// from the query phrase by [TextTokenizer] and may not match the String in
   /// the phrase exactly.
   final Term term;
 

@@ -9,7 +9,7 @@ import 'data/sample_news.dart';
 import 'data/sample_stocks.dart';
 
 void main() {
-  group('TextAnalyzer', () {
+  group('TextTokenizer', () {
     //
 
     /// Three paragraphs of text used for testing tokenization.
@@ -112,8 +112,8 @@ void main() {
 
     test('kGram(k)', () async {
       final source = text.first;
-      // use a TextAnalyzer instance to tokenize the source
-      final tokens = await TextAnalyzer().tokenize(source);
+      // use a TextTokenizer instance to tokenize the source
+      final tokens = await TextTokenizer().tokenize(source);
       // get the bi-grams
       final Map<String, Set<Term>> kGramIndex = tokens.kGrams(3);
       // add the tri-grams
@@ -124,7 +124,7 @@ void main() {
       }
     });
 
-    test('TextAnalyzer.tokenize', () async {
+    test('TextTokenizer.tokenize', () async {
       // Initialize a StringBuffer to hold the source text
       final sourceBuilder = StringBuffer();
       // Concatenate the elements of [text] using line-endings
@@ -133,15 +133,15 @@ void main() {
       }
       // convert the StringBuffer to a String
       final source = sourceBuilder.toString();
-      // use a TextAnalyzer instance to tokenize the source
-      final tokens = await TextAnalyzer().tokenize(source);
+      // use a TextTokenizer instance to tokenize the source
+      final tokens = await TextTokenizer().tokenize(source);
       // map the document's tokens to a list of terms (strings)
       final terms = tokens.allTerms;
       // print the terms
       print(terms);
     });
 
-    test('TextAnalyzer.split', () async {
+    test('TextTokenizer.split', () async {
       // Initialize a StringBuffer to hold the source text
       final sourceBuilder = StringBuffer();
       // Concatenate the elements of [text] using line-endings
@@ -171,9 +171,9 @@ void main() {
       print('-'.padRight(31, '-'));
     });
 
-    test('TextAnalyzer.tokenizeJson', () async {
-      // use a TextAnalyzer instance to tokenize the json with 3 zones
-      final tokens = await TextAnalyzer()
+    test('TextTokenizer.tokenizeJson', () async {
+      // use a TextTokenizer instance to tokenize the json with 3 zones
+      final tokens = await TextTokenizer()
           .tokenizeJson(json, ['name', 'description', 'hashTags']);
       // map the document's tokens to a list of terms (strings)
       final terms = tokens.map((e) => e.term).toList();
@@ -182,16 +182,16 @@ void main() {
     });
 
     /// Tokenize JSON with NO zones.
-    test('TextAnalyzer.tokenizeJson', () async {
-      // use a TextAnalyzer instance to tokenize the json with NO zones
-      final tokens = await TextAnalyzer().tokenizeJson(json);
+    test('TextTokenizer.tokenizeJson', () async {
+      // use a TextTokenizer instance to tokenize the json with NO zones
+      final tokens = await TextTokenizer().tokenizeJson(json);
       // map the document's tokens to a list of terms (strings)
       final terms = tokens.map((e) => e.term).toList();
       // print the terms
       print(terms);
     });
 
-    test('TextAnalyzer.tokenizeJson (performance)', () async {
+    test('TextTokenizer.tokenizeJson (performance)', () async {
       //
       final start = DateTime.now();
       // initialize a term dictionary
@@ -200,7 +200,7 @@ void main() {
       await Future.forEach(sampleStocks.entries,
           (MapEntry<String, Map<String, dynamic>> entry) async {
         final json = entry.value;
-        final tokens = await TextAnalyzer().tokenizeJson(
+        final tokens = await TextTokenizer().tokenizeJson(
             json, ['ticker', 'name', 'description', 'hashTag', 'symbol']);
         for (final term in Set<String>.from(tokens.map((e) => e.term))) {
           final tf = (dictionary[term] ?? 0) + 1;
