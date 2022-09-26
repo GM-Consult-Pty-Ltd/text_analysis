@@ -4,7 +4,6 @@
 @Timeout(Duration(seconds: 600))
 
 import 'dart:io';
-
 import 'package:text_analysis/text_analysis.dart';
 import 'package:test/test.dart';
 import 'data/terms.dart';

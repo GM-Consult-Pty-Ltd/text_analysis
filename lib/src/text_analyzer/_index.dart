@@ -3,4 +3,5 @@
 // to use GM Consult's proprietary software (the "Software").
 
 export 'text_analyzer.dart';
+export 'text_document.dart';
 export 'token.dart';

@@ -30,4 +30,14 @@ abstract class TextAnalyzerConfiguration {
   /// Returns a list of terms from text.
   TermSplitter get termSplitter;
   //List<String> splitIntoTerms(SourceText source);
+
+  /// Returns a list of sentences from text.
+  SentenceSplitter get sentenceSplitter;
+
+  /// Returns a list of paragraphs from text.
+  ParagraphSplitter get paragraphSplitter;
+
+  /// Returns the number of syllables in a string after stripping out all
+  /// white-space and punctuation.
+  SyllableCounter get syllableCounter;
 }

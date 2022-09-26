@@ -4,6 +4,24 @@ Copyright (c) 2022, GM Consult Pty Ltd
 All rights reserved. 
 -->
 
+### 0.10.0 
+
+#### Breaking Changes:
+- Added `SentenceSplitter get sentenceSplitter` to `TextAnalyzerConfiguration` interface.
+- Added `ParagraphSplitter get paragraphSplitter` to `TextAnalyzerConfiguration` interface.
+- Added `SyllableCounter get syllableCounter` to `TextAnalyzerConfiguration` interface.
+- Added `List<String> paragraphs(SourceText source)` to `ITextAnalyzer` interface.
+- Moved class `TextAnalyzer` to a private implementation class `_TextAnalyzerImpl` and renamed `ITextAnalyzer` interface to `TextAnalyzer`.
+
+#### New:
+- Added mixin class `TextAnalyzerMixin`.
+- Added object model `TextDocument`.
+- Added unnamed factory constructor to `TextAnalyzer` that initializes a `_TextAnalyzerImpl`.
+- Added `SentenceSplitter get sentenceSplitter` to `English` class.
+- Added `ParagraphSplitter get paragraphSplitter` to `English` class.
+- Added `SyllableCounter get syllableCounter` to `English` class.
+
+
 ### 0.9.1
 
 #### New:

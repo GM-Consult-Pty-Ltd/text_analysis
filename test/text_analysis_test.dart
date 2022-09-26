@@ -1,6 +1,8 @@
 // BSD 3-Clause License
 // Copyright (c) 2022, GM Consult Pty Ltd
 
+// ignore_for_file: unused_local_variable
+
 import 'package:text_analysis/text_analysis.dart';
 import 'package:test/test.dart';
 import 'data/sample_news.dart';
@@ -21,18 +23,20 @@ void main() {
       'Among the best EV stocks to buy and watch, Tesla '
           '(TSLA.XNGS) is pulling back from new highs after a failed breakout '
           'above a \$1,201.05 double-bottom entry. ',
-      'Meanwhile, Peloton reportedly finds an activist investor knocking '
-          'on its door after a major stock crash fueled by strong indications of '
-          'mismanagement. In a scathing new letter released Monday, activist '
+      'Meanwhile, Peloton reportedly finds an activist investor from the Cote D\'Azure knocking '
+          'on its door.  In a scathing new letter released Monday, activist '
           'Tesla Capital is pushing for Peloton to fire CEO, Chairman and '
           'founder John Foley and explore a sale.'
+          'The stock crash has fueled by strong  suspicions of mismanagement.'
     ];
 
     final json = {
       'avatarImageUrl':
           'https://firebasestorage.googleapis.com/v0/b/buysellhold-322d1.appspot.com/o/logos%2FTSLA%3AXNGS.png?alt=media&token=c365db47-9482-4237-9267-82f72854d161',
-      'description':
-          'A 20-for-1 stock split gave a nice short-term boost to Amazon (AMZN) - Get Amazon.com Inc. Report in late May and in early June, while Alphabet (GOOGL) - Get Alphabet Inc. Report (GOOG) - Get Alphabet Inc. Report has a planned 20-for-1 stock split for next month. Tesla  (TSLA) - Get Tesla Inc. Report is also waiting on shareholder approval for a 3-for-1 stock split. ',
+      'description': 'A stock split gave a nice short-term boost to Amazon Inc'
+          'in late May and in early June. Alphabet has a planned '
+          'stock split for next month. Tesla is also waiting on '
+          'shareholder approval for a 3-for-1 stock split. ',
       'entityType': 'NewsItem',
       'hashTags': ['#Tesla'],
       'id': 'ee1760a1-a259-50dc-b11d-8baf34d7d1c5',
@@ -49,6 +53,62 @@ void main() {
       },
       'timestamp': 1656464362162
     };
+
+    test('TextDocument', (() async {
+      // Initialize a StringBuffer to hold the source text
+      final sourceBuilder = StringBuffer();
+      // Concatenate the elements of [text] using line-endings
+      for (final src in text) {
+        sourceBuilder.writeln(src);
+      }
+      // convert the StringBuffer to a String
+      final source = sourceBuilder.toString();
+      // final source = json['description'] as String;
+
+      final textDoc = await TextDocument.tokenize(sourceText: source);
+
+      print('Average sentence length: ${textDoc.averageSentenceLength}');
+
+      print(
+          'Average syllable count: ${textDoc.averageSyllableCount.toStringAsFixed(2)}');
+
+      print(
+          'Flesch Reading Ease: ${textDoc.fleschReadingEaseScore.toStringAsFixed(1)}');
+      print('Flesch-Kincaid Grade Level: ${textDoc.fleschKincaidGradeLevel}');
+    }));
+
+    test('jaccardSimilarityMap', (() {
+      final k = 2;
+      final term = 'broder';
+      final candidates = ['board', 'broad', 'boardroom', 'border'];
+      print('k-grams with k = $k');
+      final map = term.jaccardSimilarityMap(candidates, k);
+
+      for (final other in map.entries) {
+        print(
+            'Similarity between $term and ${other.key} = ${other.value.toStringAsFixed(4)}');
+      }
+    }));
+
+    test('lengthSimilarity', (() {
+      final term = '123456789012';
+      print('-'.padRight(26, '-'));
+      print('${'this'.padRight(4)}:'
+          '${'other'.padLeft(6)}'
+          '${'ld'.padLeft(8)}'
+          '${'ls'.padLeft(8)}');
+      print('-'.padRight(26, '-'));
+      for (var i = 0; i < 48; i++) {
+        final other = ''.padRight(i, '@');
+        final ld = term.lengthDistance(other);
+        final ls = term.lengthSimilarity(other);
+        print('${term.length.toString().padRight(4)}:'
+            '${i.toString().padLeft(6)}'
+            '${ld.toStringAsFixed(2).padLeft(8)}'
+            '${ls.toStringAsFixed(2).padLeft(8)}');
+      }
+      print('-'.padRight(26, '-'));
+    }));
 
     test('kGram(k)', () async {
       final source = text.first;
@@ -79,6 +139,36 @@ void main() {
       final terms = tokens.allTerms;
       // print the terms
       print(terms);
+    });
+
+    test('TextAnalyzer.split', () async {
+      // Initialize a StringBuffer to hold the source text
+      final sourceBuilder = StringBuffer();
+      // Concatenate the elements of [text] using line-endings
+      for (final src in text) {
+        sourceBuilder.writeln(src);
+      }
+      // convert the StringBuffer to a String
+      final source = sourceBuilder.toString();
+
+// split into terms
+      final paragraphs = English().paragraphSplitter(source);
+
+      // split into terms
+      final sentences = English().sentenceSplitter(source);
+
+      // split into terms
+      final terms = English().termSplitter(source);
+      // map the document's tokens to a list of terms (strings)
+      // print the terms
+      print('-'.padRight(31, '-'));
+      print('${'Term'.padRight(21)} ${'Syllables'.toString().padLeft(10)}');
+      print('-'.padRight(31, '-'));
+      for (final term in terms) {
+        final syllableCount = English().syllableCounter(term);
+        print('${term.padRight(20)}${syllableCount.toString().padLeft(10)}');
+      }
+      print('-'.padRight(31, '-'));
     });
 
     test('TextAnalyzer.tokenizeJson', () async {
@@ -151,19 +241,6 @@ void main() {
         final jCf = term.jaccardSimilarity(other, k);
         print(
             'Similarity between $term and $other = ${jCf.toStringAsFixed(4)}');
-      }
-    }));
-
-    test('jaccardSimilarityMap', (() {
-      final k = 2;
-      final term = 'broder';
-      final candidates = ['board', 'broad', 'boardroom', 'border'];
-      print('k-grams with k = $k');
-      final map = term.jaccardSimilarityMap(candidates, k);
-
-      for (final other in map.entries) {
-        print(
-            'Similarity between $term and ${other.key} = ${other.value.toStringAsFixed(4)}');
       }
     }));
   }));

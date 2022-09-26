@@ -14,6 +14,7 @@ environment:
 
 dependencies:
   # -----PubDev Packages (in alphabetic order) -----
+  collection: ^1.16.0
   porter_2_stemmer: ^1.0.0
 
 dev_dependencies:

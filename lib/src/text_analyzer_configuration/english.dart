@@ -189,6 +189,137 @@ class English implements TextAnalyzerConfiguration {
         return terms;
       };
 
+  /// The delimiter inserted at sentence endings to allow splitting of the text
+  /// into sentences.
+  static const _kSentenceDelimiter = r'%~%';
+
+  /// The [English] implementation of [sentenceSplitter] inserts
+  /// [_kSentenceDelimiter] at sentence breaks and then splits the source text
+  /// into a list of sentence strings.
+  ///
+  /// Sentence breaks are characters that match [English.reLineEndingSelector]
+  /// or [English.reSentenceEndingSelector].
+  ///
+  /// Empty strings are removed from the returned collection.
+  @override
+  SentenceSplitter get sentenceSplitter => (SourceText source) {
+        // insert the sentence delimiters at sentence breaks
+        source = source
+            // trim leading and trailing white-space from source
+            .trim()
+            // replace line feeds and carriage returns with %~%
+            .replaceAll(
+                RegExp(English.reLineEndingSelector), _kSentenceDelimiter)
+            // select all sentences and replace the ending punctuation with %~%
+            .replaceAllMapped(RegExp(English.reSentenceEndingSelector),
+                (match) {
+          final sentence = match.group(0) ?? '';
+          // remove white-space before delimiter
+          return '$sentence$_kSentenceDelimiter'
+              .replaceAll(RegExp(r'(\s+)(?=%~%)'), _kSentenceDelimiter);
+        });
+        // split into sentence strings
+        final sources = source
+            // split at _kSentenceDelimiter
+            .split(RegExp(_kSentenceDelimiter));
+        final sentences = <String>[];
+        for (final e in sources) {
+          // trim leading and trailing white-space from all elements
+          final sentence = e
+              .trim()
+              .replaceAll(RegExp(English.reSentenceEndingSelector), '')
+              .trim();
+          // add only non-empty sentences
+          if (sentence.isNotEmpty) {
+            sentences.add(sentence);
+          }
+        }
+        // return the sentences
+        return sentences;
+      };
+
+  /// Returns a list of paragraphs from text.
+  @override
+  ParagraphSplitter get paragraphSplitter => ((source) {
+        final sentences = source.trim().split(RegExp(reLineEndingSelector));
+        final retVal = <String>[];
+        for (final e in sentences) {
+          final sentence = e.trim();
+          if (sentence.isNotEmpty) {
+            retVal.add(sentence);
+          }
+        }
+        return retVal;
+      });
+
+  @override
+  SyllableCounter get syllableCounter => (term) {
+        //
+        term = term.trim();
+        // return 0 if term is empty
+        if (term.isEmpty) {
+          return 0;
+        }
+        var count = 0;
+        // uses the termSplitter to split [term] into terms at whitespace and punctuation
+        // applies the Porter2Stemmer to each element of terms
+        // joins all the stemmed terms into one string
+        final terms = termSplitter(term);
+        // count apostropied syllables like "d'Azure" and remove the
+        // apostrophied prefix
+        for (var e in terms) {
+          e = e.replaceAllMapped(RegExp(r"(?<=\b)([a-zA-Z]')"), (match) {
+            count++;
+            return '';
+          });
+          // stem the remaining term
+          e = e.stemPorter2();
+          // check for terms with capitals or remaining punctuation
+          if (e.toUpperCase() == e) {
+            // this is more than likely an acronym, so add 1
+            count++;
+          } else if (kAbbreviations.contains(e) ||
+              e.contains(RegExp(r'[^a-z]'))) {
+            // still has non-letters, let's split it and get the syllables for
+            // each sub-term
+            final subTerms = e.split(RegExp('[^a-zA-Z]+'));
+            for (final es in subTerms) {
+              count += syllableCounter(es.trim());
+            }
+          } else {
+            // add all the vowels, diphtongs and triptongs. As e has been stemmed,
+            // we know trailing silent e's have been removed and vowel "y"s
+            //converted to "i"
+            term = term.toLowerCase().replaceAll(RegExp(r'[^a-z]'), '');
+            if (term.contains(RegExp(r"[^aeiou\s\-\']+(?=\b)"))) {
+              count += RegExp(r'[aeiouy]+').allMatches(term).length;
+            } else {
+              count += RegExp(r'[aeiou]+').allMatches(e).length;
+              // check for stemmed words ending in 3 or more consonants
+              count += e.contains(RegExp(r"[^aeiou\s\-\']{3,}(?=\b)")) ? 1 : 0;
+            }
+          }
+        }
+
+        // termSplitter(term).map((e) {
+        //   // count apostropied syllables like "d'Azure" and remove the
+        //   // apostrophied prefix
+        //   e = e.replaceAllMapped(RegExp(r"(?<=\b)([a-zA-Z]')"), (match) {
+        //     count++;
+        //     return '';
+        //   });
+        //   // stem the remaining term
+        //   e = e.stemPorter2();
+        //   // add all the vowels, diphtongs and triptongs. As e has been stemmed,
+        //   // we know trailing silent e's have been removed and vowel "y"s
+        //   //converted to "i"
+        //   count += RegExp(r'[aeiou]+').allMatches(e).length;
+        //   return e;
+        // });
+        // if count is 0, return 1 because a word must have at least one syllable
+        return count < 1 ? 1 : count;
+      };
+
   /// Matches all brackets and carets.
   static const reBracketsAndCarets = r'\(|\)|\[|\]|\{|\}|\<|\>';
 
@@ -435,7 +566,7 @@ class English implements TextAnalyzerConfiguration {
   static const wordChars = r"[a-zA-Z0-9¥Œ€@™#-\&_'-]";
 
   /// Matches all line endings.
-  static const reLineEndingSelector = r'[\r|\n|\r\n]';
+  static const reLineEndingSelector = '[\u000A\u000B\u000C\u000D]+';
 
   /// Matches all sentence endings.
   static const reSentenceEndingSelector =

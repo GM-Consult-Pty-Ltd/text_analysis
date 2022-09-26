@@ -1,6 +1,7 @@
 // BSD 3-Clause License
 // Copyright (c) 2022, GM Consult Pty Ltd
 
+import 'dart:math';
 import 'package:text_analysis/text_analysis.dart';
 
 /// A [Token] represents a [term] (word) present in a text source:
@@ -54,9 +55,43 @@ class Token {
 /// Extension methods on [Term].
 extension KGramParserExtension on Term {
   //
-double termLengthSimilarity(Term other){}
 
-Map<Term, double> termLengthSimilarityMap(Iterable<Term> terms)
+  /// Returns a normalized measure of difference between this [Term] and
+  /// [other] on a log (base 2) scale:
+  /// - returns 0.0 if [other] and this are the same length;
+  /// - returns 0.0 if both this and [other] are empty;
+  /// - returns 999.0 if this or [other] is empty, but not both;
+  /// - returns 1.0 if [other] is twice as long, or half as long as this;
+  ///
+  /// `abs(log2(other.length/this.length)`
+  double lengthDistance(Term other) => isEmpty
+      ? other.isEmpty
+          ? 0
+          : 999
+      : other.isEmpty
+          ? 999
+          : (log(other.length / length) / log(2)).abs();
+
+  /// Returns the similarity in length between this string and [other] where:
+  /// lengthSimilarity = 1 - [lengthDistance] if [lengthDistance].
+  ///
+  /// Returns:
+  /// - 1.0 if this and [other] are the same length; and
+  /// - 0.0 if [lengthDistance] >= 1.0, i.e when [other.length] is less than
+  ///   50% or more than 200% of [length].
+  double lengthSimilarity(Term other) {
+    final ld = lengthDistance(other);
+    return ld > 1 ? 0 : 1 - ld;
+  }
+
+  /// Returns a hashmap of [terms] to their [lengthSimilarity] with this.
+  Map<Term, double> lengthSimilarityMap(Iterable<Term> terms) {
+    final retVal = <Term, double>{};
+    for (var other in terms) {
+      retVal[other] = lengthSimilarity(other);
+    }
+    return retVal;
+  }
 
   /// Returns the Jaccard Similarity Index between this term  and [other]
   /// using a k-gram length of [k].

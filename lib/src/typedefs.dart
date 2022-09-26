@@ -31,6 +31,14 @@ typedef StopWords = Set<Term>;
 /// A language-specific function that returns the stem of [term].
 typedef Stemmer = String Function(Term term);
 
+/// A language-specific function that returns the number of syllables in a
+/// string after stripping out all white-space and punctuation.
+///
+/// Intended for use on words or terms, rather than phrases.
+///
+/// Returns 0 if [term.isEmpty].
+typedef SyllableCounter = int Function(Term term);
+
 /// A splitter function that returns a list of terms from [source].
 ///
 /// Typically, [source] is split at punctuation marks and white-space.
@@ -47,11 +55,21 @@ typedef TermSplitter = List<String> Function(SourceText source);
 /// A splitter function that returns a list of sentences from [source].
 ///
 /// In English, the [source] text is split at sentence endings marks such as
-/// periods, question marks and exclamation marks.
+/// periods, question marks and exclamation marks. If the [source] contains
+/// paragraph ending marks it should also be split at these.
 ///
 /// The sentence splitter should avoid splitting after abbreviations,
 /// which may end with period marks.
 typedef SentenceSplitter = List<String> Function(SourceText source);
+
+/// A splitter function that returns a list of paragraphs from [source].
+///
+/// In English, the [source] text is split at:
+/// - `U+000A`, NewLine;
+/// - `U+000B`, VerticalTabulation;
+/// - `U+000C`, FormFeed; and
+/// - `U+000D`, CarriageReturn.
+typedef ParagraphSplitter = List<String> Function(String source);
 
 /// A filter function that returns a collection of terms from term:
 /// - return an empty collection if the term is to be excluded from analysis;
