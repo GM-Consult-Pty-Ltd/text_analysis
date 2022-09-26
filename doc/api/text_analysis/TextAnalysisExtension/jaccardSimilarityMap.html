@@ -63,7 +63,7 @@
     
 <section class="desc markdown">
   <p>Returns a hashmap of <code>terms</code> to Jaccard Similarity Index with this term
-using a k-gram length of <code>k</code>.</p>
+using a <code>k</code>-gram length of <code>k</code>.</p>
 </section>
 
 
@@ -74,10 +74,7 @@ using a k-gram length of <code>k</code>.</p>
   final retVal = &lt;Term, double&gt;{};
   final termGrams = kGrams(k);
   for (final other in terms) {
-    final otherGrams = other.kGrams(k);
-    final intersection = termGrams.intersection(otherGrams);
-    final union = termGrams.union(otherGrams);
-    retVal[other] = intersection.length &#47; union.length;
+    retVal[other] = _jaccardSimilarity(termGrams, other, k);
   }
   return retVal;
 }</code></pre>
@@ -115,6 +112,9 @@ using a k-gram length of <code>k</code>.</p>
     <li><a href="../../text_analysis/TextAnalysisExtension/lengthDistance.html">lengthDistance</a></li>
     <li><a href="../../text_analysis/TextAnalysisExtension/lengthSimilarity.html">lengthSimilarity</a></li>
     <li><a href="../../text_analysis/TextAnalysisExtension/lengthSimilarityMap.html">lengthSimilarityMap</a></li>
+    <li><a href="../../text_analysis/TextAnalysisExtension/matches.html">matches</a></li>
+    <li><a href="../../text_analysis/TextAnalysisExtension/termSimilarity.html">termSimilarity</a></li>
+    <li><a href="../../text_analysis/TextAnalysisExtension/termSimilarityMap.html">termSimilarityMap</a></li>
 
 
 
@@ -131,7 +131,7 @@ using a k-gram length of <code>k</code>.</p>
 <footer>
   <span class="no-break">
     text_analysis
-      0.11.0
+      0.11.1
   </span>
 
   

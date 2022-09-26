@@ -4,6 +4,22 @@ Copyright (c) 2022, GM Consult Pty Ltd
 All rights reserved. 
 -->
 
+### 0.11.2
+
+#### New:
+- Added extension on String `List<Term> matches(Iterable<Term> terms, {int k = 3, int limit = 10})`.
+
+Updated dependencies, tests, examples and documentation.
+
+
+### 0.11.1
+
+#### New:
+- Added extension on String `double termSimilarity(Term other, [int k = 3])`.
+- Added extension on String `double termSimilarity(Term other, [int k = 3])`.
+
+Updated dependencies, tests, examples and documentation.
+
 ### 0.11.0
 **BREAKING CHANGES**
 
@@ -38,7 +54,6 @@ This version sees numerous breaking changes, including the re-naming of the prim
 
 Updated dependencies, tests, examples and documentation.
 Re-organized code repository
-
 
 ### 0.10.0
 **BREAKING CHANGES**

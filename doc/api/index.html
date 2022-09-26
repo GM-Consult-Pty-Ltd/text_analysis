@@ -88,8 +88,11 @@ All rights reserved.
 <li><code>lengthDistance</code> returns a normalized measure of difference between two terms on a log (base 2) scale;</li>
 <li><code>lengthSimilarity</code> returns the similarity in length between two terms on a scale of 0 to 1.0 (equivalent to <code>1-lengthSimilarity</code> with a lower bound of 0.0);</li>
 <li><code>lengthSimilarityMap</code> returns a hashmap of <code>terms</code> to their <code>lengthSimilarity</code> with a term;</li>
-<li><code>jaccardSimilarity</code> returns the Jaccard Similarity Index of two terms; and</li>
-<li><code>jaccardSimilarityMap</code> returns a hashmap of <code>terms</code> to Jaccard Similarity Index with a term.</li>
+<li><code>jaccardSimilarity</code> returns the Jaccard Similarity Index of two terms;</li>
+<li><code>jaccardSimilarityMap</code> returns a hashmap of <code>terms</code> to Jaccard Similarity Index with a term;</li>
+<li><code>termSimilarity</code> returns a similarity index value between 0.0 and 1.0, defined as the product of <code>jaccardSimilarity</code> and <code>lengthSimilarity</code>. A term similarity of 1.0 means the two terms are equal in length and have an identical collection of <code>k</code>-grams;</li>
+<li><code>termSimilarityMap</code> returns a hashmap of <code>terms</code> to termSimilarity with a term; and</li>
+<li><code>matches</code> returns the best matches from <code>terms</code> for a term, in descending order of term similarity (best match first).</li>
 </ul>
 <h2 id="usage">Usage</h2>
 <p>In the <code>pubspec.yaml</code> of your flutter project, add the following dependency:</p>
@@ -252,7 +255,7 @@ information retrieval systems.
 <footer>
   <span class="no-break">
     text_analysis
-      0.11.0
+      0.11.1
   </span>
 
   

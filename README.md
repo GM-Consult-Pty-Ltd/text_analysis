@@ -49,8 +49,11 @@ The following String extension methods can be used for comparing `terms`:
 * `lengthDistance` returns a normalized measure of difference between two terms on a log (base 2) scale;
 * `lengthSimilarity` returns the similarity in length between two terms on a scale of 0 to 1.0 (equivalent to `1-lengthSimilarity` with a lower bound of 0.0); 
 * `lengthSimilarityMap` returns a hashmap of `terms` to their `lengthSimilarity` with a term;
-* `jaccardSimilarity` returns the Jaccard Similarity Index of two terms; and
-* `jaccardSimilarityMap` returns a hashmap of `terms` to Jaccard Similarity Index with a term.
+* `jaccardSimilarity` returns the Jaccard Similarity Index of two terms; 
+* `jaccardSimilarityMap` returns a hashmap of `terms` to Jaccard Similarity Index with a term;
+* `termSimilarity` returns a similarity index value between 0.0 and 1.0, defined as the product of `jaccardSimilarity` and `lengthSimilarity`. A term similarity of 1.0 means the two terms are equal in length and have an identical collection of [k]-grams; 
+* `termSimilarityMap` returns a hashmap of `terms` to termSimilarity with a term; and
+* `matches` returns the best matches from `terms` for a term, in descending order of term similarity (best match first).
 
 ## Usage
 

@@ -36,7 +36,7 @@ typedef Stemmer = String Function(Term term);
 ///
 /// Intended for use on words or terms, rather than phrases.
 ///
-/// Returns 0 if [term.isEmpty].
+/// Returns 0 if [term].isEmpty.
 typedef SyllableCounter = int Function(Term term);
 
 /// A splitter function that returns a list of terms from [source].

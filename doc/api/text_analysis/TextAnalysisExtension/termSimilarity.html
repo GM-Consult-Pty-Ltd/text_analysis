@@ -4,8 +4,8 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, user-scalable=no">
-  <meta name="description" content="API docs for the lengthSimilarityMap method from the TextAnalysisExtension extension, for the Dart programming language.">
-  <title>lengthSimilarityMap method - TextAnalysisExtension extension - text_analysis library - Dart API</title>
+  <meta name="description" content="API docs for the termSimilarity method from the TextAnalysisExtension extension, for the Dart programming language.">
+  <title>termSimilarity method - TextAnalysisExtension extension - text_analysis library - Dart API</title>
 
 
   
@@ -32,9 +32,9 @@
     <li><a href="../../index.html">text_analysis</a></li>
     <li><a href="../../text_analysis/text_analysis-library.html">text_analysis</a></li>
     <li><a href="../../text_analysis/TextAnalysisExtension.html">TextAnalysisExtension</a></li>
-    <li class="self-crumb">lengthSimilarityMap method</li>
+    <li class="self-crumb">termSimilarity method</li>
   </ol>
-  <div class="self-name">lengthSimilarityMap</div>
+  <div class="self-name">termSimilarity</div>
   <form class="search navbar-right" role="search">
     <input type="text" id="search-box" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
   </form>
@@ -45,15 +45,16 @@
 
   <div id="dartdoc-main-content" class="main-content">
       <div>
-<h1><span class="kind-method">lengthSimilarityMap</span> method 
+<h1><span class="kind-method">termSimilarity</span> method 
     <a href="https://dart.dev/null-safety" class="feature feature-null-safety" title="Supports the null safety language feature.">Null safety</a>
 </h1></div>
 
     <section class="multi-line-signature">
       
 
-<span class="returntype"><a href="https://api.flutter.dev/flutter/dart-core/Map-class.html">Map</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../../text_analysis/Term.html">Term</a></span>, <span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/double-class.html">double</a></span>&gt;</span></span>
-<span class="name ">lengthSimilarityMap</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="lengthSimilarityMap-param-terms"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../../text_analysis/Term.html">Term</a></span>&gt;</span></span> <span class="parameter-name">terms</span></span></li>
+<span class="returntype"><a href="https://api.flutter.dev/flutter/dart-core/double-class.html">double</a></span>
+<span class="name ">termSimilarity</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="termSimilarity-param-other"><span class="type-annotation"><a href="../../text_analysis/Term.html">Term</a></span> <span class="parameter-name">other</span>, </span></li>
+<li><span class="parameter" id="termSimilarity-param-k">[<span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/int-class.html">int</a></span> <span class="parameter-name">k</span> = <span class="default-value">3</span>]</span></li>
 </ol>)
 
       
@@ -61,20 +62,21 @@
     </section>
     
 <section class="desc markdown">
-  <p>Returns a hashmap of <code>terms</code> to their <a href="../../text_analysis/TextAnalysisExtension/lengthSimilarity.html">lengthSimilarity</a> with this.</p>
+  <p>Returns a similarity index value between 0.0 and 1.0, defined as the
+product of <a href="../../text_analysis/TextAnalysisExtension/jaccardSimilarity.html">jaccardSimilarity</a> and <a href="../../text_analysis/TextAnalysisExtension/lengthSimilarity.html">lengthSimilarity</a>.</p>
+<p>A term similarity of 1.0 means the two terms are:</p>
+<ul>
+<li>equal in length; and</li>
+<li>have an identical collection of <code>k</code>-grams.</li>
+</ul>
 </section>
 
 
     
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
-  <pre class="language-dart"><code class="language-dart">Map&lt;Term, double&gt; lengthSimilarityMap(Iterable&lt;Term&gt; terms) {
-  final retVal = &lt;Term, double&gt;{};
-  for (var other in terms) {
-    retVal[other] = lengthSimilarity(other);
-  }
-  return retVal;
-}</code></pre>
+  <pre class="language-dart"><code class="language-dart">double termSimilarity(Term other, [int k = 3]) =&gt;
+    jaccardSimilarity(other, k) * lengthSimilarity(other);</code></pre>
 </section>
 
 
@@ -91,7 +93,7 @@
   <li><a href="../../index.html">text_analysis</a></li>
   <li><a href="../../text_analysis/text_analysis-library.html">text_analysis</a></li>
   <li><a href="../../text_analysis/TextAnalysisExtension.html">TextAnalysisExtension</a></li>
-  <li class="self-crumb">lengthSimilarityMap method</li>
+  <li class="self-crumb">termSimilarity method</li>
 </ol>
 
 

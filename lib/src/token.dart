@@ -94,9 +94,11 @@ extension TextAnalysisExtension on Term {
   }
 
   /// Returns the Jaccard Similarity Index between this term and [other]
-  /// using a k-gram length of [k].
-  double jaccardSimilarity(Term other, [int k = 3]) {
-    final termGrams = kGrams(k);
+  /// using a [k]-gram length of [k].
+  double jaccardSimilarity(Term other, [int k = 3]) =>
+      _jaccardSimilarity(kGrams(k), other, k);
+
+  double _jaccardSimilarity(Set<String> termGrams, Term other, int k) {
     final otherGrams = other.kGrams(k);
     final intersection = termGrams.intersection(otherGrams);
     final union = termGrams.union(otherGrams);
@@ -104,17 +106,51 @@ extension TextAnalysisExtension on Term {
   }
 
   /// Returns a hashmap of [terms] to Jaccard Similarity Index with this term
-  /// using a k-gram length of [k].
+  /// using a [k]-gram length of [k].
   Map<Term, double> jaccardSimilarityMap(Iterable<Term> terms, [int k = 3]) {
     final retVal = <Term, double>{};
     final termGrams = kGrams(k);
     for (final other in terms) {
-      final otherGrams = other.kGrams(k);
-      final intersection = termGrams.intersection(otherGrams);
-      final union = termGrams.union(otherGrams);
-      retVal[other] = intersection.length / union.length;
+      retVal[other] = _jaccardSimilarity(termGrams, other, k);
     }
     return retVal;
+  }
+
+  /// Returns a similarity index value between 0.0 and 1.0, defined as the
+  /// product of [jaccardSimilarity] and [lengthSimilarity].
+  ///
+  /// A term similarity of 1.0 means the two terms are:
+  /// - equal in length; and
+  /// - have an identical collection of [k]-grams.
+  double termSimilarity(Term other, [int k = 3]) =>
+      jaccardSimilarity(other, k) * lengthSimilarity(other);
+
+  /// a hashmap of [terms] to [termSimilarity] with this term using a [k]-gram
+  /// length of [k].
+  Map<Term, double> termSimilarityMap(Iterable<Term> terms, [int k = 3]) {
+    final retVal = <Term, double>{};
+    final termGrams = kGrams(k);
+    for (final other in terms) {
+      retVal[other] =
+          _jaccardSimilarity(termGrams, other, k) * termSimilarity(other);
+    }
+    return retVal;
+  }
+
+  /// Returns the best matches for the [Term] from [terms], in descending
+  /// order of [termSimilarity] (best match first).
+  ///
+  /// Only matches with a [termSimilarity] > 0.0 are returned.
+  ///
+  /// The returned matches will be limited to [limit] if more than [limit]
+  /// matches are found.
+  List<Term> matches(Iterable<Term> terms, {int k = 3, int limit = 10}) {
+    final similarities = termSimilarityMap(terms);
+    final entries =
+        similarities.entries.where((element) => element.value > 0).toList();
+    entries.sort(((a, b) => b.value.compareTo(a.value)));
+    final retVal = entries.map((e) => e.key).toList();
+    return retVal.length > limit ? retVal.sublist(0, limit) : retVal;
   }
 
   /// Returns a set of k-grams in the term.

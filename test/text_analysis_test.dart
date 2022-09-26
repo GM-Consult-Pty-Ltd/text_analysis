@@ -93,6 +93,21 @@ void main() {
       }
     }));
 
+    test('String extension `matches`', (() {
+      final k = 2;
+      final term = 'bodrer';
+      final candidates = [
+        'board',
+        'broad',
+        'boarder',
+        'border',
+        'brother',
+        'bored'
+      ];
+      final matches = term.matches(candidates, k: k);
+      print(matches);
+    }));
+
     test('lengthSimilarity', (() {
       final term = '123456789012';
       print('-'.padRight(26, '-'));
