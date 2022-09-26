@@ -89,7 +89,7 @@ document.</li>
 
     <dl class="constructor-summary-list">
         <dt id="TextTokenizer" class="callable">
-          <span class="name"><a href="../text_analysis/TextTokenizer/TextTokenizer.html">TextTokenizer</a></span><span class="signature">(<span class="parameter" id="-param-analyzer">{<span class="type-annotation"><a href="../text_analysis/TextAnalyzer-class.html">TextAnalyzer</a></span> <span class="parameter-name">analyzer</span> = <span class="default-value">English.analyzer</span>, </span><span class="parameter" id="-param-tokenFilter"><span class="type-annotation">TokenFilter</span> <span class="parameter-name">tokenFilter</span> = <span class="default-value">defaultTokenFilter</span>}</span>)</span>
+          <span class="name"><a href="../text_analysis/TextTokenizer/TextTokenizer.html">TextTokenizer</a></span><span class="signature">(<span class="parameter" id="-param-analyzer">{<span class="type-annotation"><a href="../text_analysis/TextAnalyzer-class.html">TextAnalyzer</a></span> <span class="parameter-name">analyzer</span> = <span class="default-value">English.analyzer</span>, </span><span class="parameter" id="-param-tokenFilter"><span class="type-annotation"><a href="../text_analysis/TokenFilter.html">TokenFilter</a></span> <span class="parameter-name">tokenFilter</span> = <span class="default-value">defaultTokenFilter</span>}</span>)</span>
         </dt>
         <dd>
           Instantiates a const <a href="../text_analysis/TextTokenizerBase-class.html">TextTokenizerBase</a> instance.
@@ -137,7 +137,7 @@ document.</li>
 
         <dt id="tokenFilter" class="property">
   <span class="name"><a href="../text_analysis/TextTokenizer/tokenFilter.html">tokenFilter</a></span>
-  <span class="signature">&#8594; TokenFilter?</span> 
+  <span class="signature">&#8594; <a href="../text_analysis/TokenFilter.html">TokenFilter</a>?</span> 
 
 </dt>
 <dd>
@@ -169,7 +169,7 @@ document.</li>
 </dd>
 
         <dt id="tokenize" class="callable">
-  <span class="name"><a href="../text_analysis/TextTokenizer/tokenize.html">tokenize</a></span><span class="signature">(<wbr><span class="parameter" id="tokenize-param-source"><span class="type-annotation">SourceText</span> <span class="parameter-name">source</span>, </span><span class="parameter" id="tokenize-param-zone">[<span class="type-annotation">Zone?</span> <span class="parameter-name">zone</span>]</span>)
+  <span class="name"><a href="../text_analysis/TextTokenizer/tokenize.html">tokenize</a></span><span class="signature">(<wbr><span class="parameter" id="tokenize-param-source"><span class="type-annotation"><a href="../text_analysis/SourceText.html">SourceText</a></span> <span class="parameter-name">source</span>, </span><span class="parameter" id="tokenize-param-zone">[<span class="type-annotation"><a href="../text_analysis/Zone.html">Zone</a>?</span> <span class="parameter-name">zone</span>]</span>)
     <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../text_analysis/Token-class.html">Token</a></span>&gt;</span></span>&gt;</span></span>
   </span>
   
@@ -183,7 +183,7 @@ indexes.
 </dd>
 
         <dt id="tokenizeJson" class="callable">
-  <span class="name"><a href="../text_analysis/TextTokenizer/tokenizeJson.html">tokenizeJson</a></span><span class="signature">(<wbr><span class="parameter" id="tokenizeJson-param-document"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Map-class.html">Map</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>, <span class="type-parameter">dynamic</span>&gt;</span></span> <span class="parameter-name">document</span>, </span><span class="parameter" id="tokenizeJson-param-zones">[<span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter">Zone</span>&gt;</span>?</span> <span class="parameter-name">zones</span>]</span>)
+  <span class="name"><a href="../text_analysis/TextTokenizer/tokenizeJson.html">tokenizeJson</a></span><span class="signature">(<wbr><span class="parameter" id="tokenizeJson-param-document"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Map-class.html">Map</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>, <span class="type-parameter">dynamic</span>&gt;</span></span> <span class="parameter-name">document</span>, </span><span class="parameter" id="tokenizeJson-param-zones">[<span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../text_analysis/Zone.html">Zone</a></span>&gt;</span>?</span> <span class="parameter-name">zones</span>]</span>)
     <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../text_analysis/Token-class.html">Token</a></span>&gt;</span></span>&gt;</span></span>
   </span>
   
@@ -245,7 +245,7 @@ full-text search queries and indexes.
 
 </dt>
 <dd>
-  The default <code>TokenFilter</code> used by <a href="../text_analysis/TextTokenizer-class.html">TextTokenizer</a>.
+  The default <a href="../text_analysis/TokenFilter.html">TokenFilter</a> used by <a href="../text_analysis/TextTokenizer-class.html">TextTokenizer</a>.
   
 
 </dd>
@@ -294,6 +294,22 @@ full-text search queries and indexes.
 
 
 
+  <li class="section-title"><a href="../text_analysis/text_analysis-library.html#typedefs">Typedefs</a></li>
+  <li><a href="../text_analysis/CharacterFilter.html">CharacterFilter</a></li>
+  <li><a href="../text_analysis/JsonTokenizer.html">JsonTokenizer</a></li>
+  <li><a href="../text_analysis/KGram.html">KGram</a></li>
+  <li><a href="../text_analysis/ParagraphSplitter.html">ParagraphSplitter</a></li>
+  <li><a href="../text_analysis/SentenceSplitter.html">SentenceSplitter</a></li>
+  <li><a href="../text_analysis/SourceText.html">SourceText</a></li>
+  <li><a href="../text_analysis/Stemmer.html">Stemmer</a></li>
+  <li><a href="../text_analysis/StopWords.html">StopWords</a></li>
+  <li><a href="../text_analysis/SyllableCounter.html">SyllableCounter</a></li>
+  <li><a href="../text_analysis/Term.html">Term</a></li>
+  <li><a href="../text_analysis/TermFilter.html">TermFilter</a></li>
+  <li><a href="../text_analysis/TermSplitter.html">TermSplitter</a></li>
+  <li><a href="../text_analysis/TokenFilter.html">TokenFilter</a></li>
+  <li><a href="../text_analysis/Tokenizer.html">Tokenizer</a></li>
+  <li><a href="../text_analysis/Zone.html">Zone</a></li>
 
 </ol>
 
@@ -337,7 +353,7 @@ full-text search queries and indexes.
 <footer>
   <span class="no-break">
     text_analysis
-      0.10.0
+      0.11.0
   </span>
 
   

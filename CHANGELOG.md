@@ -4,6 +4,42 @@ Copyright (c) 2022, GM Consult Pty Ltd
 All rights reserved. 
 -->
 
+### 0.11.0
+**BREAKING CHANGES**
+
+This version sees numerous breaking changes, including the re-naming of the primary interfaces of the library.
+
+#### Breaking Changes:
+
+- Renamed `TextAnalyzer` interface to `TextTokenizer`.
+- Renamed `TextAnalyzerConfiguration` interface to `TextAnalyzer`.
+- Added `SentenceSplitter get sentenceSplitter` to `TextAnalyzer` interface.
+- Added `ParagraphSplitter get paragraphSplitter` to `TextAnalyzer` interface.
+- Added `SyllableCounter get syllableCounter` to `TextAnalyzer` interface.
+- Added `List<String> paragraphs(SourceText source)` to `ITextTokenizer` interface.
+- Moved class `TextTokenizer` to a private implementation class `_TextTokenizerImpl` and renamed `ITextTokenizer` interface to `TextTokenizer`.
+
+#### New:
+- Added mixin class `TextTokenizerMixin`.
+- Added object model `TextDocument`.
+- Added typedef `SyllableCounter`.
+- Added unnamed factory constructor to `TextTokenizer` that initializes a `_TextTokenizerImpl`.
+- Added `SentenceSplitter get sentenceSplitter` to `English` class.
+- Added `ParagraphSplitter get paragraphSplitter` to `English` class.
+- Added `SyllableCounter get syllableCounter` to `English` class.
+- Added `TextDocument` interface.
+- Added `TextDocumentMixin` mixin class.
+- Added `TextDocument` unnamed factory with private implementation class.
+- Added `TextDocument.analyze` factory constructor.
+- Added `TextDocument.analyzeJson` factory constructor.
+- Added extension on String `double lengthDistance(Term other)`.
+- Added extension on String `double lengthSimilarity(Term other)`.
+- Added extension on String `Map<Term, double> lengthSimilarityMap(Iterable<Term> terms)`.
+
+Updated dependencies, tests, examples and documentation.
+Re-organized code repository
+
+
 ### 0.10.0
 **BREAKING CHANGES**
 
