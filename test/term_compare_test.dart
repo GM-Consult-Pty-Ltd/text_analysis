@@ -29,7 +29,7 @@ void main() {
         final ed = term.editDistance(other);
         results.add({'other': other, 'Edit Distance': ed});
       }
-      results.sort(((a, b) =>
+      results.sort(((b, a) =>
           (b['Edit Distance'] as num).compareTo(a['Edit Distance'] as num)));
       GMConsultTestUtils(
               testName: 'EDIT DISTANCE: '
