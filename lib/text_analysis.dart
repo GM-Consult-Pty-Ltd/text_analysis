@@ -5,6 +5,8 @@
 library text_analysis;
 
 /// Exports files used by clients of the pacckage.
+
+export 'src/term_comparison_extensions.dart';
 export 'src/text_analyzer.dart';
 export 'src/text_document.dart';
 export 'src/text_tokenizer.dart';
