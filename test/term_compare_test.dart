@@ -5,8 +5,8 @@
 
 import 'package:text_analysis/src/_index.dart';
 import 'package:test/test.dart';
-
-import 'print_json.dart';
+import 'package:gmconsult_dev/gmconsult_dev.dart';
+// import 'print_json.dart';
 
 void main() {
   final term = 'bodrer';
@@ -23,6 +23,25 @@ void main() {
   group('similarity', () {
     //
 
+    test('JsonDataService.securities', (() async {
+//   //
+
+      final results = <Map<String, dynamic>>[];
+
+      final service = await JsonDataService.securities;
+
+      results.addAll((await service
+              .batchRead(['AAPL:XNGS', 'TSLA:XNGS', 'INTC:XNGS', 'F:XNYS']))
+          .values);
+
+      Echo(
+          title: 'SECURITIES',
+          results: results,
+          fields: ['ticker', 'hashTag', 'name', 'timestamp']).printResults();
+
+      await service.close();
+    }));
+
     test('editDistance', (() {
       final results = <Map<String, dynamic>>[];
       for (final other in candidates) {
@@ -31,8 +50,8 @@ void main() {
       }
       results.sort(((b, a) =>
           (b['Edit Distance'] as num).compareTo(a['Edit Distance'] as num)));
-      GMConsultTestUtils(
-              testName: 'EDIT DISTANCE: '
+      Echo(
+              title: 'EDIT DISTANCE: '
                   '$term.editDistance(other)',
               results: results)
           .printResults();
@@ -47,8 +66,8 @@ void main() {
       }
       results.sort(((a, b) => (b['Jaccard Similarity'] as num)
           .compareTo(a['Jaccard Similarity'] as num)));
-      GMConsultTestUtils(
-              testName: 'JACCARD SIMILARITY INDEX: '
+      Echo(
+              title: 'JACCARD SIMILARITY INDEX: '
                   '$term.jaccardSimilarity(other, $k)',
               results: results)
           .printResults();
@@ -65,8 +84,8 @@ void main() {
       }
       results.sort(((a, b) => (b['Jaccard Similarity'] as num)
           .compareTo(a['Jaccard Similarity'] as num)));
-      GMConsultTestUtils(
-              testName: 'JACCARD SIMILARITY INDEX: '
+      Echo(
+              title: 'JACCARD SIMILARITY INDEX: '
                   '$term.jaccardSimilarityMap(candidates, $k)',
               results: results)
           .printResults();
@@ -81,8 +100,8 @@ void main() {
         results.add({'Rank': i, 'Match': other});
         i++;
       }
-      GMConsultTestUtils(
-              testName: 'RANKED MATCHES: '
+      Echo(
+              title: 'RANKED MATCHES: '
                   '$term.matches(candidates, $k)',
               results: results)
           .printResults();
@@ -98,8 +117,7 @@ void main() {
       }
       results.sort(((a, b) => (b['Length Similarity'] as num)
           .compareTo(a['Length Similarity'] as num)));
-      GMConsultTestUtils(testName: 'LENGTH SIMILARITY', results: results)
-          .printResults();
+      Echo(title: 'LENGTH SIMILARITY', results: results).printResults();
     }));
   });
 }

@@ -4,10 +4,24 @@ Copyright (c) 2022, GM Consult Pty Ltd
 All rights reserved. 
 -->
 
+### 0.12.0-1
+**BREAKING CHANGES**
+
+#### Breaking Changes:
+-  String extensions `extension TermSimilarityExtensions on String` removed from `text_analysis` library. Import the `extensions` library in stead.
+- Type definitions removed from `text_analysis` library. Import the `type_definitions` library in stead. 
+- Package export `porter_2_stemmer` removed from `text_analysis` library, import the `package_exports` library in stead.
+
+#### New:
+- Added `int term.editDistance(String other)` extension on String.
+- Added class `TermSimilarity` that exposes static methods for comparing terms.
+
+Updated dependencies, tests, examples and documentation.
+
 ### 0.11.2
 
 #### New:
-- Added extension on String `List<Term> matches(Iterable<Term> terms, {int k = 3, int limit = 10})`.
+- Added extension on String `List<Term> matches(Iterable<Term> terms, {int k = 2, int limit = 10})`.
 
 Updated dependencies, tests, examples and documentation.
 
@@ -15,8 +29,8 @@ Updated dependencies, tests, examples and documentation.
 ### 0.11.1
 
 #### New:
-- Added extension on String `double termSimilarity(Term other, [int k = 3])`.
-- Added extension on String `double termSimilarity(Term other, [int k = 3])`.
+- Added extension on String `double termSimilarity(Term other, [int k = 2])`.
+- Added extension on String `double termSimilarity(Term other, [int k = 2])`.
 
 Updated dependencies, tests, examples and documentation.
 
@@ -93,8 +107,8 @@ Re-organized code repository
 ### 0.9.1
 
 #### New:
-- Added extension on String `double jaccardSimilarity(Term other, [int k = 3])`.
-- Added extension on String `double jaccardSimilarity(Term other, [int k = 3])`.
+- Added extension on String `double jaccardSimilarity(Term other, [int k = 2])`.
+- Added extension on String `double jaccardSimilarity(Term other, [int k = 2])`.
 
 Updated dependencies, tests, examples and documentation.
 
@@ -121,8 +135,8 @@ Updated dependencies, tests, examples and documentation.
 
 #### Breaking Changes:
 - Added type definitions for `kGram` and `Trigram`.
-- New extension method `Set<kGram> Term.kGrams([int k = 3])`.
-- New extension method `Set<kGram> Iterable<Token>.kGrams([int k = 3])`.
+- New extension method `Set<kGram> Term.kGrams([int k = 2])`.
+- New extension method `Set<kGram> Iterable<Token>.kGrams([int k = 2])`.
 
 Updated dependencies, tests, examples and documentation.
 

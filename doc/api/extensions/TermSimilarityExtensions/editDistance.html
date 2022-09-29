@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, user-scalable=no">
+  <meta name="description" content="API docs for the editDistance method from the TermSimilarityExtensions extension, for the Dart programming language.">
+  <title>editDistance method - TermSimilarityExtensions extension - extensions library - Dart API</title>
+
+
+  
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,300;0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  
+  <link rel="stylesheet" href="../../static-assets/github.css?v1">
+  <link rel="stylesheet" href="../../static-assets/styles.css?v1">
+  <link rel="icon" href="../../static-assets/favicon.png?v1">
+
+  
+</head>
+
+
+<body data-base-href="../../"
+      data-using-base-href="false">
+
+<div id="overlay-under-drawer"></div>
+
+<header id="title">
+  <button id="sidenav-left-toggle" type="button">&nbsp;</button>
+  <ol class="breadcrumbs gt-separated dark hidden-xs">
+    <li><a href="../../index.html">text_analysis</a></li>
+    <li><a href="../../extensions/extensions-library.html">extensions</a></li>
+    <li><a href="../../extensions/TermSimilarityExtensions.html">TermSimilarityExtensions</a></li>
+    <li class="self-crumb">editDistance method</li>
+  </ol>
+  <div class="self-name">editDistance</div>
+  <form class="search navbar-right" role="search">
+    <input type="text" id="search-box" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
+  </form>
+</header>
+
+<main>
+
+
+  <div id="dartdoc-main-content" class="main-content">
+      <div>
+<h1><span class="kind-method">editDistance</span> method 
+    <a href="https://dart.dev/null-safety" class="feature feature-null-safety" title="Supports the null safety language feature.">Null safety</a>
+</h1></div>
+
+    <section class="multi-line-signature">
+      
+
+<span class="returntype"><a href="https://api.flutter.dev/flutter/dart-core/int-class.html">int</a></span>
+<span class="name ">editDistance</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="editDistance-param-other"><span class="type-annotation"><a href="../../type_definitions/Term.html">Term</a></span> <span class="parameter-name">other</span></span></li>
+</ol>)
+
+      
+
+    </section>
+    
+<section class="desc markdown">
+  <p>Returns the <code>Damerau–Levenshtein distance</code>, the minimum number of
+single-character edits (transpositions, insertions, deletions or
+substitutions) required to change one word into another <code>other</code>.</p>
+</section>
+
+
+    
+<section class="summary source-code" id="source">
+  <h2><span>Implementation</span></h2>
+  <pre class="language-dart"><code class="language-dart">int editDistance(Term other) {
+  &#47;&#47;
+
+  &#47;&#47; initialize a 1-based array of 26 integers with all values set to 0
+  final da = _da();
+
+  &#47;&#47; initialize a 1-based character array for this
+  final a = _CharArray(this);
+
+  &#47;&#47; initialize a 1-based character array for other
+  final b = _CharArray(other);
+
+  &#47;&#47; initialize the -1 based edit distance matrix
+  final dList = &lt;List&lt;int&gt;&gt;[];
+  for (var i = 0; i &lt; b.length + 2; i++) {
+    dList.add(List.filled(a.length + 2, i * 0, growable: false));
+  }
+  final d = _Matrix.from(dList, i: -1, j: -1);
+
+  &#47;&#47; compute the maximum distance
+  &#47;&#47; (remove all the charcters in this and insert with all characters in other)
+  final maxDist = a.length + b.length;
+
+  &#47;&#47; add maxDist at the top-left of matrix
+  d.setAt(-1, -1, maxDist);
+
+  for (var i = 0; i &lt;= a.length; i++) {
+    d.setAt(i, -1, maxDist);
+    d.setAt(i, 0, i);
+  }
+
+  for (var j = 0; j &lt;= b.length; j++) {
+    d.setAt(-1, j, maxDist);
+    d.setAt(0, j, j);
+  }
+
+  for (var i = 1; i &lt;= a.length; i++) {
+    var db = 0;
+    final charA = a.get(i) - 96;
+
+    for (var j = 1; j &lt;= b.length; j++) {
+      final charB = b.get(j) - 96;
+      final k = da.get(charB);
+      final l = db;
+      int cost = 0;
+      if (charA == charB) {
+        cost = 0;
+        db = j;
+      } else {
+        cost = 1;
+      }
+      final costs = &lt;int&gt;[
+        &#47;&#47;substitution cost
+        d.get(i - 1, j - 1) + cost,
+        &#47;&#47;insertion cost
+        d.get(i, j - 1) + 1,
+        &#47;&#47;deletion cost
+        d.get(i - 1, j) + 1,
+        &#47;&#47;transposition cost
+        d.get(k - 1, l - 1) + (i - k - 1) + 1 + (j - l - 1)
+      ];
+      costs.sort(((a, b) =&gt; a.compareTo(b)));
+      d.setAt(i, j, costs.first);
+    }
+    da.setAt(charA, i);
+  }
+
+  &#47;&#47; return the value from the edit distance matrix matrix
+  return d.get(a.length, b.length);
+}</code></pre>
+</section>
+
+
+  </div> <!-- /.main-content -->
+
+  <div id="dartdoc-sidebar-left" class="sidebar sidebar-offcanvas-left">
+    <header id="header-search-sidebar" class="hidden-l">
+  <form class="search-sidebar" role="search">
+    <input type="text" id="search-sidebar" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
+  </form>
+</header>
+
+<ol class="breadcrumbs gt-separated dark hidden-l" id="sidebar-nav">
+  <li><a href="../../index.html">text_analysis</a></li>
+  <li><a href="../../extensions/extensions-library.html">extensions</a></li>
+  <li><a href="../../extensions/TermSimilarityExtensions.html">TermSimilarityExtensions</a></li>
+  <li class="self-crumb">editDistance method</li>
+</ol>
+
+
+    <h5>TermSimilarityExtensions extension</h5>
+    <ol>
+
+
+
+
+
+    <li class="section-title"><a href="../../extensions/TermSimilarityExtensions.html#instance-methods">Methods</a></li>
+    <li><a href="../../extensions/TermSimilarityExtensions/editDistance.html">editDistance</a></li>
+    <li><a href="../../extensions/TermSimilarityExtensions/jaccardSimilarity.html">jaccardSimilarity</a></li>
+    <li><a href="../../extensions/TermSimilarityExtensions/jaccardSimilarityMap.html">jaccardSimilarityMap</a></li>
+    <li><a href="../../extensions/TermSimilarityExtensions/kGrams.html">kGrams</a></li>
+    <li><a href="../../extensions/TermSimilarityExtensions/lengthDistance.html">lengthDistance</a></li>
+    <li><a href="../../extensions/TermSimilarityExtensions/lengthSimilarity.html">lengthSimilarity</a></li>
+    <li><a href="../../extensions/TermSimilarityExtensions/lengthSimilarityMap.html">lengthSimilarityMap</a></li>
+    <li><a href="../../extensions/TermSimilarityExtensions/matches.html">matches</a></li>
+    <li><a href="../../extensions/TermSimilarityExtensions/termSimilarity.html">termSimilarity</a></li>
+    <li><a href="../../extensions/TermSimilarityExtensions/termSimilarityMap.html">termSimilarityMap</a></li>
+
+
+
+
+</ol>
+
+  </div><!--/.sidebar-offcanvas-->
+
+  <div id="dartdoc-sidebar-right" class="sidebar sidebar-offcanvas-right">
+  </div><!--/.sidebar-offcanvas-->
+
+</main>
+
+<footer>
+  <span class="no-break">
+    text_analysis
+      0.12.0-1
+  </span>
+
+  
+</footer>
+
+
+
+<script src="../../static-assets/highlight.pack.js?v1"></script>
+<script src="../../static-assets/script.js?v1"></script>
+
+
+
+</body>
+
+</html>
+

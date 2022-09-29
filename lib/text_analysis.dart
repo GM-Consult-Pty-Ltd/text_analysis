@@ -4,12 +4,8 @@
 /// information retrieval systems.
 library text_analysis;
 
-/// Exports files used by clients of the pacckage.
-
-export 'src/term_comparison_extensions.dart';
+export 'src/term_similarity.dart';
 export 'src/text_analyzer.dart';
 export 'src/text_document.dart';
 export 'src/text_tokenizer.dart';
 export 'src/token.dart';
-export 'src/typedefs.dart';
-export 'package:porter_2_stemmer/porter_2_stemmer.dart';

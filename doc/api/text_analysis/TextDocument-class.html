@@ -325,7 +325,7 @@ level (<code>Flesch-Kincaid Grade Level test</code>).
     <h2>Static Methods</h2>
     <dl class="callables">
         <dt id="analyze" class="callable">
-  <span class="name"><a href="../text_analysis/TextDocument/analyze.html">analyze</a></span><span class="signature">(<wbr><span class="parameter" id="analyze-param-sourceText">{<span>required</span> <span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span> <span class="parameter-name">sourceText</span>, </span><span class="parameter" id="analyze-param-zone"><span class="type-annotation"><a href="../text_analysis/Zone.html">Zone</a>?</span> <span class="parameter-name">zone</span>, </span><span class="parameter" id="analyze-param-analyzer"><span class="type-annotation"><a href="../text_analysis/TextAnalyzer-class.html">TextAnalyzer</a></span> <span class="parameter-name">analyzer</span> = <span class="default-value">English.analyzer</span>}</span>)
+  <span class="name"><a href="../text_analysis/TextDocument/analyze.html">analyze</a></span><span class="signature">(<wbr><span class="parameter" id="analyze-param-sourceText">{<span>required</span> <span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span> <span class="parameter-name">sourceText</span>, </span><span class="parameter" id="analyze-param-zone"><span class="type-annotation"><a href="../type_definitions/Zone.html">Zone</a>?</span> <span class="parameter-name">zone</span>, </span><span class="parameter" id="analyze-param-analyzer"><span class="type-annotation"><a href="../text_analysis/TextAnalyzer-class.html">TextAnalyzer</a></span> <span class="parameter-name">analyzer</span> = <span class="default-value">English.analyzer</span>}</span>)
     <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../text_analysis/TextDocument-class.html">TextDocument</a></span>&gt;</span></span>
   </span>
   
@@ -339,7 +339,7 @@ level (<code>Flesch-Kincaid Grade Level test</code>).
 </dd>
 
         <dt id="analyzeJson" class="callable">
-  <span class="name"><a href="../text_analysis/TextDocument/analyzeJson.html">analyzeJson</a></span><span class="signature">(<wbr><span class="parameter" id="analyzeJson-param-document">{<span>required</span> <span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Map-class.html">Map</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>, <span class="type-parameter">dynamic</span>&gt;</span></span> <span class="parameter-name">document</span>, </span><span class="parameter" id="analyzeJson-param-zones"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../text_analysis/Zone.html">Zone</a></span>&gt;</span>?</span> <span class="parameter-name">zones</span>, </span><span class="parameter" id="analyzeJson-param-analyzer"><span class="type-annotation"><a href="../text_analysis/TextAnalyzer-class.html">TextAnalyzer</a></span> <span class="parameter-name">analyzer</span> = <span class="default-value">English.analyzer</span>}</span>)
+  <span class="name"><a href="../text_analysis/TextDocument/analyzeJson.html">analyzeJson</a></span><span class="signature">(<wbr><span class="parameter" id="analyzeJson-param-document">{<span>required</span> <span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Map-class.html">Map</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>, <span class="type-parameter">dynamic</span>&gt;</span></span> <span class="parameter-name">document</span>, </span><span class="parameter" id="analyzeJson-param-zones"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../type_definitions/Zone.html">Zone</a></span>&gt;</span>?</span> <span class="parameter-name">zones</span>, </span><span class="parameter" id="analyzeJson-param-analyzer"><span class="type-annotation"><a href="../text_analysis/TextAnalyzer-class.html">TextAnalyzer</a></span> <span class="parameter-name">analyzer</span> = <span class="default-value">English.analyzer</span>}</span>)
     <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../text_analysis/TextDocument-class.html">TextDocument</a></span>&gt;</span></span>
   </span>
   
@@ -376,7 +376,7 @@ level (<code>Flesch-Kincaid Grade Level test</code>).
     <h5>text_analysis library</h5>
     <ol>
   <li class="section-title"><a href="../text_analysis/text_analysis-library.html#classes">Classes</a></li>
-  <li><a href="https://pub.dev/documentation/porter_2_stemmer/1.0.0+6/porter_2_stemmer/Porter2Stemmer-class.html">Porter2Stemmer</a></li>
+  <li><a href="../text_analysis/TermSimilarity-class.html">TermSimilarity</a></li>
   <li><a href="../text_analysis/TextAnalyzer-class.html">TextAnalyzer</a></li>
   <li><a href="../text_analysis/TextDocument-class.html">TextDocument</a></li>
   <li><a href="../text_analysis/TextDocumentBase-class.html">TextDocumentBase</a></li>
@@ -387,8 +387,6 @@ level (<code>Flesch-Kincaid Grade Level test</code>).
   <li><a href="../text_analysis/Token-class.html">Token</a></li>
 
   <li class="section-title"><a href="../text_analysis/text_analysis-library.html#extensions">Extensions</a></li>
-  <li><a href="https://pub.dev/documentation/porter_2_stemmer/1.0.0+6/porter_2_stemmer/Porter2StemmerExtension.html">Porter2StemmerExtension</a></li>
-  <li><a href="../text_analysis/TextAnalysisExtension.html">TextAnalysisExtension</a></li>
   <li><a href="../text_analysis/TokenCollectionExtension.html">TokenCollectionExtension</a></li>
 
 
@@ -396,22 +394,6 @@ level (<code>Flesch-Kincaid Grade Level test</code>).
 
 
 
-  <li class="section-title"><a href="../text_analysis/text_analysis-library.html#typedefs">Typedefs</a></li>
-  <li><a href="../text_analysis/CharacterFilter.html">CharacterFilter</a></li>
-  <li><a href="../text_analysis/JsonTokenizer.html">JsonTokenizer</a></li>
-  <li><a href="../text_analysis/KGram.html">KGram</a></li>
-  <li><a href="../text_analysis/ParagraphSplitter.html">ParagraphSplitter</a></li>
-  <li><a href="../text_analysis/SentenceSplitter.html">SentenceSplitter</a></li>
-  <li><a href="../text_analysis/SourceText.html">SourceText</a></li>
-  <li><a href="../text_analysis/Stemmer.html">Stemmer</a></li>
-  <li><a href="../text_analysis/StopWords.html">StopWords</a></li>
-  <li><a href="../text_analysis/SyllableCounter.html">SyllableCounter</a></li>
-  <li><a href="../text_analysis/Term.html">Term</a></li>
-  <li><a href="../text_analysis/TermFilter.html">TermFilter</a></li>
-  <li><a href="../text_analysis/TermSplitter.html">TermSplitter</a></li>
-  <li><a href="../text_analysis/TokenFilter.html">TokenFilter</a></li>
-  <li><a href="../text_analysis/Tokenizer.html">Tokenizer</a></li>
-  <li><a href="../text_analysis/Zone.html">Zone</a></li>
 
 </ol>
 
@@ -462,7 +444,7 @@ level (<code>Flesch-Kincaid Grade Level test</code>).
 <footer>
   <span class="no-break">
     text_analysis
-      0.11.1
+      0.12.0-1
   </span>
 
   

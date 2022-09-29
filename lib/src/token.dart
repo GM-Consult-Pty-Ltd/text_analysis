@@ -56,7 +56,7 @@ extension TokenCollectionExtension on Iterable<Token> {
 //
 
   /// Returns a hashmap of k-grams to terms from the collection of tokens.
-  Map<KGram, Set<Term>> kGrams([int k = 3]) {
+  Map<KGram, Set<Term>> kGrams([int k = 2]) {
     final terms = this.terms;
     // print the terms
     final Map<String, Set<Term>> kGramIndex = {};
