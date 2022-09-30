@@ -62,7 +62,14 @@ All rights reserved.
 <li><a href="#issues">Issues</a></li>
 </ul>
 <h2 id="overview">Overview</h2>
-<p>The <code>text_analysis</code> library provides methods to tokenize text, compute readibility scores for a document and compute similarity of words. It is intended to be used in Natural Language Proceesing (<code>NLP</code>) as part of an information retrieval system.</p>
+<p>The <code>text_analysis</code> package provides methods to tokenize text, compute readibility scores for a document and compute similarity of words. It is intended to be used in Natural Language Proceesing (<code>NLP</code>) as part of an information retrieval system.</p>
+<p>It is split into <a href="#usage">four (4) libraries</a>:</p>
+<ul>
+<li><code>text_analysis</code> is the core library that exports the tokenization, analysis and string similarity functions;</li>
+<li><code>extensions</code> exports extension methods also provided as static methods of the <code>TextSimilarity</code> class;</li>
+<li><code>package_exports</code> exports the <code>porter_2_stemmer</code> package; and</li>
+<li><code>type_definitions</code> exports all the typedefs used in this package.</li>
+</ul>
 <p>Refer to the <a href="#references">references</a> to learn more about information retrieval systems and the theory behind this library.</p>
 <h4 id="tokenization">Tokenization</h4>
 <p>Tokenization comprises the following steps:</p>
@@ -83,17 +90,25 @@ All rights reserved.
 <li><code>Flesch-Kincaid grade level</code>, a readibility measure relative to U.S. school grade level.</li>
 </ul>
 <h3 id="string-comparison">String Comparison</h3>
-<p>The following String extension methods can be used for comparing <code>terms</code>:</p>
+<p>The following <code>String</code> extension methods can be used for (case-insensitive) comparison of <code>terms</code>:</p>
 <ul>
-<li><code>lengthDistance</code> returns a normalized measure of difference between two terms on a log (base 2) scale;</li>
-<li><code>lengthSimilarity</code> returns the similarity in length between two terms on a scale of 0 to 1.0 (equivalent to <code>1-lengthSimilarity</code> with a lower bound of 0.0);</li>
-<li><code>lengthSimilarityMap</code> returns a hashmap of <code>terms</code> to their <code>lengthSimilarity</code> with a term;</li>
+<li><code>editDistance</code> returns the <code>Damerau–Levenshtein distance</code>, the minimum number of  single-character edits (transpositions, insertions, deletions or substitutions) required to change one <code>term</code> into another;</li>
+<li><code>editSimilarity</code> returns a normalized measure of <code>Damerau–Levenshtein distance</code> on a scale of 0.0 to 1.0, calculated by dividing the the difference between the maximum edit distance (sum of the length of the two terms) and the computed <code>editDistance</code>, by by the maximum edit distance;</li>
+<li><code>lengthDistance</code> returns the absolute value of the difference in length between two terms;</li>
+<li><code>lengthSimilarity</code> returns the similarity in length between two terms on a scale of 0.0 to 1.0 on a log scale (1 - the log of the ratio of the term lengths);</li>
 <li><code>jaccardSimilarity</code> returns the Jaccard Similarity Index of two terms;</li>
+<li><code>termSimilarity</code> returns a similarity index value between 0.0 and 1.0, product of <code>editSimilarity</code> , <code>jaccardSimilarity</code> and <code>lengthSimilarity</code>. A term similarity of 1.0 means the two terms are identical in all respects, <em>except case</em>;</li>
+</ul>
+<p>To compare one term with a collection of other terms, the following extension methods are also provided:</p>
+<ul>
+<li><code>editSimilarityMap</code> returns a hashmap of <code>terms</code> to their <code>editSimilarity</code> with a term;</li>
+<li><code>lengthSimilarityMap</code> returns a hashmap of <code>terms</code> to their <code>lengthSimilarity</code> with a term;</li>
 <li><code>jaccardSimilarityMap</code> returns a hashmap of <code>terms</code> to Jaccard Similarity Index with a term;</li>
-<li><code>termSimilarity</code> returns a similarity index value between 0.0 and 1.0, defined as the product of <code>jaccardSimilarity</code> and <code>lengthSimilarity</code>. A term similarity of 1.0 means the two terms are equal in length and have an identical collection of <code>k-grams</code>;</li>
 <li><code>termSimilarityMap</code> returns a hashmap of <code>terms</code> to termSimilarity with a term; and</li>
 <li><code>matches</code> returns the best matches from <code>terms</code> for a term, in descending order of term similarity (best match first).</li>
 </ul>
+<p><em>Term comparisons are NOT case-sensitive.</em></p>
+<p>To avoid an ever expanding list of String extension methods, the <a href="">TermSimilarityExtensions</a> are in a separate library. All the extensions are also available as static methods of the <a href="">TermSimilarity</a> class.</p>
 <h2 id="usage">Usage</h2>
 <p>In the <code>pubspec.yaml</code> of your flutter project, add the following dependency:</p>
 <pre class="language-yaml"><code class="language-yaml">dependencies:
@@ -133,6 +148,33 @@ import 'package:text_analysis/package_exports.dart';
 <li>pass in a <code>TokenFilter</code> function to a <code>TextTokenizer</code> to manipulate the tokens after tokenization as shown in the <a href="https://pub.dev/packages/text_analysis/example">examples</a>; and/or
 extend <a href="text_analysis/TextDocumentBase-class.html">TextDocumentBase</a>.</li>
 </ul>
+<p>To compare terms, call the required extension on the <code>term</code>, or the static method from the <a href="">TermSimilarity</a> class:</p>
+<pre class="language-dart"><code class="language-dart">
+  // define a misspelt term
+  const term = 'bodrer';
+
+  // a collection of auto-correct options
+  const candidates = [
+    'bord',
+    'board',
+    'broad',
+    'boarder',
+    'border',
+    'brother',
+    'bored'
+  ];
+
+  // get a list of the terms orderd by descending similarity
+  final matches = term.matches(candidates);
+  // same as TermSimilarity.matches(term, candidates))
+
+  // print matches
+  print('Ranked matches: $matches');
+  // prints:
+  //     Ranked matches: [border, boarder, bored, brother, board, bord, broad]
+  //  
+
+</code></pre>
 <p>Please see the <a href="https://pub.dev/packages/text_analysis/example">examples</a> for more details.</p>
 <h2 id="api">API</h2>
 <p>The key interfaces of the <code>text_analysis</code> library are briefly described in this section. Please refer to the <a href="https://pub.dev/documentation/text_analysis/latest/">documentation</a> for details.</p>

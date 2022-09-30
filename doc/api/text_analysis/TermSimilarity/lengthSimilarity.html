@@ -62,13 +62,14 @@
     </section>
     
 <section class="desc markdown">
-  <p>Returns the similarity in length between strings <code>a</code> and <code>b</code> where:
-lengthSimilarity = 1 - <a href="../../text_analysis/TermSimilarity/lengthDistance.html">lengthDistance</a>.</p>
+  <p>Returns the similarity in length between two terms, defined as:
+lengthSimilarity = 1 minus the log of the ratio between the term lengths,
+with a floor at 0.0:
+<code>1-(log(this.length/other.length))</code></p>
 <p>Returns:</p>
 <ul>
-<li>1.0 if <code>a</code> and <code>b</code> are the same length; and</li>
-<li>0.0 if <a href="../../text_analysis/TermSimilarity/lengthDistance.html">lengthDistance</a> &gt;= 1.0, i.e when <code>b</code>.length is less than
-50% or more than 200% of <code>a</code>.length.</li>
+<li>1.0 if this and <code>other</code> are the same length; and</li>
+<li>0.0 if the ratio between term lengths is more than 10 or less than 0.1.</li>
 </ul>
 </section>
 
@@ -76,7 +77,7 @@ lengthSimilarity = 1 - <a href="../../text_analysis/TermSimilarity/lengthDistanc
     
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
-  <pre class="language-dart"><code class="language-dart">double lengthSimilarity(Term a, Term b) =&gt; a.lengthSimilarity(b);</code></pre>
+  <pre class="language-dart"><code class="language-dart">static double lengthSimilarity(Term a, Term b) =&gt; a.lengthSimilarity(b);</code></pre>
 </section>
 
 
@@ -110,15 +111,8 @@ lengthSimilarity = 1 - <a href="../../text_analysis/TermSimilarity/lengthDistanc
     <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/hashCode.html">hashCode</a></li>
     <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/runtimeType.html">runtimeType</a></li>
 
-    <li class="section-title"><a href="../../text_analysis/TermSimilarity-class.html#instance-methods">Methods</a></li>
-    <li><a href="../../text_analysis/TermSimilarity/jaccardSimilarity.html">jaccardSimilarity</a></li>
-    <li><a href="../../text_analysis/TermSimilarity/jaccardSimilarityMap.html">jaccardSimilarityMap</a></li>
-    <li><a href="../../text_analysis/TermSimilarity/kGrams.html">kGrams</a></li>
-    <li><a href="../../text_analysis/TermSimilarity/lengthSimilarity.html">lengthSimilarity</a></li>
-    <li><a href="../../text_analysis/TermSimilarity/lengthSimilarityMap.html">lengthSimilarityMap</a></li>
-    <li><a href="../../text_analysis/TermSimilarity/matches.html">matches</a></li>
+    <li class="section-title inherited"><a href="../../text_analysis/TermSimilarity-class.html#instance-methods">Methods</a></li>
     <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/noSuchMethod.html">noSuchMethod</a></li>
-    <li><a href="../../text_analysis/TermSimilarity/termSimilarity.html">termSimilarity</a></li>
     <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/toString.html">toString</a></li>
 
     <li class="section-title inherited"><a href="../../text_analysis/TermSimilarity-class.html#operators">Operators</a></li>
@@ -128,7 +122,16 @@ lengthSimilarity = 1 - <a href="../../text_analysis/TermSimilarity/lengthDistanc
 
         <li class="section-title"><a href="../../text_analysis/TermSimilarity-class.html#static-methods">Static methods</a></li>
           <li><a href="../../text_analysis/TermSimilarity/editDistance.html">editDistance</a></li>
+          <li><a href="../../text_analysis/TermSimilarity/editSimilarity.html">editSimilarity</a></li>
+          <li><a href="../../text_analysis/TermSimilarity/jaccardSimilarity.html">jaccardSimilarity</a></li>
+          <li><a href="../../text_analysis/TermSimilarity/jaccardSimilarityMap.html">jaccardSimilarityMap</a></li>
+          <li><a href="../../text_analysis/TermSimilarity/kGrams.html">kGrams</a></li>
           <li><a href="../../text_analysis/TermSimilarity/lengthDistance.html">lengthDistance</a></li>
+          <li><a href="../../text_analysis/TermSimilarity/lengthSimilarity.html">lengthSimilarity</a></li>
+          <li><a href="../../text_analysis/TermSimilarity/lengthSimilarityMap.html">lengthSimilarityMap</a></li>
+          <li><a href="../../text_analysis/TermSimilarity/matches.html">matches</a></li>
+          <li><a href="../../text_analysis/TermSimilarity/termSimilarity.html">termSimilarity</a></li>
+          <li><a href="../../text_analysis/TermSimilarity/termSimilarityMap.html">termSimilarityMap</a></li>
 
 </ol>
 

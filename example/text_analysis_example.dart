@@ -4,73 +4,149 @@
 /// Import the text_analysis package by adding this line at the top of your
 /// code file.
 import 'package:text_analysis/src/_index.dart';
+import 'package:gmconsult_dev/gmconsult_dev.dart';
 
 void main() async {
   //
 
-  // tokenize the paragraphs and print the terms.
-  _printTerms(await _tokenizeParagraphs(exampleText));
+  _readMeExample('README.md EXAMPLE');
 
-  // tokenize the zones in a json document and print the terms.
-  _printTerms(await _tokenizeJson(json, zones));
+  // print a seperator
+  _seperator();
+
+  // tokenize the paragraphs and print the terms
+  _printTokens('TOKENIZE PARAGRAPHS', await _tokenizeParagraphs(exampleText));
+
+  // print a seperator
+  _seperator();
+
+  // tokenize the zones in a json document and print the terms
+  _printTokens('TOKENIZE JSON', await _tokenizeJson(json, zones));
+
+  // print a seperator
+  _seperator();
 
   // get a a hashmap of tri-gram to terms in exampleText.first
-  await _getKgramIndex(exampleText.first, 3);
+  await _getKgramIndex('CREATE A k-Gram INDEX', exampleText.first, 3);
+
+  // print a seperator
+  _seperator();
 
   // print text statistics and readibility scores for readbilityExample
-  await _analyseText(readabilityExample);
+  await _analyseText('ANALYZE TEXT', readabilityExample);
+
+  // print a seperator
+  _seperator();
+
+  // print term similarity values for term vs candidates
+  _similarityExamples('TERM SIMILARITY', term, candidates);
+}
+
+// Simple example(s) for the README.md file.
+void _readMeExample(String title) {
+  //
+  // print a heading
+  print(title);
+
+  // define a misspelt term
+  const term = 'bodrer';
+
+  // a collection of auto-correct options
+  const candidates = [
+    'bord',
+    'board',
+    'broad',
+    'boarder',
+    'border',
+    'brother',
+    'bored'
+  ];
+
+  // get a list of the terms orderd by descending similarity
+  final matches = term.matches(candidates);
+  // same as TermSimilarity.matches(term, candidates))
+
+  // print matches
+  print('Ranked matches: $matches');
+  // prints:
+  //     Ranked matches: [border, boarder, bored, brother, board, bord, broad]
+  //
+}
+
+// Print separator
+void _seperator() {
+  print(''.padRight(80, '-'));
+  print('');
 }
 
 /// Print text statistics and readibility scores for [text].
-Future<void> _analyseText(String text) async {
+Future<void> _analyseText(String title, String text) async {
 //
+  // print a heading
+  print(title);
 
   // hydrate the TextDocument
   final textDoc = await TextDocument.analyze(sourceText: text);
 
   // print the `average sentence length`
-  print('Average sentence length: ${textDoc.averageSentenceLength()}');
+  print('Average sentence length:    ${textDoc.averageSentenceLength()}');
 
   // print the `average syllable count`
   print(
-      'Average syllable count: ${textDoc.averageSyllableCount().toStringAsFixed(2)}');
+      'Average syllable count:     ${textDoc.averageSyllableCount().toStringAsFixed(2)}');
 
   // print the `Flesch reading ease score`
   print(
-      'Flesch Reading Ease: ${textDoc.fleschReadingEaseScore().toStringAsFixed(1)}');
+      'Flesch Reading Ease:        ${textDoc.fleschReadingEaseScore().toStringAsFixed(1)}');
 
   // print the `Flesch-Kincaid grade level`
   print('Flesch-Kincaid Grade Level: ${textDoc.fleschKincaidGradeLevel()}');
 
   // output:
-  //           Average sentence length: 13
-  //           Average syllable count: 1.85
-  //           Flesch Reading Ease: 37.5
+  //           Average sentence length:    13
+  //           Average syllable count:     1.85
+  //           Flesch Reading Ease:        37.5
   //           Flesch-Kincaid Grade Level: 11
 }
 
 /// Print the terms in List<[Token]>.
-void _printTerms(Iterable<Token> tokens) {
-  // map the document's tokens to a list of terms (strings)
-  final terms = tokens.map((e) => e.term).toList();
-  // print the terms
-  print(terms);
+void _printTokens(String title, Iterable<Token> tokens) {
+  //
 
-  /// Tokenize the [zones] in a [json] document.
+  // map the tokens to a list of JSON documents
+  final results = tokens
+      .map((e) => {'term': e.term, 'zone': e.zone, 'position': e.termPosition})
+      .toList();
+
+  // print the results
+  Echo(title: title, results: results).printResults();
+
+  //
 }
 
 /// Gets the k-grams for the terms in [text] and returns a hashmap of k-gram
 /// to term.
-Future<Map<KGram, Set<Term>>> _getKgramIndex(SourceText text, int k) async {
+Future<Map<KGram, Set<Term>>> _getKgramIndex(
+    String title, SourceText text, int k) async {
+//
+
   final tokens = await TextTokenizer().tokenize(text);
   // get the bi-grams
-  final Map<String, Set<Term>> kGramIndex = tokens.kGrams(3);
-  // add the tri-grams
-  // kGramIndex.addAll(document.tokens.kGrams(3));
-  print('${'k-gram'.padRight(8)} Terms Set');
+  final Map<String, Set<Term>> kGramIndex = tokens.kGrams(2);
+
+  // initialize the results collection
+  final results = <Map<String, dynamic>>[];
+
+  // iterate over the k-Gram index
   for (final entry in kGramIndex.entries) {
-    print('${entry.key.padRight(8)} ${entry.value}');
+    // create a result for each entry
+    results.add({'k-Gram': entry.key, 'Terms': entry.value.toString()});
   }
+
+  // print the results to the console
+  Echo(title: title, results: results).printResults();
+
+  // return the k-Gram index
   return kGramIndex;
 }
 
@@ -80,14 +156,13 @@ Future<List<Token>> _tokenizeJson(
   // use a TextTokenizer instance to tokenize the json
   final tokens = await TextTokenizer().tokenizeJson(json, zones);
   // map the document's tokens to a list of terms (strings)
-  final terms = tokens.map((e) => e.term).toList();
-  // print the terms
-  print(terms);
   return tokens;
 }
 
 /// Tokenize [paragraphs] to a List<[Token]>.
 Future<List<Token>> _tokenizeParagraphs(Iterable<String> paragraphs) async {
+  //
+
   // Initialize a StringBuffer to hold the source text
   final sourceBuilder = StringBuffer();
 
@@ -102,13 +177,62 @@ Future<List<Token>> _tokenizeParagraphs(Iterable<String> paragraphs) async {
   // use a TextTokenizer instance to tokenize the source
   final tokens = await TextTokenizer().tokenize(source);
 
-  // map the document's tokens to a list of terms (strings)
-  final terms = tokens.map((e) => e.term).toList();
-
-  // print the terms
-  print(terms);
   return tokens;
 }
+
+/// Print term similarity values for [term] vs [candidates].
+void _similarityExamples(
+    String title, String term, Iterable<String> candidates) {
+  //
+  // print a heading
+  print(title);
+
+  // iterate over candidates
+  for (final other in candidates) {
+    //
+    // print the terms
+    print('($term: $other)');
+
+    // print the editDistance
+    print(
+        '- Edit Distance:       ${term.editDistance(other).toStringAsFixed(3)}');
+    // print the lengthDistance
+    print(
+        '- Length Distance:     ${term.lengthDistance(other).toStringAsFixed(3)}');
+    // print the lengthSimilarity
+    print(
+        '- Length Similarity:   ${term.lengthSimilarity(other).toStringAsFixed(3)}');
+    // print the jaccardSimilarity
+    print(
+        '- Jaccard Similarity:  ${term.jaccardSimilarity(other).toStringAsFixed(3)}');
+    // print the editDistance
+    print(
+        '- Edit Similarity:     ${term.editSimilarity(other).toStringAsFixed(3)}');
+    // print the termSimilarity
+    print(
+        '- Term Similarity:     ${term.termSimilarity(other).toStringAsFixed(3)}');
+
+    // print a seperator
+    _seperator();
+  }
+
+  // get a list of the terms orderd by descending similarity
+  final matches = term.matches(candidates);
+  print('Ranked matches: $matches');
+}
+
+final candidates = [
+  'bodrer',
+  'bord',
+  'board',
+  'broad',
+  'boarder',
+  'border',
+  'brother',
+  'bored'
+];
+
+final term = 'bodrer';
 
 final readabilityExample =
     'The Australian platypus is seemingly a hybrid of a mammal and reptilian creature.';

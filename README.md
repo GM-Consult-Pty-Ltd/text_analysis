@@ -5,9 +5,9 @@ All rights reserved.
 -->
 
 [![GM Consult Pty Ltd](https://raw.githubusercontent.com/GM-Consult-Pty-Ltd/text_analysis/main/assets/images/text_analysis_header.png?raw=true "GM Consult Pty Ltd")](https://github.com/GM-Consult-Pty-Ltd)
-## **Tokenize text, compute document readbility and term similarity.**
+## **Tokenize text, compute document readbility and compare terms.**
 
-*THIS PACKAGE IS **PRE-RELEASE**, IN ACTIVE DEVELOPMENT AND SUBJECT TO DAILY BREAKING CHANGES.*
+*THIS PACKAGE IS **PRE-RELEASE**, and SUBJECT TO DAILY BREAKING CHANGES.*
 
 Skip to section:
 - [Overview](#overview)
@@ -19,7 +19,13 @@ Skip to section:
 
 ## Overview
 
-The `text_analysis` library provides methods to tokenize text, compute readibility scores for a document and compute similarity of words. It is intended to be used in Natural Language Proceesing (`NLP`) as part of an information retrieval system. 
+The `text_analysis` package provides methods to tokenize text, compute readibility scores for a document and evaluate similarity of `terms`. It is intended to be used in Natural Language Processing (`NLP`) as part of an information retrieval system. 
+
+It is split into [four (4) libraries](#usage):
+* `text_analysis` is the core library that exports the tokenization, analysis and string similarity functions;
+* `extensions` exports extension methods also provided as static methods of the `TextSimilarity` class;
+* `package_exports` exports the `porter_2_stemmer` package; and
+* `type_definitions` exports all the typedefs used in this package.
 
 Refer to the [references](#references) to learn more about information retrieval systems and the theory behind this library.
 
@@ -45,15 +51,24 @@ The [TextDocument](#textdocument) enumerates a text document's *paragraphs*, *se
 
 ### String Comparison
 
-The following String extension methods can be used for comparing `terms`:
-* `lengthDistance` returns a normalized measure of difference between two terms on a log (base 2) scale;
-* `lengthSimilarity` returns the similarity in length between two terms on a scale of 0 to 1.0 (equivalent to `1-lengthSimilarity` with a lower bound of 0.0); 
-* `lengthSimilarityMap` returns a hashmap of `terms` to their `lengthSimilarity` with a term;
+The following `String` extension methods can be used for (case-insensitive) comparison of `terms`:
+* `editDistance` returns the `Damerau–Levenshtein distance`, the minimum number of  single-character edits (transpositions, insertions, deletions or substitutions) required to change one `term` into another;
+* `editSimilarity` returns a normalized measure of `Damerau–Levenshtein distance` on a scale of 0.0 to 1.0, calculated by dividing the the difference between the maximum edit distance (sum of the length of the two terms) and the computed `editDistance`, by by the maximum edit distance;
+* `lengthDistance` returns the absolute value of the difference in length between two terms;
+* `lengthSimilarity` returns the similarity in length between two terms on a scale of 0.0 to 1.0 on a log scale (1 - the log of the ratio of the term lengths); 
 * `jaccardSimilarity` returns the Jaccard Similarity Index of two terms; 
+* `termSimilarity` returns a similarity index value between 0.0 and 1.0, product of `editSimilarity` , `jaccardSimilarity` and `lengthSimilarity`. A term similarity of 1.0 means the two terms are identical in all respects, *except case*; 
+
+To compare one term with a collection of other terms, the following extension methods are also provided:
+* `editSimilarityMap` returns a hashmap of `terms` to their `editSimilarity` with a term;
+* `lengthSimilarityMap` returns a hashmap of `terms` to their `lengthSimilarity` with a term;
 * `jaccardSimilarityMap` returns a hashmap of `terms` to Jaccard Similarity Index with a term;
-* `termSimilarity` returns a similarity index value between 0.0 and 1.0, defined as the product of `jaccardSimilarity` and `lengthSimilarity`. A term similarity of 1.0 means the two terms are equal in length and have an identical collection of `k-grams`; 
 * `termSimilarityMap` returns a hashmap of `terms` to termSimilarity with a term; and
 * `matches` returns the best matches from `terms` for a term, in descending order of term similarity (best match first).
+
+*Term comparisons are NOT case-sensitive.*
+
+To avoid an ever expanding list of String extension methods, the [TermSimilarityExtensions]() are in a separate library. All the extensions are also available as static methods of the [TermSimilarity]() class.
 
 ## Usage
 
@@ -106,6 +121,36 @@ For more complex text analysis:
 * implement a custom `TextTokenizer`or extend `TextTokenizerBase`; and/or 
 * pass in a `TokenFilter` function to a `TextTokenizer` to manipulate the tokens after tokenization as shown in the [examples](https://pub.dev/packages/text_analysis/example); and/or
 extend [TextDocumentBase].
+
+To compare terms, call the required extension on the `term`, or the static method from the [TermSimilarity]() class:
+
+```dart
+
+  // define a misspelt term
+  const term = 'bodrer';
+
+  // a collection of auto-correct options
+  const candidates = [
+    'bord',
+    'board',
+    'broad',
+    'boarder',
+    'border',
+    'brother',
+    'bored'
+  ];
+
+  // get a list of the terms orderd by descending similarity
+  final matches = term.matches(candidates);
+  // same as TermSimilarity.matches(term, candidates))
+
+  // print matches
+  print('Ranked matches: $matches');
+  // prints:
+  //     Ranked matches: [border, boarder, bored, brother, board, bord, broad]
+  //  
+
+```
 
 Please see the [examples](https://pub.dev/packages/text_analysis/example) for more details.
 

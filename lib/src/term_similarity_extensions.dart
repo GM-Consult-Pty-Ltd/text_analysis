@@ -11,9 +11,34 @@ import 'dart:math';
 extension TermSimilarityExtensions on Term {
   //
 
+  /// A normalized measure of [editDistance] on a scale of 0.0 to 1.0.
+  ///
+  /// The [editSimilarity] is defined as the difference between the maximum
+  /// edit distance (sum of the length of the two terms) and the
+  /// computed [editDistance], divided by the maximum edit distance:
+  /// - identical terms with an edit distance of 0 equates to an edit
+  ///   similarity of 1.0; and
+  /// - terms with no shared characters (edit distance equal to sum of the term
+  ///   lengths) have an edit similarity of 0.0.
+  ///
+  /// Not case-sensitive.
+  double editSimilarity(Term other) =>
+      (length + other.length - editDistance(other)) / (length + other.length);
+
+  /// Returns a hashmap of [terms] to their [editSimilarity] with this.
+  Map<Term, double> editSimilarityMap(Iterable<Term> terms) {
+    final retVal = <Term, double>{};
+    for (var other in terms) {
+      retVal[other] = editSimilarity(other);
+    }
+    return retVal;
+  }
+
   /// Returns the `Damerau–Levenshtein distance`, the minimum number of
   /// single-character edits (transpositions, insertions, deletions or
   /// substitutions) required to change one word into another [other].
+  ///
+  /// Not case-sensitive.
   int editDistance(Term other) {
     //
 
@@ -21,10 +46,10 @@ extension TermSimilarityExtensions on Term {
     final da = _da();
 
     // initialize a 1-based character array for this
-    final a = _CharArray(this);
+    final a = _CharArray(toLowerCase());
 
     // initialize a 1-based character array for other
-    final b = _CharArray(other);
+    final b = _CharArray(other.toLowerCase());
 
     // initialize the -1 based edit distance matrix
     final dList = <List<int>>[];
@@ -85,32 +110,26 @@ extension TermSimilarityExtensions on Term {
     return d.get(a.length, b.length);
   }
 
-  /// Returns a normalized measure of difference between this [Term] and
-  /// [other] on a log (base 2) scale:
-  /// - returns 0.0 if [other] and this are the same length;
-  /// - returns 0.0 if both this and [other] are empty;
-  /// - returns 999.0 if this or [other] is empty, but not both;
-  /// - returns 1.0 if [other] is twice as long, or half as long as this;
-  ///
-  /// `abs(log2(other.length/this.length)`
-  double lengthDistance(Term other) => isEmpty
-      ? other.isEmpty
-          ? 0
-          : 999
-      : other.isEmpty
-          ? 999
-          : (log(other.length / length) / log(2)).abs();
+  /// Returns the absolute value of the difference in length between two terms.
+  int lengthDistance(Term other) => (length - other.length).abs();
 
-  /// Returns the similarity in length between this string and [other] where:
-  /// lengthSimilarity = 1 - [lengthDistance].
+  /// Returns the similarity in length between two terms, defined as:
+  /// lengthSimilarity = 1 minus the log of the ratio between the term lengths,
+  /// with a floor at 0.0:
+  ///     `1-(log(this.length/other.length))`
   ///
   /// Returns:
   /// - 1.0 if this and [other] are the same length; and
-  /// - 0.0 if [lengthDistance] >= 1.0, i.e when [other].length is less than
-  ///   50% or more than 200% of [length].
+  /// - 0.0 if the ratio between term lengths is more than 10 or less than 0.1.
   double lengthSimilarity(Term other) {
-    final ld = lengthDistance(other);
-    return ld > 1 ? 0 : 1 - ld;
+    final logRatio = isEmpty
+        ? other.isEmpty
+            ? 0
+            : 1
+        : other.isEmpty
+            ? 1
+            : (log(other.length / length)).abs();
+    return logRatio > 1 ? 0.0 : 1.0 - logRatio;
   }
 
   /// Returns a hashmap of [terms] to their [lengthSimilarity] with this.
@@ -124,6 +143,8 @@ extension TermSimilarityExtensions on Term {
 
   /// Returns the Jaccard Similarity Index between this term and [other]
   /// using a [k]-gram length of [k].
+  ///
+  /// Not case-sensitive.
   double jaccardSimilarity(Term other, [int k = 2]) =>
       _jaccardSimilarity(kGrams(k), other, k);
 
@@ -136,6 +157,8 @@ extension TermSimilarityExtensions on Term {
 
   /// Returns a hashmap of [terms] to Jaccard Similarity Index with this term
   /// using a [k]-gram length of [k].
+  ///
+  /// Not case-sensitive.
   Map<Term, double> jaccardSimilarityMap(Iterable<Term> terms, [int k = 2]) {
     final retVal = <Term, double>{};
     final termGrams = kGrams(k);
@@ -145,36 +168,46 @@ extension TermSimilarityExtensions on Term {
     return retVal;
   }
 
-  /// Returns a similarity index value between 0.0 and 1.0, defined as the
-  /// product of [jaccardSimilarity] and [lengthSimilarity].
-  ///
-  /// A term similarity of 1.0 means the two terms are:
-  /// - equal in length; and
-  /// - have an identical collection of [k]-grams.
-  double termSimilarity(Term other, [int k = 2]) =>
-      (jaccardSimilarity(other, k) * lengthSimilarity(other)) /
-      editDistance(other);
-
-  /// a hashmap of [terms] to [termSimilarity] with this term using a [k]-gram
+  /// Returns a similarity index value between 0.0 and 1.0 using a [k]-gram
   /// length of [k].
+  ///
+  /// The [termSimilarity] is defined as the product of [jaccardSimilarity],
+  /// [lengthSimilarity] and [editSimilarity].
+  ///
+  /// A term similarity of 1.0 means the two terms are identical:
+  /// - have the same characters in the same order (edit distance of 0);
+  /// - are of equal in length; and
+  /// - have an identical collection of [k]-grams.
+  ///
+  /// Not case-sensitive.
+  double termSimilarity(Term other, [int k = 2]) =>
+      (jaccardSimilarity(other, k) * lengthSimilarity(other)) *
+      editSimilarity(other);
+
+  /// Returns a hashmap of [terms] to [termSimilarity] with this term using
+  /// a [k]-gram length of [k].
+  ///
+  /// Not case-sensitive.
   Map<Term, double> termSimilarityMap(Iterable<Term> terms, [int k = 2]) {
     final retVal = <Term, double>{};
     final termGrams = kGrams(k);
     for (final other in terms) {
       retVal[other] =
-          (_jaccardSimilarity(termGrams, other, k) * termSimilarity(other)) /
-              editDistance(other);
+          (_jaccardSimilarity(termGrams, other, k) * termSimilarity(other)) *
+              editSimilarity(other);
     }
     return retVal;
   }
 
-  /// Returns the best matches for the [Term] from [terms], in descending
+  /// Returns the best matches for a term from [terms], in descending
   /// order of [termSimilarity] (best match first).
   ///
   /// Only matches with a [termSimilarity] > 0.0 are returned.
   ///
   /// The returned matches will be limited to [limit] if more than [limit]
   /// matches are found.
+  ///
+  /// Not case-sensitive.
   List<Term> matches(Iterable<Term> terms, {int k = 2, int limit = 10}) {
     final similarities = termSimilarityMap(terms);
     final entries =
@@ -184,19 +217,20 @@ extension TermSimilarityExtensions on Term {
     return retVal.length > limit ? retVal.sublist(0, limit) : retVal;
   }
 
-  /// Returns a set of k-grams in the term.
+  /// Returns a set of (lower-case) k-grams in the term.
   Set<KGram> kGrams([int k = 2]) {
     final Set<KGram> kGrams = {};
+    final term = toLowerCase();
     if (isNotEmpty) {
       // get the opening k-gram
-      kGrams.add(r'$' + substring(0, length < k ? null : k - 1));
+      kGrams.add(r'$' + term.substring(0, length < k ? null : k - 1));
       // get the closing k-gram
-      kGrams.add(length < k ? this : (substring(length - k + 1)) + r'$');
+      kGrams.add(length < k ? term : (term.substring(length - k + 1)) + r'$');
       if (length <= k) {
-        kGrams.add(this);
+        kGrams.add(term);
       } else {
         for (var i = 0; i <= length - k; i++) {
-          kGrams.add(substring(i, i + k));
+          kGrams.add(term.substring(i, i + k));
         }
       }
     }

@@ -75,7 +75,7 @@ typedef ParagraphSplitter = List<String> Function(String source);
 /// - return an empty collection if the term is to be excluded from analysis;
 /// - return multiple terms if the term is split; and/or
 /// - return modified term(s), such as applying a stemmer algorithm.
-typedef TermFilter = Future<List<String>> Function(Term term);
+typedef TermFilter = Future<Set<String>> Function(Term term);
 
 /// A filter function that returns a subset of [tokens].
 typedef TokenFilter = Future<List<Token>> Function(List<Token> tokens);

@@ -95,13 +95,14 @@ Future&lt;List&lt;Token&gt;&gt; tokenize(SourceText text, [Zone? zone]) async {
       &#47;&#47; apply the termFilter if it is not null
       final splitTerms = await analyzer.termFilter(term);
       for (var splitTerm in splitTerms) {
-        if (splitTerm.isNotEmpty) {
-          tokens.add(Token(splitTerm, position, zone));
+        final tokenTerm = splitTerm.trim();
+        if (tokenTerm.isNotEmpty) {
+          tokens.add(Token(splitTerm.trim(), position, zone));
         }
       }
     }
     &#47;&#47; increment the index
-    position = position++;
+    position++;
   });
   &#47;&#47; apply the tokenFilter if it is not null and return the tokens collection
   return tokenFilter != null ? await tokenFilter!(tokens) : tokens;

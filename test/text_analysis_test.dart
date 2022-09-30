@@ -3,6 +3,7 @@
 
 // ignore_for_file: unused_local_variable
 
+import 'package:gmconsult_dev/gmconsult_dev.dart';
 import 'package:text_analysis/src/_index.dart';
 import 'package:test/test.dart';
 import 'data/sample_news.dart';
@@ -14,16 +15,7 @@ void main() {
     //
 
     test('TextDocument', (() async {
-      // Initialize a StringBuffer to hold the source text
-      final sourceBuilder = StringBuffer();
-      // Concatenate the elements of [text] using line-endings
-      for (final src in TextAnalysisTestData.text) {
-        sourceBuilder.writeln(src);
-      }
-      // convert the StringBuffer to a String
-      final source = sourceBuilder.toString();
-      // final source = json['description'] as String;
-
+      //
       final sample =
           'The Australian platypus is seemingly a hybrid of a mammal and reptilian creature.';
 
@@ -40,20 +32,24 @@ void main() {
     }));
 
     test('TextTokenizer.tokenize', () async {
+      //
+
       // Initialize a StringBuffer to hold the source text
       final sourceBuilder = StringBuffer();
+
       // Concatenate the elements of [text] using line-endings
       for (final src in TextAnalysisTestData.text) {
         sourceBuilder.writeln(src);
       }
+
       // convert the StringBuffer to a String
       final source = sourceBuilder.toString();
+
       // use a TextTokenizer instance to tokenize the source
-      final tokens = await TextTokenizer().tokenize(source);
-      // map the document's tokens to a list of terms (strings)
-      final terms = tokens.allTerms;
-      // print the terms
-      print(terms);
+      final tokens = await TextTokenizer().tokenize(source, 'text');
+
+      // print the tokens
+      _printTokens('TOKENIZE JSON', tokens);
     });
 
     test('TextTokenizer.split', () async {
@@ -86,14 +82,15 @@ void main() {
       print('-'.padRight(31, '-'));
     });
 
-    test('TextTokenizer.tokenizeJson', () async {
+    test('TextTokenizer.tokenizeJson(fields)', () async {
+      //
+
       // use a TextTokenizer instance to tokenize the json with 3 zones
       final tokens = await TextTokenizer().tokenizeJson(
           TextAnalysisTestData.json, ['name', 'description', 'hashTags']);
-      // map the document's tokens to a list of terms (strings)
-      final terms = tokens.map((e) => e.term).toList();
-      // print the terms
-      print(terms);
+
+      // print the tokens
+      _printTokens('TOKENIZE JSON', tokens);
     });
 
     /// Tokenize JSON with NO zones.
@@ -102,9 +99,9 @@ void main() {
       final tokens =
           await TextTokenizer().tokenizeJson(TextAnalysisTestData.json);
       // map the document's tokens to a list of terms (strings)
-      final terms = tokens.map((e) => e.term).toList();
-      // print the terms
-      print(terms);
+
+      // print the tokens
+      _printTokens('TOKENIZE JSON', tokens);
     });
 
     test('TextTokenizer.tokenizeJson (performance)', () async {
@@ -145,4 +142,19 @@ void main() {
       print('Found ${entries.length} terms');
     });
   });
+}
+
+/// Print the terms in List<[Token]>.
+void _printTokens(String title, Iterable<Token> tokens) {
+  //
+
+  // map the tokens to a list of JSON documents
+  final results = tokens
+      .map((e) => {'term': e.term, 'zone': e.zone, 'position': e.termPosition})
+      .toList();
+
+  // print the results
+  Echo(title: title, results: results, maxColWidth: 120).printResults();
+
+  //
 }

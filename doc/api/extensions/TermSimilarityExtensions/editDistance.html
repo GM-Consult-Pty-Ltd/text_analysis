@@ -64,6 +64,7 @@
   <p>Returns the <code>Damerau–Levenshtein distance</code>, the minimum number of
 single-character edits (transpositions, insertions, deletions or
 substitutions) required to change one word into another <code>other</code>.</p>
+<p>Not case-sensitive.</p>
 </section>
 
 
@@ -77,10 +78,10 @@ substitutions) required to change one word into another <code>other</code>.</p>
   final da = _da();
 
   &#47;&#47; initialize a 1-based character array for this
-  final a = _CharArray(this);
+  final a = _CharArray(toLowerCase());
 
   &#47;&#47; initialize a 1-based character array for other
-  final b = _CharArray(other);
+  final b = _CharArray(other.toLowerCase());
 
   &#47;&#47; initialize the -1 based edit distance matrix
   final dList = &lt;List&lt;int&gt;&gt;[];
@@ -169,6 +170,8 @@ substitutions) required to change one word into another <code>other</code>.</p>
 
     <li class="section-title"><a href="../../extensions/TermSimilarityExtensions.html#instance-methods">Methods</a></li>
     <li><a href="../../extensions/TermSimilarityExtensions/editDistance.html">editDistance</a></li>
+    <li><a href="../../extensions/TermSimilarityExtensions/editSimilarity.html">editSimilarity</a></li>
+    <li><a href="../../extensions/TermSimilarityExtensions/editSimilarityMap.html">editSimilarityMap</a></li>
     <li><a href="../../extensions/TermSimilarityExtensions/jaccardSimilarity.html">jaccardSimilarity</a></li>
     <li><a href="../../extensions/TermSimilarityExtensions/jaccardSimilarityMap.html">jaccardSimilarityMap</a></li>
     <li><a href="../../extensions/TermSimilarityExtensions/kGrams.html">kGrams</a></li>

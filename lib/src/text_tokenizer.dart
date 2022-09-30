@@ -91,25 +91,15 @@ abstract class TextTokenizerMixin implements TextTokenizer {
       [Iterable<Zone>? zones]) async {
     final tokens = <Token>[];
     if (zones == null || zones.isEmpty) {
-      final valueBuilder = StringBuffer();
-      for (final fieldValue in document.values) {
-        valueBuilder.writeln(fieldValue.toString());
-      }
-      final value = valueBuilder.toString();
-      final source = value.toString();
-      if (source.isNotEmpty) {
-        tokens.addAll(await tokenize(source));
-      }
-    } else {
-      zones = zones.toSet();
-
-      for (final zone in zones) {
-        final value = document[zone];
-        if (value != null) {
-          final source = value.toString();
-          if (source.isNotEmpty) {
-            tokens.addAll(await tokenize(source, zone));
-          }
+      zones = document.keys;
+    }
+    zones = zones.toSet();
+    for (final zone in zones) {
+      final value = document[zone];
+      if (value != null) {
+        final source = value.toString();
+        if (source.isNotEmpty) {
+          tokens.addAll(await tokenize(source, zone));
         }
       }
     }
@@ -133,13 +123,14 @@ abstract class TextTokenizerMixin implements TextTokenizer {
         // apply the termFilter if it is not null
         final splitTerms = await analyzer.termFilter(term);
         for (var splitTerm in splitTerms) {
-          if (splitTerm.isNotEmpty) {
-            tokens.add(Token(splitTerm, position, zone));
+          final tokenTerm = splitTerm.trim();
+          if (tokenTerm.isNotEmpty) {
+            tokens.add(Token(splitTerm.trim(), position, zone));
           }
         }
       }
       // increment the index
-      position = position++;
+      position++;
     });
     // apply the tokenFilter if it is not null and return the tokens collection
     return tokenFilter != null ? await tokenFilter!(tokens) : tokens;

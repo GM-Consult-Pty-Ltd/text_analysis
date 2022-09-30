@@ -15,6 +15,7 @@ void main() {
     'bodrer',
     'board',
     'broad',
+    'bord',
     'boarder',
     'border',
     'brother',
@@ -22,30 +23,10 @@ void main() {
   ];
   group('similarity', () {
     //
-
-    test('JsonDataService.securities', (() async {
-//   //
-
-      final results = <Map<String, dynamic>>[];
-
-      final service = await JsonDataService.securities;
-
-      results.addAll((await service
-              .batchRead(['AAPL:XNGS', 'TSLA:XNGS', 'INTC:XNGS', 'F:XNYS']))
-          .values);
-
-      Echo(
-          title: 'SECURITIES',
-          results: results,
-          fields: ['ticker', 'hashTag', 'name', 'timestamp']).printResults();
-
-      await service.close();
-    }));
-
     test('editDistance', (() {
       final results = <Map<String, dynamic>>[];
       for (final other in candidates) {
-        final ed = term.editDistance(other);
+        final ed = TermSimilarity.editDistance(term, other);
         results.add({'other': other, 'Edit Distance': ed});
       }
       results.sort(((b, a) =>
@@ -61,7 +42,7 @@ void main() {
       final k = 2;
       final results = <Map<String, dynamic>>[];
       for (final other in candidates) {
-        final jCf = term.jaccardSimilarity(other, k);
+        final jCf = TermSimilarity.jaccardSimilarity(term, other, k);
         results.add({'other': other, 'Jaccard Similarity': jCf});
       }
       results.sort(((a, b) => (b['Jaccard Similarity'] as num)
@@ -75,7 +56,7 @@ void main() {
 
     test('jaccardSimilarityMap', (() {
       final k = 2;
-      final map = term.jaccardSimilarityMap(candidates, k);
+      final map = TermSimilarity.jaccardSimilarityMap(term, candidates, k);
 
       final results = <Map<String, dynamic>>[];
       for (final other in map.entries) {
@@ -93,7 +74,7 @@ void main() {
 
     test('matches', (() {
       final k = 2;
-      final matches = term.matches(candidates, k: k);
+      final matches = TermSimilarity.matches(term, candidates, k: k);
       final results = <Map<String, dynamic>>[];
       var i = 0;
       for (final other in matches) {
@@ -110,8 +91,8 @@ void main() {
     test('lengthSimilarity AND lengthDistance', (() {
       final results = <Map<String, dynamic>>[];
       for (var other in candidates) {
-        final ld = term.lengthDistance(other);
-        final ls = term.lengthSimilarity(other);
+        final ld = TermSimilarity.lengthDistance(term, other);
+        final ls = TermSimilarity.lengthSimilarity(term, other);
         results.add(
             {'Term': other, 'Length Distance': ld, 'Length Similarity': ls});
       }

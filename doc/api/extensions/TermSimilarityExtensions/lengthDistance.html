@@ -52,7 +52,7 @@
     <section class="multi-line-signature">
       
 
-<span class="returntype"><a href="https://api.flutter.dev/flutter/dart-core/double-class.html">double</a></span>
+<span class="returntype"><a href="https://api.flutter.dev/flutter/dart-core/int-class.html">int</a></span>
 <span class="name ">lengthDistance</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="lengthDistance-param-other"><span class="type-annotation"><a href="../../type_definitions/Term.html">Term</a></span> <span class="parameter-name">other</span></span></li>
 </ol>)
 
@@ -61,28 +61,14 @@
     </section>
     
 <section class="desc markdown">
-  <p>Returns a normalized measure of difference between this <a href="../../type_definitions/Term.html">Term</a> and
-<code>other</code> on a log (base 2) scale:</p>
-<ul>
-<li>returns 0.0 if <code>other</code> and this are the same length;</li>
-<li>returns 0.0 if both this and <code>other</code> are empty;</li>
-<li>returns 999.0 if this or <code>other</code> is empty, but not both;</li>
-<li>returns 1.0 if <code>other</code> is twice as long, or half as long as this;</li>
-</ul>
-<p><code>abs(log2(other.length/this.length)</code></p>
+  <p>Returns the absolute value of the difference in length between two terms.</p>
 </section>
 
 
     
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
-  <pre class="language-dart"><code class="language-dart">double lengthDistance(Term other) =&gt; isEmpty
-    ? other.isEmpty
-        ? 0
-        : 999
-    : other.isEmpty
-        ? 999
-        : (log(other.length &#47; length) &#47; log(2)).abs();</code></pre>
+  <pre class="language-dart"><code class="language-dart">int lengthDistance(Term other) =&gt; (length - other.length).abs();</code></pre>
 </section>
 
 
@@ -112,6 +98,8 @@
 
     <li class="section-title"><a href="../../extensions/TermSimilarityExtensions.html#instance-methods">Methods</a></li>
     <li><a href="../../extensions/TermSimilarityExtensions/editDistance.html">editDistance</a></li>
+    <li><a href="../../extensions/TermSimilarityExtensions/editSimilarity.html">editSimilarity</a></li>
+    <li><a href="../../extensions/TermSimilarityExtensions/editSimilarityMap.html">editSimilarityMap</a></li>
     <li><a href="../../extensions/TermSimilarityExtensions/jaccardSimilarity.html">jaccardSimilarity</a></li>
     <li><a href="../../extensions/TermSimilarityExtensions/jaccardSimilarityMap.html">jaccardSimilarityMap</a></li>
     <li><a href="../../extensions/TermSimilarityExtensions/kGrams.html">kGrams</a></li>

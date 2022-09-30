@@ -61,7 +61,7 @@
     </section>
     
 <section class="desc markdown">
-  <p>Returns a set of k-grams in the term.</p>
+  <p>Returns a set of (lower-case) k-grams in the term.</p>
 </section>
 
 
@@ -70,16 +70,17 @@
   <h2><span>Implementation</span></h2>
   <pre class="language-dart"><code class="language-dart">Set&lt;KGram&gt; kGrams([int k = 2]) {
   final Set&lt;KGram&gt; kGrams = {};
+  final term = toLowerCase();
   if (isNotEmpty) {
     &#47;&#47; get the opening k-gram
-    kGrams.add(r&#39;$&#39; + substring(0, length &lt; k ? null : k - 1));
+    kGrams.add(r&#39;$&#39; + term.substring(0, length &lt; k ? null : k - 1));
     &#47;&#47; get the closing k-gram
-    kGrams.add(length &lt; k ? this : (substring(length - k + 1)) + r&#39;$&#39;);
+    kGrams.add(length &lt; k ? term : (term.substring(length - k + 1)) + r&#39;$&#39;);
     if (length &lt;= k) {
-      kGrams.add(this);
+      kGrams.add(term);
     } else {
       for (var i = 0; i &lt;= length - k; i++) {
-        kGrams.add(substring(i, i + k));
+        kGrams.add(term.substring(i, i + k));
       }
     }
   }
@@ -114,6 +115,8 @@
 
     <li class="section-title"><a href="../../extensions/TermSimilarityExtensions.html#instance-methods">Methods</a></li>
     <li><a href="../../extensions/TermSimilarityExtensions/editDistance.html">editDistance</a></li>
+    <li><a href="../../extensions/TermSimilarityExtensions/editSimilarity.html">editSimilarity</a></li>
+    <li><a href="../../extensions/TermSimilarityExtensions/editSimilarityMap.html">editSimilarityMap</a></li>
     <li><a href="../../extensions/TermSimilarityExtensions/jaccardSimilarity.html">jaccardSimilarity</a></li>
     <li><a href="../../extensions/TermSimilarityExtensions/jaccardSimilarityMap.html">jaccardSimilarityMap</a></li>
     <li><a href="../../extensions/TermSimilarityExtensions/kGrams.html">kGrams</a></li>

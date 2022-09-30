@@ -89,6 +89,32 @@ substitutions) required to change one word into another <code>other</code>.
 
 </dd>
 
+        <dt id="editSimilarity" class="callable">
+  <span class="name"><a href="../extensions/TermSimilarityExtensions/editSimilarity.html">editSimilarity</a></span><span class="signature">(<wbr><span class="parameter" id="editSimilarity-param-other"><span class="type-annotation"><a href="../type_definitions/Term.html">Term</a></span> <span class="parameter-name">other</span></span>)
+    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-core/double-class.html">double</a></span>
+  </span>
+  
+
+</dt>
+<dd>
+  A normalized measure of <a href="../extensions/TermSimilarityExtensions/editDistance.html">editDistance</a> on a scale of 0.0 to 1.0.
+  
+
+</dd>
+
+        <dt id="editSimilarityMap" class="callable">
+  <span class="name"><a href="../extensions/TermSimilarityExtensions/editSimilarityMap.html">editSimilarityMap</a></span><span class="signature">(<wbr><span class="parameter" id="editSimilarityMap-param-terms"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../type_definitions/Term.html">Term</a></span>&gt;</span></span> <span class="parameter-name">terms</span></span>)
+    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-core/Map-class.html">Map</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../type_definitions/Term.html">Term</a></span>, <span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/double-class.html">double</a></span>&gt;</span></span>
+  </span>
+  
+
+</dt>
+<dd>
+  Returns a hashmap of <code>terms</code> to their <a href="../extensions/TermSimilarityExtensions/editSimilarity.html">editSimilarity</a> with this.
+  
+
+</dd>
+
         <dt id="jaccardSimilarity" class="callable">
   <span class="name"><a href="../extensions/TermSimilarityExtensions/jaccardSimilarity.html">jaccardSimilarity</a></span><span class="signature">(<wbr><span class="parameter" id="jaccardSimilarity-param-other"><span class="type-annotation"><a href="../type_definitions/Term.html">Term</a></span> <span class="parameter-name">other</span>, </span><span class="parameter" id="jaccardSimilarity-param-k">[<span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/int-class.html">int</a></span> <span class="parameter-name">k</span> = <span class="default-value">2</span>]</span>)
     <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-core/double-class.html">double</a></span>
@@ -125,21 +151,20 @@ using a <code>k</code>-gram length of <code>k</code>.
 
 </dt>
 <dd>
-  Returns a set of k-grams in the term.
+  Returns a set of (lower-case) k-grams in the term.
   
 
 </dd>
 
         <dt id="lengthDistance" class="callable">
   <span class="name"><a href="../extensions/TermSimilarityExtensions/lengthDistance.html">lengthDistance</a></span><span class="signature">(<wbr><span class="parameter" id="lengthDistance-param-other"><span class="type-annotation"><a href="../type_definitions/Term.html">Term</a></span> <span class="parameter-name">other</span></span>)
-    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-core/double-class.html">double</a></span>
+    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-core/int-class.html">int</a></span>
   </span>
   
 
 </dt>
 <dd>
-  Returns a normalized measure of difference between this <a href="../type_definitions/Term.html">Term</a> and
-<code>other</code> on a log (base 2) scale:
+  Returns the absolute value of the difference in length between two terms.
   
 
 </dd>
@@ -152,8 +177,10 @@ using a <code>k</code>-gram length of <code>k</code>.
 
 </dt>
 <dd>
-  Returns the similarity in length between this string and <code>other</code> where:
-lengthSimilarity = 1 - <a href="../extensions/TermSimilarityExtensions/lengthDistance.html">lengthDistance</a>.
+  Returns the similarity in length between two terms, defined as:
+lengthSimilarity = 1 minus the log of the ratio between the term lengths,
+with a floor at 0.0:
+<code>1-(log(this.length/other.length))</code>
   
 
 </dd>
@@ -179,7 +206,7 @@ lengthSimilarity = 1 - <a href="../extensions/TermSimilarityExtensions/lengthDis
 
 </dt>
 <dd>
-  Returns the best matches for the <code>Term</code> from <code>terms</code>, in descending
+  Returns the best matches for a term from <code>terms</code>, in descending
 order of <a href="../extensions/TermSimilarityExtensions/termSimilarity.html">termSimilarity</a> (best match first).
   
 
@@ -193,8 +220,8 @@ order of <a href="../extensions/TermSimilarityExtensions/termSimilarity.html">te
 
 </dt>
 <dd>
-  Returns a similarity index value between 0.0 and 1.0, defined as the
-product of <a href="../extensions/TermSimilarityExtensions/jaccardSimilarity.html">jaccardSimilarity</a> and <a href="../extensions/TermSimilarityExtensions/lengthSimilarity.html">lengthSimilarity</a>.
+  Returns a similarity index value between 0.0 and 1.0 using a <code>k</code>-gram
+length of <code>k</code>.
   
 
 </dd>
@@ -207,8 +234,8 @@ product of <a href="../extensions/TermSimilarityExtensions/jaccardSimilarity.htm
 
 </dt>
 <dd>
-  a hashmap of <code>terms</code> to <a href="../extensions/TermSimilarityExtensions/termSimilarity.html">termSimilarity</a> with this term using a <code>k</code>-gram
-length of <code>k</code>.
+  Returns a hashmap of <code>terms</code> to <a href="../extensions/TermSimilarityExtensions/termSimilarity.html">termSimilarity</a> with this term using
+a <code>k</code>-gram length of <code>k</code>.
   
 
 </dd>
@@ -262,6 +289,8 @@ length of <code>k</code>.
 
     <li class="section-title"><a href="../extensions/TermSimilarityExtensions.html#instance-methods">Methods</a></li>
     <li><a href="../extensions/TermSimilarityExtensions/editDistance.html">editDistance</a></li>
+    <li><a href="../extensions/TermSimilarityExtensions/editSimilarity.html">editSimilarity</a></li>
+    <li><a href="../extensions/TermSimilarityExtensions/editSimilarityMap.html">editSimilarityMap</a></li>
     <li><a href="../extensions/TermSimilarityExtensions/jaccardSimilarity.html">jaccardSimilarity</a></li>
     <li><a href="../extensions/TermSimilarityExtensions/jaccardSimilarityMap.html">jaccardSimilarityMap</a></li>
     <li><a href="../extensions/TermSimilarityExtensions/kGrams.html">kGrams</a></li>

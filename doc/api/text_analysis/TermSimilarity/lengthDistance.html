@@ -52,7 +52,7 @@
     <section class="multi-line-signature">
       
 
-<span class="returntype"><a href="https://api.flutter.dev/flutter/dart-core/double-class.html">double</a></span>
+<span class="returntype"><a href="https://api.flutter.dev/flutter/dart-core/int-class.html">int</a></span>
 <span class="name ">lengthDistance</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="lengthDistance-param-a"><span class="type-annotation"><a href="../../type_definitions/Term.html">Term</a></span> <span class="parameter-name">a</span>, </span></li>
 <li><span class="parameter" id="lengthDistance-param-b"><span class="type-annotation"><a href="../../type_definitions/Term.html">Term</a></span> <span class="parameter-name">b</span></span></li>
 </ol>)
@@ -62,22 +62,15 @@
     </section>
     
 <section class="desc markdown">
-  <p>Returns a normalized measure of difference between <code>a</code> and
-<code>b</code> on a log (base 2) scale:</p>
-<ul>
-<li>returns 0.0 if <code>a</code> and <code>b</code> are the same length;</li>
-<li>returns 0.0 if both <code>a</code> and <code>b</code> are empty;</li>
-<li>returns 999.0 if <code>a</code> or <code>b</code> is empty, but not both;</li>
-<li>returns 1.0 if <code>b</code> is twice as long, or half as long as <code>a</code>;</li>
-</ul>
-<p><code>abs(log2(b.length/a.length)</code></p>
+  <p>Returns the absolute value of the difference in length between <code>a</code>
+and <code>b</code>.</p>
 </section>
 
 
     
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
-  <pre class="language-dart"><code class="language-dart">static double lengthDistance(Term a, Term b) =&gt; a.lengthDistance(b);</code></pre>
+  <pre class="language-dart"><code class="language-dart">static int lengthDistance(Term a, Term b) =&gt; a.lengthDistance(b);</code></pre>
 </section>
 
 
@@ -111,15 +104,8 @@
     <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/hashCode.html">hashCode</a></li>
     <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/runtimeType.html">runtimeType</a></li>
 
-    <li class="section-title"><a href="../../text_analysis/TermSimilarity-class.html#instance-methods">Methods</a></li>
-    <li><a href="../../text_analysis/TermSimilarity/jaccardSimilarity.html">jaccardSimilarity</a></li>
-    <li><a href="../../text_analysis/TermSimilarity/jaccardSimilarityMap.html">jaccardSimilarityMap</a></li>
-    <li><a href="../../text_analysis/TermSimilarity/kGrams.html">kGrams</a></li>
-    <li><a href="../../text_analysis/TermSimilarity/lengthSimilarity.html">lengthSimilarity</a></li>
-    <li><a href="../../text_analysis/TermSimilarity/lengthSimilarityMap.html">lengthSimilarityMap</a></li>
-    <li><a href="../../text_analysis/TermSimilarity/matches.html">matches</a></li>
+    <li class="section-title inherited"><a href="../../text_analysis/TermSimilarity-class.html#instance-methods">Methods</a></li>
     <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/noSuchMethod.html">noSuchMethod</a></li>
-    <li><a href="../../text_analysis/TermSimilarity/termSimilarity.html">termSimilarity</a></li>
     <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/toString.html">toString</a></li>
 
     <li class="section-title inherited"><a href="../../text_analysis/TermSimilarity-class.html#operators">Operators</a></li>
@@ -129,7 +115,16 @@
 
         <li class="section-title"><a href="../../text_analysis/TermSimilarity-class.html#static-methods">Static methods</a></li>
           <li><a href="../../text_analysis/TermSimilarity/editDistance.html">editDistance</a></li>
+          <li><a href="../../text_analysis/TermSimilarity/editSimilarity.html">editSimilarity</a></li>
+          <li><a href="../../text_analysis/TermSimilarity/jaccardSimilarity.html">jaccardSimilarity</a></li>
+          <li><a href="../../text_analysis/TermSimilarity/jaccardSimilarityMap.html">jaccardSimilarityMap</a></li>
+          <li><a href="../../text_analysis/TermSimilarity/kGrams.html">kGrams</a></li>
           <li><a href="../../text_analysis/TermSimilarity/lengthDistance.html">lengthDistance</a></li>
+          <li><a href="../../text_analysis/TermSimilarity/lengthSimilarity.html">lengthSimilarity</a></li>
+          <li><a href="../../text_analysis/TermSimilarity/lengthSimilarityMap.html">lengthSimilarityMap</a></li>
+          <li><a href="../../text_analysis/TermSimilarity/matches.html">matches</a></li>
+          <li><a href="../../text_analysis/TermSimilarity/termSimilarity.html">termSimilarity</a></li>
+          <li><a href="../../text_analysis/TermSimilarity/termSimilarityMap.html">termSimilarityMap</a></li>
 
 </ol>
 

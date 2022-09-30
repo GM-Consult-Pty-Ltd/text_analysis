@@ -11,10 +11,17 @@ All rights reserved.
 -  String extensions `extension TermSimilarityExtensions on String` removed from `text_analysis` library. Import the `extensions` library in stead.
 - Type definitions removed from `text_analysis` library. Import the `type_definitions` library in stead. 
 - Package export `porter_2_stemmer` removed from `text_analysis` library, import the `package_exports` library in stead.
+- Changed definition/computation of [lengthDistance].
+- Changed definition/computation of [lengthSimilarity].
+- Changed definition/computation of [termSimilarity].
 
 #### New:
 - Added `int term.editDistance(String other)` extension on String.
+- Added `double term.editDistanceSimilarity(String other)` extension on String.
 - Added class `TermSimilarity` that exposes static methods for comparing terms.
+
+#### Bug fixes:
+- Fixed issue with tokenizer not incrementing term positions
 
 Updated dependencies, tests, examples and documentation.
 

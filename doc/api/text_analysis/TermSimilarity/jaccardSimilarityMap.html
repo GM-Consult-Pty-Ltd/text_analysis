@@ -65,13 +65,14 @@
 <section class="desc markdown">
   <p>Returns a hashmap of <code>terms</code> to Jaccard Similarity Index with <code>term</code>
 using a <code>k</code>-gram length.</p>
+<p>Not case-sensitive.</p>
 </section>
 
 
     
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
-  <pre class="language-dart"><code class="language-dart">Map&lt;Term, double&gt; jaccardSimilarityMap(Term term, Iterable&lt;Term&gt; terms,
+  <pre class="language-dart"><code class="language-dart">static Map&lt;Term, double&gt; jaccardSimilarityMap(Term term, Iterable&lt;Term&gt; terms,
         [int k = 2]) =&gt;
     term.jaccardSimilarityMap(terms, k);</code></pre>
 </section>
@@ -107,15 +108,8 @@ using a <code>k</code>-gram length.</p>
     <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/hashCode.html">hashCode</a></li>
     <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/runtimeType.html">runtimeType</a></li>
 
-    <li class="section-title"><a href="../../text_analysis/TermSimilarity-class.html#instance-methods">Methods</a></li>
-    <li><a href="../../text_analysis/TermSimilarity/jaccardSimilarity.html">jaccardSimilarity</a></li>
-    <li><a href="../../text_analysis/TermSimilarity/jaccardSimilarityMap.html">jaccardSimilarityMap</a></li>
-    <li><a href="../../text_analysis/TermSimilarity/kGrams.html">kGrams</a></li>
-    <li><a href="../../text_analysis/TermSimilarity/lengthSimilarity.html">lengthSimilarity</a></li>
-    <li><a href="../../text_analysis/TermSimilarity/lengthSimilarityMap.html">lengthSimilarityMap</a></li>
-    <li><a href="../../text_analysis/TermSimilarity/matches.html">matches</a></li>
+    <li class="section-title inherited"><a href="../../text_analysis/TermSimilarity-class.html#instance-methods">Methods</a></li>
     <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/noSuchMethod.html">noSuchMethod</a></li>
-    <li><a href="../../text_analysis/TermSimilarity/termSimilarity.html">termSimilarity</a></li>
     <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/toString.html">toString</a></li>
 
     <li class="section-title inherited"><a href="../../text_analysis/TermSimilarity-class.html#operators">Operators</a></li>
@@ -125,7 +119,16 @@ using a <code>k</code>-gram length.</p>
 
         <li class="section-title"><a href="../../text_analysis/TermSimilarity-class.html#static-methods">Static methods</a></li>
           <li><a href="../../text_analysis/TermSimilarity/editDistance.html">editDistance</a></li>
+          <li><a href="../../text_analysis/TermSimilarity/editSimilarity.html">editSimilarity</a></li>
+          <li><a href="../../text_analysis/TermSimilarity/jaccardSimilarity.html">jaccardSimilarity</a></li>
+          <li><a href="../../text_analysis/TermSimilarity/jaccardSimilarityMap.html">jaccardSimilarityMap</a></li>
+          <li><a href="../../text_analysis/TermSimilarity/kGrams.html">kGrams</a></li>
           <li><a href="../../text_analysis/TermSimilarity/lengthDistance.html">lengthDistance</a></li>
+          <li><a href="../../text_analysis/TermSimilarity/lengthSimilarity.html">lengthSimilarity</a></li>
+          <li><a href="../../text_analysis/TermSimilarity/lengthSimilarityMap.html">lengthSimilarityMap</a></li>
+          <li><a href="../../text_analysis/TermSimilarity/matches.html">matches</a></li>
+          <li><a href="../../text_analysis/TermSimilarity/termSimilarity.html">termSimilarity</a></li>
+          <li><a href="../../text_analysis/TermSimilarity/termSimilarityMap.html">termSimilarityMap</a></li>
 
 </ol>
 

@@ -51,13 +51,13 @@ class English implements TextAnalyzer {
   TermFilter get termFilter => (Term term) async {
         // apply the [characterFilter] to [term]
         if (kAbbreviations.contains(term)) {
-          return [term, term.replaceAll('.', '')];
+          return {term, term.replaceAll('.', '').trim()};
         }
         term = cleanTerm(term);
         // if the resulting [term] is shorter than 2 characters or contained
         // in [kStopWords] return an empty collection
         if (kStopWords.contains(term) || term.length < 2) {
-          return [];
+          return {};
         }
 
         // - insert [term] in the return value
@@ -93,7 +93,7 @@ class English implements TextAnalyzer {
             terms.add(alpha);
           }
         }
-        return terms.toList();
+        return terms.map((e) => e.trim()).toSet();
       };
 
   /// The [English] implementation of the [characterFilter] function:

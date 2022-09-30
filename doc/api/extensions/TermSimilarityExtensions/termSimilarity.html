@@ -62,13 +62,17 @@
     </section>
     
 <section class="desc markdown">
-  <p>Returns a similarity index value between 0.0 and 1.0, defined as the
-product of <a href="../../extensions/TermSimilarityExtensions/jaccardSimilarity.html">jaccardSimilarity</a> and <a href="../../extensions/TermSimilarityExtensions/lengthSimilarity.html">lengthSimilarity</a>.</p>
-<p>A term similarity of 1.0 means the two terms are:</p>
+  <p>Returns a similarity index value between 0.0 and 1.0 using a <code>k</code>-gram
+length of <code>k</code>.</p>
+<p>The <a href="../../extensions/TermSimilarityExtensions/termSimilarity.html">termSimilarity</a> is defined as the product of <a href="../../extensions/TermSimilarityExtensions/jaccardSimilarity.html">jaccardSimilarity</a>,
+<a href="../../extensions/TermSimilarityExtensions/lengthSimilarity.html">lengthSimilarity</a> and <a href="../../extensions/TermSimilarityExtensions/editSimilarity.html">editSimilarity</a>.</p>
+<p>A term similarity of 1.0 means the two terms are identical:</p>
 <ul>
-<li>equal in length; and</li>
+<li>have the same characters in the same order (edit distance of 0);</li>
+<li>are of equal in length; and</li>
 <li>have an identical collection of <code>k</code>-grams.</li>
 </ul>
+<p>Not case-sensitive.</p>
 </section>
 
 
@@ -76,8 +80,8 @@ product of <a href="../../extensions/TermSimilarityExtensions/jaccardSimilarity.
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
   <pre class="language-dart"><code class="language-dart">double termSimilarity(Term other, [int k = 2]) =&gt;
-    (jaccardSimilarity(other, k) * lengthSimilarity(other)) &#47;
-    editDistance(other);</code></pre>
+    (jaccardSimilarity(other, k) * lengthSimilarity(other)) *
+    editSimilarity(other);</code></pre>
 </section>
 
 
@@ -107,6 +111,8 @@ product of <a href="../../extensions/TermSimilarityExtensions/jaccardSimilarity.
 
     <li class="section-title"><a href="../../extensions/TermSimilarityExtensions.html#instance-methods">Methods</a></li>
     <li><a href="../../extensions/TermSimilarityExtensions/editDistance.html">editDistance</a></li>
+    <li><a href="../../extensions/TermSimilarityExtensions/editSimilarity.html">editSimilarity</a></li>
+    <li><a href="../../extensions/TermSimilarityExtensions/editSimilarityMap.html">editSimilarityMap</a></li>
     <li><a href="../../extensions/TermSimilarityExtensions/jaccardSimilarity.html">jaccardSimilarity</a></li>
     <li><a href="../../extensions/TermSimilarityExtensions/jaccardSimilarityMap.html">jaccardSimilarityMap</a></li>
     <li><a href="../../extensions/TermSimilarityExtensions/kGrams.html">kGrams</a></li>

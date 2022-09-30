@@ -83,25 +83,15 @@ Future&lt;List&lt;Token&gt;&gt; tokenizeJson(Map&lt;String, dynamic&gt; document
     [Iterable&lt;Zone&gt;? zones]) async {
   final tokens = &lt;Token&gt;[];
   if (zones == null || zones.isEmpty) {
-    final valueBuilder = StringBuffer();
-    for (final fieldValue in document.values) {
-      valueBuilder.writeln(fieldValue.toString());
-    }
-    final value = valueBuilder.toString();
-    final source = value.toString();
-    if (source.isNotEmpty) {
-      tokens.addAll(await tokenize(source));
-    }
-  } else {
-    zones = zones.toSet();
-
-    for (final zone in zones) {
-      final value = document[zone];
-      if (value != null) {
-        final source = value.toString();
-        if (source.isNotEmpty) {
-          tokens.addAll(await tokenize(source, zone));
-        }
+    zones = document.keys;
+  }
+  zones = zones.toSet();
+  for (final zone in zones) {
+    final value = document[zone];
+    if (value != null) {
+      final source = value.toString();
+      if (source.isNotEmpty) {
+        tokens.addAll(await tokenize(source, zone));
       }
     }
   }
