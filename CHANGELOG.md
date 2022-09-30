@@ -4,6 +4,15 @@ Copyright (c) 2022, GM Consult Pty Ltd
 All rights reserved. 
 -->
 
+### 0.12.1
+
+#### New:
+- Added extension on String `editDistanceMap`;
+- Added method `TermSimilarity.editSimilarityMap`.
+- Added method `TermSimilarity.editDistanceMap`.
+
+Updated dependencies, tests, examples and documentation.
+
 ### 0.12.0
 **BREAKING CHANGES**
 

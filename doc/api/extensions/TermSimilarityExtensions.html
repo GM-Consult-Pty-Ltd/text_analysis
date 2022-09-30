@@ -89,6 +89,19 @@ substitutions) required to change one word into another <code>other</code>.
 
 </dd>
 
+        <dt id="editDistanceMap" class="callable">
+  <span class="name"><a href="../extensions/TermSimilarityExtensions/editDistanceMap.html">editDistanceMap</a></span><span class="signature">(<wbr><span class="parameter" id="editDistanceMap-param-terms"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../type_definitions/Term.html">Term</a></span>&gt;</span></span> <span class="parameter-name">terms</span></span>)
+    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-core/Map-class.html">Map</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../type_definitions/Term.html">Term</a></span>, <span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/int-class.html">int</a></span>&gt;</span></span>
+  </span>
+  
+
+</dt>
+<dd>
+  Returns a hashmap of <code>terms</code> to their <a href="../extensions/TermSimilarityExtensions/editDistance.html">editDistance</a> with this.
+  
+
+</dd>
+
         <dt id="editSimilarity" class="callable">
   <span class="name"><a href="../extensions/TermSimilarityExtensions/editSimilarity.html">editSimilarity</a></span><span class="signature">(<wbr><span class="parameter" id="editSimilarity-param-other"><span class="type-annotation"><a href="../type_definitions/Term.html">Term</a></span> <span class="parameter-name">other</span></span>)
     <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-core/double-class.html">double</a></span>
@@ -289,6 +302,7 @@ a <code>k</code>-gram length of <code>k</code>.
 
     <li class="section-title"><a href="../extensions/TermSimilarityExtensions.html#instance-methods">Methods</a></li>
     <li><a href="../extensions/TermSimilarityExtensions/editDistance.html">editDistance</a></li>
+    <li><a href="../extensions/TermSimilarityExtensions/editDistanceMap.html">editDistanceMap</a></li>
     <li><a href="../extensions/TermSimilarityExtensions/editSimilarity.html">editSimilarity</a></li>
     <li><a href="../extensions/TermSimilarityExtensions/editSimilarityMap.html">editSimilarityMap</a></li>
     <li><a href="../extensions/TermSimilarityExtensions/jaccardSimilarity.html">jaccardSimilarity</a></li>
@@ -313,7 +327,7 @@ a <code>k</code>-gram length of <code>k</code>.
 <footer>
   <span class="no-break">
     text_analysis
-      0.12.0
+      0.12.1
   </span>
 
   

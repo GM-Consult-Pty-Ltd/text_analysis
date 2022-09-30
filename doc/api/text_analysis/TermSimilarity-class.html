@@ -175,6 +175,19 @@ substitutions) required to change one word (<code>a</code>) into another <code>b
 
 </dd>
 
+        <dt id="editDistanceMap" class="callable">
+  <span class="name"><a href="../text_analysis/TermSimilarity/editDistanceMap.html">editDistanceMap</a></span><span class="signature">(<wbr><span class="parameter" id="editDistanceMap-param-term"><span class="type-annotation"><a href="../type_definitions/Term.html">Term</a></span> <span class="parameter-name">term</span>, </span><span class="parameter" id="editDistanceMap-param-terms"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../type_definitions/Term.html">Term</a></span>&gt;</span></span> <span class="parameter-name">terms</span></span>)
+    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-core/Map-class.html">Map</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../type_definitions/Term.html">Term</a></span>, <span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/int-class.html">int</a></span>&gt;</span></span>
+  </span>
+  
+
+</dt>
+<dd>
+  Returns a hashmap of <code>terms</code> to their <a href="../text_analysis/TermSimilarity/editDistance.html">editDistance</a> with this.
+  
+
+</dd>
+
         <dt id="editSimilarity" class="callable">
   <span class="name"><a href="../text_analysis/TermSimilarity/editSimilarity.html">editSimilarity</a></span><span class="signature">(<wbr><span class="parameter" id="editSimilarity-param-a"><span class="type-annotation"><a href="../type_definitions/Term.html">Term</a></span> <span class="parameter-name">a</span>, </span><span class="parameter" id="editSimilarity-param-b"><span class="type-annotation"><a href="../type_definitions/Term.html">Term</a></span> <span class="parameter-name">b</span></span>)
     <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-core/double-class.html">double</a></span>
@@ -184,6 +197,19 @@ substitutions) required to change one word (<code>a</code>) into another <code>b
 </dt>
 <dd>
   A normalized measure of <a href="../text_analysis/TermSimilarity/editDistance.html">editDistance</a> on a scale of 0.0 to 1.0.
+  
+
+</dd>
+
+        <dt id="editSimilarityMap" class="callable">
+  <span class="name"><a href="../text_analysis/TermSimilarity/editSimilarityMap.html">editSimilarityMap</a></span><span class="signature">(<wbr><span class="parameter" id="editSimilarityMap-param-term"><span class="type-annotation"><a href="../type_definitions/Term.html">Term</a></span> <span class="parameter-name">term</span>, </span><span class="parameter" id="editSimilarityMap-param-terms"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../type_definitions/Term.html">Term</a></span>&gt;</span></span> <span class="parameter-name">terms</span></span>)
+    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-core/Map-class.html">Map</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../type_definitions/Term.html">Term</a></span>, <span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/double-class.html">double</a></span>&gt;</span></span>
+  </span>
+  
+
+</dt>
+<dd>
+  Returns a hashmap of <code>terms</code> to their <a href="../text_analysis/TermSimilarity/editSimilarity.html">editSimilarity</a> with <code>term</code>.
   
 
 </dd>
@@ -267,8 +293,7 @@ with a floor at 0.0:
 
 </dt>
 <dd>
-  Returns a hashmap of <code>terms</code> to their <a href="../text_analysis/TermSimilarity/lengthSimilarity.html">lengthSimilarity</a> with <code>term</code> using
-a <code>k</code>-gram length of <code>k</code>.
+  Returns a hashmap of <code>terms</code> to their <a href="../text_analysis/TermSimilarity/lengthSimilarity.html">lengthSimilarity</a> with <code>term</code>.
   
 
 </dd>
@@ -387,7 +412,9 @@ a <code>k</code>-gram length of <code>k</code>.
 
         <li class="section-title"><a href="../text_analysis/TermSimilarity-class.html#static-methods">Static methods</a></li>
           <li><a href="../text_analysis/TermSimilarity/editDistance.html">editDistance</a></li>
+          <li><a href="../text_analysis/TermSimilarity/editDistanceMap.html">editDistanceMap</a></li>
           <li><a href="../text_analysis/TermSimilarity/editSimilarity.html">editSimilarity</a></li>
+          <li><a href="../text_analysis/TermSimilarity/editSimilarityMap.html">editSimilarityMap</a></li>
           <li><a href="../text_analysis/TermSimilarity/jaccardSimilarity.html">jaccardSimilarity</a></li>
           <li><a href="../text_analysis/TermSimilarity/jaccardSimilarityMap.html">jaccardSimilarityMap</a></li>
           <li><a href="../text_analysis/TermSimilarity/kGrams.html">kGrams</a></li>
@@ -407,7 +434,7 @@ a <code>k</code>-gram length of <code>k</code>.
 <footer>
   <span class="no-break">
     text_analysis
-      0.12.0
+      0.12.1
   </span>
 
   

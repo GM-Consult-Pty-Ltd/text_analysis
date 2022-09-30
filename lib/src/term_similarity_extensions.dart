@@ -26,10 +26,23 @@ extension TermSimilarityExtensions on Term {
       (length + other.length - editDistance(other)) / (length + other.length);
 
   /// Returns a hashmap of [terms] to their [editSimilarity] with this.
+  ///
+  /// Not case-sensitive.
   Map<Term, double> editSimilarityMap(Iterable<Term> terms) {
     final retVal = <Term, double>{};
     for (var other in terms) {
       retVal[other] = editSimilarity(other);
+    }
+    return retVal;
+  }
+
+  /// Returns a hashmap of [terms] to their [editDistance] with this.
+  ///
+  /// Not case-sensitive.
+  Map<Term, int> editDistanceMap(Iterable<Term> terms) {
+    final retVal = <Term, int>{};
+    for (var other in terms) {
+      retVal[other] = editDistance(other);
     }
     return retVal;
   }

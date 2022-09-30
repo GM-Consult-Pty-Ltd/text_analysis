@@ -161,6 +161,7 @@ The [TermSimilarity](https://pub.dev/documentation/text_analysis/0.12.0-2/text_a
 * `termSimilarity` returns a similarity index value between 0.0 and 1.0, product of `editSimilarity` , `jaccardSimilarity` and `lengthSimilarity`. A term similarity of 1.0 means the two terms are identical in all respects, *except case*; 
 
 To compare one term with a collection of other terms, the following methods are also provided:
+* `editDistanceyMap` returns a hashmap of `terms` to their `editSimilarity` with a term;
 * `editSimilarityMap` returns a hashmap of `terms` to their `editSimilarity` with a term;
 * `lengthSimilarityMap` returns a hashmap of `terms` to their `lengthSimilarity` with a term;
 * `jaccardSimilarityMap` returns a hashmap of `terms` to Jaccard Similarity Index with a term;

@@ -31,6 +31,18 @@ abstract class TermSimilarity {
   /// Not case-sensitive.
   static double editSimilarity(Term a, Term b) => a.editSimilarity(b);
 
+  /// Returns a hashmap of [terms] to their [editSimilarity] with [term].
+  ///
+  /// Not case-sensitive.
+  static Map<Term, double> editSimilarityMap(Term term, Iterable<Term> terms) =>
+      term.editSimilarityMap(terms);
+
+  /// Returns a hashmap of [terms] to their [editDistance] with this.
+  ///
+  /// Not case-sensitive.
+  static Map<Term, int> editDistanceMap(Term term, Iterable<Term> terms) =>
+      term.editDistanceMap(terms);
+
   /// Returns the absolute value of the difference in length between [a]
   /// and [b].
   static int lengthDistance(Term a, Term b) => a.lengthDistance(b);
@@ -45,8 +57,7 @@ abstract class TermSimilarity {
   /// - 0.0 if the ratio between term lengths is more than 10 or less than 0.1.
   static double lengthSimilarity(Term a, Term b) => a.lengthSimilarity(b);
 
-  /// Returns a hashmap of [terms] to their [lengthSimilarity] with [term] using
-  /// a [k]-gram length of [k].
+  /// Returns a hashmap of [terms] to their [lengthSimilarity] with [term].
   static Map<Term, double> lengthSimilarityMap(
           Term term, Iterable<Term> terms) =>
       term.lengthSimilarityMap(terms);
