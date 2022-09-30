@@ -54,7 +54,7 @@
 <section id="getter">
 
 <section class="multi-line-signature">
-  <span class="returntype"><a href="../../text_analysis/TermFilter.html">TermFilter</a></span>
+  <span class="returntype"><a href="../../type_definitions/TermFilter.html">TermFilter</a></span>
   <span class="name ">termFilter</span>
   <div class="features">override</div>
 
@@ -83,13 +83,13 @@ unless the (split) terms are in <a href="../../text_analysis/English/kStopWords-
 TermFilter get termFilter =&gt; (Term term) async {
       &#47;&#47; apply the [characterFilter] to [term]
       if (kAbbreviations.contains(term)) {
-        return [term, term.replaceAll(&#39;.&#39;, &#39;&#39;)];
+        return {term, term.replaceAll(&#39;.&#39;, &#39;&#39;).trim()};
       }
       term = cleanTerm(term);
       &#47;&#47; if the resulting [term] is shorter than 2 characters or contained
       &#47;&#47; in [kStopWords] return an empty collection
       if (kStopWords.contains(term) || term.length &lt; 2) {
-        return [];
+        return {};
       }
 
       &#47;&#47; - insert [term] in the return value
@@ -125,7 +125,7 @@ TermFilter get termFilter =&gt; (Term term) async {
           terms.add(alpha);
         }
       }
-      return terms.toList();
+      return terms.map((e) =&gt; e.trim()).toSet();
     };</code></pre>
 </section>
 
@@ -161,7 +161,10 @@ TermFilter get termFilter =&gt; (Term term) async {
     </li>
     <li><a href="../../text_analysis/English/characterFilter.html">characterFilter</a></li>
     <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/hashCode.html">hashCode</a></li>
+    <li><a href="../../text_analysis/English/paragraphSplitter.html">paragraphSplitter</a></li>
     <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/runtimeType.html">runtimeType</a></li>
+    <li><a href="../../text_analysis/English/sentenceSplitter.html">sentenceSplitter</a></li>
+    <li><a href="../../text_analysis/English/syllableCounter.html">syllableCounter</a></li>
     <li><a href="../../text_analysis/English/termFilter.html">termFilter</a></li>
     <li><a href="../../text_analysis/English/termSplitter.html">termSplitter</a></li>
 
@@ -177,7 +180,7 @@ TermFilter get termFilter =&gt; (Term term) async {
 
 
         <li class="section-title"><a href="../../text_analysis/English-class.html#constants">Constants</a></li>
-          <li><a href="../../text_analysis/English/configuration-constant.html">configuration</a></li>
+          <li><a href="../../text_analysis/English/analyzer-constant.html">analyzer</a></li>
           <li><a href="../../text_analysis/English/kAbbreviations-constant.html">kAbbreviations</a></li>
           <li><a href="../../text_analysis/English/kStopWords-constant.html">kStopWords</a></li>
           <li><a href="../../text_analysis/English/reBracketsAndCarets-constant.html">reBracketsAndCarets</a></li>
@@ -199,7 +202,7 @@ TermFilter get termFilter =&gt; (Term term) async {
 <footer>
   <span class="no-break">
     text_analysis
-      0.9.1
+      0.12.0
   </span>
 
   

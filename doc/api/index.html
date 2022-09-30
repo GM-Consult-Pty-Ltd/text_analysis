@@ -50,8 +50,8 @@ Copyright (c) 2022, GM Consult Pty Ltd
 All rights reserved. 
 -->
 <p><a href="https://github.com/GM-Consult-Pty-Ltd"><img src="https://raw.githubusercontent.com/GM-Consult-Pty-Ltd/text_analysis/main/assets/images/text_analysis_header.png?raw=true" alt="GM Consult Pty Ltd" title="GM Consult Pty Ltd"></a></p>
-<h2 id="tokenize-text-compute-document-readbility-and-term-similarity"><strong>Tokenize text, compute document readbility and term similarity.</strong></h2>
-<p><em>THIS PACKAGE IS <strong>PRE-RELEASE</strong>, IN ACTIVE DEVELOPMENT AND SUBJECT TO DAILY BREAKING CHANGES.</em></p>
+<h2 id="tokenize-text-compute-document-readbility-and-compare-terms"><strong>Tokenize text, compute document readbility and compare terms.</strong></h2>
+<p><em>THIS PACKAGE IS <strong>PRE-RELEASE</strong>, and SUBJECT TO DAILY BREAKING CHANGES.</em></p>
 <p>Skip to section:</p>
 <ul>
 <li><a href="#overview">Overview</a></li>
@@ -62,13 +62,13 @@ All rights reserved.
 <li><a href="#issues">Issues</a></li>
 </ul>
 <h2 id="overview">Overview</h2>
-<p>The <code>text_analysis</code> package provides methods to tokenize text, compute readibility scores for a document and compute similarity of words. It is intended to be used in Natural Language Proceesing (<code>NLP</code>) as part of an information retrieval system.</p>
+<p>The <code>text_analysis</code> package provides methods to tokenize text, compute readibility scores for a document and evaluate similarity of <code>terms</code>. It is intended to be used in Natural Language Processing (<code>NLP</code>) as part of an information retrieval system.</p>
 <p>It is split into <a href="#usage">four (4) libraries</a>:</p>
 <ul>
-<li><code>text_analysis</code> is the core library that exports the tokenization, analysis and string similarity functions;</li>
-<li><code>extensions</code> exports extension methods also provided as static methods of the <code>TextSimilarity</code> class;</li>
-<li><code>package_exports</code> exports the <code>porter_2_stemmer</code> package; and</li>
-<li><code>type_definitions</code> exports all the typedefs used in this package.</li>
+<li><a href="https://pub.dev/documentation/text_analysis/0.12.0-2/text_analysis/text_analysis-library.html">text_analysis</a> is the core library that exports the tokenization, analysis and string similarity functions;</li>
+<li><a href="https://pub.dev/documentation/text_analysis/0.12.0-2/extensions/extensions-library.html">extensions</a> exports extension methods also provided as static methods of the <code>TextSimilarity</code> class;</li>
+<li><a href="https://pub.dev/documentation/text_analysis/0.12.0-2/package_exports/package_exports-library.html">package_exports</a> exports the <code>porter_2_stemmer</code> package; and</li>
+<li><a href="https://pub.dev/documentation/text_analysis/0.12.0-2/type_definitions/type_definitions-library.html">type_definitions</a> exports all the typedefs used in this package.</li>
 </ul>
 <p>Refer to the <a href="#references">references</a> to learn more about information retrieval systems and the theory behind this library.</p>
 <h4 id="tokenization">Tokenization</h4>
@@ -90,25 +90,16 @@ All rights reserved.
 <li><code>Flesch-Kincaid grade level</code>, a readibility measure relative to U.S. school grade level.</li>
 </ul>
 <h3 id="string-comparison">String Comparison</h3>
-<p>The following <code>String</code> extension methods can be used for (case-insensitive) comparison of <code>terms</code>:</p>
+<p>The following measures of <code>term</code> similarity are provided:</p>
 <ul>
-<li><code>editDistance</code> returns the <code>Damerau–Levenshtein distance</code>, the minimum number of  single-character edits (transpositions, insertions, deletions or substitutions) required to change one <code>term</code> into another;</li>
-<li><code>editSimilarity</code> returns a normalized measure of <code>Damerau–Levenshtein distance</code> on a scale of 0.0 to 1.0, calculated by dividing the the difference between the maximum edit distance (sum of the length of the two terms) and the computed <code>editDistance</code>, by by the maximum edit distance;</li>
-<li><code>lengthDistance</code> returns the absolute value of the difference in length between two terms;</li>
-<li><code>lengthSimilarity</code> returns the similarity in length between two terms on a scale of 0.0 to 1.0 on a log scale (1 - the log of the ratio of the term lengths);</li>
-<li><code>jaccardSimilarity</code> returns the Jaccard Similarity Index of two terms;</li>
-<li><code>termSimilarity</code> returns a similarity index value between 0.0 and 1.0, product of <code>editSimilarity</code> , <code>jaccardSimilarity</code> and <code>lengthSimilarity</code>. A term similarity of 1.0 means the two terms are identical in all respects, <em>except case</em>;</li>
+<li><code>Damerau–Levenshtein distance</code> is the minimum number of  single-character edits (transpositions, insertions, deletions or substitutions) required to change one <code>term</code> into another;</li>
+<li><code>edit similarity</code> is a normalized measure of <code>Damerau–Levenshtein distance</code> on a scale of 0.0 to 1.0, calculated by dividing the the difference between the maximum edit distance (sum of the length of the two terms) and the computed <code>editDistance</code>, by  the maximum edit distance;</li>
+<li><code>length distance</code> returns the absolute value of the difference in length between two terms;</li>
+<li><code>length similarity</code> returns the similarity in length between two terms on a scale of 0.0 to 1.0 on a log scale (1 - the log of the ratio of the term lengths);</li>
+<li><code>Jaccard similarity</code> measures similarity between finite sample sets, and is defined as the size of the intersection divided by the size of the union of the sample sets; and</li>
+<li><code>termSimilarity</code> returns a similarity index value between 0.0 and 1.0, product of <code>edit similarity</code> , <code>Jaccard similarity</code> and <code>length similarity</code>. A term similarity of 1.0 means the two terms are identical in all respects.</li>
 </ul>
-<p>To compare one term with a collection of other terms, the following extension methods are also provided:</p>
-<ul>
-<li><code>editSimilarityMap</code> returns a hashmap of <code>terms</code> to their <code>editSimilarity</code> with a term;</li>
-<li><code>lengthSimilarityMap</code> returns a hashmap of <code>terms</code> to their <code>lengthSimilarity</code> with a term;</li>
-<li><code>jaccardSimilarityMap</code> returns a hashmap of <code>terms</code> to Jaccard Similarity Index with a term;</li>
-<li><code>termSimilarityMap</code> returns a hashmap of <code>terms</code> to termSimilarity with a term; and</li>
-<li><code>matches</code> returns the best matches from <code>terms</code> for a term, in descending order of term similarity (best match first).</li>
-</ul>
-<p><em>Term comparisons are NOT case-sensitive.</em></p>
-<p>To avoid an ever expanding list of String extension methods, the <a href="">TermSimilarityExtensions</a> are in a separate library. All the extensions are also available as static methods of the <a href="">TermSimilarity</a> class.</p>
+<p>Functions that return the term similarity measures are provided by static methods of the <a href="#termsimilarity">TermSimilarity</a> class.</p>
 <h2 id="usage">Usage</h2>
 <p>In the <code>pubspec.yaml</code> of your flutter project, add the following dependency:</p>
 <pre class="language-yaml"><code class="language-yaml">dependencies:
@@ -124,11 +115,11 @@ import 'package:text_analysis/package_exports.dart';
 
 </code></pre>
 <p>Basic English tokenization can be performed by using a <code>TextTokenizer</code> instance with the default text analyzer and no token filter:</p>
-<pre class="language-dart"><code class="language-dart">  /// Use a TextTokenizer instance to tokenize the [text] using the default 
-  /// [English] analyzer.
+<pre class="language-dart"><code class="language-dart">  // Use a TextTokenizer instance to tokenize the text using the default 
+  // English analyzer.
   final document = await TextTokenizer().tokenize(text);
 </code></pre>
-<p>To analyze text or a document, hydrate a <a href="text_analysis/TextDocument-class.html">TextDocument</a> to obtain the text statistics and readibility scores:</p>
+<p>To analyze text or a document, hydrate a <a href="#textdocument">TextDocument</a> to obtain the text statistics and readibility scores:</p>
 <pre class="language-dart"><code class="language-dart">      // get some sample text
       final sample =
           'The Australian platypus is seemingly a hybrid of a mammal and reptilian creature.';
@@ -146,9 +137,9 @@ import 'package:text_analysis/package_exports.dart';
 <li>implement a <code>TextAnalyzer</code> for a different language or non-language documents;</li>
 <li>implement a custom <code>TextTokenizer</code>or extend <code>TextTokenizerBase</code>; and/or</li>
 <li>pass in a <code>TokenFilter</code> function to a <code>TextTokenizer</code> to manipulate the tokens after tokenization as shown in the <a href="https://pub.dev/packages/text_analysis/example">examples</a>; and/or
-extend <a href="text_analysis/TextDocumentBase-class.html">TextDocumentBase</a>.</li>
+extend <a href="https://pub.dev/documentation/text_analysis/0.12.0-1/text_analysis/TextDocumentBase-class.html">TextDocumentBase</a>.</li>
 </ul>
-<p>To compare terms, call the required extension on the <code>term</code>, or the static method from the <a href="">TermSimilarity</a> class:</p>
+<p>To compare terms, call the required extension on the <code>term</code>, or the static method from the <a href="https://pub.dev/documentation/text_analysis/0.12.0-1/text_analysis/TermSimilarity-class.html">TermSimilarity</a> class:</p>
 <pre class="language-dart"><code class="language-dart">
   // define a misspelt term
   const term = 'bodrer';
@@ -178,6 +169,26 @@ extend <a href="text_analysis/TextDocumentBase-class.html">TextDocumentBase</a>.
 <p>Please see the <a href="https://pub.dev/packages/text_analysis/example">examples</a> for more details.</p>
 <h2 id="api">API</h2>
 <p>The key interfaces of the <code>text_analysis</code> library are briefly described in this section. Please refer to the <a href="https://pub.dev/documentation/text_analysis/latest/">documentation</a> for details.</p>
+<h4 id="termsimilarity">TermSimilarity</h4>
+<p>The <a href="https://pub.dev/documentation/text_analysis/0.12.0-2/text_analysis/TermSimilarity-class.html">TermSimilarity</a> class provides the following static methods used for (case-insensitive) comparison of <code>terms</code>:</p>
+<ul>
+<li><code>editDistance</code> returns the <code>Damerau–Levenshtein distance</code>, the minimum number of  single-character edits (transpositions, insertions, deletions or substitutions) required to change one <code>term</code> into another;</li>
+<li><code>editSimilarity</code> returns a normalized measure of <code>Damerau–Levenshtein distance</code> on a scale of 0.0 to 1.0, calculated by dividing the the difference between the maximum edit distance (sum of the length of the two terms) and the computed <code>editDistance</code>, by by the maximum edit distance;</li>
+<li><code>lengthDistance</code> returns the absolute value of the difference in length between two terms;</li>
+<li><code>lengthSimilarity</code> returns the similarity in length between two terms on a scale of 0.0 to 1.0 on a log scale (1 - the log of the ratio of the term lengths);</li>
+<li><code>jaccardSimilarity</code> returns the Jaccard Similarity Index of two terms;</li>
+<li><code>termSimilarity</code> returns a similarity index value between 0.0 and 1.0, product of <code>editSimilarity</code> , <code>jaccardSimilarity</code> and <code>lengthSimilarity</code>. A term similarity of 1.0 means the two terms are identical in all respects, <em>except case</em>;</li>
+</ul>
+<p>To compare one term with a collection of other terms, the following methods are also provided:</p>
+<ul>
+<li><code>editSimilarityMap</code> returns a hashmap of <code>terms</code> to their <code>editSimilarity</code> with a term;</li>
+<li><code>lengthSimilarityMap</code> returns a hashmap of <code>terms</code> to their <code>lengthSimilarity</code> with a term;</li>
+<li><code>jaccardSimilarityMap</code> returns a hashmap of <code>terms</code> to Jaccard Similarity Index with a term;</li>
+<li><code>termSimilarityMap</code> returns a hashmap of <code>terms</code> to termSimilarity with a term; and</li>
+<li><code>matches</code> returns the best matches from <code>terms</code> for a term, in descending order of term similarity (best match first).</li>
+</ul>
+<p><em>Term comparisons are NOT case-sensitive.</em></p>
+<p>The  <a href="https://pub.dev/documentation/text_analysis/latest/text_analysis/TextSimilarity-class.html">TextSimilarity</a> uses  <a href="https://pub.dev/documentation/text_analysis/0.12.0-1/extensions/TermSimilarityExtensions.html">extension methods</a> that can be imported from the <a href="https://pub.dev/documentation/text_analysis/0.12.0-2/extensions/extensions-library.html">extensions</a> library.</p>
 <h4 id="textanalyzer">TextAnalyzer</h4>
 <p>The <a href="https://pub.dev/documentation/text_analysis/latest/text_analysis/TextAnalyzer-class.html">TextAnalyzer</a> interface exposes language-specific properties and methods used in text analysis:</p>
 <ul>
@@ -188,9 +199,9 @@ extend <a href="text_analysis/TextDocumentBase-class.html">TextDocumentBase</a>.
 <li><a href="https://pub.dev/documentation/text_analysis/latest/text_analysis/TextAnalyzer/paragraphSplitter.html">paragraphSplitter</a> splits text into a list of paragraphs at line endings; and</li>
 <li><a href="https://pub.dev/documentation/text_analysis/latest/text_analysis/TextAnalyzer/syllableCounter.html">syllableCounter</a> returns the number of syllables in a word or text.</li>
 </ul>
-<p>The <a href="">English</a> implementation of <a href="">TextAnalyzer</a> is included in this library.</p>
+<p>The <a href="https://pub.dev/documentation/text_analysis/latest/text_analysis/English-class.html">English</a> implementation of <a href="https://pub.dev/documentation/text_analysis/latest/text_analysis/TextAnalyzer-class.html">TextAnalyzer</a> is included in this library.</p>
 <h4 id="texttokenizer">TextTokenizer</h4>
-<p>The <a href="https://pub.dev/documentation/text_analysis/latest/text_analysis/TextTokenizer-class.html">TextTokenizer</a> extracts tokens from text for use in full-text search queries and indexes. It uses a <a href="#textanalyzer">TextAnalyzer</a> and <a href="https://pub.dev/documentation/text_analysis/latest/text_analysis/TextTokenizer/tokenFilter.html">token filter</a> in the <a href="https://pub.dev/documentation/text_analysis/latest/text_analysis/TextTokenizer/tokenize.html">tokenize</a> and <a href="https://pub.dev/documentation/text_analysis/latest/text_analysis/TextTokenizer/tokenizeJson.html">tokenizeJson</a> methods that return a list of <a href="">tokens</a> from text or a document.</p>
+<p>The <a href="https://pub.dev/documentation/text_analysis/latest/text_analysis/TextTokenizer-class.html">TextTokenizer</a> extracts tokens from text for use in full-text search queries and indexes. It uses a <a href="#textanalyzer">TextAnalyzer</a> and <a href="https://pub.dev/documentation/text_analysis/latest/text_analysis/TextTokenizer/tokenFilter.html">token filter</a> in the <a href="https://pub.dev/documentation/text_analysis/latest/text_analysis/TextTokenizer/tokenize.html">tokenize</a> and <a href="https://pub.dev/documentation/text_analysis/latest/text_analysis/TextTokenizer/tokenizeJson.html">tokenizeJson</a> methods that return a list of <a href="https://pub.dev/documentation/text_analysis/0.12.0-1/text_analysis/Token-class.html">tokens</a> from text or a document.</p>
 <p>An <a href="https://pub.dev/documentation/text_analysis/latest/text_analysis/TextTokenizer/TextTokenizer.html">unnamed factory constructor</a> hydrates an implementation class.</p>
 <h3 id="textdocument">TextDocument</h3>
 <p>The <a href="https://pub.dev/documentation/text_analysis/latest/text_analysis/TextTDocument-class.html">TextDocument</a> object model enumerates a text document's <em>paragraphs</em>, <em>sentences</em>, <em>terms</em> and <em>tokens</em> and provides functions that return text analysis measures:</p>
@@ -332,7 +343,7 @@ information retrieval systems.
 <footer>
   <span class="no-break">
     text_analysis
-      0.12.0-1
+      0.12.0
   </span>
 
   

@@ -4,8 +4,8 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, user-scalable=no">
-  <meta name="description" content="API docs for the English constructor from Class English from the text_analysis library, for the Dart programming language.">
-  <title>English constructor - English - text_analysis library - Dart API</title>
+  <meta name="description" content="API docs for the paragraphSplitter property from the English class, for the Dart programming language.">
+  <title>paragraphSplitter property - English class - text_analysis library - Dart API</title>
 
 
   
@@ -32,9 +32,9 @@
     <li><a href="../../index.html">text_analysis</a></li>
     <li><a href="../../text_analysis/text_analysis-library.html">text_analysis</a></li>
     <li><a href="../../text_analysis/English-class.html">English</a></li>
-    <li class="self-crumb">English const constructor</li>
+    <li class="self-crumb">paragraphSplitter property</li>
   </ol>
-  <div class="self-name">English</div>
+  <div class="self-name">paragraphSplitter</div>
   <form class="search navbar-right" role="search">
     <input type="text" id="search-box" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
   </form>
@@ -45,24 +45,43 @@
 
   <div id="dartdoc-main-content" class="main-content">
       <div>
-<h1><span class="kind-constructor">English</span> constructor 
+<h1><span class="kind-property">paragraphSplitter</span> property 
     <a href="https://dart.dev/null-safety" class="feature feature-null-safety" title="Supports the null safety language feature.">Null safety</a>
 </h1></div>
 
-    <section class="multi-line-signature">const
-      <span class="name ">English</span>(<wbr>)
-    </section>
 
-    
-<section class="desc markdown">
-  <p>A const constructor to allow an instance to be used as default.</p>
+        
+<section id="getter">
+
+<section class="multi-line-signature">
+  <span class="returntype"><a href="../../type_definitions/ParagraphSplitter.html">ParagraphSplitter</a></span>
+  <span class="name ">paragraphSplitter</span>
+  <div class="features">override</div>
+
 </section>
 
 
-    
+<section class="desc markdown">
+  <p>Returns a list of paragraphs from text.</p>
+</section>
+
+
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
-  <pre class="language-dart"><code class="language-dart">const English();</code></pre>
+  <pre class="language-dart"><code class="language-dart">@override
+ParagraphSplitter get paragraphSplitter =&gt; ((source) {
+      final sentences = source.trim().split(RegExp(reLineEndingSelector));
+      final retVal = &lt;String&gt;[];
+      for (final e in sentences) {
+        final sentence = e.trim();
+        if (sentence.isNotEmpty) {
+          retVal.add(sentence);
+        }
+      }
+      return retVal;
+    });</code></pre>
+</section>
+
 </section>
 
 
@@ -79,7 +98,7 @@
   <li><a href="../../index.html">text_analysis</a></li>
   <li><a href="../../text_analysis/text_analysis-library.html">text_analysis</a></li>
   <li><a href="../../text_analysis/English-class.html">English</a></li>
-  <li class="self-crumb">English const constructor</li>
+  <li class="self-crumb">paragraphSplitter property</li>
 </ol>
 
 
@@ -126,7 +145,7 @@
           <li><a href="../../text_analysis/English/wordChars-constant.html">wordChars</a></li>
 </ol>
 
-  </div><!--/.sidebar-offcanvas-left-->
+  </div><!--/.sidebar-offcanvas-->
 
   <div id="dartdoc-sidebar-right" class="sidebar sidebar-offcanvas-right">
   </div><!--/.sidebar-offcanvas-->

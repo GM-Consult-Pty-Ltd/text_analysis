@@ -4,8 +4,8 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, user-scalable=no">
-  <meta name="description" content="API docs for the English constructor from Class English from the text_analysis library, for the Dart programming language.">
-  <title>English constructor - English - text_analysis library - Dart API</title>
+  <meta name="description" content="API docs for the syllableCounter property from the English class, for the Dart programming language.">
+  <title>syllableCounter property - English class - text_analysis library - Dart API</title>
 
 
   
@@ -32,9 +32,9 @@
     <li><a href="../../index.html">text_analysis</a></li>
     <li><a href="../../text_analysis/text_analysis-library.html">text_analysis</a></li>
     <li><a href="../../text_analysis/English-class.html">English</a></li>
-    <li class="self-crumb">English const constructor</li>
+    <li class="self-crumb">syllableCounter property</li>
   </ol>
-  <div class="self-name">English</div>
+  <div class="self-name">syllableCounter</div>
   <form class="search navbar-right" role="search">
     <input type="text" id="search-box" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
   </form>
@@ -45,24 +45,99 @@
 
   <div id="dartdoc-main-content" class="main-content">
       <div>
-<h1><span class="kind-constructor">English</span> constructor 
+<h1><span class="kind-property">syllableCounter</span> property 
     <a href="https://dart.dev/null-safety" class="feature feature-null-safety" title="Supports the null safety language feature.">Null safety</a>
 </h1></div>
 
-    <section class="multi-line-signature">const
-      <span class="name ">English</span>(<wbr>)
-    </section>
 
-    
-<section class="desc markdown">
-  <p>A const constructor to allow an instance to be used as default.</p>
+        
+<section id="getter">
+
+<section class="multi-line-signature">
+  <span class="returntype"><a href="../../type_definitions/SyllableCounter.html">SyllableCounter</a></span>
+  <span class="name ">syllableCounter</span>
+  <div class="features">override</div>
+
 </section>
 
 
-    
+<section class="desc markdown">
+  <p>Returns the number of syllables in a string after stripping out all
+white-space and punctuation.</p>
+</section>
+
+
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
-  <pre class="language-dart"><code class="language-dart">const English();</code></pre>
+  <pre class="language-dart"><code class="language-dart">@override
+SyllableCounter get syllableCounter =&gt; (term) {
+      &#47;&#47;
+      term = term.trim();
+      &#47;&#47; return 0 if term is empty
+      if (term.isEmpty) {
+        return 0;
+      }
+      var count = 0;
+      &#47;&#47; uses the termSplitter to split [term] into terms at whitespace and punctuation
+      &#47;&#47; applies the Porter2Stemmer to each element of terms
+      &#47;&#47; joins all the stemmed terms into one string
+      final terms = termSplitter(term);
+      &#47;&#47; count apostropied syllables like &quot;d&#39;Azure&quot; and remove the
+      &#47;&#47; apostrophied prefix
+      for (var e in terms) {
+        e = e.replaceAllMapped(RegExp(r&quot;(?&lt;=\b)([a-zA-Z]&#39;)&quot;), (match) {
+          count++;
+          return &#39;&#39;;
+        });
+        &#47;&#47; stem the remaining term
+        e = e.stemPorter2();
+        &#47;&#47; check for terms with capitals or remaining punctuation
+        if (e.toUpperCase() == e) {
+          &#47;&#47; this is more than likely an acronym, so add 1
+          count++;
+        } else if (kAbbreviations.contains(e) ||
+            e.contains(RegExp(r&#39;[^a-z]&#39;))) {
+          &#47;&#47; still has non-letters, let&#39;s split it and get the syllables for
+          &#47;&#47; each sub-term
+          final subTerms = e.split(RegExp(&#39;[^a-zA-Z]+&#39;));
+          for (final es in subTerms) {
+            count += syllableCounter(es.trim());
+          }
+        } else {
+          &#47;&#47; add all the vowels, diphtongs and triptongs. As e has been stemmed,
+          &#47;&#47; we know trailing silent e&#39;s have been removed and vowel &quot;y&quot;s
+          &#47;&#47;converted to &quot;i&quot;
+          term = term.toLowerCase().replaceAll(RegExp(r&#39;[^a-z]&#39;), &#39;&#39;);
+          if (term.contains(RegExp(r&quot;[^aeiou\s\-\&#39;]+(?=\b)&quot;))) {
+            count += RegExp(r&#39;[aeiouy]+&#39;).allMatches(term).length;
+          } else {
+            count += RegExp(r&#39;[aeiou]+&#39;).allMatches(e).length;
+            &#47;&#47; check for stemmed words ending in 3 or more consonants
+            count += e.contains(RegExp(r&quot;[^aeiou\s\-\&#39;]{3,}(?=\b)&quot;)) ? 1 : 0;
+          }
+        }
+      }
+
+      &#47;&#47; termSplitter(term).map((e) {
+      &#47;&#47;   &#47;&#47; count apostropied syllables like &quot;d&#39;Azure&quot; and remove the
+      &#47;&#47;   &#47;&#47; apostrophied prefix
+      &#47;&#47;   e = e.replaceAllMapped(RegExp(r&quot;(?&lt;=\b)([a-zA-Z]&#39;)&quot;), (match) {
+      &#47;&#47;     count++;
+      &#47;&#47;     return &#39;&#39;;
+      &#47;&#47;   });
+      &#47;&#47;   &#47;&#47; stem the remaining term
+      &#47;&#47;   e = e.stemPorter2();
+      &#47;&#47;   &#47;&#47; add all the vowels, diphtongs and triptongs. As e has been stemmed,
+      &#47;&#47;   &#47;&#47; we know trailing silent e&#39;s have been removed and vowel &quot;y&quot;s
+      &#47;&#47;   &#47;&#47;converted to &quot;i&quot;
+      &#47;&#47;   count += RegExp(r&#39;[aeiou]+&#39;).allMatches(e).length;
+      &#47;&#47;   return e;
+      &#47;&#47; });
+      &#47;&#47; if count is 0, return 1 because a word must have at least one syllable
+      return count &lt; 1 ? 1 : count;
+    };</code></pre>
+</section>
+
 </section>
 
 
@@ -79,7 +154,7 @@
   <li><a href="../../index.html">text_analysis</a></li>
   <li><a href="../../text_analysis/text_analysis-library.html">text_analysis</a></li>
   <li><a href="../../text_analysis/English-class.html">English</a></li>
-  <li class="self-crumb">English const constructor</li>
+  <li class="self-crumb">syllableCounter property</li>
 </ol>
 
 
@@ -126,7 +201,7 @@
           <li><a href="../../text_analysis/English/wordChars-constant.html">wordChars</a></li>
 </ol>
 
-  </div><!--/.sidebar-offcanvas-left-->
+  </div><!--/.sidebar-offcanvas-->
 
   <div id="dartdoc-sidebar-right" class="sidebar sidebar-offcanvas-right">
   </div><!--/.sidebar-offcanvas-->

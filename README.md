@@ -22,10 +22,10 @@ Skip to section:
 The `text_analysis` package provides methods to tokenize text, compute readibility scores for a document and evaluate similarity of `terms`. It is intended to be used in Natural Language Processing (`NLP`) as part of an information retrieval system. 
 
 It is split into [four (4) libraries](#usage):
-* `text_analysis` is the core library that exports the tokenization, analysis and string similarity functions;
-* `extensions` exports extension methods also provided as static methods of the `TextSimilarity` class;
-* `package_exports` exports the `porter_2_stemmer` package; and
-* `type_definitions` exports all the typedefs used in this package.
+* [text_analysis](https://pub.dev/documentation/text_analysis/0.12.0-2/text_analysis/text_analysis-library.html) is the core library that exports the tokenization, analysis and string similarity functions;
+* [extensions](https://pub.dev/documentation/text_analysis/0.12.0-2/extensions/extensions-library.html) exports extension methods also provided as static methods of the `TextSimilarity` class;
+* [package_exports](https://pub.dev/documentation/text_analysis/0.12.0-2/package_exports/package_exports-library.html) exports the `porter_2_stemmer` package; and
+* [type_definitions](https://pub.dev/documentation/text_analysis/0.12.0-2/type_definitions/type_definitions-library.html) exports all the typedefs used in this package.
 
 Refer to the [references](#references) to learn more about information retrieval systems and the theory behind this library.
 
@@ -51,24 +51,16 @@ The [TextDocument](#textdocument) enumerates a text document's *paragraphs*, *se
 
 ### String Comparison
 
-The following `String` extension methods can be used for (case-insensitive) comparison of `terms`:
-* `editDistance` returns the `Damerau–Levenshtein distance`, the minimum number of  single-character edits (transpositions, insertions, deletions or substitutions) required to change one `term` into another;
-* `editSimilarity` returns a normalized measure of `Damerau–Levenshtein distance` on a scale of 0.0 to 1.0, calculated by dividing the the difference between the maximum edit distance (sum of the length of the two terms) and the computed `editDistance`, by by the maximum edit distance;
-* `lengthDistance` returns the absolute value of the difference in length between two terms;
-* `lengthSimilarity` returns the similarity in length between two terms on a scale of 0.0 to 1.0 on a log scale (1 - the log of the ratio of the term lengths); 
-* `jaccardSimilarity` returns the Jaccard Similarity Index of two terms; 
-* `termSimilarity` returns a similarity index value between 0.0 and 1.0, product of `editSimilarity` , `jaccardSimilarity` and `lengthSimilarity`. A term similarity of 1.0 means the two terms are identical in all respects, *except case*; 
+The following measures of `term` similarity are provided:
 
-To compare one term with a collection of other terms, the following extension methods are also provided:
-* `editSimilarityMap` returns a hashmap of `terms` to their `editSimilarity` with a term;
-* `lengthSimilarityMap` returns a hashmap of `terms` to their `lengthSimilarity` with a term;
-* `jaccardSimilarityMap` returns a hashmap of `terms` to Jaccard Similarity Index with a term;
-* `termSimilarityMap` returns a hashmap of `terms` to termSimilarity with a term; and
-* `matches` returns the best matches from `terms` for a term, in descending order of term similarity (best match first).
+* `Damerau–Levenshtein distance` is the minimum number of  single-character edits (transpositions, insertions, deletions or substitutions) required to change one `term` into another;
+* `edit similarity` is a normalized measure of `Damerau–Levenshtein distance` on a scale of 0.0 to 1.0, calculated by dividing the the difference between the maximum edit distance (sum of the length of the two terms) and the computed `editDistance`, by  the maximum edit distance;
+* `length distance` returns the absolute value of the difference in length between two terms;
+* `length similarity` returns the similarity in length between two terms on a scale of 0.0 to 1.0 on a log scale (1 - the log of the ratio of the term lengths); 
+* `Jaccard similarity` measures similarity between finite sample sets, and is defined as the size of the intersection divided by the size of the union of the sample sets; and
+* `termSimilarity` returns a similarity index value between 0.0 and 1.0, product of `edit similarity` , `Jaccard similarity` and `length similarity`. A term similarity of 1.0 means the two terms are identical in all respects.
 
-*Term comparisons are NOT case-sensitive.*
-
-To avoid an ever expanding list of String extension methods, the [TermSimilarityExtensions]() are in a separate library. All the extensions are also available as static methods of the [TermSimilarity]() class.
+Functions that return the term similarity measures are provided by static methods of the [TermSimilarity](#termsimilarity) class.
 
 ## Usage
 
@@ -97,11 +89,11 @@ import 'package:text_analysis/package_exports.dart';
 Basic English tokenization can be performed by using a `TextTokenizer` instance with the default text analyzer and no token filter:
 
 ```dart
-  /// Use a TextTokenizer instance to tokenize the [text] using the default 
-  /// [English] analyzer.
+  // Use a TextTokenizer instance to tokenize the text using the default 
+  // English analyzer.
   final document = await TextTokenizer().tokenize(text);
 ```
-To analyze text or a document, hydrate a [TextDocument] to obtain the text statistics and readibility scores:
+To analyze text or a document, hydrate a [TextDocument](#textdocument) to obtain the text statistics and readibility scores:
 
 ```dart
       // get some sample text
@@ -120,9 +112,9 @@ For more complex text analysis:
 * implement a `TextAnalyzer` for a different language or non-language documents;
 * implement a custom `TextTokenizer`or extend `TextTokenizerBase`; and/or 
 * pass in a `TokenFilter` function to a `TextTokenizer` to manipulate the tokens after tokenization as shown in the [examples](https://pub.dev/packages/text_analysis/example); and/or
-extend [TextDocumentBase].
+extend [TextDocumentBase](https://pub.dev/documentation/text_analysis/0.12.0-1/text_analysis/TextDocumentBase-class.html).
 
-To compare terms, call the required extension on the `term`, or the static method from the [TermSimilarity]() class:
+To compare terms, call the required extension on the `term`, or the static method from the [TermSimilarity](https://pub.dev/documentation/text_analysis/0.12.0-1/text_analysis/TermSimilarity-class.html) class:
 
 ```dart
 
@@ -158,6 +150,27 @@ Please see the [examples](https://pub.dev/packages/text_analysis/example) for mo
 
 The key interfaces of the `text_analysis` library are briefly described in this section. Please refer to the [documentation](https://pub.dev/documentation/text_analysis/latest/) for details.
 
+#### TermSimilarity
+
+The [TermSimilarity](https://pub.dev/documentation/text_analysis/0.12.0-2/text_analysis/TermSimilarity-class.html) class provides the following static methods used for (case-insensitive) comparison of `terms`:
+* `editDistance` returns the `Damerau–Levenshtein distance`, the minimum number of  single-character edits (transpositions, insertions, deletions or substitutions) required to change one `term` into another;
+* `editSimilarity` returns a normalized measure of `Damerau–Levenshtein distance` on a scale of 0.0 to 1.0, calculated by dividing the the difference between the maximum edit distance (sum of the length of the two terms) and the computed `editDistance`, by by the maximum edit distance;
+* `lengthDistance` returns the absolute value of the difference in length between two terms;
+* `lengthSimilarity` returns the similarity in length between two terms on a scale of 0.0 to 1.0 on a log scale (1 - the log of the ratio of the term lengths); 
+* `jaccardSimilarity` returns the Jaccard Similarity Index of two terms; 
+* `termSimilarity` returns a similarity index value between 0.0 and 1.0, product of `editSimilarity` , `jaccardSimilarity` and `lengthSimilarity`. A term similarity of 1.0 means the two terms are identical in all respects, *except case*; 
+
+To compare one term with a collection of other terms, the following methods are also provided:
+* `editSimilarityMap` returns a hashmap of `terms` to their `editSimilarity` with a term;
+* `lengthSimilarityMap` returns a hashmap of `terms` to their `lengthSimilarity` with a term;
+* `jaccardSimilarityMap` returns a hashmap of `terms` to Jaccard Similarity Index with a term;
+* `termSimilarityMap` returns a hashmap of `terms` to termSimilarity with a term; and
+* `matches` returns the best matches from `terms` for a term, in descending order of term similarity (best match first).
+
+*Term comparisons are NOT case-sensitive.*
+
+The  [TextSimilarity](https://pub.dev/documentation/text_analysis/latest/text_analysis/TextSimilarity-class.html) uses  [extension methods](https://pub.dev/documentation/text_analysis/0.12.0-1/extensions/TermSimilarityExtensions.html) that can be imported from the [extensions](https://pub.dev/documentation/text_analysis/0.12.0-2/extensions/extensions-library.html) library.
+
 #### TextAnalyzer
 
  The [TextAnalyzer](https://pub.dev/documentation/text_analysis/latest/text_analysis/TextAnalyzer-class.html) interface exposes language-specific properties and methods used in text analysis:
@@ -168,11 +181,11 @@ The key interfaces of the `text_analysis` library are briefly described in this 
 - [paragraphSplitter](https://pub.dev/documentation/text_analysis/latest/text_analysis/TextAnalyzer/paragraphSplitter.html) splits text into a list of paragraphs at line endings; and
 - [syllableCounter](https://pub.dev/documentation/text_analysis/latest/text_analysis/TextAnalyzer/syllableCounter.html) returns the number of syllables in a word or text.
 
-The [English]() implementation of [TextAnalyzer]() is included in this library.
+The [English](https://pub.dev/documentation/text_analysis/latest/text_analysis/English-class.html) implementation of [TextAnalyzer](https://pub.dev/documentation/text_analysis/latest/text_analysis/TextAnalyzer-class.html) is included in this library.
 
 #### TextTokenizer
 
-The [TextTokenizer](https://pub.dev/documentation/text_analysis/latest/text_analysis/TextTokenizer-class.html) extracts tokens from text for use in full-text search queries and indexes. It uses a [TextAnalyzer](#textanalyzer) and [token filter](https://pub.dev/documentation/text_analysis/latest/text_analysis/TextTokenizer/tokenFilter.html) in the [tokenize](https://pub.dev/documentation/text_analysis/latest/text_analysis/TextTokenizer/tokenize.html) and [tokenizeJson](https://pub.dev/documentation/text_analysis/latest/text_analysis/TextTokenizer/tokenizeJson.html) methods that return a list of [tokens]() from text or a document. 
+The [TextTokenizer](https://pub.dev/documentation/text_analysis/latest/text_analysis/TextTokenizer-class.html) extracts tokens from text for use in full-text search queries and indexes. It uses a [TextAnalyzer](#textanalyzer) and [token filter](https://pub.dev/documentation/text_analysis/latest/text_analysis/TextTokenizer/tokenFilter.html) in the [tokenize](https://pub.dev/documentation/text_analysis/latest/text_analysis/TextTokenizer/tokenize.html) and [tokenizeJson](https://pub.dev/documentation/text_analysis/latest/text_analysis/TextTokenizer/tokenizeJson.html) methods that return a list of [tokens](https://pub.dev/documentation/text_analysis/0.12.0-1/text_analysis/Token-class.html) from text or a document. 
 
 An [unnamed factory constructor](https://pub.dev/documentation/text_analysis/latest/text_analysis/TextTokenizer/TextTokenizer.html) hydrates an implementation class.
 

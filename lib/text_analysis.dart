@@ -4,6 +4,7 @@
 /// information retrieval systems.
 library text_analysis;
 
+export 'src/english.dart';
 export 'src/term_similarity.dart';
 export 'src/text_analyzer.dart';
 export 'src/text_document.dart';
