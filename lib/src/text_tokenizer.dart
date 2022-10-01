@@ -18,23 +18,14 @@ import 'package:porter_2_stemmer/porter_2_stemmer.dart';
 abstract class TextTokenizer {
   //
 
-  /// The default [TokenFilter] used by [TextTokenizer].
-  ///
-  /// Returns [tokens] with [Token.term] stemmed using the [Porter2Stemmer].
-  static Future<List<Token>> defaultTokenFilter(List<Token> tokens) async =>
-      tokens
-          .map((e) => Token(e.term.stemPorter2(), e.termPosition, e.zone))
-          .toList();
-
   /// Instantiates a const [TextTokenizerBase] instance.
   /// - [analyzer] is used by the [TextTokenizer] to tokenize source text
   ///   (default is [English.analyzer]); and
   /// - provide a custom [tokenFilter] if you want to manipulate tokens or
-  ///   restrict tokenization to tokens that meet specific criteria (default is
-  ///   [TextTokenizer.defaultTokenFilter], applies [Porter2Stemmer]).
+  ///   restrict tokenization to tokens that meet specific criteria.
   factory TextTokenizer(
           {TextAnalyzer analyzer = English.analyzer,
-          TokenFilter tokenFilter = defaultTokenFilter}) =>
+          TokenFilter? tokenFilter}) =>
       _TextTokenizerImpl(analyzer, tokenFilter);
 
   // /// Splits the [source] into paragraphs at line ending marks.
@@ -113,23 +104,49 @@ abstract class TextTokenizerMixin implements TextTokenizer {
     final terms = analyzer.termSplitter(text.trim());
     // initialize the tokens collection (return value)
     final tokens = <Token>[];
-
     // iterate through the terms
     await Future.forEach(terms, (String term) async {
       // remove white-space at start and end of term
       term = term.trim();
       // only tokenize non-empty strings.
-      if (term.isNotEmpty) {
-        // apply the termFilter if it is not null
-        final splitTerms = await analyzer.termFilter(term);
-        for (var splitTerm in splitTerms) {
-          final tokenTerm = splitTerm.trim();
-          if (tokenTerm.isNotEmpty) {
-            tokens.add(Token(splitTerm.trim(), position, zone));
+      if (term.isNotEmpty && !analyzer.stopWords.contains(term)) {
+        // check for exceptions
+        var exception = analyzer.termExceptions[term];
+        if (exception != null) {
+          if (!analyzer.stopWords.contains(exception)) {
+            tokens.add(Token(exception.trim(), position, zone));
+          }
+        } else {
+          // apply the termFilter
+          final splitTerms = await analyzer.termFilter(term);
+          for (var splitTerm in splitTerms) {
+            // check splitTerm is not in exceptions
+            exception = analyzer.termExceptions[splitTerm.trim()]?.trim();
+            // var tokenTerm = splitTerm;
+            if (exception == null || exception.isEmpty) {
+              splitTerm = analyzer
+                  .stemmer(analyzer.lemmatizer(splitTerm.trim()))
+                  .trim();
+              exception = analyzer.termExceptions[splitTerm];
+            }
+            // check splitTerm is not in exceptions
+            if (exception != null && exception.isNotEmpty) {
+              if (!analyzer.stopWords.contains(exception)) {
+                // tokenize the exception
+                tokens.add(Token(exception, position, zone));
+              }
+            } else {
+              if (splitTerm.isNotEmpty) {
+                if (!analyzer.stopWords.contains(exception)) {
+                  // tokenize splitTerm
+                  tokens.add(Token(splitTerm.trim(), position, zone));
+                }
+              }
+            }
           }
         }
       }
-      // increment the index
+      // increment the token position
       position++;
     });
     // apply the tokenFilter if it is not null and return the tokens collection

@@ -13,8 +13,8 @@ abstract class TextAnalysisTestData {
     'Meanwhile, Peloton reportedly finds an activist investor from the Cote D\'Azure knocking '
         'on its door.  In a scathing new letter released Monday, activist '
         'Tesla Capital is pushing for Peloton to fire CEO, Chairman and '
-        'founder John Foley and explore a sale.'
-        'The stock crash has fueled by strong  suspicions of mismanagement.'
+        'founder John Foley and explore a sale. The stock crash has fueled by '
+        'strong  suspicions of mismanagement.'
   ];
 
   static const json = {

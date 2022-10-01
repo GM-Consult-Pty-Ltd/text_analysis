@@ -45,8 +45,12 @@ void main() {
       // convert the StringBuffer to a String
       final source = sourceBuilder.toString();
 
+      final analyzer =
+          English(termExceptions: {'tesla': 'Tesla', 'AAPL': 'AAPL'});
+
       // use a TextTokenizer instance to tokenize the source
-      final tokens = await TextTokenizer().tokenize(source, 'text');
+      final tokens =
+          await TextTokenizer(analyzer: analyzer).tokenize(source, 'text');
 
       // print the tokens
       _printTokens('TOKENIZE JSON', tokens);
@@ -85,8 +89,12 @@ void main() {
     test('TextTokenizer.tokenizeJson(fields)', () async {
       //
 
+      // test some exceptions
+      final analyzer =
+          English(termExceptions: {'tesla': 'Tesla', 'Alphabet': 'GOOGLE'});
+
       // use a TextTokenizer instance to tokenize the json with 3 zones
-      final tokens = await TextTokenizer().tokenizeJson(
+      final tokens = await TextTokenizer(analyzer: analyzer).tokenizeJson(
           TextAnalysisTestData.json, ['name', 'description', 'hashTags']);
 
       // print the tokens

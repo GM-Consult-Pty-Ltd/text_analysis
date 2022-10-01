@@ -34,7 +34,8 @@ void main() {
       Echo(
               title: 'EDIT DISTANCE: '
                   '$term.editDistance(other)',
-              results: results)
+              results: results,
+              minPrintWidth: 80)
           .printResults();
     }));
 
@@ -50,7 +51,8 @@ void main() {
       Echo(
               title: 'JACCARD SIMILARITY INDEX: '
                   '$term.jaccardSimilarity(other, $k)',
-              results: results)
+              results: results,
+              minPrintWidth: 80)
           .printResults();
     }));
 
@@ -68,7 +70,8 @@ void main() {
       Echo(
               title: 'JACCARD SIMILARITY INDEX: '
                   '$term.jaccardSimilarityMap(candidates, $k)',
-              results: results)
+              results: results,
+              minPrintWidth: 80)
           .printResults();
     }));
 
@@ -84,7 +87,8 @@ void main() {
       Echo(
               title: 'RANKED MATCHES: '
                   '$term.matches(candidates, $k)',
-              results: results)
+              results: results,
+              minPrintWidth: 80)
           .printResults();
     }));
 
@@ -98,7 +102,8 @@ void main() {
       }
       results.sort(((a, b) => (b['Length Similarity'] as num)
           .compareTo(a['Length Similarity'] as num)));
-      Echo(title: 'LENGTH SIMILARITY', results: results).printResults();
+      Echo(title: 'LENGTH SIMILARITY', results: results, minPrintWidth: 80)
+          .printResults();
     }));
   });
 }

@@ -197,7 +197,11 @@ extend <a href="https://pub.dev/documentation/text_analysis/0.12.0-1/text_analys
 <li><a href="https://pub.dev/documentation/text_analysis/latest/text_analysis/TextAnalyzer/termFilter.html">termFilter</a> is a filter function that returns a collection of terms from a term. It returns an empty collection if the term is to be excluded from analysis or, returns multiple terms if the term is split (at hyphens) and / or, returns modified term(s), such as applying a stemmer algorithm;</li>
 <li><a href="https://pub.dev/documentation/text_analysis/latest/text_analysis/TextAnalyzer/termSplitter.html">termSplitter</a> returns a list of terms from text;</li>
 <li><a href="https://pub.dev/documentation/text_analysis/latest/text_analysis/TextAnalyzer/sentenceSplitter.html">sentenceSplitter</a> splits text into a list of sentences at sentence and line endings;</li>
-<li><a href="https://pub.dev/documentation/text_analysis/latest/text_analysis/TextAnalyzer/paragraphSplitter.html">paragraphSplitter</a> splits text into a list of paragraphs at line endings; and</li>
+<li><a href="https://pub.dev/documentation/text_analysis/latest/text_analysis/TextAnalyzer/paragraphSplitter.html">paragraphSplitter</a> splits text into a list of paragraphs at line endings;</li>
+<li><a href="https://pub.dev/documentation/text_analysis/latest/text_analysis/TextAnalyzer/stemmer.html">stemmer</a> is a language-specific function that returns the stem of a term;</li>
+<li><a href="https://pub.dev/documentation/text_analysis/latest/text_analysis/TextAnalyzer/lemmatizer.html">lemmatizer</a> is a language-specific function that returns the lemma of a term;</li>
+<li><a href="https://pub.dev/documentation/text_analysis/latest/text_analysis/TextAnalyzer/termExceptions.html">termExceptions</a> is a hashmap of words to token terms for special words that should not be re-capitalized, stemmed or lemmatized;</li>
+<li><a href="https://pub.dev/documentation/text_analysis/latest/text_analysis/TextAnalyzer/stopWords.html">stopWords</a> are terms that commonly occur in a language and that do not add material value to the analysis of text; and</li>
 <li><a href="https://pub.dev/documentation/text_analysis/latest/text_analysis/TextAnalyzer/syllableCounter.html">syllableCounter</a> returns the number of syllables in a word or text.</li>
 </ul>
 <p>The <a href="https://pub.dev/documentation/text_analysis/latest/text_analysis/English-class.html">English</a> implementation of <a href="https://pub.dev/documentation/text_analysis/latest/text_analysis/TextAnalyzer-class.html">TextAnalyzer</a> is included in this library.</p>
@@ -344,7 +348,7 @@ information retrieval systems.
 <footer>
   <span class="no-break">
     text_analysis
-      0.12.1
+      0.13.0
   </span>
 
   

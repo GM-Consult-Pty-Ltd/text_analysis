@@ -4,7 +4,7 @@
 
 name: text_analysis
 description: Text analyzer that tokenize text, compute readibility scores for a document and evaluate similarity of terms.
-version: 0.12.1+1
+version: 0.13.0
 repository: https://github.com/GM-Consult-Pty-Ltd/text_analysis
 homepage: https://github.com/GM-Consult-Pty-Ltd
 issue_tracker: https://github.com/GM-Consult-Pty-Ltd/text_analysis/issues

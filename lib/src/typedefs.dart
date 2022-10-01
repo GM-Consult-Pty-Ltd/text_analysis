@@ -31,6 +31,9 @@ typedef StopWords = Set<Term>;
 /// A language-specific function that returns the stem of [term].
 typedef Stemmer = String Function(Term term);
 
+/// A language-specific function that returns the lemma of [term].
+typedef Lemmatizer = String Function(Term term);
+
 /// A language-specific function that returns the number of syllables in a
 /// string after stripping out all white-space and punctuation.
 ///

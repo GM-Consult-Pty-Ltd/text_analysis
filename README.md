@@ -179,7 +179,11 @@ The  [TextSimilarity](https://pub.dev/documentation/text_analysis/latest/text_an
 - [termFilter](https://pub.dev/documentation/text_analysis/latest/text_analysis/TextAnalyzer/termFilter.html) is a filter function that returns a collection of terms from a term. It returns an empty collection if the term is to be excluded from analysis or, returns multiple terms if the term is split (at hyphens) and / or, returns modified term(s), such as applying a stemmer algorithm;
 - [termSplitter](https://pub.dev/documentation/text_analysis/latest/text_analysis/TextAnalyzer/termSplitter.html) returns a list of terms from text;
 - [sentenceSplitter](https://pub.dev/documentation/text_analysis/latest/text_analysis/TextAnalyzer/sentenceSplitter.html) splits text into a list of sentences at sentence and line endings;
-- [paragraphSplitter](https://pub.dev/documentation/text_analysis/latest/text_analysis/TextAnalyzer/paragraphSplitter.html) splits text into a list of paragraphs at line endings; and
+- [paragraphSplitter](https://pub.dev/documentation/text_analysis/latest/text_analysis/TextAnalyzer/paragraphSplitter.html) splits text into a list of paragraphs at line endings; 
+- [stemmer](https://pub.dev/documentation/text_analysis/latest/text_analysis/TextAnalyzer/stemmer.html) is a language-specific function that returns the stem of a term;
+- [lemmatizer](https://pub.dev/documentation/text_analysis/latest/text_analysis/TextAnalyzer/lemmatizer.html) is a language-specific function that returns the lemma of a term;
+- [termExceptions](https://pub.dev/documentation/text_analysis/latest/text_analysis/TextAnalyzer/termExceptions.html) is a hashmap of words to token terms for special words that should not be re-capitalized, stemmed or lemmatized;
+- [stopWords](https://pub.dev/documentation/text_analysis/latest/text_analysis/TextAnalyzer/stopWords.html) are terms that commonly occur in a language and that do not add material value to the analysis of text; and
 - [syllableCounter](https://pub.dev/documentation/text_analysis/latest/text_analysis/TextAnalyzer/syllableCounter.html) returns the number of syllables in a word or text.
 
 The [English](https://pub.dev/documentation/text_analysis/latest/text_analysis/English-class.html) implementation of [TextAnalyzer](https://pub.dev/documentation/text_analysis/latest/text_analysis/TextAnalyzer-class.html) is included in this library.

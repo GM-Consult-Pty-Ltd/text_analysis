@@ -15,10 +15,21 @@ import 'package:text_analysis/src/_index.dart';
 /// - [sentenceSplitter] splits text into a list of sentences at sentence and
 ///   line endings;
 /// - [paragraphSplitter] splits text into a list of paragraphs at line
-///   endings; and
+///   endings;
+/// - [stemmer] is a language-specific function that returns the stem of a
+///   term;
+/// - [lemmatizer] is a language-specific function that returns the lemma of a
+///   term;
+/// - [termExceptions] is a hashmap of words to token terms for special words
+///   that should not be re-capitalized, stemmed or lemmatized;
+/// - [stopWords] are terms that commonly occur in a language and that do not add
+/// material value to the analysis of text; and
 /// - [syllableCounter] returns the number of syllables in a word or text.
 abstract class TextAnalyzer {
   //
+
+  /// A const generative constructor for sub-classes.
+  const TextAnalyzer();
 
   /// A function that manipulates text prior to stemming and tokenization.
   ///
@@ -46,4 +57,18 @@ abstract class TextAnalyzer {
   /// Returns the number of syllables in a string after stripping out all
   /// white-space and punctuation.
   SyllableCounter get syllableCounter;
+
+  /// Language-specific function that returns the stem of a term.
+  Stemmer get stemmer;
+
+  /// Language-specific function that returns the lemma of a term.
+  Lemmatizer get lemmatizer;
+
+  /// A hashmap of words to token terms for special words that should not be
+  /// re-capitalized, stemmed or lemmatized.
+  Map<String, String> get termExceptions;
+
+  /// Stopwords are terms that commonly occur in a language and that do not add
+  /// material value to the analysis of text.
+  Iterable<String> get stopWords;
 }

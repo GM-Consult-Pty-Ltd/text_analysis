@@ -51,31 +51,7 @@
 
     
 <section class="desc markdown">
-  <p>A basic <a href="../text_analysis/TextAnalyzer-class.html">TextAnalyzer</a> implementation for <a href="../text_analysis/English-class.html">English</a> language
-analysis.</p>
-<p>The <a href="../text_analysis/English/termFilter.html">termFilter</a> applies the following algorithm:</p>
-<ul>
-<li>apply the <a href="../text_analysis/English/characterFilter.html">characterFilter</a> to the term;</li>
-<li>if the resulting term is empty or contained in <a href="../text_analysis/English/kStopWords-constant.html">kStopWords</a>, return an
-empty collection; else</li>
-<li>insert the filterered term in the return value;</li>
-<li>split the term at commas, periods, hyphens and apostrophes unless
-preceded and ended by a number;</li>
-<li>if the term can be split, add the split terms to the return value,
-unless the (split) terms are in <a href="../text_analysis/English/kStopWords-constant.html">kStopWords</a> or are empty strings.</li>
-</ul>
-<p>The <a href="../text_analysis/English/characterFilter.html">characterFilter</a> function:</p>
-<ul>
-<li>returns the term if it can be parsed as a number; else</li>
-<li>converts the term to lower-case;</li>
-<li>changes all quote marks to single apostrophe +U0027;</li>
-<li>removes enclosing quote marks;</li>
-<li>changes all dashes to single standard hyphen;</li>
-<li>removes all non-word characters from the term;</li>
-<li>replaces all characters except letters and numbers from the end of
-the term.</li>
-</ul>
-<p>Empty strings are removed from the returned collection.</p>
+  <p>A <a href="../text_analysis/TextAnalyzer-class.html">TextAnalyzer</a> implementation for <a href="../text_analysis/English-class.html">English</a> language analysis.</p>
 </section>
 
 
@@ -104,10 +80,10 @@ the term.</li>
 
     <dl class="constructor-summary-list">
         <dt id="English" class="callable">
-          <span class="name"><a href="../text_analysis/English/English.html">English</a></span><span class="signature">()</span>
+          <span class="name"><a href="../text_analysis/English/English.html">English</a></span><span class="signature">(<span class="parameter" id="-param-stopWords">{<span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>&gt;</span></span> <span class="parameter-name">stopWords</span> = <span class="default-value">const &lt;String&gt;[]</span>, </span><span class="parameter" id="-param-termExceptions"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Map-class.html">Map</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>, <span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>&gt;</span></span> <span class="parameter-name">termExceptions</span> = <span class="default-value">const &lt;String, String&gt;{}</span>, </span><span class="parameter" id="-param-lemmatizer"><span class="type-annotation"><a href="../type_definitions/Lemmatizer.html">Lemmatizer</a></span> <span class="parameter-name">lemmatizer</span> = <span class="default-value">_kLemmatizer</span>, </span><span class="parameter" id="-param-stemmer"><span class="type-annotation"><a href="../type_definitions/Stemmer.html">Stemmer</a></span> <span class="parameter-name">stemmer</span> = <span class="default-value">_kStemmer</span>}</span>)</span>
         </dt>
         <dd>
-          A const constructor to allow an instance to be used as default.
+          A const constructor to allow an instance to be used as default:
             <div class="constructor-modifier features">const</div>
         </dd>
     </dl>
@@ -136,6 +112,17 @@ the term.</li>
 <dd class="inherited">
   The hash code for this object.
   <div class="features">read-only, inherited</div>
+
+</dd>
+
+        <dt id="lemmatizer" class="property">
+  <span class="name"><a href="../text_analysis/English/lemmatizer.html">lemmatizer</a></span>
+  <span class="signature">&#8594; <a href="../type_definitions/Lemmatizer.html">Lemmatizer</a></span> 
+
+</dt>
+<dd>
+  Language-specific function that returns the lemma of a term.
+  <div class="features">final</div>
 
 </dd>
 
@@ -174,6 +161,29 @@ into a list of sentence strings.
 
 </dd>
 
+        <dt id="stemmer" class="property">
+  <span class="name"><a href="../text_analysis/English/stemmer.html">stemmer</a></span>
+  <span class="signature">&#8594; <a href="../type_definitions/Stemmer.html">Stemmer</a></span> 
+
+</dt>
+<dd>
+  Language-specific function that returns the stem of a term.
+  <div class="features">final</div>
+
+</dd>
+
+        <dt id="stopWords" class="property">
+  <span class="name"><a href="../text_analysis/English/stopWords.html">stopWords</a></span>
+  <span class="signature">&#8594; <a href="https://api.flutter.dev/flutter/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>&gt;</span></span> 
+
+</dt>
+<dd>
+  Stopwords are terms that commonly occur in a language and that do not add
+material value to the analysis of text.
+  <div class="features">final</div>
+
+</dd>
+
         <dt id="syllableCounter" class="property">
   <span class="name"><a href="../text_analysis/English/syllableCounter.html">syllableCounter</a></span>
   <span class="signature">&#8594; <a href="../type_definitions/SyllableCounter.html">SyllableCounter</a></span> 
@@ -186,14 +196,25 @@ white-space and punctuation.
 
 </dd>
 
+        <dt id="termExceptions" class="property">
+  <span class="name"><a href="../text_analysis/English/termExceptions.html">termExceptions</a></span>
+  <span class="signature">&#8594; <a href="https://api.flutter.dev/flutter/dart-core/Map-class.html">Map</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>, <span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>&gt;</span></span> 
+
+</dt>
+<dd>
+  A hashmap of words to token terms for special words that should not be
+re-capitalized, stemmed or lemmatized.
+  <div class="features">final</div>
+
+</dd>
+
         <dt id="termFilter" class="property">
   <span class="name"><a href="../text_analysis/English/termFilter.html">termFilter</a></span>
   <span class="signature">&#8594; <a href="../type_definitions/TermFilter.html">TermFilter</a></span> 
 
 </dt>
 <dd>
-  Applies the following algorithm to convert a term to a list
-of strings:
+  A filter function that returns a collection of terms from term:
   <div class="features">read-only, override</div>
 
 </dd>
@@ -220,19 +241,6 @@ with a single space character.
       id="instance-methods">
     <h2>Methods</h2>
     <dl class="callables">
-        <dt id="cleanTerm" class="callable">
-  <span class="name"><a href="../text_analysis/English/cleanTerm.html">cleanTerm</a></span><span class="signature">(<wbr><span class="parameter" id="cleanTerm-param-term"><span class="type-annotation"><a href="../type_definitions/Term.html">Term</a></span> <span class="parameter-name">term</span></span>)
-    <span class="returntype parameter">&#8594; <a href="../type_definitions/Term.html">Term</a></span>
-  </span>
-  
-
-</dt>
-<dd>
-  Cleans the term as follows:
-  
-
-</dd>
-
         <dt id="noSuchMethod" class="callable inherited">
   <span class="name"><a href="https://api.flutter.dev/flutter/dart-core/Object/noSuchMethod.html">noSuchMethod</a></span><span class="signature">(<wbr><span class="parameter" id="noSuchMethod-param-invocation"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Invocation-class.html">Invocation</a></span> <span class="parameter-name">invocation</span></span>)
     <span class="returntype parameter">&#8594; dynamic</span>
@@ -499,15 +507,18 @@ a period.
     </li>
     <li><a href="../text_analysis/English/characterFilter.html">characterFilter</a></li>
     <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/hashCode.html">hashCode</a></li>
+    <li><a href="../text_analysis/English/lemmatizer.html">lemmatizer</a></li>
     <li><a href="../text_analysis/English/paragraphSplitter.html">paragraphSplitter</a></li>
     <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/runtimeType.html">runtimeType</a></li>
     <li><a href="../text_analysis/English/sentenceSplitter.html">sentenceSplitter</a></li>
+    <li><a href="../text_analysis/English/stemmer.html">stemmer</a></li>
+    <li><a href="../text_analysis/English/stopWords.html">stopWords</a></li>
     <li><a href="../text_analysis/English/syllableCounter.html">syllableCounter</a></li>
+    <li><a href="../text_analysis/English/termExceptions.html">termExceptions</a></li>
     <li><a href="../text_analysis/English/termFilter.html">termFilter</a></li>
     <li><a href="../text_analysis/English/termSplitter.html">termSplitter</a></li>
 
     <li class="section-title"><a href="../text_analysis/English-class.html#instance-methods">Methods</a></li>
-    <li><a href="../text_analysis/English/cleanTerm.html">cleanTerm</a></li>
     <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/noSuchMethod.html">noSuchMethod</a></li>
     <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/toString.html">toString</a></li>
 
@@ -537,7 +548,7 @@ a period.
 <footer>
   <span class="no-break">
     text_analysis
-      0.12.1
+      0.13.0
   </span>
 
   

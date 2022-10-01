@@ -62,17 +62,11 @@
 
 
 <section class="desc markdown">
-  <p>Applies the following algorithm to convert a term to a list
-of strings:</p>
+  <p>A filter function that returns a collection of terms from term:</p>
 <ul>
-<li>apply the <a href="../../text_analysis/English/characterFilter.html">characterFilter</a> to term;</li>
-<li>if the resulting term is empty or contained in <a href="../../text_analysis/English/kStopWords-constant.html">kStopWords</a>
-return an empty collection; else</li>
-<li>insert the filterered term in the return value;</li>
-<li>split the term at commas, periods, hyphens and apostrophes unless
-preceded and ended by a number;</li>
-<li>if the term can be split, add the split terms to the return value,
-unless the (split) terms are in <a href="../../text_analysis/English/kStopWords-constant.html">kStopWords</a> or are empty strings.</li>
+<li>return an empty collection if the term is to be excluded from analysis;</li>
+<li>return multiple terms if the term is split; and/or</li>
+<li>return modified term(s), such as applying a stemmer algorithm.</li>
 </ul>
 </section>
 
@@ -85,10 +79,10 @@ TermFilter get termFilter =&gt; (Term term) async {
       if (kAbbreviations.contains(term)) {
         return {term, term.replaceAll(&#39;.&#39;, &#39;&#39;).trim()};
       }
-      term = cleanTerm(term);
+      term = _sanitize(term);
       &#47;&#47; if the resulting [term] is shorter than 2 characters or contained
-      &#47;&#47; in [kStopWords] return an empty collection
-      if (kStopWords.contains(term) || term.length &lt; 2) {
+      &#47;&#47; in [stopWords] return an empty collection
+      if (stopWords.contains(term) || term.length &lt; 2) {
         return {};
       }
 
@@ -102,7 +96,6 @@ TermFilter get termFilter =&gt; (Term term) async {
           terms.add(unHyphenated);
         }
       }
-
       &#47;&#47; split at all non-word characters unless preceded and ended by a number.
       final splitTerms =
           term.split(RegExp(r&#39;(?&lt;=[a-zA-Z])[^a-zA-Z0-9]+(?=[a-zA-Z])&#39;));
@@ -112,7 +105,7 @@ TermFilter get termFilter =&gt; (Term term) async {
             splitTerm = characterFilter(splitTerm)
                 .replaceAll(RegExp(r&#39;[^a-zA-Z0-9]&#39;), &#39;&#39;)
                 .trim();
-            if (!kStopWords.contains(splitTerm) &amp;&amp; splitTerm.length &gt; 1) {
+            if (!stopWords.contains(splitTerm) &amp;&amp; splitTerm.length &gt; 1) {
               terms.add(splitTerm);
             }
           }
@@ -161,15 +154,18 @@ TermFilter get termFilter =&gt; (Term term) async {
     </li>
     <li><a href="../../text_analysis/English/characterFilter.html">characterFilter</a></li>
     <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/hashCode.html">hashCode</a></li>
+    <li><a href="../../text_analysis/English/lemmatizer.html">lemmatizer</a></li>
     <li><a href="../../text_analysis/English/paragraphSplitter.html">paragraphSplitter</a></li>
     <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/runtimeType.html">runtimeType</a></li>
     <li><a href="../../text_analysis/English/sentenceSplitter.html">sentenceSplitter</a></li>
+    <li><a href="../../text_analysis/English/stemmer.html">stemmer</a></li>
+    <li><a href="../../text_analysis/English/stopWords.html">stopWords</a></li>
     <li><a href="../../text_analysis/English/syllableCounter.html">syllableCounter</a></li>
+    <li><a href="../../text_analysis/English/termExceptions.html">termExceptions</a></li>
     <li><a href="../../text_analysis/English/termFilter.html">termFilter</a></li>
     <li><a href="../../text_analysis/English/termSplitter.html">termSplitter</a></li>
 
     <li class="section-title"><a href="../../text_analysis/English-class.html#instance-methods">Methods</a></li>
-    <li><a href="../../text_analysis/English/cleanTerm.html">cleanTerm</a></li>
     <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/noSuchMethod.html">noSuchMethod</a></li>
     <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/toString.html">toString</a></li>
 
@@ -202,7 +198,7 @@ TermFilter get termFilter =&gt; (Term term) async {
 <footer>
   <span class="no-break">
     text_analysis
-      0.12.1
+      0.13.0
   </span>
 
   

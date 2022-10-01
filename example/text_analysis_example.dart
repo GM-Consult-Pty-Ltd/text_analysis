@@ -153,8 +153,13 @@ Future<Map<KGram, Set<Term>>> _getKgramIndex(
 /// Tokenize the [zones] in a [json] document.
 Future<List<Token>> _tokenizeJson(
     Map<String, dynamic> json, List<Zone> zones) async {
+  // create a custom analyzer with exceptions
+  final analyzer =
+      English(termExceptions: {'tesla': 'Tesla', 'Alphabet': 'GOOGLE'});
+
   // use a TextTokenizer instance to tokenize the json
-  final tokens = await TextTokenizer().tokenizeJson(json, zones);
+  final tokens =
+      await TextTokenizer(analyzer: analyzer).tokenizeJson(json, zones);
   // map the document's tokens to a list of terms (strings)
   return tokens;
 }

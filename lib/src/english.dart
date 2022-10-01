@@ -4,59 +4,56 @@
 import 'package:text_analysis/src/_index.dart';
 import 'package:porter_2_stemmer/porter_2_stemmer.dart';
 
-/// A basic [TextAnalyzer] implementation for [English] language
-/// analysis.
-///
-/// The [termFilter] applies the following algorithm:
-/// - apply the [characterFilter] to the term;
-/// - if the resulting term is empty or contained in [kStopWords], return an
-///   empty collection; else
-/// - insert the filterered term in the return value;
-/// - split the term at commas, periods, hyphens and apostrophes unless
-///   preceded and ended by a number;
-/// - if the term can be split, add the split terms to the return value,
-///   unless the (split) terms are in [kStopWords] or are empty strings.
-///
-/// The [characterFilter] function:
-/// - returns the term if it can be parsed as a number; else
-/// - converts the term to lower-case;
-/// - changes all quote marks to single apostrophe +U0027;
-/// - removes enclosing quote marks;
-/// - changes all dashes to single standard hyphen;
-/// - removes all non-word characters from the term;
-/// - replaces all characters except letters and numbers from the end of
-///   the term.
-///
-/// Empty strings are removed from the returned collection.
+/// A [TextAnalyzer] implementation for [English] language analysis.
 class English implements TextAnalyzer {
   //
 
-  /// A const constructor to allow an instance to be used as default.
-  const English();
+  /// The default lemmatizer returns the [term] unchanged.
+  static String _kLemmatizer(String term) => term;
+
+  // The default stemmer returns the [term] unchanged.
+  static String _kStemmer(String term) => term.stemPorter2();
+
+  /// A const constructor to allow an instance to be used as default:
+  /// - [stemmer] is a language-specific function that returns the stem of a
+  ///   term (defaults to the [Porter2Stemmer]);
+  /// - [lemmatizer] is a language-specific function that returns the lemma of a
+  ///   term (defaults to no lemmatizing);
+  /// - [stopWords] are terms that commonly occur in a language and that do not
+  ///   add material value to the analysis of text (defaults to [kStopWords]); and
+  /// - [termExceptions] is a hashmap of words to token terms for special words
+  ///   that should not be re-capitalized, stemmed or lemmatized.
+  const English(
+      {this.stopWords = const <String>[],
+      this.termExceptions = const <String, String>{},
+      this.lemmatizer = _kLemmatizer,
+      this.stemmer = _kStemmer});
 
   /// Instantiates a static const [English] instance.
   static const analyzer = English();
 
-  /// Applies the following algorithm to convert a term to a list
-  /// of strings:
-  /// - apply the [characterFilter] to term;
-  /// - if the resulting term is empty or contained in [kStopWords]
-  ///   return an empty collection; else
-  /// - insert the filterered term in the return value;
-  /// - split the term at commas, periods, hyphens and apostrophes unless
-  ///   preceded and ended by a number;
-  /// - if the term can be split, add the split terms to the return value,
-  ///   unless the (split) terms are in [kStopWords] or are empty strings.
+  @override
+  final Iterable<String> stopWords;
+
+  @override
+  final Map<String, String> termExceptions;
+
+  @override
+  final Stemmer stemmer;
+
+  @override
+  final Lemmatizer lemmatizer;
+
   @override
   TermFilter get termFilter => (Term term) async {
         // apply the [characterFilter] to [term]
         if (kAbbreviations.contains(term)) {
           return {term, term.replaceAll('.', '').trim()};
         }
-        term = cleanTerm(term);
+        term = _sanitize(term);
         // if the resulting [term] is shorter than 2 characters or contained
-        // in [kStopWords] return an empty collection
-        if (kStopWords.contains(term) || term.length < 2) {
+        // in [stopWords] return an empty collection
+        if (stopWords.contains(term) || term.length < 2) {
           return {};
         }
 
@@ -70,7 +67,6 @@ class English implements TextAnalyzer {
             terms.add(unHyphenated);
           }
         }
-
         // split at all non-word characters unless preceded and ended by a number.
         final splitTerms =
             term.split(RegExp(r'(?<=[a-zA-Z])[^a-zA-Z0-9]+(?=[a-zA-Z])'));
@@ -80,7 +76,7 @@ class English implements TextAnalyzer {
               splitTerm = characterFilter(splitTerm)
                   .replaceAll(RegExp(r'[^a-zA-Z0-9]'), '')
                   .trim();
-              if (!kStopWords.contains(splitTerm) && splitTerm.length > 1) {
+              if (!stopWords.contains(splitTerm) && splitTerm.length > 1) {
                 terms.add(splitTerm);
               }
             }
@@ -136,7 +132,7 @@ class English implements TextAnalyzer {
   /// - remove enclosing quote marks;
   /// - hange all dashes to single standard hyphen;
   /// - remove all characters except letters and numbers at end of term
-  Term cleanTerm(Term term) => term
+  Term _sanitize(Term term) => term
       .toLowerCase()
       // change all quote marks to single apostrophe +U0027
       .replaceAll(RegExp('[\'"“”„‟’‘‛]+'), "'")
