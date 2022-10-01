@@ -4,6 +4,25 @@ Copyright (c) 2022, GM Consult Pty Ltd
 All rights reserved. 
 -->
 
+### 0.13.0
+**BREAKING CHANGES**
+
+#### Breaking Changes:
+- Added field `TextAnalyzer.stemmer` to `TextAnalyzer` class.
+- Added field `TextAnalyzer.stopWords` to `TextAnalyzer` class.
+- Added field `TextAnalyzer.lemmatizer` to `TextAnalyzer` class.
+- Added field `TextAnalyzer.termExceptions` to `TextAnalyzer` class.
+- Removed static field `TextTokenizer.defaultTokenFilter`.
+- Changed `TextTokenizer.tokenize` method to apply `analyzer.stemmer`, `analyzer.stopWords`, `analyzer.lemmatizer` an `analyzer.termExceptions` to all tokens/terms.
+
+#### New:
+- Implemented field `English.stemmer` in `English` class.
+- Implemented field `English.stopWords` in `English` class.
+- Implemented field `English.lemmatizer` in `English` class.
+- Implemented field `English.termExceptions` in `English` class.
+
+Updated dependencies, tests, examples and documentation.
+
 ### 0.13.0-1
 **BREAKING CHANGES**
 
