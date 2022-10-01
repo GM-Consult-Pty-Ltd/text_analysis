@@ -1,9 +1,15 @@
 // BSD 3-Clause License
 // Copyright (c) 2022, GM Consult Pty Ltd
 
-/// Import the text_analysis package by adding this line at the top of your
-/// code file.
-import 'package:text_analysis/src/_index.dart';
+/// Add the import(s) at the top of your code file.
+///
+/// Import the text_analysis package.
+import 'package:text_analysis/text_analysis.dart';
+
+/// Import the extensions if you prefer the convenience of calling an extension.
+import 'package:text_analysis/extensions.dart';
+
+/// Private import for formatted printing to the console.
 import 'package:gmconsult_dev/gmconsult_dev.dart';
 
 void main() async {
@@ -126,13 +132,13 @@ void _printTokens(String title, Iterable<Token> tokens) {
 
 /// Gets the k-grams for the terms in [text] and returns a hashmap of k-gram
 /// to term.
-Future<Map<KGram, Set<Term>>> _getKgramIndex(
-    String title, SourceText text, int k) async {
+Future<Map<String, Set<String>>> _getKgramIndex(
+    String title, String text, int k) async {
 //
 
   final tokens = await TextTokenizer().tokenize(text);
   // get the bi-grams
-  final Map<String, Set<Term>> kGramIndex = tokens.kGrams(2);
+  final Map<String, Set<String>> kGramIndex = tokens.kGrams(2);
 
   // initialize the results collection
   final results = <Map<String, dynamic>>[];
@@ -152,7 +158,7 @@ Future<Map<KGram, Set<Term>>> _getKgramIndex(
 
 /// Tokenize the [zones] in a [json] document.
 Future<List<Token>> _tokenizeJson(
-    Map<String, dynamic> json, List<Zone> zones) async {
+    Map<String, dynamic> json, List<String> zones) async {
   // create a custom analyzer with exceptions
   final analyzer =
       English(termExceptions: {'tesla': 'Tesla', 'Alphabet': 'GOOGLE'});
@@ -215,7 +221,7 @@ void _similarityExamples(
         '- Edit Similarity:     ${term.editSimilarity(other).toStringAsFixed(3)}');
     // print the termSimilarity
     print(
-        '- Term Similarity:     ${term.termSimilarity(other).toStringAsFixed(3)}');
+        '- String Similarity:     ${term.termSimilarity(other).toStringAsFixed(3)}');
 
     // print a seperator
     _seperator();

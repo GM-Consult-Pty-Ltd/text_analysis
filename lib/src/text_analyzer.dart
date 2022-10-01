@@ -1,7 +1,7 @@
 // BSD 3-Clause License
 // Copyright (c) 2022, GM Consult Pty Ltd
 
-import 'package:text_analysis/src/_index.dart';
+import '_index.dart';
 
 /// An interface exposes language-specific properties and methods used in
 /// text analysis:

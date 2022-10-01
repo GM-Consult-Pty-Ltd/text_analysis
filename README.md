@@ -71,18 +71,17 @@ dependencies:
   text_analysis: <latest version>
 ```
 
-In your code file add the following import:
+In your code file add the text_analysis library import. This will also import the `Porter2Stemmer` class from the `porter_2_stemmer` package.
 
 ```dart
 import 'package:text_analysis/text_analysis.dart';
 ```
 
-To use the package's extensions, type definitions or the porter_2_stemmer library, also add any of the following imports:
+To use the package's extensions and/or type definitions, also add any of the following imports:
 
 ```dart
 import 'package:text_analysis/extensions.dart';
 import 'package:text_analysis/type_definitions.dart';
-import 'package:text_analysis/package_exports.dart';
 
 ```
 

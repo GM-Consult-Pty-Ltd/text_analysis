@@ -1,7 +1,7 @@
 // BSD 3-Clause License
 // Copyright (c) 2022, GM Consult Pty Ltd
 
-import 'package:text_analysis/src/_index.dart';
+import '_index.dart';
 import 'package:porter_2_stemmer/porter_2_stemmer.dart';
 
 /// A [TextAnalyzer] implementation for [English] language analysis.

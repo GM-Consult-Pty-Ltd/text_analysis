@@ -1,7 +1,7 @@
 // BSD 3-Clause License
 // Copyright (c) 2022, GM Consult Pty Ltd
 
-import 'package:text_analysis/src/_index.dart';
+import '_index.dart';
 
 /// A [Token] represents a [term] (word) present in a text source:
 /// - [term] is the term that will be looked up in the index;

@@ -4,6 +4,16 @@ Copyright (c) 2022, GM Consult Pty Ltd
 All rights reserved. 
 -->
 
+### 0.14.0
+**BREAKING CHANGES**
+
+#### Breaking Changes:
+- Removed library `package_exports`. 
+- The `Porter2Stemmer` class from the `porter_2_stemmer` package is exported by the `text_indexer` library.
+- The `Porter2StemmerExtension` String extension is exported by the `extensions` library.
+
+Updated documentation.
+
 ### 0.13.0
 **BREAKING CHANGES**
 

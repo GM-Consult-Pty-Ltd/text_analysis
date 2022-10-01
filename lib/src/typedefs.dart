@@ -2,7 +2,7 @@
 // Copyright (c) 2022, GM Consult Pty Ltd
 
 import 'dart:async';
-import 'package:text_analysis/src/_index.dart';
+import '_index.dart';
 
 /// An alias for String.
 typedef SourceText = String;

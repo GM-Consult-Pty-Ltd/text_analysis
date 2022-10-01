@@ -105,13 +105,12 @@ All rights reserved.
 <pre class="language-yaml"><code class="language-yaml">dependencies:
   text_analysis: &lt;latest version&gt;
 </code></pre>
-<p>In your code file add the following import:</p>
+<p>In your code file add the text_analysis library import. This will also import the <code>Porter2Stemmer</code> class from the <code>porter_2_stemmer</code> package.</p>
 <pre class="language-dart"><code class="language-dart">import 'package:text_analysis/text_analysis.dart';
 </code></pre>
-<p>To use the package's extensions, type definitions or the porter_2_stemmer library, also add any of the following imports:</p>
+<p>To use the package's extensions and/or type definitions, also add any of the following imports:</p>
 <pre class="language-dart"><code class="language-dart">import 'package:text_analysis/extensions.dart';
 import 'package:text_analysis/type_definitions.dart';
-import 'package:text_analysis/package_exports.dart';
 
 </code></pre>
 <p>Basic English tokenization can be performed by using a <code>TextTokenizer</code> instance with the default text analyzer and no token filter:</p>
@@ -290,13 +289,6 @@ length .</li>
 <dd>Exports the extension methods exposed by this package.
 </dd>
 
-          <dt id="package_exports">
-  <span class="name"><a href="package_exports/package_exports-library.html">package_exports</a></span> 
-
-</dt>
-<dd>Exports the <code>porter_2_stemmer</code> package.
-</dd>
-
           <dt id="text_analysis">
   <span class="name"><a href="text_analysis/text_analysis-library.html">text_analysis</a></span> 
 
@@ -309,7 +301,7 @@ information retrieval systems.
   <span class="name"><a href="type_definitions/type_definitions-library.html">type_definitions</a></span> 
 
 </dt>
-<dd>Exports all the typedefs used in this package.
+<dd>Exports all the type definitions used in the <code>text_indexing</code> library.
 </dd>
 
         </dl>
@@ -333,7 +325,6 @@ information retrieval systems.
     <ol>
       <li class="section-title">Libraries</li>
       <li><a href="extensions/extensions-library.html">extensions</a></li>
-      <li><a href="package_exports/package_exports-library.html">package_exports</a></li>
       <li><a href="text_analysis/text_analysis-library.html">text_analysis</a></li>
       <li><a href="type_definitions/type_definitions-library.html">type_definitions</a></li>
 </ol>
@@ -348,7 +339,7 @@ information retrieval systems.
 <footer>
   <span class="no-break">
     text_analysis
-      0.13.0
+      0.14.0
   </span>
 
   

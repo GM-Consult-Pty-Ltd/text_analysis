@@ -4,9 +4,12 @@
 /// information retrieval systems.
 library text_analysis;
 
-export 'src/english.dart';
-export 'src/term_similarity.dart';
-export 'src/text_analyzer.dart';
-export 'src/text_document.dart';
-export 'src/text_tokenizer.dart';
-export 'src/token.dart';
+export 'src/english.dart' show English;
+export 'src/term_similarity.dart' show TermSimilarity;
+export 'src/text_analyzer.dart' show TextAnalyzer;
+export 'src/text_document.dart'
+    show TextDocument, TextDocumentMixin, TextDocumentBase;
+export 'src/text_tokenizer.dart'
+    show TextTokenizer, TextTokenizerMixin, TextTokenizerBase;
+export 'src/token.dart' show Token;
+export 'package:porter_2_stemmer/porter_2_stemmer.dart' show Porter2Stemmer;

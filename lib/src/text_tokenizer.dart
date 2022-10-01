@@ -2,7 +2,7 @@
 // Copyright (c) 2022, GM Consult Pty Ltd
 // All rights reserved
 
-import 'package:text_analysis/src/_index.dart';
+import '_index.dart';
 import 'package:porter_2_stemmer/porter_2_stemmer.dart';
 
 /// Interface for a text analyser class that extracts tokens from text for use
@@ -43,8 +43,8 @@ abstract class TextTokenizer {
   /// tokenization to tokens that meet criteria for either index or count.
   TokenFilter? get tokenFilter;
 
-  /// Extracts tokens from [source] for use in full-text search queries and
-  /// indexes.
+  /// Extracts one or more tokens from [source] for use in full-text search
+  /// queries and indexes.
   ///
   /// Optional parameter [zone] is the name of the zone in a document in
   /// which the term is located.
