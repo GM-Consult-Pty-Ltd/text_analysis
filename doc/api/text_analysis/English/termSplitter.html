@@ -69,7 +69,7 @@ with a single space character.</p>
 character.</p>
 <p>The text is then split into terms at all space characters.</p>
 <p>Leading and trailing white-space is trimmed from all terms.</p>
-<p>Unless a term matches any of <a href="../../text_analysis/English/kAbbreviations-constant.html">English.kAbbreviations</a>, any characters
+<p>Unless a term matches any of <a href="../../text_analysis/English/abbreviations.html">abbreviations</a>.keys, any characters
 matching <a href="../../text_analysis/English/reNonWordChars-constant.html">English.reNonWordChars</a> is trimmed from the end of the term.</p>
 <p>Empty strings are removed from the returned terms.</p>
 </section>
@@ -90,7 +90,7 @@ TermSplitter get termSplitter =&gt; (SourceText source) {
       &#47;&#47; split at white-space
       final terms = source.split(RegExp(r&#39;(\s+)&#39;)).map((e) {
         e = e.trim();
-        if (kAbbreviations.contains(e)) {
+        if (abbreviations.keys.contains(e)) {
           return e;
         }
         return e
@@ -135,6 +135,7 @@ TermSplitter get termSplitter =&gt; (SourceText source) {
     <li class="section-title">
       <a href="../../text_analysis/English-class.html#instance-properties">Properties</a>
     </li>
+    <li><a href="../../text_analysis/English/abbreviations.html">abbreviations</a></li>
     <li><a href="../../text_analysis/English/characterFilter.html">characterFilter</a></li>
     <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/hashCode.html">hashCode</a></li>
     <li><a href="../../text_analysis/English/lemmatizer.html">lemmatizer</a></li>
@@ -167,8 +168,8 @@ TermSplitter get termSplitter =&gt; (SourceText source) {
           <li><a href="../../text_analysis/English/reNonWordChars-constant.html">reNonWordChars</a></li>
           <li><a href="../../text_analysis/English/rePunctuationSelector-constant.html">rePunctuationSelector</a></li>
           <li><a href="../../text_analysis/English/reSentenceEndingSelector-constant.html">reSentenceEndingSelector</a></li>
+          <li><a href="../../text_analysis/English/reWordChars-constant.html">reWordChars</a></li>
           <li><a href="../../text_analysis/English/reWordEndsWithPeriod-constant.html">reWordEndsWithPeriod</a></li>
-          <li><a href="../../text_analysis/English/wordChars-constant.html">wordChars</a></li>
 </ol>
 
   </div><!--/.sidebar-offcanvas-->

@@ -71,4 +71,7 @@ abstract class TextAnalyzer {
   /// Stopwords are terms that commonly occur in a language and that do not add
   /// material value to the analysis of text.
   Iterable<String> get stopWords;
+
+  /// A hashmap of abbreviations in the analyzed language.
+  Map<String, String> get abbreviations;
 }

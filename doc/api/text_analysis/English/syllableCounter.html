@@ -95,7 +95,7 @@ SyllableCounter get syllableCounter =&gt; (term) {
         if (e.toUpperCase() == e) {
           &#47;&#47; this is more than likely an acronym, so add 1
           count++;
-        } else if (kAbbreviations.contains(e) ||
+        } else if (abbreviations.keys.contains(e) ||
             e.contains(RegExp(r&#39;[^a-z]&#39;))) {
           &#47;&#47; still has non-letters, let&#39;s split it and get the syllables for
           &#47;&#47; each sub-term
@@ -117,22 +117,6 @@ SyllableCounter get syllableCounter =&gt; (term) {
           }
         }
       }
-
-      &#47;&#47; termSplitter(term).map((e) {
-      &#47;&#47;   &#47;&#47; count apostropied syllables like &quot;d&#39;Azure&quot; and remove the
-      &#47;&#47;   &#47;&#47; apostrophied prefix
-      &#47;&#47;   e = e.replaceAllMapped(RegExp(r&quot;(?&lt;=\b)([a-zA-Z]&#39;)&quot;), (match) {
-      &#47;&#47;     count++;
-      &#47;&#47;     return &#39;&#39;;
-      &#47;&#47;   });
-      &#47;&#47;   &#47;&#47; stem the remaining term
-      &#47;&#47;   e = e.stemPorter2();
-      &#47;&#47;   &#47;&#47; add all the vowels, diphtongs and triptongs. As e has been stemmed,
-      &#47;&#47;   &#47;&#47; we know trailing silent e&#39;s have been removed and vowel &quot;y&quot;s
-      &#47;&#47;   &#47;&#47;converted to &quot;i&quot;
-      &#47;&#47;   count += RegExp(r&#39;[aeiou]+&#39;).allMatches(e).length;
-      &#47;&#47;   return e;
-      &#47;&#47; });
       &#47;&#47; if count is 0, return 1 because a word must have at least one syllable
       return count &lt; 1 ? 1 : count;
     };</code></pre>
@@ -168,6 +152,7 @@ SyllableCounter get syllableCounter =&gt; (term) {
     <li class="section-title">
       <a href="../../text_analysis/English-class.html#instance-properties">Properties</a>
     </li>
+    <li><a href="../../text_analysis/English/abbreviations.html">abbreviations</a></li>
     <li><a href="../../text_analysis/English/characterFilter.html">characterFilter</a></li>
     <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/hashCode.html">hashCode</a></li>
     <li><a href="../../text_analysis/English/lemmatizer.html">lemmatizer</a></li>
@@ -200,8 +185,8 @@ SyllableCounter get syllableCounter =&gt; (term) {
           <li><a href="../../text_analysis/English/reNonWordChars-constant.html">reNonWordChars</a></li>
           <li><a href="../../text_analysis/English/rePunctuationSelector-constant.html">rePunctuationSelector</a></li>
           <li><a href="../../text_analysis/English/reSentenceEndingSelector-constant.html">reSentenceEndingSelector</a></li>
+          <li><a href="../../text_analysis/English/reWordChars-constant.html">reWordChars</a></li>
           <li><a href="../../text_analysis/English/reWordEndsWithPeriod-constant.html">reWordEndsWithPeriod</a></li>
-          <li><a href="../../text_analysis/English/wordChars-constant.html">wordChars</a></li>
 </ol>
 
   </div><!--/.sidebar-offcanvas-->

@@ -4,6 +4,15 @@ Copyright (c) 2022, GM Consult Pty Ltd
 All rights reserved. 
 -->
 
+### 0.15.0
+**BREAKING CHANGES**
+
+#### Breaking Changes:
+- Added field `Map<String, String> get abbreviations` to `TextAnalyzer` class.
+
+#### New:
+- Implemented field `English.abbreviations` in `English` class.
+
 ### 0.14.0
 **BREAKING CHANGES**
 

@@ -80,7 +80,7 @@
 
     <dl class="constructor-summary-list">
         <dt id="English" class="callable">
-          <span class="name"><a href="../text_analysis/English/English.html">English</a></span><span class="signature">(<span class="parameter" id="-param-stopWords">{<span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>&gt;</span></span> <span class="parameter-name">stopWords</span> = <span class="default-value">const &lt;String&gt;[]</span>, </span><span class="parameter" id="-param-termExceptions"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Map-class.html">Map</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>, <span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>&gt;</span></span> <span class="parameter-name">termExceptions</span> = <span class="default-value">const &lt;String, String&gt;{}</span>, </span><span class="parameter" id="-param-lemmatizer"><span class="type-annotation"><a href="../type_definitions/Lemmatizer.html">Lemmatizer</a></span> <span class="parameter-name">lemmatizer</span> = <span class="default-value">_kLemmatizer</span>, </span><span class="parameter" id="-param-stemmer"><span class="type-annotation"><a href="../type_definitions/Stemmer.html">Stemmer</a></span> <span class="parameter-name">stemmer</span> = <span class="default-value">_kStemmer</span>}</span>)</span>
+          <span class="name"><a href="../text_analysis/English/English.html">English</a></span><span class="signature">(<span class="parameter" id="-param-stopWords">{<span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>&gt;</span></span> <span class="parameter-name">stopWords</span> = <span class="default-value">English.kStopWords</span>, </span><span class="parameter" id="-param-termExceptions"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Map-class.html">Map</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>, <span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>&gt;</span></span> <span class="parameter-name">termExceptions</span> = <span class="default-value">const &lt;String, String&gt;{}</span>, </span><span class="parameter" id="-param-lemmatizer"><span class="type-annotation"><a href="../type_definitions/Lemmatizer.html">Lemmatizer</a></span> <span class="parameter-name">lemmatizer</span> = <span class="default-value">_kLemmatizer</span>, </span><span class="parameter" id="-param-stemmer"><span class="type-annotation"><a href="../type_definitions/Stemmer.html">Stemmer</a></span> <span class="parameter-name">stemmer</span> = <span class="default-value">_kStemmer</span>}</span>)</span>
         </dt>
         <dd>
           A const constructor to allow an instance to be used as default:
@@ -93,6 +93,17 @@
       <h2>Properties</h2>
 
       <dl class="properties">
+        <dt id="abbreviations" class="property">
+  <span class="name"><a href="../text_analysis/English/abbreviations.html">abbreviations</a></span>
+  <span class="signature">&#8594; <a href="https://api.flutter.dev/flutter/dart-core/Map-class.html">Map</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>, <span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>&gt;</span></span> 
+
+</dt>
+<dd>
+  A hashmap of abbreviations in the analyzed language.
+  <div class="features">read-only, override</div>
+
+</dd>
+
         <dt id="characterFilter" class="property">
   <span class="name"><a href="../text_analysis/English/characterFilter.html">characterFilter</a></span>
   <span class="signature">&#8594; <a href="../type_definitions/CharacterFilter.html">CharacterFilter</a></span> 
@@ -315,7 +326,7 @@ with a single space character.
 
         <dt id="kAbbreviations" class="constant">
     <span class="name "><a href="../text_analysis/English/kAbbreviations-constant.html">kAbbreviations</a></span>
-  <span class="signature">&#8594; const <a href="https://api.flutter.dev/flutter/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>&gt;</span></span>
+  <span class="signature">&#8594; const <a href="https://api.flutter.dev/flutter/dart-core/Map-class.html">Map</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>, <span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>&gt;</span></span>
   
 
 </dt>
@@ -324,7 +335,7 @@ with a single space character.
   
 
   <div>
-    <span class="signature"><code>[&#39;Anon.&#39;, &#39;Arb.&#39;, &#39;Ashm.&#39;, &#39;Jam.&#39;, &#39;a.&#39;, &#39;c.&#39;, &#39;eOE&#39;, &#39;lOE&#39;, &#39;OE&#39;, &#39;Bel &amp; Dr.&#39;, &#39;Ecclus.&#39;, &#39;Esd.&#39;, &…</code></span>
+    <span class="signature"><code>{&#39;a&#39; : &#39;ante&#39;, &#39;A.D.&#39; : &#39;Anno Domini&#39;, &#39;A.V.&#39; : &#39;Authorized Version&#39;, &#39;abbrev.&#39; : &#39;abbreviation&#39;, &#39;Abbrev.&#39; : &#39;abbreviations…</code></span>
   </div>
 </dd>
 
@@ -399,7 +410,7 @@ with a single space character.
   
 
   <div>
-    <span class="signature"><code>&#39;(?&lt;=$wordChars|\\s)[:;,\\-—]+(?=[\\s])|(\\.{2,})&#39;</code></span>
+    <span class="signature"><code>&#39;(?&lt;=$reWordChars|\\s)[:;,\\-—]+(?=[\\s])|(\\.{2,})&#39;</code></span>
   </div>
 </dd>
 
@@ -414,7 +425,22 @@ with a single space character.
   
 
   <div>
-    <span class="signature"><code>&#39;(?&lt;=$wordChars|\\s)(\\. )(?=([^a-z])|\\s+|\$)|(\\.)(?=\$)|&#39; &#39;(?&lt;=[^([{])([?!])(?=([^)]}])|\\s+|\$)&#39;</code></span>
+    <span class="signature"><code>&#39;(?&lt;=$reWordChars|\\s)(\\. )(?=([^a-z])|\\s+|\$)|(\\.)(?=\$)|&#39; &#39;(?&lt;=[^([{])([?!])(?=([^)]}])|\\s+|\$)&#39;</code></span>
+  </div>
+</dd>
+
+        <dt id="reWordChars" class="constant">
+    <span class="name "><a href="../text_analysis/English/reWordChars-constant.html">reWordChars</a></span>
+  <span class="signature">&#8594; const <a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>
+  
+
+</dt>
+<dd>
+  Matches characters used to write words, including:
+  
+
+  <div>
+    <span class="signature"><code>r&quot;[a-zA-Z0-9¥Œ€@™#-\&amp;_&#39;-]&quot;</code></span>
   </div>
 </dd>
 
@@ -431,21 +457,6 @@ a period.
 
   <div>
     <span class="signature"><code>r&#39;(?)([a-zA-Z.]+)(?=([.]))&#39;</code></span>
-  </div>
-</dd>
-
-        <dt id="wordChars" class="constant">
-    <span class="name "><a href="../text_analysis/English/wordChars-constant.html">wordChars</a></span>
-  <span class="signature">&#8594; const <a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>
-  
-
-</dt>
-<dd>
-  Matches characters used to write words, including:
-  
-
-  <div>
-    <span class="signature"><code>r&quot;[a-zA-Z0-9¥Œ€@™#-\&amp;_&#39;-]&quot;</code></span>
   </div>
 </dd>
 
@@ -504,6 +515,7 @@ a period.
     <li class="section-title">
       <a href="../text_analysis/English-class.html#instance-properties">Properties</a>
     </li>
+    <li><a href="../text_analysis/English/abbreviations.html">abbreviations</a></li>
     <li><a href="../text_analysis/English/characterFilter.html">characterFilter</a></li>
     <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/hashCode.html">hashCode</a></li>
     <li><a href="../text_analysis/English/lemmatizer.html">lemmatizer</a></li>
@@ -536,8 +548,8 @@ a period.
           <li><a href="../text_analysis/English/reNonWordChars-constant.html">reNonWordChars</a></li>
           <li><a href="../text_analysis/English/rePunctuationSelector-constant.html">rePunctuationSelector</a></li>
           <li><a href="../text_analysis/English/reSentenceEndingSelector-constant.html">reSentenceEndingSelector</a></li>
+          <li><a href="../text_analysis/English/reWordChars-constant.html">reWordChars</a></li>
           <li><a href="../text_analysis/English/reWordEndsWithPeriod-constant.html">reWordEndsWithPeriod</a></li>
-          <li><a href="../text_analysis/English/wordChars-constant.html">wordChars</a></li>
 </ol>
 
   </div><!--/.sidebar-offcanvas-->
