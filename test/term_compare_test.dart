@@ -6,7 +6,6 @@
 import 'package:text_analysis/src/_index.dart';
 import 'package:test/test.dart';
 import 'package:gmconsult_dev/gmconsult_dev.dart';
-import 'data/kGramIndex.dart';
 // import 'print_json.dart';
 
 void main() {

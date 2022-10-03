@@ -63,11 +63,11 @@ All rights reserved.
 </ul>
 <h2 id="overview">Overview</h2>
 <p>The <code>text_analysis</code> package provides methods to tokenize text, compute readibility scores for a document and evaluate similarity of <code>terms</code>. It is intended to be used in Natural Language Processing (<code>NLP</code>) as part of an information retrieval system.</p>
-<p>It is split into <a href="#usage">four (4) libraries</a>:</p>
+<p>It is split into <a href="#usage">four libraries</a>:</p>
 <ul>
 <li><a href="https://pub.dev/documentation/text_analysis/0.12.0-2/text_analysis/text_analysis-library.html">text_analysis</a> is the core library that exports the tokenization, analysis and string similarity functions;</li>
-<li><a href="https://pub.dev/documentation/text_analysis/0.12.0-2/extensions/extensions-library.html">extensions</a> exports extension methods also provided as static methods of the <code>TextSimilarity</code> class;</li>
-<li><a href="https://pub.dev/documentation/text_analysis/0.12.0-2/package_exports/package_exports-library.html">package_exports</a> exports the <code>porter_2_stemmer</code> package; and</li>
+<li><a href="https://pub.dev/documentation/text_analysis/0.12.0-2/extensions/extensions-library.html">extensions</a> exports extension methods also provided as static methods of the <a href="https://pub.dev/documentation/text_analysis/latest/text_analysis/TermSimilarity-class.html">TextSimilarity</a> class;</li>
+<li><a href="https://pub.dev/documentation/text_analysis/0.12.0-2/package_exports/package_exports-library.html">package_exports</a> exports the <a href="https://pub.dev/packages/porter_2_stemmer">porter_2_stemmer</a> package; and</li>
 <li><a href="https://pub.dev/documentation/text_analysis/0.12.0-2/type_definitions/type_definitions-library.html">type_definitions</a> exports all the typedefs used in this package.</li>
 </ul>
 <p>Refer to the <a href="#references">references</a> to learn more about information retrieval systems and the theory behind this library.</p>
@@ -75,11 +75,10 @@ All rights reserved.
 <p>Tokenization comprises the following steps:</p>
 <ul>
 <li>a <code>term splitter</code> splits text to a list of terms at appropriate places like white-space and mid-sentence punctuation;</li>
-<li>a <code>character filter</code> manipulates terms prior to stemming and tokenization (e.g. changing case and / or removing non-word characters);</li>
+<li>a <code>character filter</code> manipulates terms prior to tokenization (e.g. changing case and / or removing non-word characters);</li>
 <li>a <code>term filter</code> manipulates the terms by splitting compound or hyphenated terms or applying stemming and lemmatization. The <code>termFilter</code> can also filter out <code>stopwords</code>; and</li>
-<li>the <code>tokenizer</code> converts the resulting terms to a collection of <code>tokens</code> that contain the term and a pointer to the position of the term in the source text.</li>
+<li>the <code>tokenizer</code> converts the resulting terms to a collection of <code>tokens</code> that contain tokenized versions of the term and a pointer to the position of the tokenized term in the source text.</li>
 </ul>
-<p>A String extension method <code>Set&lt;KGram&gt; kGrams([int k = 2])</code> that parses a set of k-grams of length k from a <code>term</code>.  The default k-gram length is 3 (tri-gram).</p>
 <p><img src="https://github.com/GM-Consult-Pty-Ltd/text_analysis/raw/main/assets/images/text_analysis.png?raw=true?raw=true" alt="Text analysis" title="Tokenizing overview"></p>
 <h3 id="readibility">Readibility</h3>
 <p>The <a href="#textdocument">TextDocument</a> enumerates a text document's <em>paragraphs</em>, <em>sentences</em>, <em>terms</em> and <em>tokens</em> and computes readability measures:</p>
@@ -100,17 +99,25 @@ All rights reserved.
 <li><code>termSimilarity</code> returns a similarity index value between 0.0 and 1.0, product of <code>edit similarity</code> , <code>Jaccard similarity</code> and <code>length similarity</code>. A term similarity of 1.0 means the two terms are identical in all respects.</li>
 </ul>
 <p>Functions that return the term similarity measures are provided by static methods of the <a href="#termsimilarity">TermSimilarity</a> class.</p>
+<p>The <a href="#termsimilarity">TermSimilarity</a> class also provides a function for splitting terms into <code>k-grams</code>, used in spell correction algorithms.</p>
 <h2 id="usage">Usage</h2>
 <p>In the <code>pubspec.yaml</code> of your flutter project, add the following dependency:</p>
 <pre class="language-yaml"><code class="language-yaml">dependencies:
   text_analysis: &lt;latest version&gt;
 </code></pre>
 <p>In your code file add the text_analysis library import. This will also import the <code>Porter2Stemmer</code> class from the <code>porter_2_stemmer</code> package.</p>
-<pre class="language-dart"><code class="language-dart">import 'package:text_analysis/text_analysis.dart';
+<pre class="language-dart"><code class="language-dart">// import the core classes
+import 'package:text_analysis/text_analysis.dart';
+
+
 </code></pre>
 <p>To use the package's extensions and/or type definitions, also add any of the following imports:</p>
-<pre class="language-dart"><code class="language-dart">import 'package:text_analysis/extensions.dart';
-import 'package:text_analysis/type_definitions.dart';
+<pre class="language-dart"><code class="language-dart">
+// import the typedefs, if needed
+import 'package:text_indexing/type_definitions.dart'; 
+
+// import the extensions, if needed
+import 'package:text_indexing/extensions.dart'; 
 
 </code></pre>
 <p>Basic English tokenization can be performed by using a <code>TextTokenizer</code> instance with the default text analyzer and no token filter:</p>
@@ -182,6 +189,7 @@ extend <a href="https://pub.dev/documentation/text_analysis/0.12.0-1/text_analys
 <h4 id="termsimilarity">TermSimilarity</h4>
 <p>The <a href="https://pub.dev/documentation/text_analysis/0.12.0-2/text_analysis/TermSimilarity-class.html">TermSimilarity</a> class provides the following static methods used for (case-insensitive) comparison of <code>terms</code>:</p>
 <ul>
+<li><code>kGrams</code> parses a term, to a set of k-grams.  The default k-gram length is 2 (bi-gram).</li>
 <li><code>editDistance</code> returns the <code>Damerau–Levenshtein distance</code>, the minimum number of  single-character edits (transpositions, insertions, deletions or substitutions) required to change one <code>term</code> into another;</li>
 <li><code>editSimilarity</code> returns a normalized measure of <code>Damerau–Levenshtein distance</code> on a scale of 0.0 to 1.0, calculated by dividing the the difference between the maximum edit distance (sum of the length of the two terms) and the computed <code>editDistance</code>, by by the maximum edit distance;</li>
 <li><code>lengthDistance</code> returns the absolute value of the difference in length between two terms;</li>
@@ -199,7 +207,7 @@ extend <a href="https://pub.dev/documentation/text_analysis/0.12.0-1/text_analys
 <li><code>matches</code> returns the best matches from <code>terms</code> for a term, in descending order of term similarity (best match first).</li>
 </ul>
 <p><em>Term comparisons are NOT case-sensitive.</em></p>
-<p>The  <a href="https://pub.dev/documentation/text_analysis/latest/text_analysis/TextSimilarity-class.html">TextSimilarity</a> uses  <a href="https://pub.dev/documentation/text_analysis/0.12.0-1/extensions/TermSimilarityExtensions.html">extension methods</a> that can be imported from the <a href="https://pub.dev/documentation/text_analysis/0.12.0-2/extensions/extensions-library.html">extensions</a> library.</p>
+<p>The  <a href="https://pub.dev/documentation/text_analysis/latest/text_analysis/TextSimilarity-class.html">TextSimilarity</a> class relies on <a href="https://pub.dev/documentation/text_analysis/0.12.0-1/extensions/TermSimilarityExtensions.html">extension methods</a> that can be imported from the <a href="https://pub.dev/documentation/text_analysis/0.12.0-2/extensions/extensions-library.html">extensions</a> library.</p>
 <h4 id="textanalyzer">TextAnalyzer</h4>
 <p>The <a href="https://pub.dev/documentation/text_analysis/latest/text_analysis/TextAnalyzer-class.html">TextAnalyzer</a> interface exposes language-specific properties and methods used in text analysis:</p>
 <ul>
@@ -228,8 +236,8 @@ extend <a href="https://pub.dev/documentation/text_analysis/0.12.0-1/text_analys
 <li><a href="https://pub.dev/documentation/text_analysis/latest/text_analysis/TextDocument/fleschReadingEaseScore.html">fleschReadingEaseScore</a> is a readibility measure calculated from sentence length and word length on a 100-point scale. The higher the score, the easier it is to understand the document;</li>
 <li><a href="https://pub.dev/documentation/text_analysis/latest/text_analysis/TextDocument/fleschKincaidGradeLevel.html">fleschKincaidGradeLevel</a> is a readibility measure relative to U.S. school grade level.  It is also calculated from sentence length and word length .</li>
 </ul>
-<p>The <a href="https://pub.dev/documentation/text_analysis/latest/text_analysis/TextDocumentMixin-class.html">TextDocumentMixin</a> implements the <a href="https://pub.dev/documentation/text_analysis/latest/text_analysis/TextDocumentMixin/averageSentenceLength.html">TextDocument.averageSentenceLength</a>, <a href="https://pub.dev/documentation/text_analysis/latest/text_analysis/TextDocumentMixin/averageSyllableCount.html">TextDocument.averageSyllableCount</a>, <a href="https://pub.dev/documentation/text_analysis/latest/text_analysis/TextDocumentMixin/wordCount.html">TextDocument.wordCount</a>, <a href="https://pub.dev/documentation/text_analysis/latest/text_analysis/TextDocumentMixin/fleschReadingEaseScore.html">TextDocument.fleschReadingEaseScore</a> and <a href="https://pub.dev/documentation/text_analysis/latest/text_analysis/TextDocumentMixin/fleschKincaidGradeLevel.html">TextDocument.fleschKincaidGradeLevel</a> methods.</p>
-<p>A <a href="https://pub.dev/documentation/text_analysis/latest/text_analysis/TextDocument-class.html">TextDocument</a> can be hydrated with the <a href="https://pub.dev/documentation/text_analysis/latest/text_analysis/TextDocument/TextDocument.html">unnamed factory constructor</a> or using the <a href="https://pub.dev/documentation/text_analysis/latest/text_analysis/TextDocument/analyze.html">TextDocument.analyze</a> or <a href="https://pub.dev/documentation/text_analysis/latest/text_analysis/TextDocument/analyzeJson.html">TextDocument.analyzeJson</a> static methods. Alternatively, extend <a href="https://pub.dev/documentation/text_analysis/latest/text_analysis/TextDocumentBase-class.html">TextDocumentBase</a> class.</p>
+<p>The <a href="https://pub.dev/documentation/text_analysis/latest/text_analysis/TextDocumentMixin-class.html">TextDocumentMixin</a> implements the <a href="https://pub.dev/documentation/text_analysis/latest/text_analysis/TextDocumentMixin/averageSentenceLength.html">averageSentenceLength</a>, <a href="https://pub.dev/documentation/text_analysis/latest/text_analysis/TextDocumentMixin/averageSyllableCount.html">averageSyllableCount</a>, <a href="https://pub.dev/documentation/text_analysis/latest/text_analysis/TextDocumentMixin/wordCount.html">wordCount</a>, <a href="https://pub.dev/documentation/text_analysis/latest/text_analysis/TextDocumentMixin/fleschReadingEaseScore.html">fleschReadingEaseScore</a> and <a href="https://pub.dev/documentation/text_analysis/latest/text_analysis/TextDocumentMixin/fleschKincaidGradeLevel.html">fleschKincaidGradeLevel</a> methods.</p>
+<p>A <a href="https://pub.dev/documentation/text_analysis/latest/text_analysis/TextDocument-class.html">TextDocument</a> can be hydrated with the <a href="https://pub.dev/documentation/text_analysis/latest/text_analysis/TextDocument/TextDocument.html">unnamed factory constructor</a> or using the <a href="https://pub.dev/documentation/text_analysis/latest/text_analysis/TextDocument/analyze.html">analyze</a> or <a href="https://pub.dev/documentation/text_analysis/latest/text_analysis/TextDocument/analyzeJson.html">analyzeJson</a> static methods. Alternatively, extend <a href="https://pub.dev/documentation/text_analysis/latest/text_analysis/TextDocumentBase-class.html">TextDocumentBase</a> class.</p>
 <h2 id="definitions">Definitions</h2>
 <ul>
 <li><code>corpus</code>- the collection of <code>documents</code> for which an <code>index</code> is maintained.</li>

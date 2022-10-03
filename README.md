@@ -21,10 +21,10 @@ Skip to section:
 
 The `text_analysis` package provides methods to tokenize text, compute readibility scores for a document and evaluate similarity of `terms`. It is intended to be used in Natural Language Processing (`NLP`) as part of an information retrieval system. 
 
-It is split into [four (4) libraries](#usage):
+It is split into [four libraries](#usage):
 * [text_analysis](https://pub.dev/documentation/text_analysis/0.12.0-2/text_analysis/text_analysis-library.html) is the core library that exports the tokenization, analysis and string similarity functions;
-* [extensions](https://pub.dev/documentation/text_analysis/0.12.0-2/extensions/extensions-library.html) exports extension methods also provided as static methods of the `TextSimilarity` class;
-* [package_exports](https://pub.dev/documentation/text_analysis/0.12.0-2/package_exports/package_exports-library.html) exports the `porter_2_stemmer` package; and
+* [extensions](https://pub.dev/documentation/text_analysis/0.12.0-2/extensions/extensions-library.html) exports extension methods also provided as static methods of the [TextSimilarity](https://pub.dev/documentation/text_analysis/latest/text_analysis/TermSimilarity-class.html) class;
+* [package_exports](https://pub.dev/documentation/text_analysis/0.12.0-2/package_exports/package_exports-library.html) exports the [porter_2_stemmer](https://pub.dev/packages/porter_2_stemmer) package; and
 * [type_definitions](https://pub.dev/documentation/text_analysis/0.12.0-2/type_definitions/type_definitions-library.html) exports all the typedefs used in this package.
 
 Refer to the [references](#references) to learn more about information retrieval systems and the theory behind this library.
@@ -33,11 +33,9 @@ Refer to the [references](#references) to learn more about information retrieval
 
 Tokenization comprises the following steps:
 * a `term splitter` splits text to a list of terms at appropriate places like white-space and mid-sentence punctuation;
-* a `character filter` manipulates terms prior to stemming and tokenization (e.g. changing case and / or removing non-word characters);
+* a `character filter` manipulates terms prior to tokenization (e.g. changing case and / or removing non-word characters);
 * a `term filter` manipulates the terms by splitting compound or hyphenated terms or applying stemming and lemmatization. The `termFilter` can also filter out `stopwords`; and
-* the `tokenizer` converts the resulting terms to a collection of `tokens` that contain the term and a pointer to the position of the term in the source text.
-
-A String extension method `Set<KGram> kGrams([int k = 2])` that parses a set of k-grams of length k from a `term`.  The default k-gram length is 3 (tri-gram).
+* the `tokenizer` converts the resulting terms to a collection of `tokens` that contain tokenized versions of the term and a pointer to the position of the tokenized term in the source text.
 
 ![Text analysis](https://github.com/GM-Consult-Pty-Ltd/text_analysis/raw/main/assets/images/text_analysis.png?raw=true?raw=true "Tokenizing overview")
 
@@ -60,7 +58,9 @@ The following measures of `term` similarity are provided:
 * `Jaccard similarity` measures similarity between finite sample sets, and is defined as the size of the intersection divided by the size of the union of the sample sets; and
 * `termSimilarity` returns a similarity index value between 0.0 and 1.0, product of `edit similarity` , `Jaccard similarity` and `length similarity`. A term similarity of 1.0 means the two terms are identical in all respects.
 
-Functions that return the term similarity measures are provided by static methods of the [TermSimilarity](#termsimilarity) class.
+Functions that return the term similarity measures are provided by static methods of the [TermSimilarity](#termsimilarity) class. 
+
+The [TermSimilarity](#termsimilarity) class also provides a function for splitting terms into `k-grams`, used in spell correction algorithms.
 
 ## Usage
 
@@ -74,14 +74,21 @@ dependencies:
 In your code file add the text_analysis library import. This will also import the `Porter2Stemmer` class from the `porter_2_stemmer` package.
 
 ```dart
+// import the core classes
 import 'package:text_analysis/text_analysis.dart';
+
+
 ```
 
 To use the package's extensions and/or type definitions, also add any of the following imports:
 
 ```dart
-import 'package:text_analysis/extensions.dart';
-import 'package:text_analysis/type_definitions.dart';
+
+// import the typedefs, if needed
+import 'package:text_indexing/type_definitions.dart'; 
+
+// import the extensions, if needed
+import 'package:text_indexing/extensions.dart'; 
 
 ```
 
@@ -161,6 +168,7 @@ The API contains a fair amount of boiler-plate, but we aim to make the code as r
 #### TermSimilarity
 
 The [TermSimilarity](https://pub.dev/documentation/text_analysis/0.12.0-2/text_analysis/TermSimilarity-class.html) class provides the following static methods used for (case-insensitive) comparison of `terms`:
+* `kGrams` parses a term, to a set of k-grams.  The default k-gram length is 2 (bi-gram).
 * `editDistance` returns the `Damerau–Levenshtein distance`, the minimum number of  single-character edits (transpositions, insertions, deletions or substitutions) required to change one `term` into another;
 * `editSimilarity` returns a normalized measure of `Damerau–Levenshtein distance` on a scale of 0.0 to 1.0, calculated by dividing the the difference between the maximum edit distance (sum of the length of the two terms) and the computed `editDistance`, by by the maximum edit distance;
 * `lengthDistance` returns the absolute value of the difference in length between two terms;
@@ -178,7 +186,7 @@ To compare one term with a collection of other terms, the following methods are 
 
 *Term comparisons are NOT case-sensitive.*
 
-The  [TextSimilarity](https://pub.dev/documentation/text_analysis/latest/text_analysis/TextSimilarity-class.html) uses  [extension methods](https://pub.dev/documentation/text_analysis/0.12.0-1/extensions/TermSimilarityExtensions.html) that can be imported from the [extensions](https://pub.dev/documentation/text_analysis/0.12.0-2/extensions/extensions-library.html) library.
+The  [TextSimilarity](https://pub.dev/documentation/text_analysis/latest/text_analysis/TextSimilarity-class.html) class relies on [extension methods](https://pub.dev/documentation/text_analysis/0.12.0-1/extensions/TermSimilarityExtensions.html) that can be imported from the [extensions](https://pub.dev/documentation/text_analysis/0.12.0-2/extensions/extensions-library.html) library.
 
 #### TextAnalyzer
 
@@ -212,9 +220,9 @@ The [TextDocument](https://pub.dev/documentation/text_analysis/latest/text_analy
 * [fleschReadingEaseScore](https://pub.dev/documentation/text_analysis/latest/text_analysis/TextDocument/fleschReadingEaseScore.html) is a readibility measure calculated from sentence length and word length on a 100-point scale. The higher the score, the easier it is to understand the document;
 * [fleschKincaidGradeLevel](https://pub.dev/documentation/text_analysis/latest/text_analysis/TextDocument/fleschKincaidGradeLevel.html) is a readibility measure relative to U.S. school grade level.  It is also calculated from sentence length and word length .
 
-The [TextDocumentMixin](https://pub.dev/documentation/text_analysis/latest/text_analysis/TextDocumentMixin-class.html) implements the [TextDocument.averageSentenceLength](https://pub.dev/documentation/text_analysis/latest/text_analysis/TextDocumentMixin/averageSentenceLength.html), [TextDocument.averageSyllableCount](https://pub.dev/documentation/text_analysis/latest/text_analysis/TextDocumentMixin/averageSyllableCount.html), [TextDocument.wordCount](https://pub.dev/documentation/text_analysis/latest/text_analysis/TextDocumentMixin/wordCount.html), [TextDocument.fleschReadingEaseScore](https://pub.dev/documentation/text_analysis/latest/text_analysis/TextDocumentMixin/fleschReadingEaseScore.html) and [TextDocument.fleschKincaidGradeLevel](https://pub.dev/documentation/text_analysis/latest/text_analysis/TextDocumentMixin/fleschKincaidGradeLevel.html) methods.
+The [TextDocumentMixin](https://pub.dev/documentation/text_analysis/latest/text_analysis/TextDocumentMixin-class.html) implements the [averageSentenceLength](https://pub.dev/documentation/text_analysis/latest/text_analysis/TextDocumentMixin/averageSentenceLength.html), [averageSyllableCount](https://pub.dev/documentation/text_analysis/latest/text_analysis/TextDocumentMixin/averageSyllableCount.html), [wordCount](https://pub.dev/documentation/text_analysis/latest/text_analysis/TextDocumentMixin/wordCount.html), [fleschReadingEaseScore](https://pub.dev/documentation/text_analysis/latest/text_analysis/TextDocumentMixin/fleschReadingEaseScore.html) and [fleschKincaidGradeLevel](https://pub.dev/documentation/text_analysis/latest/text_analysis/TextDocumentMixin/fleschKincaidGradeLevel.html) methods.
 
-A [TextDocument](https://pub.dev/documentation/text_analysis/latest/text_analysis/TextDocument-class.html) can be hydrated with the [unnamed factory constructor](https://pub.dev/documentation/text_analysis/latest/text_analysis/TextDocument/TextDocument.html) or using the [TextDocument.analyze](https://pub.dev/documentation/text_analysis/latest/text_analysis/TextDocument/analyze.html) or [TextDocument.analyzeJson](https://pub.dev/documentation/text_analysis/latest/text_analysis/TextDocument/analyzeJson.html) static methods. Alternatively, extend [TextDocumentBase](https://pub.dev/documentation/text_analysis/latest/text_analysis/TextDocumentBase-class.html) class.
+A [TextDocument](https://pub.dev/documentation/text_analysis/latest/text_analysis/TextDocument-class.html) can be hydrated with the [unnamed factory constructor](https://pub.dev/documentation/text_analysis/latest/text_analysis/TextDocument/TextDocument.html) or using the [analyze](https://pub.dev/documentation/text_analysis/latest/text_analysis/TextDocument/analyze.html) or [analyzeJson](https://pub.dev/documentation/text_analysis/latest/text_analysis/TextDocument/analyzeJson.html) static methods. Alternatively, extend [TextDocumentBase](https://pub.dev/documentation/text_analysis/latest/text_analysis/TextDocumentBase-class.html) class.
 
 ## Definitions
 
