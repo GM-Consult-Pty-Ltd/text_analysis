@@ -1,11 +1,12 @@
 // BSD 3-Clause License
 // Copyright (c) 2022, GM Consult Pty Ltd
 
-// ignore_for_file: unused_local_variable
+// ignore_for_file: unused_local_variable, unused_import
 
 import 'package:text_analysis/src/_index.dart';
 import 'package:test/test.dart';
 import 'package:gmconsult_dev/gmconsult_dev.dart';
+import 'data/kGramIndex.dart';
 // import 'print_json.dart';
 
 void main() {

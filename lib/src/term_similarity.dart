@@ -384,7 +384,7 @@ class _CharArray extends _Array<int> {
             term
                 .toLowerCase()
                 .trim()
-                .replaceAll(r'[^a-z]', '')
+                .replaceAll(RegExp(r'[^a-z]'), '')
                 .codeUnits
                 .map((e) => e.toInt())
                 .toList(),

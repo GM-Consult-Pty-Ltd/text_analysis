@@ -4,6 +4,12 @@ Copyright (c) 2022, GM Consult Pty Ltd
 All rights reserved. 
 -->
 
+### 0.15.1
+
+#### Bug Fixes:
+* Fixed error thrown in `TermSimilarity.editLength` when terms contained characters other than lower-case letters
+
+
 ### 0.15.0
 **BREAKING CHANGES**
 
