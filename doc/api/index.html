@@ -168,6 +168,17 @@ extend <a href="https://pub.dev/documentation/text_analysis/0.12.0-1/text_analys
 <p>Please see the <a href="https://pub.dev/packages/text_analysis/example">examples</a> for more details.</p>
 <h2 id="api">API</h2>
 <p>The key interfaces of the <code>text_analysis</code> library are briefly described in this section. Please refer to the <a href="https://pub.dev/documentation/text_analysis/latest/">documentation</a> for details.</p>
+<p>The API contains a fair amount of boiler-plate, but we aim to make the code as readable, extendable and re-usable as possible:</p>
+<ul>
+<li>We use an <code>interface &gt; implementation mixin &gt; base-class &gt; implementation class pattern</code>:
+<ul>
+<li>the <code>interface</code> is an abstract class that exposes fields and methods but contains no implementation code. The <code>interface</code> may expose a factory constructor that returns an <code>implementation class</code> instance;</li>
+<li>the <code>implementation mixin</code> implements the <code>interface</code> class methods, but not the input fields;</li>
+<li>the <code>base-class</code> is an abstract class with the <code>implementation mixin</code> and exposes a default, unnamed generative const constructor for sub-classes. The intention is that <code>implementation classes</code> extend the <code>base class</code>, overriding the <code>interface</code> input fields with final properties passed in via a const generative constructor.</li>
+</ul>
+</li>
+<li>To maximise performance of the indexers the API performs lookups in nested hashmaps of DART core types. To improve code legibility the API makes use of type aliases, callback function definitions and extensions. The typedefs and extensions are not exported by the <a href="https://pub.dev/documentation/text_analysis/latest/text_analysis/text_analysis-library.html">text_analysis</a> library, but can be found in the <a href="https://pub.dev/documentation/text_analysis/latest/type_definitions/type_definitions-library.html">type_definitions</a> and <a href="https://pub.dev/documentation/text_analysis/latest/extensions/extensions-library.html">extensions</a> mini-libraries. <a href="#usage">Import these libraries seperately</a> if needed.</li>
+</ul>
 <h4 id="termsimilarity">TermSimilarity</h4>
 <p>The <a href="https://pub.dev/documentation/text_analysis/0.12.0-2/text_analysis/TermSimilarity-class.html">TermSimilarity</a> class provides the following static methods used for (case-insensitive) comparison of <code>terms</code>:</p>
 <ul>
@@ -206,21 +217,19 @@ extend <a href="https://pub.dev/documentation/text_analysis/0.12.0-1/text_analys
 <p>The <a href="https://pub.dev/documentation/text_analysis/latest/text_analysis/English-class.html">English</a> implementation of <a href="https://pub.dev/documentation/text_analysis/latest/text_analysis/TextAnalyzer-class.html">TextAnalyzer</a> is included in this library.</p>
 <h4 id="texttokenizer">TextTokenizer</h4>
 <p>The <a href="https://pub.dev/documentation/text_analysis/latest/text_analysis/TextTokenizer-class.html">TextTokenizer</a> extracts tokens from text for use in full-text search queries and indexes. It uses a <a href="#textanalyzer">TextAnalyzer</a> and <a href="https://pub.dev/documentation/text_analysis/latest/text_analysis/TextTokenizer/tokenFilter.html">token filter</a> in the <a href="https://pub.dev/documentation/text_analysis/latest/text_analysis/TextTokenizer/tokenize.html">tokenize</a> and <a href="https://pub.dev/documentation/text_analysis/latest/text_analysis/TextTokenizer/tokenizeJson.html">tokenizeJson</a> methods that return a list of <a href="https://pub.dev/documentation/text_analysis/0.12.0-1/text_analysis/Token-class.html">tokens</a> from text or a document.</p>
-<p>An <a href="https://pub.dev/documentation/text_analysis/latest/text_analysis/TextTokenizer/TextTokenizer.html">unnamed factory constructor</a> hydrates an implementation class.</p>
+<p>An <a href="https://pub.dev/documentation/text_analysis/latest/text_analysis/TextTokenizer/TextTokenizer.html">unnamed factory constructor</a> hydrates an implementation class or extend <a href="https://pub.dev/documentation/text_analysis/latest/text_analysis/TextTokenizerBase-class.html">TextTokenizerBase</a>.</p>
 <h3 id="textdocument">TextDocument</h3>
-<p>The <a href="https://pub.dev/documentation/text_analysis/latest/text_analysis/TextTDocument-class.html">TextDocument</a> object model enumerates a text document's <em>paragraphs</em>, <em>sentences</em>, <em>terms</em> and <em>tokens</em> and provides functions that return text analysis measures:</p>
+<p>The <a href="https://pub.dev/documentation/text_analysis/latest/text_analysis/TextDocument-class.html">TextDocument</a> object model enumerates a text document's <em>paragraphs</em>, <em>sentences</em>, <em>terms</em> and <em>tokens</em> and provides functions that return text analysis measures:</p>
 <ul>
 <li><a href="https://pub.dev/documentation/text_analysis/latest/text_analysis/TextDocument/averageSentenceLength.html">averageSentenceLength</a> is the average number of words in <a href="https://pub.dev/documentation/text_analysis/latest/text_analysis/TextDocument/sentences.html">sentences</a>;</li>
 <li><a href="https://pub.dev/documentation/text_analysis/latest/text_analysis/TextDocument/averageSyllableCount.html">averageSyllableCount</a> is the average number of syllables per word in
 <a href="https://pub.dev/documentation/text_analysis/latest/text_analysis/TextDocument/terms.html">terms</a>;</li>
 <li><a href="https://pub.dev/documentation/text_analysis/latest/text_analysis/TextDocument/wordCount.html">wordCount</a> the total number of words in the <a href="https://pub.dev/documentation/text_analysis/latest/text_analysis/TextDocument/sourceText.html">sourceText</a>;</li>
-<li><a href="https://pub.dev/documentation/text_analysis/latest/text_analysis/TextDocument/fleschReadingEaseScore.html">fleschReadingEaseScore</a> is a readibility measure calculated from
-sentence length and word length on a 100-point scale. The higher the
-score, the easier it is to understand the document;</li>
-<li><a href="https://pub.dev/documentation/text_analysis/latest/text_analysis/TextDocument/fleschKincaidGradeLevel.html">fleschKincaidGradeLevel</a> is a readibility measure relative to U.S.
-school grade level.  It is also calculated from sentence length and word
-length .</li>
+<li><a href="https://pub.dev/documentation/text_analysis/latest/text_analysis/TextDocument/fleschReadingEaseScore.html">fleschReadingEaseScore</a> is a readibility measure calculated from sentence length and word length on a 100-point scale. The higher the score, the easier it is to understand the document;</li>
+<li><a href="https://pub.dev/documentation/text_analysis/latest/text_analysis/TextDocument/fleschKincaidGradeLevel.html">fleschKincaidGradeLevel</a> is a readibility measure relative to U.S. school grade level.  It is also calculated from sentence length and word length .</li>
 </ul>
+<p>The <a href="https://pub.dev/documentation/text_analysis/latest/text_analysis/TextDocumentMixin-class.html">TextDocumentMixin</a> implements the <a href="https://pub.dev/documentation/text_analysis/latest/text_analysis/TextDocumentMixin/averageSentenceLength.html">TextDocument.averageSentenceLength</a>, <a href="https://pub.dev/documentation/text_analysis/latest/text_analysis/TextDocumentMixin/averageSyllableCount.html">TextDocument.averageSyllableCount</a>, <a href="https://pub.dev/documentation/text_analysis/latest/text_analysis/TextDocumentMixin/wordCount.html">TextDocument.wordCount</a>, <a href="https://pub.dev/documentation/text_analysis/latest/text_analysis/TextDocumentMixin/fleschReadingEaseScore.html">TextDocument.fleschReadingEaseScore</a> and <a href="https://pub.dev/documentation/text_analysis/latest/text_analysis/TextDocumentMixin/fleschKincaidGradeLevel.html">TextDocument.fleschKincaidGradeLevel</a> methods.</p>
+<p>A <a href="https://pub.dev/documentation/text_analysis/latest/text_analysis/TextDocument-class.html">TextDocument</a> can be hydrated with the <a href="https://pub.dev/documentation/text_analysis/latest/text_analysis/TextDocument/TextDocument.html">unnamed factory constructor</a> or using the <a href="https://pub.dev/documentation/text_analysis/latest/text_analysis/TextDocument/analyze.html">TextDocument.analyze</a> or <a href="https://pub.dev/documentation/text_analysis/latest/text_analysis/TextDocument/analyzeJson.html">TextDocument.analyzeJson</a> static methods. Alternatively, extend <a href="https://pub.dev/documentation/text_analysis/latest/text_analysis/TextDocumentBase-class.html">TextDocumentBase</a> class.</p>
 <h2 id="definitions">Definitions</h2>
 <ul>
 <li><code>corpus</code>- the collection of <code>documents</code> for which an <code>index</code> is maintained.</li>
@@ -230,12 +239,8 @@ length .</li>
 <li><code>document</code> - a record in the <code>corpus</code>, that has a unique identifier (<code>docId</code>) in the <code>corpus</code>'s primary key and that contains one or more text fields that are indexed.</li>
 <li><code>document frequency (dFt)</code> - the number of documents in the <code>corpus</code> that contain a term.</li>
 <li><code>edit distance</code> - a measure of how dissimilar two terms are by counting the minimum number of operations required to transform one string into the other (<a href="https://en.wikipedia.org/wiki/Edit_distance">Wikipedia (7)</a>).</li>
-</ul>
-<ul>
 <li><code>Flesch reading ease score</code> - a readibility measure calculated from  sentence length and word length on a 100-point scale. The higher the score, the easier it is to understand the document (<a href="https://en.wikipedia.org/wiki/Flesch%E2%80%93Kincaid_readability_tests">Wikipedia(6)</a>).</li>
 <li><code>Flesch-Kincaid grade level</code> - a readibility measure relative to U.S. school grade level.  It is also calculated from sentence length and word length (<a href="https://en.wikipedia.org/wiki/Flesch%E2%80%93Kincaid_readability_tests">Wikipedia(6)</a>).</li>
-</ul>
-<ul>
 <li><code>index</code> - an <a href="https://en.wikipedia.org/wiki/Inverted_index">inverted index</a> used to look up <code>document</code> references from the <code>corpus</code> against a <code>vocabulary</code> of <code>terms</code>.</li>
 <li><code>index-elimination</code> - selecting a subset of the entries in an index where the <code>term</code> is in the collection of <code>terms</code> in a search phrase.</li>
 <li><code>inverse document frequency (iDft)</code> - is a normalized measure of how rare a <code>term</code> is in the corpus. It is defined as <code>log (N / dft)</code>, where N is the total number of terms in the index. The <code>iDft</code> of a rare term is high, whereas the <code>iDft</code> of a frequent term is likely to be low.</li>
@@ -286,7 +291,8 @@ length .</li>
   <span class="name"><a href="extensions/extensions-library.html">extensions</a></span> 
 
 </dt>
-<dd>Exports the extension methods exposed by this package.
+<dd>Exports the extension methods exposed by this package. Also exports
+the extensions from the <code>porter_2_stemmer</code> package.
 </dd>
 
           <dt id="text_analysis">
@@ -301,7 +307,7 @@ information retrieval systems.
   <span class="name"><a href="type_definitions/type_definitions-library.html">type_definitions</a></span> 
 
 </dt>
-<dd>Exports all the type definitions used in the <code>text_indexing</code> library.
+<dd>Exports all the type definitions used in the <code>text_analysis</code> library.
 </dd>
 
         </dl>
@@ -339,7 +345,7 @@ information retrieval systems.
 <footer>
   <span class="no-break">
     text_analysis
-      0.14.0
+      0.15.0
   </span>
 
   

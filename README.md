@@ -10,12 +10,12 @@ All rights reserved.
 *THIS PACKAGE IS **PRE-RELEASE**, and SUBJECT TO DAILY BREAKING CHANGES.*
 
 Skip to section:
-- [Overview](#overview)
-- [Usage](#usage)
-- [API](#api)
-- [Definitions](#definitions)
-- [References](#references)
-- [Issues](#issues)
+* [Overview](#overview)
+* [Usage](#usage)
+* [API](#api)
+* [Definitions](#definitions)
+* [References](#references)
+* [Issues](#issues)
 
 ## Overview
 
@@ -149,6 +149,15 @@ Please see the [examples](https://pub.dev/packages/text_analysis/example) for mo
 
 The key interfaces of the `text_analysis` library are briefly described in this section. Please refer to the [documentation](https://pub.dev/documentation/text_analysis/latest/) for details.
 
+
+The API contains a fair amount of boiler-plate, but we aim to make the code as readable, extendable and re-usable as possible:
+
+* We use an `interface > implementation mixin > base-class > implementation class pattern`:
+  - the `interface` is an abstract class that exposes fields and methods but contains no implementation code. The `interface` may expose a factory constructor that returns an `implementation class` instance;
+  - the `implementation mixin` implements the `interface` class methods, but not the input fields;
+  - the `base-class` is an abstract class with the `implementation mixin` and exposes a default, unnamed generative const constructor for sub-classes. The intention is that `implementation classes` extend the `base class`, overriding the `interface` input fields with final properties passed in via a const generative constructor.
+* To maximise performance of the indexers the API performs lookups in nested hashmaps of DART core types. To improve code legibility the API makes use of type aliases, callback function definitions and extensions. The typedefs and extensions are not exported by the [text_analysis](https://pub.dev/documentation/text_analysis/latest/text_analysis/text_analysis-library.html) library, but can be found in the [type_definitions](https://pub.dev/documentation/text_analysis/latest/type_definitions/type_definitions-library.html) and [extensions](https://pub.dev/documentation/text_analysis/latest/extensions/extensions-library.html) mini-libraries. [Import these libraries seperately](#usage) if needed.
+
 #### TermSimilarity
 
 The [TermSimilarity](https://pub.dev/documentation/text_analysis/0.12.0-2/text_analysis/TermSimilarity-class.html) class provides the following static methods used for (case-insensitive) comparison of `terms`:
@@ -174,16 +183,16 @@ The  [TextSimilarity](https://pub.dev/documentation/text_analysis/latest/text_an
 #### TextAnalyzer
 
  The [TextAnalyzer](https://pub.dev/documentation/text_analysis/latest/text_analysis/TextAnalyzer-class.html) interface exposes language-specific properties and methods used in text analysis:
- - [characterFilter](https://pub.dev/documentation/text_analysis/latest/text_analysis/TextAnalyzer/characterFilter.html) is a function that manipulates text prior to stemming and tokenization;
-- [termFilter](https://pub.dev/documentation/text_analysis/latest/text_analysis/TextAnalyzer/termFilter.html) is a filter function that returns a collection of terms from a term. It returns an empty collection if the term is to be excluded from analysis or, returns multiple terms if the term is split (at hyphens) and / or, returns modified term(s), such as applying a stemmer algorithm;
-- [termSplitter](https://pub.dev/documentation/text_analysis/latest/text_analysis/TextAnalyzer/termSplitter.html) returns a list of terms from text;
-- [sentenceSplitter](https://pub.dev/documentation/text_analysis/latest/text_analysis/TextAnalyzer/sentenceSplitter.html) splits text into a list of sentences at sentence and line endings;
-- [paragraphSplitter](https://pub.dev/documentation/text_analysis/latest/text_analysis/TextAnalyzer/paragraphSplitter.html) splits text into a list of paragraphs at line endings; 
-- [stemmer](https://pub.dev/documentation/text_analysis/latest/text_analysis/TextAnalyzer/stemmer.html) is a language-specific function that returns the stem of a term;
-- [lemmatizer](https://pub.dev/documentation/text_analysis/latest/text_analysis/TextAnalyzer/lemmatizer.html) is a language-specific function that returns the lemma of a term;
-- [termExceptions](https://pub.dev/documentation/text_analysis/latest/text_analysis/TextAnalyzer/termExceptions.html) is a hashmap of words to token terms for special words that should not be re-capitalized, stemmed or lemmatized;
-- [stopWords](https://pub.dev/documentation/text_analysis/latest/text_analysis/TextAnalyzer/stopWords.html) are terms that commonly occur in a language and that do not add material value to the analysis of text; and
-- [syllableCounter](https://pub.dev/documentation/text_analysis/latest/text_analysis/TextAnalyzer/syllableCounter.html) returns the number of syllables in a word or text.
+* [characterFilter](https://pub.dev/documentation/text_analysis/latest/text_analysis/TextAnalyzer/characterFilter.html) is a function that manipulates text prior to stemming and tokenization;
+* [termFilter](https://pub.dev/documentation/text_analysis/latest/text_analysis/TextAnalyzer/termFilter.html) is a filter function that returns a collection of terms from a term. It returns an empty collection if the term is to be excluded from analysis or, returns multiple terms if the term is split (at hyphens) and / or, returns modified term(s), such as applying a stemmer algorithm;
+* [termSplitter](https://pub.dev/documentation/text_analysis/latest/text_analysis/TextAnalyzer/termSplitter.html) returns a list of terms from text;
+* [sentenceSplitter](https://pub.dev/documentation/text_analysis/latest/text_analysis/TextAnalyzer/sentenceSplitter.html) splits text into a list of sentences at sentence and line endings;
+* [paragraphSplitter](https://pub.dev/documentation/text_analysis/latest/text_analysis/TextAnalyzer/paragraphSplitter.html) splits text into a list of paragraphs at line endings; 
+* [stemmer](https://pub.dev/documentation/text_analysis/latest/text_analysis/TextAnalyzer/stemmer.html) is a language-specific function that returns the stem of a term;
+* [lemmatizer](https://pub.dev/documentation/text_analysis/latest/text_analysis/TextAnalyzer/lemmatizer.html) is a language-specific function that returns the lemma of a term;
+* [termExceptions](https://pub.dev/documentation/text_analysis/latest/text_analysis/TextAnalyzer/termExceptions.html) is a hashmap of words to token terms for special words that should not be re-capitalized, stemmed or lemmatized;
+* [stopWords](https://pub.dev/documentation/text_analysis/latest/text_analysis/TextAnalyzer/stopWords.html) are terms that commonly occur in a language and that do not add material value to the analysis of text; and
+* [syllableCounter](https://pub.dev/documentation/text_analysis/latest/text_analysis/TextAnalyzer/syllableCounter.html) returns the number of syllables in a word or text.
 
 The [English](https://pub.dev/documentation/text_analysis/latest/text_analysis/English-class.html) implementation of [TextAnalyzer](https://pub.dev/documentation/text_analysis/latest/text_analysis/TextAnalyzer-class.html) is included in this library.
 
@@ -191,21 +200,21 @@ The [English](https://pub.dev/documentation/text_analysis/latest/text_analysis/E
 
 The [TextTokenizer](https://pub.dev/documentation/text_analysis/latest/text_analysis/TextTokenizer-class.html) extracts tokens from text for use in full-text search queries and indexes. It uses a [TextAnalyzer](#textanalyzer) and [token filter](https://pub.dev/documentation/text_analysis/latest/text_analysis/TextTokenizer/tokenFilter.html) in the [tokenize](https://pub.dev/documentation/text_analysis/latest/text_analysis/TextTokenizer/tokenize.html) and [tokenizeJson](https://pub.dev/documentation/text_analysis/latest/text_analysis/TextTokenizer/tokenizeJson.html) methods that return a list of [tokens](https://pub.dev/documentation/text_analysis/0.12.0-1/text_analysis/Token-class.html) from text or a document. 
 
-An [unnamed factory constructor](https://pub.dev/documentation/text_analysis/latest/text_analysis/TextTokenizer/TextTokenizer.html) hydrates an implementation class.
+An [unnamed factory constructor](https://pub.dev/documentation/text_analysis/latest/text_analysis/TextTokenizer/TextTokenizer.html) hydrates an implementation class or extend [TextTokenizerBase](https://pub.dev/documentation/text_analysis/latest/text_analysis/TextTokenizerBase-class.html).
 
 ### TextDocument
 
-The [TextDocument](https://pub.dev/documentation/text_analysis/latest/text_analysis/TextTDocument-class.html) object model enumerates a text document's *paragraphs*, *sentences*, *terms* and *tokens* and provides functions that return text analysis measures:
-- [averageSentenceLength](https://pub.dev/documentation/text_analysis/latest/text_analysis/TextDocument/averageSentenceLength.html) is the average number of words in [sentences](https://pub.dev/documentation/text_analysis/latest/text_analysis/TextDocument/sentences.html);
-- [averageSyllableCount](https://pub.dev/documentation/text_analysis/latest/text_analysis/TextDocument/averageSyllableCount.html) is the average number of syllables per word in
+The [TextDocument](https://pub.dev/documentation/text_analysis/latest/text_analysis/TextDocument-class.html) object model enumerates a text document's *paragraphs*, *sentences*, *terms* and *tokens* and provides functions that return text analysis measures:
+* [averageSentenceLength](https://pub.dev/documentation/text_analysis/latest/text_analysis/TextDocument/averageSentenceLength.html) is the average number of words in [sentences](https://pub.dev/documentation/text_analysis/latest/text_analysis/TextDocument/sentences.html);
+* [averageSyllableCount](https://pub.dev/documentation/text_analysis/latest/text_analysis/TextDocument/averageSyllableCount.html) is the average number of syllables per word in
   [terms](https://pub.dev/documentation/text_analysis/latest/text_analysis/TextDocument/terms.html);
-- [wordCount](https://pub.dev/documentation/text_analysis/latest/text_analysis/TextDocument/wordCount.html) the total number of words in the [sourceText](https://pub.dev/documentation/text_analysis/latest/text_analysis/TextDocument/sourceText.html);
-- [fleschReadingEaseScore](https://pub.dev/documentation/text_analysis/latest/text_analysis/TextDocument/fleschReadingEaseScore.html) is a readibility measure calculated from
-  sentence length and word length on a 100-point scale. The higher the
-  score, the easier it is to understand the document;
-- [fleschKincaidGradeLevel](https://pub.dev/documentation/text_analysis/latest/text_analysis/TextDocument/fleschKincaidGradeLevel.html) is a readibility measure relative to U.S.
-  school grade level.  It is also calculated from sentence length and word
-  length .
+* [wordCount](https://pub.dev/documentation/text_analysis/latest/text_analysis/TextDocument/wordCount.html) the total number of words in the [sourceText](https://pub.dev/documentation/text_analysis/latest/text_analysis/TextDocument/sourceText.html);
+* [fleschReadingEaseScore](https://pub.dev/documentation/text_analysis/latest/text_analysis/TextDocument/fleschReadingEaseScore.html) is a readibility measure calculated from sentence length and word length on a 100-point scale. The higher the score, the easier it is to understand the document;
+* [fleschKincaidGradeLevel](https://pub.dev/documentation/text_analysis/latest/text_analysis/TextDocument/fleschKincaidGradeLevel.html) is a readibility measure relative to U.S. school grade level.  It is also calculated from sentence length and word length .
+
+The [TextDocumentMixin](https://pub.dev/documentation/text_analysis/latest/text_analysis/TextDocumentMixin-class.html) implements the [TextDocument.averageSentenceLength](https://pub.dev/documentation/text_analysis/latest/text_analysis/TextDocumentMixin/averageSentenceLength.html), [TextDocument.averageSyllableCount](https://pub.dev/documentation/text_analysis/latest/text_analysis/TextDocumentMixin/averageSyllableCount.html), [TextDocument.wordCount](https://pub.dev/documentation/text_analysis/latest/text_analysis/TextDocumentMixin/wordCount.html), [TextDocument.fleschReadingEaseScore](https://pub.dev/documentation/text_analysis/latest/text_analysis/TextDocumentMixin/fleschReadingEaseScore.html) and [TextDocument.fleschKincaidGradeLevel](https://pub.dev/documentation/text_analysis/latest/text_analysis/TextDocumentMixin/fleschKincaidGradeLevel.html) methods.
+
+A [TextDocument](https://pub.dev/documentation/text_analysis/latest/text_analysis/TextDocument-class.html) can be hydrated with the [unnamed factory constructor](https://pub.dev/documentation/text_analysis/latest/text_analysis/TextDocument/TextDocument.html) or using the [TextDocument.analyze](https://pub.dev/documentation/text_analysis/latest/text_analysis/TextDocument/analyze.html) or [TextDocument.analyzeJson](https://pub.dev/documentation/text_analysis/latest/text_analysis/TextDocument/analyzeJson.html) static methods. Alternatively, extend [TextDocumentBase](https://pub.dev/documentation/text_analysis/latest/text_analysis/TextDocumentBase-class.html) class.
 
 ## Definitions
 
@@ -216,8 +225,8 @@ The [TextDocument](https://pub.dev/documentation/text_analysis/latest/text_analy
 * `document` - a record in the `corpus`, that has a unique identifier (`docId`) in the `corpus`'s primary key and that contains one or more text fields that are indexed.
 * `document frequency (dFt)` - the number of documents in the `corpus` that contain a term.
 * `edit distance` - a measure of how dissimilar two terms are by counting the minimum number of operations required to transform one string into the other ([Wikipedia (7)](https://en.wikipedia.org/wiki/Edit_distance)).
-- `Flesch reading ease score` - a readibility measure calculated from  sentence length and word length on a 100-point scale. The higher the score, the easier it is to understand the document ([Wikipedia(6)](https://en.wikipedia.org/wiki/Flesch%E2%80%93Kincaid_readability_tests)).
-- `Flesch-Kincaid grade level` - a readibility measure relative to U.S. school grade level.  It is also calculated from sentence length and word length ([Wikipedia(6)](https://en.wikipedia.org/wiki/Flesch%E2%80%93Kincaid_readability_tests)).
+* `Flesch reading ease score` - a readibility measure calculated from  sentence length and word length on a 100-point scale. The higher the score, the easier it is to understand the document ([Wikipedia(6)](https://en.wikipedia.org/wiki/Flesch%E2%80%93Kincaid_readability_tests)).
+* `Flesch-Kincaid grade level` - a readibility measure relative to U.S. school grade level.  It is also calculated from sentence length and word length ([Wikipedia(6)](https://en.wikipedia.org/wiki/Flesch%E2%80%93Kincaid_readability_tests)).
 * `index` - an [inverted index](https://en.wikipedia.org/wiki/Inverted_index) used to look up `document` references from the `corpus` against a `vocabulary` of `terms`. 
 * `index-elimination` - selecting a subset of the entries in an index where the `term` is in the collection of `terms` in a search phrase.
 * `inverse document frequency (iDft)` - is a normalized measure of how rare a `term` is in the corpus. It is defined as `log (N / dft)`, where N is the total number of terms in the index. The `iDft` of a rare term is high, whereas the `iDft` of a frequent term is likely to be low.
