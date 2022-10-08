@@ -4,7 +4,7 @@ Copyright (c) 2022, GM Consult Pty Ltd
 All rights reserved. 
 -->
 
-## 0.15.1 +1
+## 0.15.1+1
 
 ### *Updated*
 * Dependencies.
