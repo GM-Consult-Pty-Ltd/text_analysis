@@ -125,7 +125,7 @@ void _printTokens(String title, Iterable<Token> tokens) {
       .toList();
 
   // print the results
-  Echo(title: title, results: results).printResults();
+  Console.out(title: title, results: results);
 
   //
 }
@@ -150,7 +150,7 @@ Future<Map<String, Set<String>>> _getKgramIndex(
   }
 
   // print the results to the console
-  Echo(title: title, results: results).printResults();
+  Console.out(title: title, results: results);
 
   // return the k-Gram index
   return kGramIndex;

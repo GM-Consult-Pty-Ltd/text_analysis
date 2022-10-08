@@ -31,12 +31,11 @@ void main() {
       }
       results.sort(((b, a) =>
           (b['Edit Distance'] as num).compareTo(a['Edit Distance'] as num)));
-      Echo(
-              title: 'EDIT DISTANCE: '
-                  '$term.editDistance(other)',
-              results: results,
-              minPrintWidth: 80)
-          .printResults();
+      Console.out(
+          title: 'EDIT DISTANCE: '
+              '$term.editDistance(other)',
+          results: results,
+          minPrintWidth: 80);
     }));
 
     test('jaccardSimilarity', (() {
@@ -48,12 +47,11 @@ void main() {
       }
       results.sort(((a, b) => (b['Jaccard Similarity'] as num)
           .compareTo(a['Jaccard Similarity'] as num)));
-      Echo(
-              title: 'JACCARD SIMILARITY INDEX: '
-                  '$term.jaccardSimilarity(other, $k)',
-              results: results,
-              minPrintWidth: 80)
-          .printResults();
+      Console.out(
+          title: 'JACCARD SIMILARITY INDEX: '
+              '$term.jaccardSimilarity(other, $k)',
+          results: results,
+          minPrintWidth: 80);
     }));
 
     test('jaccardSimilarityMap', (() {
@@ -67,12 +65,11 @@ void main() {
       }
       results.sort(((a, b) => (b['Jaccard Similarity'] as num)
           .compareTo(a['Jaccard Similarity'] as num)));
-      Echo(
-              title: 'JACCARD SIMILARITY INDEX: '
-                  '$term.jaccardSimilarityMap(candidates, $k)',
-              results: results,
-              minPrintWidth: 80)
-          .printResults();
+      Console.out(
+          title: 'JACCARD SIMILARITY INDEX: '
+              '$term.jaccardSimilarityMap(candidates, $k)',
+          results: results,
+          minPrintWidth: 80);
     }));
 
     test('matches', (() {
@@ -84,12 +81,11 @@ void main() {
         results.add({'Rank': i, 'Match': other});
         i++;
       }
-      Echo(
-              title: 'RANKED MATCHES: '
-                  '$term.matches(candidates, $k)',
-              results: results,
-              minPrintWidth: 80)
-          .printResults();
+      Console.out(
+          title: 'RANKED MATCHES: '
+              '$term.matches(candidates, $k)',
+          results: results,
+          minPrintWidth: 80);
     }));
 
     test('lengthSimilarity AND lengthDistance', (() {
@@ -102,8 +98,8 @@ void main() {
       }
       results.sort(((a, b) => (b['Length Similarity'] as num)
           .compareTo(a['Length Similarity'] as num)));
-      Echo(title: 'LENGTH SIMILARITY', results: results, minPrintWidth: 80)
-          .printResults();
+      Console.out(
+          title: 'LENGTH SIMILARITY', results: results, minPrintWidth: 80);
     }));
   });
 }

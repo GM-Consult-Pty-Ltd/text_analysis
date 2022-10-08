@@ -162,7 +162,7 @@ void _printTokens(String title, Iterable<Token> tokens) {
       .toList();
 
   // print the results
-  Echo(title: title, results: results, maxColWidth: 120).printResults();
+  Console.out(title: title, results: results, maxColWidth: 120);
 
   //
 }
