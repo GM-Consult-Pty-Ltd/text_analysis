@@ -5,7 +5,7 @@ All rights reserved.
 -->
 
 [![GM Consult Pty Ltd](https://raw.githubusercontent.com/GM-Consult-Pty-Ltd/text_analysis/main/dev/images/text_analysis_header.png?raw=true "GM Consult Pty Ltd")](https://github.com/GM-Consult-Pty-Ltd)
-## **Tokenize text, compute document readbility and compare terms.**
+## **Tokenize text, compute document readbility and compare terms in Natural Language Processing.**
 
 *THIS PACKAGE IS **PRE-RELEASE**, and SUBJECT TO DAILY BREAKING CHANGES.*
 
@@ -62,6 +62,8 @@ Functions that return the term similarity measures are provided by static method
 
 The [TermSimilarity](#termsimilarity) class also provides a function for splitting terms into `k-grams`, used in spell correction algorithms.
 
+(*[back to top](#)*)
+
 ## Usage
 
 In the `pubspec.yaml` of your flutter project, add the following dependency:
@@ -90,14 +92,18 @@ import 'package:text_indexing/type_definitions.dart';
 // import the extensions, if needed
 import 'package:text_indexing/extensions.dart'; 
 
+
+// import the constants, if needed
+import 'package:text_indexing/constants.dart'; 
+
 ```
 
-Basic English tokenization can be performed by using a `TextTokenizer` instance with the default text analyzer and no token filter:
+Basic English tokenization can be performed by using a `TextTokenizer.english` static const instance that uses the `English` text analyzer and no token filter:
 
 ```dart
-  // Use a TextTokenizer instance to tokenize the text using the default 
+  // Use the static TextTokenizer.english instance to tokenize the text using the  
   // English analyzer.
-  final document = await TextTokenizer().tokenize(text);
+  final document = await TextTokenizer.english.tokenize(text);
 ```
 To analyze text or a document, hydrate a [TextDocument](#textdocument) to obtain the text statistics and readibility scores:
 
@@ -152,6 +158,8 @@ To compare terms, call the required extension on the `term`, or the static metho
 
 Please see the [examples](https://pub.dev/packages/text_analysis/example) for more details.
 
+(*[back to top](#)*)
+
 ## API
 
 The key interfaces of the `text_analysis` library are briefly described in this section. Please refer to the [documentation](https://pub.dev/documentation/text_analysis/latest/) for details.
@@ -164,6 +172,8 @@ The API contains a fair amount of boiler-plate, but we aim to make the code as r
   - the `implementation mixin` implements the `interface` class methods, but not the input fields;
   - the `base-class` is an abstract class with the `implementation mixin` and exposes a default, unnamed generative const constructor for sub-classes. The intention is that `implementation classes` extend the `base class`, overriding the `interface` input fields with final properties passed in via a const generative constructor.
 * To maximise performance of the indexers the API performs lookups in nested hashmaps of DART core types. To improve code legibility the API makes use of type aliases, callback function definitions and extensions. The typedefs and extensions are not exported by the [text_analysis](https://pub.dev/documentation/text_analysis/latest/text_analysis/text_analysis-library.html) library, but can be found in the [type_definitions](https://pub.dev/documentation/text_analysis/latest/type_definitions/type_definitions-library.html) and [extensions](https://pub.dev/documentation/text_analysis/latest/extensions/extensions-library.html) mini-libraries. [Import these libraries seperately](#usage) if needed.
+
+(*[back to top](#)*)
 
 #### TermSimilarity
 
@@ -188,6 +198,8 @@ To compare one term with a collection of other terms, the following methods are 
 
 The  [TextSimilarity](https://pub.dev/documentation/text_analysis/latest/text_analysis/TextSimilarity-class.html) class relies on [extension methods](https://pub.dev/documentation/text_analysis/0.12.0-1/extensions/TermSimilarityExtensions.html) that can be imported from the [extensions](https://pub.dev/documentation/text_analysis/0.12.0-2/extensions/extensions-library.html) library.
 
+(*[back to top](#)*)
+
 #### TextAnalyzer
 
  The [TextAnalyzer](https://pub.dev/documentation/text_analysis/latest/text_analysis/TextAnalyzer-class.html) interface exposes language-specific properties and methods used in text analysis:
@@ -204,11 +216,15 @@ The  [TextSimilarity](https://pub.dev/documentation/text_analysis/latest/text_an
 
 The [English](https://pub.dev/documentation/text_analysis/latest/text_analysis/English-class.html) implementation of [TextAnalyzer](https://pub.dev/documentation/text_analysis/latest/text_analysis/TextAnalyzer-class.html) is included in this library.
 
+(*[back to top](#)*)
+
 #### TextTokenizer
 
 The [TextTokenizer](https://pub.dev/documentation/text_analysis/latest/text_analysis/TextTokenizer-class.html) extracts tokens from text for use in full-text search queries and indexes. It uses a [TextAnalyzer](#textanalyzer) and [token filter](https://pub.dev/documentation/text_analysis/latest/text_analysis/TextTokenizer/tokenFilter.html) in the [tokenize](https://pub.dev/documentation/text_analysis/latest/text_analysis/TextTokenizer/tokenize.html) and [tokenizeJson](https://pub.dev/documentation/text_analysis/latest/text_analysis/TextTokenizer/tokenizeJson.html) methods that return a list of [tokens](https://pub.dev/documentation/text_analysis/0.12.0-1/text_analysis/Token-class.html) from text or a document. 
 
 An [unnamed factory constructor](https://pub.dev/documentation/text_analysis/latest/text_analysis/TextTokenizer/TextTokenizer.html) hydrates an implementation class or extend [TextTokenizerBase](https://pub.dev/documentation/text_analysis/latest/text_analysis/TextTokenizerBase-class.html).
+
+(*[back to top](#)*)
 
 ### TextDocument
 
@@ -224,40 +240,46 @@ The [TextDocumentMixin](https://pub.dev/documentation/text_analysis/latest/text_
 
 A [TextDocument](https://pub.dev/documentation/text_analysis/latest/text_analysis/TextDocument-class.html) can be hydrated with the [unnamed factory constructor](https://pub.dev/documentation/text_analysis/latest/text_analysis/TextDocument/TextDocument.html) or using the [analyze](https://pub.dev/documentation/text_analysis/latest/text_analysis/TextDocument/analyze.html) or [analyzeJson](https://pub.dev/documentation/text_analysis/latest/text_analysis/TextDocument/analyzeJson.html) static methods. Alternatively, extend [TextDocumentBase](https://pub.dev/documentation/text_analysis/latest/text_analysis/TextDocumentBase-class.html) class.
 
+(*[back to top](#)*)
+
 ## Definitions
+
+The following definitions are used throughout the [documentation](https://pub.dev/documentation/text_analysis/latest/):
 
 * `corpus`- the collection of `documents` for which an `index` is maintained.
 * `character filter` - filters characters from text in preparation of tokenization.  
 * `Damerau–Levenshtein distance` - a metric for measuring the `edit distance` between two `terms` by counting the minimum number of operations (insertions, deletions or substitutions of a single character, or transposition of two adjacent characters) required to change one `term` into the other.
-* `dictionary` - is a hash of `terms` (`vocabulary`) to the frequency of occurence in the `corpus` documents.
+* `dictionary (in an index)` - a hash of `terms` (`vocabulary`) to the frequency of occurence in the `corpus` documents.
 * `document` - a record in the `corpus`, that has a unique identifier (`docId`) in the `corpus`'s primary key and that contains one or more text fields that are indexed.
 * `document frequency (dFt)` - the number of documents in the `corpus` that contain a term.
-* `edit distance` - a measure of how dissimilar two terms are by counting the minimum number of operations required to transform one string into the other ([Wikipedia (7)](https://en.wikipedia.org/wiki/Edit_distance)).
-* `Flesch reading ease score` - a readibility measure calculated from  sentence length and word length on a 100-point scale. The higher the score, the easier it is to understand the document ([Wikipedia(6)](https://en.wikipedia.org/wiki/Flesch%E2%80%93Kincaid_readability_tests)).
-* `Flesch-Kincaid grade level` - a readibility measure relative to U.S. school grade level.  It is also calculated from sentence length and word length ([Wikipedia(6)](https://en.wikipedia.org/wiki/Flesch%E2%80%93Kincaid_readability_tests)).
+* `edit distance` - a measure of how dissimilar two terms are by counting the minimum number of operations required to transform one string into the other (from [Wikipedia](https://en.wikipedia.org/wiki/Edit_distance)).
+- `Flesch reading ease score` - a readibility measure calculated from  sentence length and word length on a 100-point scale. The higher the score, the easier it is to understand the document (from [Wikipedia](https://en.wikipedia.org/wiki/Flesch%E2%80%93Kincaid_readability_tests)).
+- `Flesch-Kincaid grade level` - a readibility measure relative to U.S. school grade level.  It is also calculated from sentence length and word length (from [Wikipedia](https://en.wikipedia.org/wiki/Flesch%E2%80%93Kincaid_readability_tests)).
 * `index` - an [inverted index](https://en.wikipedia.org/wiki/Inverted_index) used to look up `document` references from the `corpus` against a `vocabulary` of `terms`. 
 * `index-elimination` - selecting a subset of the entries in an index where the `term` is in the collection of `terms` in a search phrase.
-* `inverse document frequency (iDft)` - is a normalized measure of how rare a `term` is in the corpus. It is defined as `log (N / dft)`, where N is the total number of terms in the index. The `iDft` of a rare term is high, whereas the `iDft` of a frequent term is likely to be low.
+* `inverse document frequency (iDft)` - a normalized measure of how rare a `term` is in the corpus. It is defined as `log (N / dft)`, where N is the total number of terms in the index. The `iDft` of a rare term is high, whereas the `iDft` of a frequent term is likely to be low.
 * `Jaccard index` measures similarity between finite sample sets, and is defined as the size of the intersection divided by the size of the union of the sample sets (from [Wikipedia](https://en.wikipedia.org/wiki/Jaccard_index)).
-* `JSON` is an acronym for `"Java Script Object Notation"`, a common format for persisting data.
+* `Map<String, dynamic>` is an acronym for `"Java Script Object Notation"`, a common format for persisting data.
 * `k-gram` - a sequence of (any) k consecutive characters from a `term`. A `k-gram` can start with "$", denoting the start of the term, and end with "$", denoting the end of the term. The 3-grams for "castle" are { $ca, cas, ast, stl, tle, le$ }.
-* `lemmatizer` - lemmatisation (or lemmatization) in linguistics is the process of grouping together the inflected forms of a word so they can be analysed as a single item, identified by the word's lemma, or dictionary form (from [Wikipedia](https://en.wikipedia.org/wiki/Lemmatisation)).
+* `lemma  or lemmatizer` - lemmatisation (or lemmatization) in linguistics is the process of grouping together the inflected forms of a word so they can be analysed as a single item, identified by the word's lemma, or dictionary form (from [Wikipedia](https://en.wikipedia.org/wiki/Lemmatisation)).
 * `Natural language processing (NLP)` is a subfield of linguistics, computer science, and artificial intelligence concerned with the interactions between computers and human language, in particular how to program computers to process and analyze large amounts of natural language data (from [Wikipedia](https://en.wikipedia.org/wiki/Natural_language_processing)).
 * `postings` - a separate index that records which `documents` the `vocabulary` occurs in.  In a positional `index`, the postings also records the positions of each `term` in the `text` to create a positional inverted `index`.
 * `postings list` - a record of the positions of a `term` in a `document`. A position of a `term` refers to the index of the `term` in an array that contains all the `terms` in the `text`. In a zoned `index`, the `postings lists` records the positions of each `term` in the `text` a `zone`.
+* `stem or stemmer` -  stemming is the process of reducing inflected (or sometimes derived) words to their word stem, base or root form (generally a written word form) (from [Wikipedia](https://en.wikipedia.org/wiki/Stemming)).
+* `stopwords` - common words in a language that are excluded from indexing.
 * `term` - a word or phrase that is indexed from the `corpus`. The `term` may differ from the actual word used in the corpus depending on the `tokenizer` used.
 * `term filter` - filters unwanted terms from a collection of terms (e.g. stopwords), breaks compound terms into separate terms and / or manipulates terms by invoking a `stemmer` and / or `lemmatizer`.
-* `stemmer` -  stemming is the process of reducing inflected (or sometimes derived) words to their word stem, base or root form—generally a written word form (from [Wikipedia](https://en.wikipedia.org/wiki/Stemming)).
-* `stopwords` - common words in a language that are excluded from indexing.
-* `term frequency (Ft)` is the frequency of a `term` in an index or indexed object.
-* `term position` is the zero-based index of a `term` in an ordered array of `terms` tokenized from the `corpus`.
+* `term expansion` - finding terms with similar spelling (e.g. spelling correction) or synonyms for a term. 
+* `term frequency (Ft)` - the frequency of a `term` in an index or indexed object.
+* `term position` - the zero-based index of a `term` in an ordered array of `terms` tokenized from the `corpus`.
 * `text` - the indexable content of a `document`.
 * `token` - representation of a `term` in a text source returned by a `tokenizer`. The token may include information about the `term` such as its position(s) (`term position`) in the text or frequency of occurrence (`term frequency`).
 * `token filter` - returns a subset of `tokens` from the tokenizer output.
 * `tokenizer` - a function that returns a collection of `token`s from `text`, after applying a character filter, `term` filter, [stemmer](https://en.wikipedia.org/wiki/Stemming) and / or [lemmatizer](https://en.wikipedia.org/wiki/Lemmatisation).
 * `vocabulary` - the collection of `terms` indexed from the `corpus`.
-* `zone` is the field or zone of a document that a term occurs in, used for parametric indexes or where scoring and ranking of search results attribute a higher score to documents that contain a term in a specific zone (e.g. the title rather that the body of a document).
+* `zone` - the field or zone of a document that a term occurs in, used for parametric indexes or where scoring and ranking of search results attribute a higher score to documents that contain a term in a specific zone (e.g. the title rather that the body of a document).
 
+(*[back to top](#)*)
 ## References
 
 * [Manning, Raghavan and Schütze, "*Introduction to Information Retrieval*", Cambridge University Press, 2008](https://nlp.stanford.edu/IR-book/pdf/irbookprint.pdf)
@@ -272,6 +294,7 @@ A [TextDocument](https://pub.dev/documentation/text_analysis/latest/text_analysi
 * [Wikipedia (8), "*Damerau–Levenshtein distance*", from Wikipedia, the free encyclopedia](https://en.wikipedia.org/wiki/Damerau%E2%80%93Levenshtein_distance)
 * [Wikipedia (9), "*Natural language processing*", from Wikipedia, the free encyclopedia](https://en.wikipedia.org/wiki/Natural_language_processing)
 
+(*[back to top](#)*)
 
 ## Issues
 
