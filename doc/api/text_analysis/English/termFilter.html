@@ -75,50 +75,65 @@
   <h2><span>Implementation</span></h2>
   <pre class="language-dart"><code class="language-dart">@override
 TermFilter get termFilter =&gt; (Term term) async {
-      &#47;&#47; apply the [characterFilter] to [term]
-      if (abbreviations.keys.contains(term)) {
-        return {term, term.replaceAll(&#39;.&#39;, &#39;&#39;).trim()};
-      }
-      term = _sanitize(term);
-      &#47;&#47; if the resulting [term] is shorter than 2 characters or contained
-      &#47;&#47; in [stopWords] return an empty collection
-      if (stopWords.contains(term) || term.length &lt; 2) {
-        return {};
-      }
-
-      &#47;&#47; - insert [term] in the return value
-      final terms = {term};
-
-      &#47;&#47; insert an unhyphenated version if necessary
-      if (term.contains(&#39;-&#39;)) {
-        final unHyphenated = term.replaceAll(&#39;-&#39;, &#39;&#39;);
-        if (unHyphenated.isNotEmpty) {
-          terms.add(unHyphenated);
-        }
-      }
-      &#47;&#47; split at all non-word characters unless preceded and ended by a number.
-      final splitTerms =
-          term.split(RegExp(r&#39;(?&lt;=[a-zA-Z])[^a-zA-Z0-9]+(?=[a-zA-Z])&#39;));
-      if (splitTerms.length &gt; 1) {
-        for (var splitTerm in splitTerms) {
-          if (splitTerm.isNotEmpty) {
-            splitTerm = characterFilter(splitTerm)
-                .replaceAll(RegExp(r&#39;[^a-zA-Z0-9]&#39;), &#39;&#39;)
-                .trim();
-            if (!stopWords.contains(splitTerm) &amp;&amp; splitTerm.length &gt; 1) {
-              terms.add(splitTerm);
+      &#47;&#47; remove white-space from start and end of term
+      term = term.trim();
+      final terms = &lt;String&gt;{};
+      &#47;&#47; exclude empty terms and that are stopwords
+      var exception = termExceptions[term]?.trim();
+      if (term.isNotEmpty &amp;&amp; !stopWords.contains(term)) {
+        if (abbreviations.keys.contains(term)) {
+          &#47;&#47; return the abbreviation and a version with no punctuation.
+          terms.addAll({term, term.replaceAll(&#39;.&#39;, &#39;&#39;).trim()});
+        } else if (exception != null) {
+          terms.add(exception);
+        } else {
+          &#47;&#47; check if term is in exceptions (case-sensitive)
+          {
+            &#47;&#47; Cleans the term as follows:
+            &#47;&#47; - change all quote marks to single apostrophe +U0027;
+            &#47;&#47; - remove enclosing quote marks;
+            &#47;&#47; - hange all dashes to single standard hyphen;
+            &#47;&#47; - remove all characters except letters and numbers at end of term
+            term = characterFilter(term);
+            &#47;&#47; check the resulting term is longer than 1 characters and not
+            &#47;&#47; contained in [stopWords]
+            if (!stopWords.contains(term) &amp;&amp; term.length &gt; 1) {
+              &#47;&#47; - insert [term] in the return value
+              terms.add(term);
+              &#47;&#47; insert a version without apostrophes and&#47;or hyphens
+              final unHyphenated =
+                  term.replaceAll(RegExp(r&quot;[&#39;\-]&quot;), &#39;&#39;).trim();
+              terms.add(unHyphenated);
+              &#47;&#47; split at all non-word characters unless preceded and ended by a number.
+              final splitTerms = term.split(RegExp(
+                  r&#39;(?&lt;=[^0-9\b])[^a-zA-Z0-9À-öø-ÿ]+|[^a-zA-Z0-9À-öø-ÿ]+(?=[^0-9\b])&#39;));
+              for (var splitTerm in splitTerms) {
+                exception = termExceptions[splitTerm.trim()]?.trim();
+                &#47;&#47; var tokenTerm = splitTerm;
+                if (exception != null) {
+                  &#47;&#47; add the exception
+                  terms.add(exception);
+                } else if (splitTerm.isNotEmpty) {
+                  if (!stopWords.contains(splitTerm) &amp;&amp;
+                      splitTerm.length &gt; 1) {
+                    terms.add(splitTerm);
+                  }
+                }
+              }
             }
           }
         }
-      } else {
-        final alpha = characterFilter(term)
-            .replaceAll(RegExp(r&#39;[^a-zA-Z0-9]&#39;), &#39;&#39;)
-            .trim();
-        if (alpha.isNotEmpty) {
-          terms.add(alpha);
-        }
       }
-      return terms.map((e) =&gt; e.trim()).toSet();
+      final retVal = (terms.map((e) {
+        final exception = termExceptions[e];
+        if (exception != null) {
+          return exception;
+        }
+        final stemmedTerm = stemmer(lemmatizer(e.trim())).trim();
+        return termExceptions[stemmedTerm] ?? stemmedTerm;
+      }).toSet());
+      retVal.removeWhere((e) =&gt; e.isEmpty);
+      return retVal;
     };</code></pre>
 </section>
 
@@ -166,7 +181,7 @@ TermFilter get termFilter =&gt; (Term term) async {
     <li><a href="../../text_analysis/English/termFilter.html">termFilter</a></li>
     <li><a href="../../text_analysis/English/termSplitter.html">termSplitter</a></li>
 
-    <li class="section-title"><a href="../../text_analysis/English-class.html#instance-methods">Methods</a></li>
+    <li class="section-title inherited"><a href="../../text_analysis/English-class.html#instance-methods">Methods</a></li>
     <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/noSuchMethod.html">noSuchMethod</a></li>
     <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/toString.html">toString</a></li>
 
@@ -178,15 +193,6 @@ TermFilter get termFilter =&gt; (Term term) async {
 
         <li class="section-title"><a href="../../text_analysis/English-class.html#constants">Constants</a></li>
           <li><a href="../../text_analysis/English/analyzer-constant.html">analyzer</a></li>
-          <li><a href="../../text_analysis/English/kAbbreviations-constant.html">kAbbreviations</a></li>
-          <li><a href="../../text_analysis/English/kStopWords-constant.html">kStopWords</a></li>
-          <li><a href="../../text_analysis/English/reBracketsAndCarets-constant.html">reBracketsAndCarets</a></li>
-          <li><a href="../../text_analysis/English/reLineEndingSelector-constant.html">reLineEndingSelector</a></li>
-          <li><a href="../../text_analysis/English/reNonWordChars-constant.html">reNonWordChars</a></li>
-          <li><a href="../../text_analysis/English/rePunctuationSelector-constant.html">rePunctuationSelector</a></li>
-          <li><a href="../../text_analysis/English/reSentenceEndingSelector-constant.html">reSentenceEndingSelector</a></li>
-          <li><a href="../../text_analysis/English/reWordChars-constant.html">reWordChars</a></li>
-          <li><a href="../../text_analysis/English/reWordEndsWithPeriod-constant.html">reWordEndsWithPeriod</a></li>
 </ol>
 
   </div><!--/.sidebar-offcanvas-->
@@ -199,7 +205,7 @@ TermFilter get termFilter =&gt; (Term term) async {
 <footer>
   <span class="no-break">
     text_analysis
-      0.15.1+1
+      0.16.0
   </span>
 
   

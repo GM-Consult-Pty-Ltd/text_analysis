@@ -89,45 +89,10 @@ Future&lt;List&lt;Token&gt;&gt; tokenize(SourceText text, [Zone? zone]) async {
   await Future.forEach(terms, (String term) async {
     &#47;&#47; remove white-space at start and end of term
     term = term.trim();
-    &#47;&#47; only tokenize non-empty strings.
-    if (term.isNotEmpty &amp;&amp; !analyzer.stopWords.contains(term)) {
-      &#47;&#47; check for exceptions
-      var exception = analyzer.termExceptions[term];
-      if (exception != null) {
-        if (!analyzer.stopWords.contains(exception)) {
-          tokens.add(Token(exception.trim(), position, zone));
-        }
-      } else {
-        &#47;&#47; apply the termFilter
-        final splitTerms = await analyzer.termFilter(term);
-        for (var splitTerm in splitTerms) {
-          &#47;&#47; check splitTerm is not in exceptions
-          exception = analyzer.termExceptions[splitTerm.trim()]?.trim();
-          &#47;&#47; var tokenTerm = splitTerm;
-          if (exception == null || exception.isEmpty) {
-            splitTerm = analyzer
-                .stemmer(analyzer.lemmatizer(splitTerm.trim()))
-                .trim();
-            exception = analyzer.termExceptions[splitTerm];
-          }
-          &#47;&#47; check splitTerm is not in exceptions
-          if (exception != null &amp;&amp; exception.isNotEmpty) {
-            if (!analyzer.stopWords.contains(exception)) {
-              &#47;&#47; tokenize the exception
-              tokens.add(Token(exception, position, zone));
-            }
-          } else {
-            if (splitTerm.isNotEmpty) {
-              if (!analyzer.stopWords.contains(exception)) {
-                &#47;&#47; tokenize splitTerm
-                tokens.add(Token(splitTerm.trim(), position, zone));
-              }
-            }
-          }
-        }
-      }
+    final splitTerms = await analyzer.termFilter(term);
+    for (var splitTerm in splitTerms) {
+      tokens.add(Token(splitTerm.trim(), position, zone));
     }
-    &#47;&#47; increment the token position
     position++;
   });
   &#47;&#47; apply the tokenFilter if it is not null and return the tokens collection
@@ -192,7 +157,7 @@ Future&lt;List&lt;Token&gt;&gt; tokenize(SourceText text, [Zone? zone]) async {
 <footer>
   <span class="no-break">
     text_analysis
-      0.15.1+1
+      0.16.0
   </span>
 
   

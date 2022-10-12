@@ -62,47 +62,25 @@
 
 
 <section class="desc markdown">
-  <p>The <a href="../../text_analysis/English-class.html">English</a> implemenation of <a href="../../text_analysis/English/termSplitter.html">termSplitter</a> replaces all text that
-matches <a href="../../text_analysis/English/rePunctuationSelector-constant.html">English.rePunctuationSelector</a> or <a href="../../text_analysis/English/reBracketsAndCarets-constant.html">English.reBracketsAndCarets</a>
-with a single space character.</p>
-<p>Repeated white-space characters are also replaced with a single space
-character.</p>
-<p>The text is then split into terms at all space characters.</p>
-<p>Leading and trailing white-space is trimmed from all terms.</p>
-<p>Unless a term matches any of <a href="../../text_analysis/English/abbreviations.html">abbreviations</a>.keys, any characters
-matching <a href="../../text_analysis/English/reNonWordChars-constant.html">English.reNonWordChars</a> is trimmed from the end of the term.</p>
-<p>Empty strings are removed from the returned terms.</p>
+  <p>The <a href="../../text_analysis/English-class.html">English</a> implemenation of <a href="../../text_analysis/English/termSplitter.html">termSplitter</a>.</p>
+<p>Algorithm:</p>
+<ul>
+<li>Replace all punctuation, brackets and carets with white_space.</li>
+<li>Split into terms at any sequence of white-space characters.</li>
+<li>Trim leading and trailing white-space from all terms.</li>
+<li>Trim any non=word characters from the end of all terms, unless it
+matches any of the abbreviations.</li>
+<li>Return only non-empty terms.</li>
+</ul>
 </section>
 
 
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
   <pre class="language-dart"><code class="language-dart">@override
-TermSplitter get termSplitter =&gt; (SourceText source) {
-      &#47;&#47; replace all punctuation with whitespace.
-      source = source
-          .replaceAll(RegExp(English.reSentenceEndingSelector), &#39; &#39;)
-          .replaceAll(RegExp(English.rePunctuationSelector), &#39; &#39;)
-          &#47;&#47; replace all brackets and carets with _kTokenDelimiter.
-          .replaceAll(RegExp(English.reBracketsAndCarets), &#39; &#39;)
-          &#47;&#47; replace all repeated white-space with a single white-space.
-          .replaceAll(RegExp(r&#39;(\s{2,})&#39;), &#39; &#39;);
-      &#47;&#47; split at white-space
-      final terms = source.split(RegExp(r&#39;(\s+)&#39;)).map((e) {
-        e = e.trim();
-        if (abbreviations.keys.contains(e)) {
-          return e;
-        }
-        return e
-            .trim()
-            .replaceAll(RegExp(&#39;${English.reNonWordChars}(?=\$)&#39;), &#39;&#39;)
-            .trim();
-      })
-          &#47;&#47; convert to list
-          .toList();
-      terms.removeWhere((element) =&gt; element.isEmpty);
-      return terms;
-    };</code></pre>
+TermSplitter get termSplitter =&gt; (SourceText source) =&gt; source
+    .replacePunctuationWithWhiteSpace()
+    .splitAtWhiteSpace(abbreviations);</code></pre>
 </section>
 
 </section>
@@ -149,7 +127,7 @@ TermSplitter get termSplitter =&gt; (SourceText source) {
     <li><a href="../../text_analysis/English/termFilter.html">termFilter</a></li>
     <li><a href="../../text_analysis/English/termSplitter.html">termSplitter</a></li>
 
-    <li class="section-title"><a href="../../text_analysis/English-class.html#instance-methods">Methods</a></li>
+    <li class="section-title inherited"><a href="../../text_analysis/English-class.html#instance-methods">Methods</a></li>
     <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/noSuchMethod.html">noSuchMethod</a></li>
     <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/toString.html">toString</a></li>
 
@@ -161,15 +139,6 @@ TermSplitter get termSplitter =&gt; (SourceText source) {
 
         <li class="section-title"><a href="../../text_analysis/English-class.html#constants">Constants</a></li>
           <li><a href="../../text_analysis/English/analyzer-constant.html">analyzer</a></li>
-          <li><a href="../../text_analysis/English/kAbbreviations-constant.html">kAbbreviations</a></li>
-          <li><a href="../../text_analysis/English/kStopWords-constant.html">kStopWords</a></li>
-          <li><a href="../../text_analysis/English/reBracketsAndCarets-constant.html">reBracketsAndCarets</a></li>
-          <li><a href="../../text_analysis/English/reLineEndingSelector-constant.html">reLineEndingSelector</a></li>
-          <li><a href="../../text_analysis/English/reNonWordChars-constant.html">reNonWordChars</a></li>
-          <li><a href="../../text_analysis/English/rePunctuationSelector-constant.html">rePunctuationSelector</a></li>
-          <li><a href="../../text_analysis/English/reSentenceEndingSelector-constant.html">reSentenceEndingSelector</a></li>
-          <li><a href="../../text_analysis/English/reWordChars-constant.html">reWordChars</a></li>
-          <li><a href="../../text_analysis/English/reWordEndsWithPeriod-constant.html">reWordEndsWithPeriod</a></li>
 </ol>
 
   </div><!--/.sidebar-offcanvas-->
@@ -182,7 +151,7 @@ TermSplitter get termSplitter =&gt; (SourceText source) {
 <footer>
   <span class="no-break">
     text_analysis
-      0.15.1+1
+      0.16.0
   </span>
 
   

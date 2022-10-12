@@ -1,8 +1,10 @@
-// Copyright ©2022, GM Consult (Pty) Ltd. All rights reserved
-// End user is granted a non-exclusive non-transferable license the ("License")
-// to use GM Consult's proprietary software (the "Software").
+// BSD 3-Clause License
+// Copyright (c) 2022, GM Consult Pty Ltd
+// All rights reserved
 
-export 'english.dart';
+export 'package:porter_2_stemmer/porter_2_stemmer.dart';
+export 'package:porter_2_stemmer/extensions.dart';
+export 'english_analyzer/english.dart';
 export 'term_similarity.dart';
 export 'text_analyzer.dart';
 export 'text_document.dart';

@@ -1,14 +1,13 @@
 // BSD 3-Clause License
 // Copyright (c) 2022, GM Consult Pty Ltd
+// All rights reserved
 
 // ignore_for_file: unused_local_variable
 
 import 'package:gmconsult_dev/gmconsult_dev.dart';
+import 'package:gmconsult_dev/test_data.dart';
 import 'package:text_analysis/src/_index.dart';
 import 'package:test/test.dart';
-import 'data/sample_news.dart';
-import 'data/sample_stocks.dart';
-import 'data/data.dart';
 
 void main() {
   group('TextTokenizer', () {
@@ -17,9 +16,12 @@ void main() {
     test('TextDocument', (() async {
       //
       final sample =
-          'The Australian platypus is seemingly a hybrid of a mammal and reptilian creature.';
+          'The Australian platypus is seemingly a hybrid-mammal and reptilian '
+          'creature. It orignates from the U.S.A, roaming the pavé of the Cote '
+          'D\'Azure. He often has stubble on his chin.';
 
-      final textDoc = await TextDocument.analyze(sourceText: sample);
+      final textDoc = await TextDocument.analyze(
+          sourceText: sample, analyzer: English.analyzer);
 
       print('Average sentence length: ${textDoc.averageSentenceLength()}');
 
@@ -34,19 +36,11 @@ void main() {
     test('TextTokenizer.tokenize', () async {
       //
 
-      // Initialize a StringBuffer to hold the source text
-      final sourceBuilder = StringBuffer();
-
-      // Concatenate the elements of [text] using line-endings
-      for (final src in TextAnalysisTestData.text) {
-        sourceBuilder.writeln(src);
-      }
-
       // convert the StringBuffer to a String
-      final source = sourceBuilder.toString();
+      final source = TestData.text;
 
       final analyzer =
-          English(termExceptions: {'tesla': 'Tesla', 'AAPL': 'AAPL'});
+          English(termExceptions: {'alphabet': 'ALPHABET', 'google': 'Google'});
 
       // use a TextTokenizer instance to tokenize the source
       final tokens =
@@ -57,14 +51,8 @@ void main() {
     });
 
     test('TextTokenizer.split', () async {
-      // Initialize a StringBuffer to hold the source text
-      final sourceBuilder = StringBuffer();
-      // Concatenate the elements of [text] using line-endings
-      for (final src in TextAnalysisTestData.text) {
-        sourceBuilder.writeln(src);
-      }
       // convert the StringBuffer to a String
-      final source = sourceBuilder.toString();
+      final source = TestData.text;
 
 // split into terms
       final paragraphs = English().paragraphSplitter(source);
@@ -94,8 +82,8 @@ void main() {
           English(termExceptions: {'tesla': 'Tesla', 'Alphabet': 'GOOGLE'});
 
       // use a TextTokenizer instance to tokenize the json with 3 zones
-      final tokens = await TextTokenizer(analyzer: analyzer).tokenizeJson(
-          TextAnalysisTestData.json, ['name', 'description', 'hashTags']);
+      final tokens = await TextTokenizer(analyzer: analyzer)
+          .tokenizeJson(TestData.json, ['name', 'description', 'hashTags']);
 
       // print the tokens
       _printTokens('TOKENIZE JSON', tokens);
@@ -104,8 +92,7 @@ void main() {
     /// Tokenize JSON with NO zones.
     test('TextTokenizer.tokenizeJson', () async {
       // use a TextTokenizer instance to tokenize the json with NO zones
-      final tokens =
-          await TextTokenizer().tokenizeJson(TextAnalysisTestData.json);
+      final tokens = await TextTokenizer.english.tokenizeJson(TestData.json);
       // map the document's tokens to a list of terms (strings)
 
       // print the tokens
@@ -118,10 +105,10 @@ void main() {
       // initialize a term dictionary
       final dictionary = <String, int>{};
       // iterate through sampleNews
-      await Future.forEach(sampleStocks.entries,
+      await Future.forEach(TestData.stockData.entries,
           (MapEntry<String, Map<String, dynamic>> entry) async {
         final json = entry.value;
-        final tokens = await TextTokenizer().tokenizeJson(
+        final tokens = await TextTokenizer.english.tokenizeJson(
             json, ['ticker', 'name', 'description', 'hashTag', 'symbol']);
         for (final term in Set<String>.from(tokens.map((e) => e.term))) {
           final tf = (dictionary[term] ?? 0) + 1;
@@ -131,7 +118,8 @@ void main() {
       final finish = DateTime.now();
       final delta = finish.difference(start).inMilliseconds;
 
-      print('Processed ${sampleNews.length} documents in $delta milliseconds');
+      print('Processed ${TestData.stockNews.length} documents in $delta '
+          'milliseconds');
       print('=========================');
       final entries = dictionary.entries.toList();
       entries.sort((a, b) => b.value.compareTo(a.value));
@@ -146,7 +134,8 @@ void main() {
         print('${entry.key}: ${entry.value}');
       }
       print('=========================');
-      print('Processed ${sampleNews.length} documents in $delta milliseconds');
+      print(
+          'Processed ${TestData.stockNews.length} documents in $delta milliseconds');
       print('Found ${entries.length} terms');
     });
   });

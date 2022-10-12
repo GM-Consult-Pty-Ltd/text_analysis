@@ -50,7 +50,7 @@
 </h1></div>
 
     <section class="multi-line-signature">
-      <span class="name ">TextTokenizer</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="-param-analyzer">{<span class="type-annotation"><a href="../../text_analysis/TextAnalyzer-class.html">TextAnalyzer</a></span> <span class="parameter-name">analyzer</span> = <span class="default-value">English.analyzer</span>, </span></li>
+      <span class="name ">TextTokenizer</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="-param-analyzer">{<span>required</span> <span class="type-annotation"><a href="../../text_analysis/TextAnalyzer-class.html">TextAnalyzer</a></span> <span class="parameter-name">analyzer</span>, </span></li>
 <li><span class="parameter" id="-param-tokenFilter"><span class="type-annotation"><a href="../../type_definitions/TokenFilter.html">TokenFilter</a>?</span> <span class="parameter-name">tokenFilter</span>}</span></li>
 </ol>)
     </section>
@@ -71,8 +71,7 @@ restrict tokenization to tokens that meet specific criteria.</li>
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
   <pre class="language-dart"><code class="language-dart">factory TextTokenizer(
-        {TextAnalyzer analyzer = English.analyzer,
-        TokenFilter? tokenFilter}) =&gt;
+        {required TextAnalyzer analyzer, TokenFilter? tokenFilter}) =&gt;
     _TextTokenizerImpl(analyzer, tokenFilter);</code></pre>
 </section>
 
@@ -121,6 +120,8 @@ restrict tokenization to tokens that meet specific criteria.</li>
 
 
 
+        <li class="section-title"><a href="../../text_analysis/TextTokenizer-class.html#constants">Constants</a></li>
+          <li><a href="../../text_analysis/TextTokenizer/english-constant.html">english</a></li>
 </ol>
 
   </div><!--/.sidebar-offcanvas-left-->
@@ -133,7 +134,7 @@ restrict tokenization to tokens that meet specific criteria.</li>
 <footer>
   <span class="no-break">
     text_analysis
-      0.15.1+1
+      0.16.0
   </span>
 
   

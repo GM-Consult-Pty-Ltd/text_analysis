@@ -62,8 +62,13 @@
 
 
 <section class="desc markdown">
-  <p>Returns the number of syllables in a string after stripping out all
-white-space and punctuation.</p>
+  <p>The <a href="../../text_analysis/English-class.html">English</a> implementation of <a href="../../text_analysis/English/syllableCounter.html">syllableCounter</a>.</p>
+<p>Algorithm:</p>
+<ul>
+<li>Trim leading and trailing white-space from term.</li>
+<li>Return 0 if resulting term is empty.</li>
+<li>Split the term using the <a href="../../text_analysis/English/termSplitter.html">termSplitter</a></li>
+</ul>
 </section>
 
 
@@ -72,48 +77,58 @@ white-space and punctuation.</p>
   <pre class="language-dart"><code class="language-dart">@override
 SyllableCounter get syllableCounter =&gt; (term) {
       &#47;&#47;
+
+      var count = 0;
       term = term.trim();
       &#47;&#47; return 0 if term is empty
-      if (term.isEmpty) {
-        return 0;
-      }
-      var count = 0;
-      &#47;&#47; uses the termSplitter to split [term] into terms at whitespace and punctuation
-      &#47;&#47; applies the Porter2Stemmer to each element of terms
-      &#47;&#47; joins all the stemmed terms into one string
-      final terms = termSplitter(term);
-      &#47;&#47; count apostropied syllables like &quot;d&#39;Azure&quot; and remove the
-      &#47;&#47; apostrophied prefix
-      for (var e in terms) {
-        e = e.replaceAllMapped(RegExp(r&quot;(?&lt;=\b)([a-zA-Z]&#39;)&quot;), (match) {
-          count++;
-          return &#39;&#39;;
-        });
-        &#47;&#47; stem the remaining term
-        e = e.stemPorter2();
-        &#47;&#47; check for terms with capitals or remaining punctuation
-        if (e.toUpperCase() == e) {
-          &#47;&#47; this is more than likely an acronym, so add 1
-          count++;
-        } else if (abbreviations.keys.contains(e) ||
-            e.contains(RegExp(r&#39;[^a-z]&#39;))) {
-          &#47;&#47; still has non-letters, let&#39;s split it and get the syllables for
-          &#47;&#47; each sub-term
-          final subTerms = e.split(RegExp(&#39;[^a-zA-Z]+&#39;));
-          for (final es in subTerms) {
-            count += syllableCounter(es.trim());
-          }
-        } else {
-          &#47;&#47; add all the vowels, diphtongs and triptongs. As e has been stemmed,
-          &#47;&#47; we know trailing silent e&#39;s have been removed and vowel &quot;y&quot;s
-          &#47;&#47;converted to &quot;i&quot;
-          term = term.toLowerCase().replaceAll(RegExp(r&#39;[^a-z]&#39;), &#39;&#39;);
-          if (term.contains(RegExp(r&quot;[^aeiou\s\-\&#39;]+(?=\b)&quot;))) {
-            count += RegExp(r&#39;[aeiouy]+&#39;).allMatches(term).length;
+      if (term.isEmpty) return 0;
+      &#47;&#47; return 1 if term length is less than 3
+      if (term.length &lt; 3) {
+        count = 1;
+      } else {
+        &#47;&#47; split term into terms at non-word characters
+        final terms =
+            term.split(RegExp(Porter2StemmerConstants.rEnglishNonWordChars));
+        for (var e in terms) {
+          &#47;&#47; stem the remaining term with the Porter 2 Stemmer.
+          &#47;&#47; DO NOT USE the analyzer stemmer as it may be overridden and we
+          &#47;&#47; must make sure the trailing silent e&#39;s are removed and vowel &quot;y&quot;s
+          &#47;&#47; are converted to &quot;i&quot;
+          e = SyllableStemmer().stem(e);
+          &#47;&#47; count apostropied syllables like &quot;d&#39;Azure&quot; and remove the
+          &#47;&#47; apostrophied prefix
+          e = e.replaceAllMapped(RegExp(r&quot;(?&lt;=\b)([a-zA-Z]&#39;)&quot;), (match) {
+            count++;
+            return &#39;&#39;;
+          });
+          &#47;&#47; check for terms with capitals or remaining punctuation
+          if (e.toUpperCase() == e) {
+            &#47;&#47; this is more than likely an acronym, so add 1
+            count++;
+            &#47;&#47; } else if (abbreviations.keys.contains(e) ||
+            &#47;&#47;     e.contains(RegExp(r&#39;[^a-z]&#39;))) {
+            &#47;&#47;   &#47;&#47; still has non-letters, let&#39;s split it and get the syllables for
+            &#47;&#47;   &#47;&#47; each sub-term
+            &#47;&#47;   final subTerms = e.split(RegExp(&#39;[^a-zA-Z]+&#39;));
+            &#47;&#47;   for (final es in subTerms) {
+            &#47;&#47;     count += syllableCounter(es.trim());
+            &#47;&#47;   }
           } else {
-            count += RegExp(r&#39;[aeiou]+&#39;).allMatches(e).length;
-            &#47;&#47; check for stemmed words ending in 3 or more consonants
-            count += e.contains(RegExp(r&quot;[^aeiou\s\-\&#39;]{3,}(?=\b)&quot;)) ? 1 : 0;
+            &#47;&#47; add all the single vowels, diphtongs and triptongs.
+            &#47;&#47; As e has been stemmed by the Porter2 stemmer, we know trailing
+            &#47;&#47; silent e&#39;s have been removed and vowel &quot;y&quot;s converted to &quot;i&quot;
+            e = e.toLowerCase();
+            if (e.contains(RegExp(r&quot;[^aeiou\s\-\&#39;]+(?=\b)&quot;))) {
+              &#47;&#47; term ends in one or more consonants or ys
+              count += RegExp(r&#39;[aeiouyà-æè-ðò-öø-ÿ]+&#39;).allMatches(e).length;
+              &#47;&#47; check for stemmed words ending in 3 or more consonants
+              count +=
+                  e.contains(RegExp(r&quot;[^aeiouyà-æè-ðò-öø-ÿ\s\-\&#39;]{3,}(?=\b)&quot;))
+                      ? 1
+                      : 0;
+            } else {
+              count += RegExp(r&#39;[aeiouyà-æè-ðò-öø-ÿ]+&#39;).allMatches(e).length;
+            }
           }
         }
       }
@@ -166,7 +181,7 @@ SyllableCounter get syllableCounter =&gt; (term) {
     <li><a href="../../text_analysis/English/termFilter.html">termFilter</a></li>
     <li><a href="../../text_analysis/English/termSplitter.html">termSplitter</a></li>
 
-    <li class="section-title"><a href="../../text_analysis/English-class.html#instance-methods">Methods</a></li>
+    <li class="section-title inherited"><a href="../../text_analysis/English-class.html#instance-methods">Methods</a></li>
     <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/noSuchMethod.html">noSuchMethod</a></li>
     <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/toString.html">toString</a></li>
 
@@ -178,15 +193,6 @@ SyllableCounter get syllableCounter =&gt; (term) {
 
         <li class="section-title"><a href="../../text_analysis/English-class.html#constants">Constants</a></li>
           <li><a href="../../text_analysis/English/analyzer-constant.html">analyzer</a></li>
-          <li><a href="../../text_analysis/English/kAbbreviations-constant.html">kAbbreviations</a></li>
-          <li><a href="../../text_analysis/English/kStopWords-constant.html">kStopWords</a></li>
-          <li><a href="../../text_analysis/English/reBracketsAndCarets-constant.html">reBracketsAndCarets</a></li>
-          <li><a href="../../text_analysis/English/reLineEndingSelector-constant.html">reLineEndingSelector</a></li>
-          <li><a href="../../text_analysis/English/reNonWordChars-constant.html">reNonWordChars</a></li>
-          <li><a href="../../text_analysis/English/rePunctuationSelector-constant.html">rePunctuationSelector</a></li>
-          <li><a href="../../text_analysis/English/reSentenceEndingSelector-constant.html">reSentenceEndingSelector</a></li>
-          <li><a href="../../text_analysis/English/reWordChars-constant.html">reWordChars</a></li>
-          <li><a href="../../text_analysis/English/reWordEndsWithPeriod-constant.html">reWordEndsWithPeriod</a></li>
 </ol>
 
   </div><!--/.sidebar-offcanvas-->
@@ -199,7 +205,7 @@ SyllableCounter get syllableCounter =&gt; (term) {
 <footer>
   <span class="no-break">
     text_analysis
-      0.15.1+1
+      0.16.0
   </span>
 
   

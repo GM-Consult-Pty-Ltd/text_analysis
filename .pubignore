@@ -1,0 +1,19 @@
+<!-- 
+BSD 3-Clause License
+Copyright (c) 2022, GM Consult Pty Ltd
+All rights reserved. 
+-->
+
+<!-- # Secret keys -->
+keys/
+test/keys/
+lib/keys/
+
+<!-- Folder with images used in documentation. -->
+doc/images/
+
+<!-- Folder for dev resources not included in package -->
+dev/
+
+<!-- data used for testing -->
+test/data/

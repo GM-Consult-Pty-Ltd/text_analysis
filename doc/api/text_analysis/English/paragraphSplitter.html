@@ -62,24 +62,21 @@
 
 
 <section class="desc markdown">
-  <p>Returns a list of paragraphs from text.</p>
+  <p>The <a href="../../text_analysis/English-class.html">English</a> implementation of <a href="../../text_analysis/English/paragraphSplitter.html">paragraphSplitter</a>.</p>
+<p>Algorithm:</p>
+<ul>
+<li>Split the text at line endings.</li>
+<li>Trim leading and trailing white-space from all terms.</li>
+<li>Return only non-empty elements.</li>
+</ul>
 </section>
 
 
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
   <pre class="language-dart"><code class="language-dart">@override
-ParagraphSplitter get paragraphSplitter =&gt; ((source) {
-      final sentences = source.trim().split(RegExp(reLineEndingSelector));
-      final retVal = &lt;String&gt;[];
-      for (final e in sentences) {
-        final sentence = e.trim();
-        if (sentence.isNotEmpty) {
-          retVal.add(sentence);
-        }
-      }
-      return retVal;
-    });</code></pre>
+ParagraphSplitter get paragraphSplitter =&gt;
+    (source) =&gt; source.splitAtLineEndings();</code></pre>
 </section>
 
 </section>
@@ -126,7 +123,7 @@ ParagraphSplitter get paragraphSplitter =&gt; ((source) {
     <li><a href="../../text_analysis/English/termFilter.html">termFilter</a></li>
     <li><a href="../../text_analysis/English/termSplitter.html">termSplitter</a></li>
 
-    <li class="section-title"><a href="../../text_analysis/English-class.html#instance-methods">Methods</a></li>
+    <li class="section-title inherited"><a href="../../text_analysis/English-class.html#instance-methods">Methods</a></li>
     <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/noSuchMethod.html">noSuchMethod</a></li>
     <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/toString.html">toString</a></li>
 
@@ -138,15 +135,6 @@ ParagraphSplitter get paragraphSplitter =&gt; ((source) {
 
         <li class="section-title"><a href="../../text_analysis/English-class.html#constants">Constants</a></li>
           <li><a href="../../text_analysis/English/analyzer-constant.html">analyzer</a></li>
-          <li><a href="../../text_analysis/English/kAbbreviations-constant.html">kAbbreviations</a></li>
-          <li><a href="../../text_analysis/English/kStopWords-constant.html">kStopWords</a></li>
-          <li><a href="../../text_analysis/English/reBracketsAndCarets-constant.html">reBracketsAndCarets</a></li>
-          <li><a href="../../text_analysis/English/reLineEndingSelector-constant.html">reLineEndingSelector</a></li>
-          <li><a href="../../text_analysis/English/reNonWordChars-constant.html">reNonWordChars</a></li>
-          <li><a href="../../text_analysis/English/rePunctuationSelector-constant.html">rePunctuationSelector</a></li>
-          <li><a href="../../text_analysis/English/reSentenceEndingSelector-constant.html">reSentenceEndingSelector</a></li>
-          <li><a href="../../text_analysis/English/reWordChars-constant.html">reWordChars</a></li>
-          <li><a href="../../text_analysis/English/reWordEndsWithPeriod-constant.html">reWordEndsWithPeriod</a></li>
 </ol>
 
   </div><!--/.sidebar-offcanvas-->
@@ -159,7 +147,7 @@ ParagraphSplitter get paragraphSplitter =&gt; ((source) {
 <footer>
   <span class="no-break">
     text_analysis
-      0.15.1+1
+      0.16.0
   </span>
 
   

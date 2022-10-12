@@ -4,6 +4,33 @@ Copyright (c) 2022, GM Consult Pty Ltd
 All rights reserved. 
 -->
 
+## 0.16.0
+**BREAKING CHANGES**
+
+### *Breaking changes*
+* Removed `stopWords` and `abbreviations` fields from `TextAnalyzer`.
+* Changed implementation of `TextTokenizer.tokenize` to match removal of `stopWords` and `abbreviations` from `TextAnalyzer`.
+* Moved all constants from `English` to `EnglishConstants`.
+* Removed parameters `stemmer`, `lemmatizer`, `stopWords` and `abbreviations` from `English`. Extend the `English` class to use different values for these fields.
+* Changed implementation of `English.termSplitter`.
+* Changed signature of `TextTokenizer` unnamed factory constructor, now requires `analyzer` parameter.
+
+### *New*
+* New mini-library `constants`.
+* New extension class on String `EnglishStringExtensions` added to `extensions` mini-library.
+* New static const `TextTokenizer.english` shortcut factory method.
+
+### *Bug fixes*
+* Fixed handling of accented characters in `English.syllableCounter`.
+* Fixed bugs in `English.syllableCounter` to improve accuracy when dealing with hyphenated terms,
+abbreviations and apostrophes of contraction.
+
+### *Updated*
+* Dependencies.
+* Tests.
+* Documentation
+* Examples.
+
 ## 0.15.1+1
 
 ### *Updated*

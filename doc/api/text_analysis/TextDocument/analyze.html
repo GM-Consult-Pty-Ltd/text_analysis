@@ -54,8 +54,8 @@
 
 <span class="returntype"><a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../../text_analysis/TextDocument-class.html">TextDocument</a></span>&gt;</span></span>
 <span class="name ">analyze</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="analyze-param-sourceText">{<span>required</span> <span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span> <span class="parameter-name">sourceText</span>, </span></li>
-<li><span class="parameter" id="analyze-param-zone"><span class="type-annotation"><a href="../../type_definitions/Zone.html">Zone</a>?</span> <span class="parameter-name">zone</span>, </span></li>
-<li><span class="parameter" id="analyze-param-analyzer"><span class="type-annotation"><a href="../../text_analysis/TextAnalyzer-class.html">TextAnalyzer</a></span> <span class="parameter-name">analyzer</span> = <span class="default-value">English.analyzer</span>}</span></li>
+<li><span class="parameter" id="analyze-param-analyzer"><span>required</span> <span class="type-annotation"><a href="../../text_analysis/TextAnalyzer-class.html">TextAnalyzer</a></span> <span class="parameter-name">analyzer</span>, </span></li>
+<li><span class="parameter" id="analyze-param-zone"><span class="type-annotation"><a href="../../type_definitions/Zone.html">Zone</a>?</span> <span class="parameter-name">zone</span>}</span></li>
 </ol>)
 
       
@@ -82,8 +82,8 @@ the <code>sourceText</code> and populate the <a href="../../text_analysis/TextDo
   <h2><span>Implementation</span></h2>
   <pre class="language-dart"><code class="language-dart">static Future&lt;TextDocument&gt; analyze(
     {required String sourceText,
-    Zone? zone,
-    TextAnalyzer analyzer = English.analyzer}) async {
+    required TextAnalyzer analyzer,
+    Zone? zone}) async {
   final tokens =
       await TextTokenizer(analyzer: analyzer).tokenize(sourceText, zone);
   return _TextDocumentImpl(analyzer, sourceText, tokens);
@@ -156,7 +156,7 @@ the <code>sourceText</code> and populate the <a href="../../text_analysis/TextDo
 <footer>
   <span class="no-break">
     text_analysis
-      0.15.1+1
+      0.16.0
   </span>
 
   

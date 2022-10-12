@@ -21,9 +21,7 @@ import '_index.dart';
 /// - [lemmatizer] is a language-specific function that returns the lemma of a
 ///   term;
 /// - [termExceptions] is a hashmap of words to token terms for special words
-///   that should not be re-capitalized, stemmed or lemmatized;
-/// - [stopWords] are terms that commonly occur in a language and that do not add
-/// material value to the analysis of text; and
+///   that should not be re-capitalized, stemmed or lemmatized; and
 /// - [syllableCounter] returns the number of syllables in a word or text.
 abstract class TextAnalyzer {
   //
@@ -67,11 +65,4 @@ abstract class TextAnalyzer {
   /// A hashmap of words to token terms for special words that should not be
   /// re-capitalized, stemmed or lemmatized.
   Map<String, String> get termExceptions;
-
-  /// Stopwords are terms that commonly occur in a language and that do not add
-  /// material value to the analysis of text.
-  Iterable<String> get stopWords;
-
-  /// A hashmap of abbreviations in the analyzed language.
-  Map<String, String> get abbreviations;
 }

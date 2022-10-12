@@ -39,7 +39,7 @@ abstract class TextDocument {
   factory TextDocument(
           {required String sourceText,
           required List<Token> tokens,
-          TextAnalyzer analyzer = English.analyzer}) =>
+          required TextAnalyzer analyzer}) =>
       _TextDocumentImpl(analyzer, sourceText, tokens);
 
   /// Hydrates a [TextDocument] from the [sourceText], [zone] and
@@ -53,8 +53,8 @@ abstract class TextDocument {
   /// the [sourceText] and populate the [tokens] property.
   static Future<TextDocument> analyze(
       {required String sourceText,
-      Zone? zone,
-      TextAnalyzer analyzer = English.analyzer}) async {
+      required TextAnalyzer analyzer,
+      Zone? zone}) async {
     final tokens =
         await TextTokenizer(analyzer: analyzer).tokenize(sourceText, zone);
     return _TextDocumentImpl(analyzer, sourceText, tokens);
@@ -70,8 +70,8 @@ abstract class TextDocument {
   ///   populate the [tokens] property.
   static Future<TextDocument> analyzeJson(
       {required Map<String, dynamic> document,
-      Iterable<Zone>? zones,
-      TextAnalyzer analyzer = English.analyzer}) async {
+      required TextAnalyzer analyzer,
+      Iterable<Zone>? zones}) async {
     final sourceText = StringBuffer();
     if (zones == null || zones.isEmpty) {
       for (final fieldValue in document.values) {

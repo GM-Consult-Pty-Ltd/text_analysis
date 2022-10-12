@@ -97,10 +97,10 @@ CharacterFilter get characterFilter =&gt; (Term term) {
               &#47;&#47; change all dashes to single standard hyphen
               .replaceAll(RegExp(r&#39;[\-—]+&#39;), &#39;-&#39;)
               &#47;&#47; remove all non-word characters
-              .replaceAll(RegExp(r&quot;[^0-9a-z,.\-&#39;\$£₤#@]&quot;), &#39;&#39;)
+              .replaceAll(RegExp(EnglishConstants.reNonWordChars), &#39;&#39;)
               &#47;&#47; remove all characters except letters and numbers at end
               &#47;&#47; of term
-              .replaceAll(RegExp(r&#39;[^0-9a-z](?=$)&#39;), &#39;&#39;)
+              .replaceAll(RegExp(r&#39;[^a-zA-Z0-9À-öø-ÿ](?=$)&#39;), &#39;&#39;)
               .trim();
     };</code></pre>
 </section>
@@ -149,7 +149,7 @@ CharacterFilter get characterFilter =&gt; (Term term) {
     <li><a href="../../text_analysis/English/termFilter.html">termFilter</a></li>
     <li><a href="../../text_analysis/English/termSplitter.html">termSplitter</a></li>
 
-    <li class="section-title"><a href="../../text_analysis/English-class.html#instance-methods">Methods</a></li>
+    <li class="section-title inherited"><a href="../../text_analysis/English-class.html#instance-methods">Methods</a></li>
     <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/noSuchMethod.html">noSuchMethod</a></li>
     <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/toString.html">toString</a></li>
 
@@ -161,15 +161,6 @@ CharacterFilter get characterFilter =&gt; (Term term) {
 
         <li class="section-title"><a href="../../text_analysis/English-class.html#constants">Constants</a></li>
           <li><a href="../../text_analysis/English/analyzer-constant.html">analyzer</a></li>
-          <li><a href="../../text_analysis/English/kAbbreviations-constant.html">kAbbreviations</a></li>
-          <li><a href="../../text_analysis/English/kStopWords-constant.html">kStopWords</a></li>
-          <li><a href="../../text_analysis/English/reBracketsAndCarets-constant.html">reBracketsAndCarets</a></li>
-          <li><a href="../../text_analysis/English/reLineEndingSelector-constant.html">reLineEndingSelector</a></li>
-          <li><a href="../../text_analysis/English/reNonWordChars-constant.html">reNonWordChars</a></li>
-          <li><a href="../../text_analysis/English/rePunctuationSelector-constant.html">rePunctuationSelector</a></li>
-          <li><a href="../../text_analysis/English/reSentenceEndingSelector-constant.html">reSentenceEndingSelector</a></li>
-          <li><a href="../../text_analysis/English/reWordChars-constant.html">reWordChars</a></li>
-          <li><a href="../../text_analysis/English/reWordEndsWithPeriod-constant.html">reWordEndsWithPeriod</a></li>
 </ol>
 
   </div><!--/.sidebar-offcanvas-->
@@ -182,7 +173,7 @@ CharacterFilter get characterFilter =&gt; (Term term) {
 <footer>
   <span class="no-break">
     text_analysis
-      0.15.1+1
+      0.16.0
   </span>
 
   

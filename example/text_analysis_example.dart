@@ -92,7 +92,8 @@ Future<void> _analyseText(String title, String text) async {
   print(title);
 
   // hydrate the TextDocument
-  final textDoc = await TextDocument.analyze(sourceText: text);
+  final textDoc =
+      await TextDocument.analyze(sourceText: text, analyzer: English.analyzer);
 
   // print the `average sentence length`
   print('Average sentence length:    ${textDoc.averageSentenceLength()}');
@@ -136,7 +137,7 @@ Future<Map<String, Set<String>>> _getKgramIndex(
     String title, String text, int k) async {
 //
 
-  final tokens = await TextTokenizer().tokenize(text);
+  final tokens = await TextTokenizer.english.tokenize(text);
   // get the bi-grams
   final Map<String, Set<String>> kGramIndex = tokens.kGrams(2);
 
@@ -186,7 +187,7 @@ Future<List<Token>> _tokenizeParagraphs(Iterable<String> paragraphs) async {
   final source = sourceBuilder.toString();
 
   // use a TextTokenizer instance to tokenize the source
-  final tokens = await TextTokenizer().tokenize(source);
+  final tokens = await TextTokenizer.english.tokenize(source);
 
   return tokens;
 }

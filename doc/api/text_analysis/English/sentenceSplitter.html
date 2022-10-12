@@ -62,53 +62,22 @@
 
 
 <section class="desc markdown">
-  <p>The <a href="../../text_analysis/English-class.html">English</a> implementation of <a href="../../text_analysis/English/sentenceSplitter.html">sentenceSplitter</a> inserts
-<code>_kSentenceDelimiter</code> at sentence breaks and then splits the source text
-into a list of sentence strings.</p>
-<p>Sentence breaks are characters that match <a href="../../text_analysis/English/reLineEndingSelector-constant.html">English.reLineEndingSelector</a>
-or <a href="../../text_analysis/English/reSentenceEndingSelector-constant.html">English.reSentenceEndingSelector</a>.</p>
-<p>Empty strings are removed from the returned collection.</p>
+  <p>The <a href="../../text_analysis/English-class.html">English</a> implementation of <a href="../../text_analysis/English/sentenceSplitter.html">sentenceSplitter</a>.</p>
+<p>Algorithm:</p>
+<ul>
+<li>Insert a delimiter at sentence breaks.</li>
+<li>Split the text into sentences at the delimiter.</li>
+<li>Trim leading and trailing white-space from all terms.</li>
+<li>Return only non-empty elements.</li>
+</ul>
 </section>
 
 
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
   <pre class="language-dart"><code class="language-dart">@override
-SentenceSplitter get sentenceSplitter =&gt; (SourceText source) {
-      &#47;&#47; insert the sentence delimiters at sentence breaks
-      source = source
-          &#47;&#47; trim leading and trailing white-space from source
-          .trim()
-          &#47;&#47; replace line feeds and carriage returns with %~%
-          .replaceAll(
-              RegExp(English.reLineEndingSelector), _kSentenceDelimiter)
-          &#47;&#47; select all sentences and replace the ending punctuation with %~%
-          .replaceAllMapped(RegExp(English.reSentenceEndingSelector),
-              (match) {
-        final sentence = match.group(0) ?? &#39;&#39;;
-        &#47;&#47; remove white-space before delimiter
-        return &#39;$sentence$_kSentenceDelimiter&#39;
-            .replaceAll(RegExp(r&#39;(\s+)(?=%~%)&#39;), _kSentenceDelimiter);
-      });
-      &#47;&#47; split into sentence strings
-      final sources = source
-          &#47;&#47; split at _kSentenceDelimiter
-          .split(RegExp(_kSentenceDelimiter));
-      final sentences = &lt;String&gt;[];
-      for (final e in sources) {
-        &#47;&#47; trim leading and trailing white-space from all elements
-        final sentence = e
-            .trim()
-            .replaceAll(RegExp(English.reSentenceEndingSelector), &#39;&#39;)
-            .trim();
-        &#47;&#47; add only non-empty sentences
-        if (sentence.isNotEmpty) {
-          sentences.add(sentence);
-        }
-      }
-      &#47;&#47; return the sentences
-      return sentences;
-    };</code></pre>
+SentenceSplitter get sentenceSplitter =&gt; (SourceText source) =&gt;
+    source.insertSentenceDelimiters().splitAtSentenceDelimiters();</code></pre>
 </section>
 
 </section>
@@ -155,7 +124,7 @@ SentenceSplitter get sentenceSplitter =&gt; (SourceText source) {
     <li><a href="../../text_analysis/English/termFilter.html">termFilter</a></li>
     <li><a href="../../text_analysis/English/termSplitter.html">termSplitter</a></li>
 
-    <li class="section-title"><a href="../../text_analysis/English-class.html#instance-methods">Methods</a></li>
+    <li class="section-title inherited"><a href="../../text_analysis/English-class.html#instance-methods">Methods</a></li>
     <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/noSuchMethod.html">noSuchMethod</a></li>
     <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/toString.html">toString</a></li>
 
@@ -167,15 +136,6 @@ SentenceSplitter get sentenceSplitter =&gt; (SourceText source) {
 
         <li class="section-title"><a href="../../text_analysis/English-class.html#constants">Constants</a></li>
           <li><a href="../../text_analysis/English/analyzer-constant.html">analyzer</a></li>
-          <li><a href="../../text_analysis/English/kAbbreviations-constant.html">kAbbreviations</a></li>
-          <li><a href="../../text_analysis/English/kStopWords-constant.html">kStopWords</a></li>
-          <li><a href="../../text_analysis/English/reBracketsAndCarets-constant.html">reBracketsAndCarets</a></li>
-          <li><a href="../../text_analysis/English/reLineEndingSelector-constant.html">reLineEndingSelector</a></li>
-          <li><a href="../../text_analysis/English/reNonWordChars-constant.html">reNonWordChars</a></li>
-          <li><a href="../../text_analysis/English/rePunctuationSelector-constant.html">rePunctuationSelector</a></li>
-          <li><a href="../../text_analysis/English/reSentenceEndingSelector-constant.html">reSentenceEndingSelector</a></li>
-          <li><a href="../../text_analysis/English/reWordChars-constant.html">reWordChars</a></li>
-          <li><a href="../../text_analysis/English/reWordEndsWithPeriod-constant.html">reWordEndsWithPeriod</a></li>
 </ol>
 
   </div><!--/.sidebar-offcanvas-->
@@ -188,7 +148,7 @@ SentenceSplitter get sentenceSplitter =&gt; (SourceText source) {
 <footer>
   <span class="no-break">
     text_analysis
-      0.15.1+1
+      0.16.0
   </span>
 
   
