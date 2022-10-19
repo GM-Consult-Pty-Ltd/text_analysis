@@ -365,6 +365,8 @@ extension TermSimilarityExtensions on Term {
   }
 }
 
+
+
 /// A 1-based, 1-dimensional array of integers, 26 charcters in length.
 class _Da extends _Array<int> {
   //
@@ -425,6 +427,8 @@ class _Matrix<T extends Object> {
   /// The number of rows in the matrix.
   int get rowCount => elements.length;
 
+  final _Array<_Array<T>> elements;
+
   /// The number of columns in the matrix.
   int get columnCount {
     final lengths = elements.elements.map((e) => e.length).toList();
@@ -437,12 +441,10 @@ class _Matrix<T extends Object> {
 
   const _Matrix._(this.elements, this.i, this.j);
 
-  /// Unnamed factory constructor initializes an empty [_Matrix].
-  factory _Matrix(int i, int j, {int? rows, int? columns}) {
-    return _Matrix._(_Array([], j), i, j);
-  }
-
-  final _Array<_Array<T>> elements;
+  // /// Unnamed factory constructor initializes an empty [_Matrix].
+  // factory _Matrix(int i, int j) {
+  //   return _Matrix._(_Array([], j), i, j);
+  // }
 
   T get(int x, int y) => elements.get(y).get(x);
 

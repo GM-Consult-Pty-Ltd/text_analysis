@@ -11,3 +11,4 @@ export 'src/token.dart' show TokenCollectionExtension;
 export 'package:porter_2_stemmer/porter_2_stemmer.dart'
     show Porter2StemmerExtension;
 export 'src/english_analyzer/english.dart' show EnglishStringExtensions;
+export 'src/typedefs.dart' show KGramExtensionOnTermCollection;

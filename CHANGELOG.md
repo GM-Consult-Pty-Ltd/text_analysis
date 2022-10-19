@@ -4,6 +4,30 @@ Copyright (c) 2022, GM Consult Pty Ltd
 All rights reserved. 
 -->
 
+## 0.17.0
+**BREAKING CHANGES**
+
+### *Breaking changes*
+* Added field `TextAnalyzer.spellingKgrams`.
+
+### *New*
+* Added function definition `KGramsMap`.
+* Added field `English.spellingKgrams`.
+
+### *Updated*
+* Dependencies.
+* Tests.
+* Documentation
+* Examples.
+
+## 0.16.1
+
+### *Updated*
+* Dependencies.
+* Tests.
+* Documentation
+* Examples.
+
 ## 0.16.0
 **BREAKING CHANGES**
 

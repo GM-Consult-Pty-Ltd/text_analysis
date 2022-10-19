@@ -253,8 +253,10 @@ The following definitions are used throughout the [documentation](https://pub.de
 * `document` - a record in the `corpus`, that has a unique identifier (`docId`) in the `corpus`'s primary key and that contains one or more text fields that are indexed.
 * `document frequency (dFt)` - the number of documents in the `corpus` that contain a term.
 * `edit distance` - a measure of how dissimilar two terms are by counting the minimum number of operations required to transform one string into the other (from [Wikipedia](https://en.wikipedia.org/wiki/Edit_distance)).
-- `Flesch reading ease score` - a readibility measure calculated from  sentence length and word length on a 100-point scale. The higher the score, the easier it is to understand the document (from [Wikipedia](https://en.wikipedia.org/wiki/Flesch%E2%80%93Kincaid_readability_tests)).
-- `Flesch-Kincaid grade level` - a readibility measure relative to U.S. school grade level.  It is also calculated from sentence length and word length (from [Wikipedia](https://en.wikipedia.org/wiki/Flesch%E2%80%93Kincaid_readability_tests)).
+* `etymology` - the study of the history of the form of words and, by extension, the origin and evolution of their semantic meaning across time (from [Wikipedia](https://en.wikipedia.org/wiki/Etymology)).
+* `Flesch reading ease score` - a readibility measure calculated from  sentence length and word length on a 100-point scale. The higher the score, the easier it is to understand the document (from [Wikipedia](https://en.wikipedia.org/wiki/Flesch%E2%80%93Kincaid_readability_tests)).
+* `Flesch-Kincaid grade level` - a readibility measure relative to U.S. school grade level.  It is also calculated from sentence length and word length (from [Wikipedia](https://en.wikipedia.org/wiki/Flesch%E2%80%93Kincaid_readability_tests)).
+* `IETF language tag` - a standardized code or tag that is used to identify human languages in the Internet. (from [Wikepedia](https://en.wikipedia.org/wiki/IETF_language_tag)).
 * `index` - an [inverted index](https://en.wikipedia.org/wiki/Inverted_index) used to look up `document` references from the `corpus` against a `vocabulary` of `terms`. 
 * `index-elimination` - selecting a subset of the entries in an index where the `term` is in the collection of `terms` in a search phrase.
 * `inverse document frequency (iDft)` - a normalized measure of how rare a `term` is in the corpus. It is defined as `log (N / dft)`, where N is the total number of terms in the index. The `iDft` of a rare term is high, whereas the `iDft` of a frequent term is likely to be low.
@@ -263,6 +265,7 @@ The following definitions are used throughout the [documentation](https://pub.de
 * `k-gram` - a sequence of (any) k consecutive characters from a `term`. A `k-gram` can start with "$", denoting the start of the term, and end with "$", denoting the end of the term. The 3-grams for "castle" are { $ca, cas, ast, stl, tle, le$ }.
 * `lemma  or lemmatizer` - lemmatisation (or lemmatization) in linguistics is the process of grouping together the inflected forms of a word so they can be analysed as a single item, identified by the word's lemma, or dictionary form (from [Wikipedia](https://en.wikipedia.org/wiki/Lemmatisation)).
 * `Natural language processing (NLP)` is a subfield of linguistics, computer science, and artificial intelligence concerned with the interactions between computers and human language, in particular how to program computers to process and analyze large amounts of natural language data (from [Wikipedia](https://en.wikipedia.org/wiki/Natural_language_processing)).
+* `Phonetic transcription` - the visual representation of speech sounds (or phones) by means of symbols. The most common type of phonetic transcription uses a phonetic alphabet, such as the International Phonetic Alphabet (from [Wikipedia](https://en.wikipedia.org/wiki/Phonetic_transcription)).
 * `postings` - a separate index that records which `documents` the `vocabulary` occurs in.  In a positional `index`, the postings also records the positions of each `term` in the `text` to create a positional inverted `index`.
 * `postings list` - a record of the positions of a `term` in a `document`. A position of a `term` refers to the index of the `term` in an array that contains all the `terms` in the `text`. In a zoned `index`, the `postings lists` records the positions of each `term` in the `text` a `zone`.
 * `stem or stemmer` -  stemming is the process of reducing inflected (or sometimes derived) words to their word stem, base or root form (generally a written word form) (from [Wikipedia](https://en.wikipedia.org/wiki/Stemming)).
@@ -280,6 +283,7 @@ The following definitions are used throughout the [documentation](https://pub.de
 * `zone` - the field or zone of a document that a term occurs in, used for parametric indexes or where scoring and ranking of search results attribute a higher score to documents that contain a term in a specific zone (e.g. the title rather that the body of a document).
 
 (*[back to top](#)*)
+
 ## References
 
 * [Manning, Raghavan and Schütze, "*Introduction to Information Retrieval*", Cambridge University Press, 2008](https://nlp.stanford.edu/IR-book/pdf/irbookprint.pdf)
@@ -293,6 +297,9 @@ The following definitions are used throughout the [documentation](https://pub.de
 * [Wikipedia (7), "*Edit distance*", from Wikipedia, the free encyclopedia](https://en.wikipedia.org/wiki/Edit_distance)
 * [Wikipedia (8), "*Damerau–Levenshtein distance*", from Wikipedia, the free encyclopedia](https://en.wikipedia.org/wiki/Damerau%E2%80%93Levenshtein_distance)
 * [Wikipedia (9), "*Natural language processing*", from Wikipedia, the free encyclopedia](https://en.wikipedia.org/wiki/Natural_language_processing)
+* [Wikipedia (10), "*IETF language tag*", from Wikipedia, the free encyclopedia](https://en.wikipedia.org/wiki/IETF_language_tag)
+* [Wikipedia (11), "*Phonetic transcription*", from Wikipedia, the free encyclopedia](https://en.wikipedia.org/wiki/Phonetic_transcription)
+* [Wikipedia (12), "*Etymology*", from Wikipedia, the free encyclopedia](https://en.wikipedia.org/wiki/Etymology)
 
 (*[back to top](#)*)
 

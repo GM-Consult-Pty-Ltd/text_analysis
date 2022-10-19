@@ -9,6 +9,7 @@ import '../_index.dart';
 part 'english_constants.dart';
 part 'english_extensions.dart';
 part 'syllable_stemmer.dart';
+part 'english_kgrams.dart';
 
 /// A [TextAnalyzer] implementation for [English] language analysis.
 class English implements TextAnalyzer {
@@ -36,6 +37,10 @@ class English implements TextAnalyzer {
 
   /// A hashmap of abbreviations in the analyzed language.
   Map<String, String> get abbreviations => EnglishConstants.kAbbreviations;
+
+  /// A hashmap of kGrams (k=2) to commonly misspelt words in English.
+  @override
+  Map<String, Set<String>> get spellingKgrams => _kGrams;
 
   /// A hashmap of words to token terms for special words that should not be
   /// re-capitalized, stemmed or lemmatized.

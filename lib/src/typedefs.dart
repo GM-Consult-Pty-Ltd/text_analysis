@@ -24,6 +24,12 @@ typedef Term = String;
 /// The 3-grams for "castle" are { $ca, cas, ast, stl, tle, le$ }
 typedef KGram = String;
 
+/// Alias for `Map<String, Set<String>>`.
+///
+/// A hashmap of [KGram] to Set<[Term]>, where the value is the set of unique
+/// [Term]s that contain the [KGram] in the key.
+typedef KGramsMap = Map<KGram, Set<Term>>;
+
 /// An alias for a [Set] of [String], when used in the context of a collection
 /// of [Term] that are excluded from tokenization.
 typedef StopWords = Set<Term>;
@@ -99,3 +105,22 @@ typedef Tokenizer = Future<Iterable<Token>> Function(SourceText source,
 /// the [fields] in a [json] document.
 typedef JsonTokenizer = Future<Iterable<Token>> Function(
     Map<String, dynamic> json, List<Zone> fields);
+
+/// String collection extensions to generate k-gram maps.
+extension KGramExtensionOnTermCollection on Iterable<String> {
+  /// Returns a hashmap of k-grams to terms from the collection of tokens.
+  Map<KGram, Set<Term>> kGrams([int k = 2]) {
+    final terms = this;
+    // print the terms
+    final Map<String, Set<Term>> kGramIndex = {};
+    for (final term in terms) {
+      final kGrams = term.kGrams(k);
+      for (final kGram in kGrams) {
+        final set = kGramIndex[kGram] ?? {};
+        set.add(term);
+        kGramIndex[kGram] = set;
+      }
+    }
+    return kGramIndex;
+  }
+}

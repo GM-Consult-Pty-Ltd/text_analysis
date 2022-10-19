@@ -26,9 +26,6 @@ import '_index.dart';
 abstract class TextAnalyzer {
   //
 
-  /// A const generative constructor for sub-classes.
-  const TextAnalyzer();
-
   /// A function that manipulates text prior to stemming and tokenization.
   ///
   /// Use a [characterFilter] to:
@@ -65,4 +62,7 @@ abstract class TextAnalyzer {
   /// A hashmap of words to token terms for special words that should not be
   /// re-capitalized, stemmed or lemmatized.
   Map<String, String> get termExceptions;
+
+  /// A hashmap of kGrams (k=2) to commonly misspelt words.
+  Map<String, Set<String>> get spellingKgrams;
 }
