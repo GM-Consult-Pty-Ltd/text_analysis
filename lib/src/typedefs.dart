@@ -109,7 +109,7 @@ typedef JsonTokenizer = Future<Iterable<Token>> Function(
 /// String collection extensions to generate k-gram maps.
 extension KGramExtensionOnTermCollection on Iterable<String> {
   /// Returns a hashmap of k-grams to terms from the collection of tokens.
-  Map<KGram, Set<Term>> kGrams([int k = 2]) {
+  Map<KGram, Set<Term>> toKGramsMap([int k = 2]) {
     final terms = this;
     // print the terms
     final Map<String, Set<Term>> kGramIndex = {};

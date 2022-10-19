@@ -1,4 +1,4 @@
-const spelling_en = <String>[
+const spellingEn = <String>[
   'aah',
   'abc',
   'abe',

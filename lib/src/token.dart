@@ -56,7 +56,7 @@ extension TokenCollectionExtension on Iterable<Token> {
 //
 
   /// Returns a hashmap of k-grams to terms from the collection of tokens.
-  Map<KGram, Set<Term>> kGrams([int k = 2]) => terms.kGrams(k);
+  Map<KGram, Set<Term>> kGrams([int k = 2]) => terms.toKGramsMap(k);
 
   /// Returns the set of unique terms from the collection of [Token]s.
   Set<String> get terms => Set<String>.from(map((e) => e.term));

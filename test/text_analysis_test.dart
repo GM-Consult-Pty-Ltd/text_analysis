@@ -104,7 +104,7 @@ void main() {
     /// Tokenize JSON with NO zones.
     test('Iterable<String>.kGrams()', () async {
       // use a TextTokenizer instance to tokenize the json with NO zones
-      final kgrams = spelling_en.kGrams(2);
+      final kgrams = spellingEn.toKGramsMap(2);
       // map the document's tokens to a list of terms (strings)
 
       // print the tokens

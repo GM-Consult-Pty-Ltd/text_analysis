@@ -13,6 +13,7 @@ All rights reserved.
 ### *New*
 * Added function definition `KGramsMap`.
 * Added field `English.spellingKgrams`.
+* Added extension `Set<KGram> toKGramsMap([int k = 2])` on `Iterable<String>`.
 
 ### *Updated*
 * Dependencies.
