@@ -1,5 +1,5 @@
 // BSD 3-Clause License
-// Copyright (c) 2022, GM Consult Pty Ltd
+// Copyright ©2022, GM Consult Pty Ltd
 
 import '_index.dart';
 
@@ -63,6 +63,7 @@ abstract class TextAnalyzer {
   /// re-capitalized, stemmed or lemmatized.
   Map<String, String> get termExceptions;
 
-  /// A hashmap of kGrams (k=2) to commonly misspelt words.
-  Map<String, Set<String>> get spellingKgrams;
+  /// Returns a collection of alternate spellings for a term, in descending
+  /// order of similarity.
+  TermExpander get spellings;
 }

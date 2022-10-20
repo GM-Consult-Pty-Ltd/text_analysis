@@ -1,15 +1,16 @@
 // BSD 3-Clause License
-// Copyright (c) 2022, GM Consult Pty Ltd
+// Copyright ©2022, GM Consult Pty Ltd
 // All rights reserved
 
 import 'package:porter_2_stemmer/constants.dart';
 
 import '../_index.dart';
+import 'data/english_kgrams.dart';
+import 'data/english_lexicon.dart';
 
 part 'english_constants.dart';
 part 'english_extensions.dart';
 part 'syllable_stemmer.dart';
-part 'english_kgrams.dart';
 
 /// A [TextAnalyzer] implementation for [English] language analysis.
 class English implements TextAnalyzer {
@@ -38,9 +39,9 @@ class English implements TextAnalyzer {
   /// A hashmap of abbreviations in the analyzed language.
   Map<String, String> get abbreviations => EnglishConstants.kAbbreviations;
 
-  /// A hashmap of kGrams (k=2) to commonly misspelt words in English.
-  @override
-  Map<String, Set<String>> get spellingKgrams => _kGrams;
+  // /// A hashmap of kGrams (k=2) to commonly misspelt words in English.
+  // @override
+  // Map<String, Set<String>> get spellingKgrams => _kGrams;
 
   /// A hashmap of words to token terms for special words that should not be
   /// re-capitalized, stemmed or lemmatized.
@@ -263,5 +264,37 @@ class English implements TextAnalyzer {
         }
         // if count is 0, return 1 because a word must have at least one syllable
         return count < 1 ? 1 : count;
+      };
+
+  @override
+  TermExpander get spellings => (term, [int? limit]) {
+        // first check the lexicon. If it exists, return the term.
+        final lexTerm = englishLexicon[term];
+        if (lexTerm != null) return [Suggestion(term, 1.0)];
+        final suggestionsMap = <Term, Suggestion>{};
+        final termGrams = term.kGrams(2);
+        // get all the terms that may match.
+        final termEntries =
+            englishKGrams.entries.where((e) => termGrams.contains(e.key));
+        for (final e in termEntries) {
+          final terms = e.value
+              .where((element) => term.lengthSimilarity(element) > 0.5)
+              .toSet();
+          final suggestions = term.getSuggestions(terms);
+          for (final suggestion in suggestions) {
+            final existing =
+                suggestionsMap[suggestion.term] ?? Suggestion(term, 0.0);
+            suggestionsMap[suggestion.term] =
+                existing.similarity > suggestion.similarity
+                    ? existing
+                    : suggestion;
+          }
+        }
+        final retVal = suggestionsMap.values.toList();
+        retVal.sort(((a, b) => b.similarity.compareTo(a.similarity)));
+
+        return limit == null || retVal.length < limit
+            ? retVal
+            : retVal.sublist(0, limit);
       };
 }

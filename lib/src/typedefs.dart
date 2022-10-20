@@ -1,5 +1,5 @@
 // BSD 3-Clause License
-// Copyright (c) 2022, GM Consult Pty Ltd
+// Copyright ©2022, GM Consult Pty Ltd
 
 import 'dart:async';
 import '_index.dart';
@@ -70,6 +70,10 @@ typedef TermSplitter = List<String> Function(SourceText source);
 /// The sentence splitter should avoid splitting after abbreviations,
 /// which may end with period marks.
 typedef SentenceSplitter = List<String> Function(SourceText source);
+
+/// Returns a collection of [Suggestion]s for [term], in descending order of
+/// [Suggestion.similarity].
+typedef TermExpander = List<Suggestion> Function(Term term, [int? limit]);
 
 /// A splitter function that returns a list of paragraphs from [source].
 ///

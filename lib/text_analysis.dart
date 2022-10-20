@@ -1,5 +1,5 @@
 // BSD 3-Clause License
-// Copyright (c) 2022, GM Consult Pty Ltd
+// Copyright ©2022, GM Consult Pty Ltd
 // All rights reserved
 
 /// DART text analyzer that extracts tokens from JSON documents for use in
@@ -7,6 +7,8 @@
 library text_analysis;
 
 export 'src/english_analyzer/english.dart' show English;
+export 'src/part_of_speech.dart' show PartOfSpeech;
+export 'src/suggestion.dart' show Suggestion;
 export 'src/term_similarity.dart' show TermSimilarity;
 export 'src/text_analyzer.dart' show TextAnalyzer;
 export 'src/text_document.dart'

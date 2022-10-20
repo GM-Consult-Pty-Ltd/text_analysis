@@ -1,5 +1,5 @@
 // BSD 3-Clause License
-// Copyright (c) 2022, GM Consult Pty Ltd
+// Copyright ©2022, GM Consult Pty Ltd
 
 // ignore_for_file: camel_case_types
 
@@ -96,6 +96,7 @@ abstract class TermSimilarity {
   /// a [k]-gram length of [k].
   ///
   /// Not case-sensitive.
+  @Deprecated('Use method [getSuggestions] in stead.')
   static Map<Term, double> termSimilarityMap(
           Term term, Iterable<Term> candidates,
           [int k = 2]) =>
@@ -136,8 +137,14 @@ extension TermSimilarityExtensions on Term {
   ///   lengths) have an edit similarity of 0.0.
   ///
   /// Not case-sensitive.
-  double editSimilarity(Term other) =>
-      (length + other.length - editDistance(other)) / (length + other.length);
+  double editSimilarity(Term other) {
+    final similarity =
+        (length + other.length - editDistance(other)) / (length + other.length);
+    if (similarity > 1.0) {
+      return 1.0;
+    }
+    return similarity;
+  }
 
   /// Returns a hashmap of [terms] to their [editSimilarity] with this.
   ///
@@ -256,7 +263,11 @@ extension TermSimilarityExtensions on Term {
         : other.isEmpty
             ? 1
             : (log(other.length / length)).abs();
-    return logRatio > 1 ? 0.0 : 1.0 - logRatio;
+    final similarity = logRatio > 1 ? 0.0 : 1.0 - logRatio;
+    if (similarity > 1.0) {
+      return 1.0;
+    }
+    return similarity;
   }
 
   /// Returns a hashmap of [terms] to their [lengthSimilarity] with this.
@@ -279,7 +290,11 @@ extension TermSimilarityExtensions on Term {
     final otherGrams = other.kGrams(k);
     final intersection = termGrams.intersection(otherGrams);
     final union = termGrams.union(otherGrams);
-    return intersection.length / union.length;
+    final similarity = intersection.length / union.length;
+    if (similarity > 1.0) {
+      return 1.0;
+    }
+    return similarity;
   }
 
   /// Returns a hashmap of [terms] to Jaccard Similarity Index with this term
@@ -307,22 +322,53 @@ extension TermSimilarityExtensions on Term {
   /// - have an identical collection of [k]-grams.
   ///
   /// Not case-sensitive.
-  double termSimilarity(Term other, [int k = 2]) =>
-      (jaccardSimilarity(other, k) * lengthSimilarity(other)) *
-      editSimilarity(other);
+  double termSimilarity(Term other, [int k = 2]) {
+    final j = jaccardSimilarity(other, k);
+    final l = lengthSimilarity(other);
+    final e = editSimilarity(other);
+    if (l == 1) {
+      print('$other:');
+      print('j = ${j.toStringAsFixed(2)}');
+      print('k = ${j.toStringAsFixed(2)}');
+    }
+    final similarity = (j * 2 + l * 3 + e * 5) / 10;
+    if (similarity > 1.0) {
+      return 1.0;
+    }
+    return similarity;
+  }
 
-  /// Returns a hashmap of [terms] to [termSimilarity] with this term using
+  /// Returns an hashmap of [terms] to [termSimilarity] with this term using
   /// a [k]-gram length of [k].
   ///
   /// Not case-sensitive.
+  @Deprecated('Use method [getSuggestions] in stead.')
   Map<Term, double> termSimilarityMap(Iterable<Term> terms, [int k = 2]) {
     final retVal = <Term, double>{};
-    final termGrams = kGrams(k);
     for (final other in terms) {
-      retVal[other] =
-          (_jaccardSimilarity(termGrams, other, k) * termSimilarity(other)) *
-              editSimilarity(other);
+      retVal[other] = termSimilarity(other);
     }
+    return retVal;
+  }
+
+  /// Returns a collection of [Suggestion]s for this String from [terms] using
+  /// a [k]-gram length of [k].
+  ///
+  /// Suggestions are returned in descending order of[Suggestion.similarity].
+  ///
+  /// Not case-sensitive.
+  List<Suggestion> getSuggestions(Iterable<Term> terms, [int k = 2]) {
+    final retVal = <Suggestion>[];
+    for (final other in terms.toSet()) {
+      var similarity = termSimilarity(other);
+      if (similarity > 1) {
+        similarity = 1;
+      }
+      final suggestion = Suggestion(other, similarity);
+      retVal.add(suggestion);
+    }
+    // sort in descending order of similarity
+    retVal.sort(((a, b) => b.similarity.compareTo(a.similarity)));
     return retVal;
   }
 
@@ -336,12 +382,13 @@ extension TermSimilarityExtensions on Term {
   ///
   /// Not case-sensitive.
   List<Term> matches(Iterable<Term> terms, {int k = 2, int limit = 10}) {
-    final similarities = termSimilarityMap(terms);
-    final entries =
-        similarities.entries.where((element) => element.value > 0).toList();
-    entries.sort(((a, b) => b.value.compareTo(a.value)));
-    final retVal = entries.map((e) => e.key).toList();
-    return retVal.length > limit ? retVal.sublist(0, limit) : retVal;
+    final suggestions = getSuggestions(terms, k)
+        .where((element) => element.similarity > 0)
+        .map((e) => e.term)
+        .toList();
+    return suggestions.length > limit
+        ? suggestions.sublist(0, limit)
+        : suggestions;
   }
 
   /// Returns a set of (lower-case) k-grams in the term.
@@ -364,8 +411,6 @@ extension TermSimilarityExtensions on Term {
     return kGrams;
   }
 }
-
-
 
 /// A 1-based, 1-dimensional array of integers, 26 charcters in length.
 class _Da extends _Array<int> {

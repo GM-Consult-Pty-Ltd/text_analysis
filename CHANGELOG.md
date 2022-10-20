@@ -10,6 +10,12 @@ All rights reserved.
 ### *Breaking changes*
 * Added field `TextAnalyzer.spellingKgrams`.
 
+### *Deprecated*
+* Deprecated String extension method `termSimilarityMap`, use `getSuggestions` in stead.
+* Deprecated String extension method `matches`, use `getMatches` in stead.
+* Deprecated static method `TermSimilarity.termSimilarityMap`, use `TermSimilarity.getSuggestions` in stead.
+* Deprecated static method `TermSimilarity.matches`, use `TermSimilarity.getSuggestions` in stead.
+
 ### *New*
 * Added function definition `KGramsMap`.
 * Added field `English.spellingKgrams`.

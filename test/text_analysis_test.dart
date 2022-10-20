@@ -5,7 +5,7 @@
 // ignore_for_file: unused_local_variable
 
 import 'package:gmconsult_dev/gmconsult_dev.dart';
-import '../dev/data/spelling_en.dart';
+import '../dev/data/english_vocabulary.dart';
 import 'dart:io';
 import 'package:gmconsult_dev/test_data.dart';
 import 'package:text_analysis/src/_index.dart';
@@ -151,6 +151,15 @@ void main() {
       print('Found ${entries.length} terms');
     });
   });
+
+  group('TextAnalyzer', (() {
+    test('TextAnalyser,spelling', (() {
+      final analyzer = English.analyzer;
+      final term = 'teh';
+      final suggestions = analyzer.spellings(term, 25);
+      print(suggestions);
+    }));
+  }));
 }
 
 /// Print the terms in List<[Token]>.
