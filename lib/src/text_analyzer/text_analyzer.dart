@@ -63,7 +63,4 @@ abstract class TextAnalyzer {
   /// re-capitalized, stemmed or lemmatized.
   Map<String, String> get termExceptions;
 
-  // /// Returns a collection of alternate spellings for a term, in descending
-  // /// order of similarity.
-  // TermExpander get spellings;
 }

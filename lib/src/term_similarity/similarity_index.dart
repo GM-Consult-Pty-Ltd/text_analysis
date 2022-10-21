@@ -30,6 +30,16 @@ class SimilarityIndex {
   ///   exception is thrown if [similarity] is less than 0.0 or more than 1.0.
   const SimilarityIndex(this.term, this.similarity)
       : assert(term != '' && similarity >= 0.0 && similarity <= 1.0);
+
+  /// Returns true if [runtimeType], [term] and [similarity] are equal.
+  @override
+  bool operator ==(Object other) =>
+      other is SimilarityIndex &&
+      term == other.term &&
+      similarity == other.similarity;
+
+  @override
+  int get hashCode => Object.hash(term, similarity);
 }
 
 /// Extension methods on collection of [SimilarityIndex].

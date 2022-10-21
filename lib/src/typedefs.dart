@@ -71,10 +71,6 @@ typedef TermSplitter = List<String> Function(SourceText source);
 /// which may end with period marks.
 typedef SentenceSplitter = List<String> Function(SourceText source);
 
-/// Returns a collection of [SimilarityIndex]s for [term], in descending order of
-/// [SimilarityIndex.similarity].
-typedef TermExpander = List<SimilarityIndex> Function(Term term, [int? limit]);
-
 /// A splitter function that returns a list of paragraphs from [source].
 ///
 /// In English, the [source] text is split at:
