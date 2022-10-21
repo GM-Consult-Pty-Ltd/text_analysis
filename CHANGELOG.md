@@ -4,6 +4,11 @@ Copyright (c) 2022, GM Consult Pty Ltd
 All rights reserved. 
 -->
 
+### 0.17.1
+
+### *Bug fixes*
+* Fixed sorting error in `TermSimilarity.getSuggestions`.
+
 ### 0.17.0+1
 
 ### *New*

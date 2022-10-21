@@ -4,8 +4,11 @@
 
 // ignore_for_file: unused_local_variable
 
+@Timeout(Duration(minutes: 1))
+
 import 'package:gmconsult_dev/gmconsult_dev.dart';
-import '../dev/data/english_vocabulary.dart';
+// import '../dev/data/english_vocabulary.dart';
+import '../dev/data/lexicon/english_lexicon.dart';
 import 'dart:io';
 import 'package:gmconsult_dev/test_data.dart';
 import 'package:text_analysis/src/_index.dart';
@@ -104,7 +107,10 @@ void main() {
     /// Tokenize JSON with NO zones.
     test('Iterable<String>.kGrams()', () async {
       // use a TextTokenizer instance to tokenize the json with NO zones
-      final kgrams = spellingEn.toKGramsMap(2);
+      final lexicon = englishLexicon.keys
+          .where((element) => !element.contains(RegExp(r'[^a-zA-Z]')))
+          .map((e) => e.toLowerCase());
+      final kgrams = lexicon.toKGramsMap(2);
       // map the document's tokens to a list of terms (strings)
 
       // print the tokens
@@ -182,17 +188,18 @@ Future<void> saveKgramIndex(Map<String, Set<String>> value,
   final buffer = StringBuffer();
   buffer.writeln('const kGrams = {');
   for (final entry in value.entries) {
-    buffer.write('r"${entry.key}": {');
+    buffer.write(entry.key.contains('\$') ? 'r' : '');
+    buffer.write("'${entry.key}': {");
     var i = 0;
     for (final term in entry.value) {
       buffer.write(i > 0 ? ', ' : '');
-      buffer.write('r"$term"');
+      buffer.write("'$term'");
       i++;
     }
     buffer.writeln('},');
   }
   buffer.writeln('};');
-  final out = File(r'dev\data\kGramIndex.txt').openWrite();
+  final out = File(r'dev\data\kGramIndex.dart').openWrite();
   out.writeln(buffer.toString());
   await out.close();
 }

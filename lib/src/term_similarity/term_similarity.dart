@@ -426,7 +426,7 @@ extension TermSimilarityExtensions on Term {
   /// Not case-sensitive.
   List<SimilarityIndex> getSuggestions(Iterable<Term> terms,
       {int k = 2, int limit = 10}) {
-    final retVal = <SimilarityIndex>[];
+    var retVal = <SimilarityIndex>[];
     for (final other in terms.toSet()) {
       var similarity = termSimilarity(other);
       if (similarity > 1) {
@@ -436,7 +436,7 @@ extension TermSimilarityExtensions on Term {
       retVal.add(suggestion);
     }
     // sort in descending order of similarity
-    retVal.sortBySimilarity();
+    retVal = retVal.sortBySimilarity();
     //return only the first [limit] results
     return retVal.length > limit ? retVal.sublist(0, limit) : retVal;
   }

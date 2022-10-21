@@ -75,7 +75,7 @@ a <code>k</code>-gram length of <code>k</code>.</p>
   <h2><span>Implementation</span></h2>
   <pre class="language-dart"><code class="language-dart">List&lt;SimilarityIndex&gt; getSuggestions(Iterable&lt;Term&gt; terms,
     {int k = 2, int limit = 10}) {
-  final retVal = &lt;SimilarityIndex&gt;[];
+  var retVal = &lt;SimilarityIndex&gt;[];
   for (final other in terms.toSet()) {
     var similarity = termSimilarity(other);
     if (similarity &gt; 1) {
@@ -85,7 +85,7 @@ a <code>k</code>-gram length of <code>k</code>.</p>
     retVal.add(suggestion);
   }
   &#47;&#47; sort in descending order of similarity
-  retVal.sortBySimilarity();
+  retVal = retVal.sortBySimilarity();
   &#47;&#47;return only the first [limit] results
   return retVal.length &gt; limit ? retVal.sublist(0, limit) : retVal;
 }</code></pre>
@@ -151,7 +151,7 @@ a <code>k</code>-gram length of <code>k</code>.</p>
 <footer>
   <span class="no-break">
     text_analysis
-      0.17.0+1
+      0.17.1
   </span>
 
   

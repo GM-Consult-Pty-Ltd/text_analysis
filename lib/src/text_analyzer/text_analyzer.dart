@@ -62,5 +62,4 @@ abstract class TextAnalyzer {
   /// A hashmap of words to token terms for special words that should not be
   /// re-capitalized, stemmed or lemmatized.
   Map<String, String> get termExceptions;
-
 }
