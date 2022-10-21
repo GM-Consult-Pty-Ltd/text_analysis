@@ -1,7 +1,7 @@
 // BSD 3-Clause License
 // Copyright ©2022, GM Consult Pty Ltd
 
-import '_index.dart';
+import '../_index.dart';
 
 /// A [Token] represents a [term] (word) present in a text source:
 /// - [term] is the term that will be looked up in the index;
@@ -87,4 +87,23 @@ extension TokenCollectionExtension on Iterable<Token> {
 
   /// Returns the lowest [Token.termPosition] where [Token.term] == [term].
   int firstPosition(Term term) => byTerm(term).first.termPosition;
+}
+
+/// String collection extensions to generate k-gram maps.
+extension KGramExtensionOnTermCollection on Iterable<String> {
+  /// Returns a hashmap of k-grams to terms from the collection of tokens.
+  Map<KGram, Set<Term>> toKGramsMap([int k = 2]) {
+    final terms = this;
+    // print the terms
+    final Map<String, Set<Term>> kGramIndex = {};
+    for (final term in terms) {
+      final kGrams = term.kGrams(k);
+      for (final kGram in kGrams) {
+        final set = kGramIndex[kGram] ?? {};
+        set.add(term);
+        kGramIndex[kGram] = set;
+      }
+    }
+    return kGramIndex;
+  }
 }

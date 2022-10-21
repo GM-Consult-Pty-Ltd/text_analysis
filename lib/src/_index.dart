@@ -5,11 +5,7 @@
 export 'package:porter_2_stemmer/porter_2_stemmer.dart';
 export 'package:porter_2_stemmer/extensions.dart';
 export 'english_analyzer/english.dart';
-export 'part_of_speech.dart';
-export 'suggestion.dart';
-export 'term_similarity.dart';
-export 'text_analyzer.dart';
-export 'text_document.dart';
-export 'text_tokenizer.dart';
-export 'token.dart';
+export 'part_of_speech_tagging/_index.dart';
+export 'term_similarity/_index.dart';
+export 'text_analyzer/_index.dart';
 export 'typedefs.dart';

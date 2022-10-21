@@ -1,7 +1,7 @@
 // BSD 3-Clause License
 // Copyright ©2022, GM Consult Pty Ltd
 
-import '_index.dart';
+import '../_index.dart';
 import 'package:collection/collection.dart';
 
 /// The [TextDocument] object model enumerates properties for analysing a text
@@ -60,7 +60,7 @@ abstract class TextDocument {
     return _TextDocumentImpl(analyzer, sourceText, tokens);
   }
 
-  /// Hydrates a [TextDocument] from the [sourceText], [zones] and
+  /// Hydrates a [TextDocument] from the [document], [zones] and
   /// [analyzer] parameters. The static factory:
   /// - extracts the [sourceText] from the [zones] in a JSON [document],
   ///   inserting line ending marks between the [zones]; then

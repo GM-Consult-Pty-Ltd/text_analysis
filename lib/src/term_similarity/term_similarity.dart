@@ -3,7 +3,7 @@
 
 // ignore_for_file: camel_case_types
 
-import '_index.dart';
+import '../_index.dart';
 import 'dart:math';
 
 /// A static/abstract class that exposes methods for computing similarity of
@@ -37,6 +37,14 @@ abstract class TermSimilarity {
   static Map<Term, double> editSimilarityMap(Term term, Iterable<Term> terms) =>
       term.editSimilarityMap(terms);
 
+  /// Returns a ordered list of [SimilarityIndex] values of [term] to the
+  /// [terms] in descending order of [SimilarityIndex.similarity].
+  ///
+  /// Not case-sensitive.
+  static List<SimilarityIndex> editSimilarities(
+          Term term, Iterable<Term> terms) =>
+      term.editSimilarities(terms);
+
   /// Returns a hashmap of [terms] to their [editDistance] with this.
   ///
   /// Not case-sensitive.
@@ -62,6 +70,13 @@ abstract class TermSimilarity {
           Term term, Iterable<Term> terms) =>
       term.lengthSimilarityMap(terms);
 
+  /// Returns a ordered list of [SimilarityIndex] values for the [terms], in
+  /// descending order of [SimilarityIndex.similarity].
+  ///
+  /// Not case-sensitive.
+  List<SimilarityIndex> lengthSimilarities(Term term, Iterable<Term> terms) =>
+      term.lengthSimilarities(terms);
+
   /// Returns the Jaccard Similarity Index between [a] and [b]
   /// using a [k]-gram length.
   ///
@@ -76,6 +91,13 @@ abstract class TermSimilarity {
   static Map<Term, double> jaccardSimilarityMap(Term term, Iterable<Term> terms,
           [int k = 2]) =>
       term.jaccardSimilarityMap(terms, k);
+
+  /// Returns a ordered list of [SimilarityIndex] values of [term] to the
+  /// [terms] in descending order of [SimilarityIndex.similarity].
+  ///
+  /// Not case-sensitive.
+  List<SimilarityIndex> jaccardSimilarities(Term term, Iterable<Term> terms) =>
+      term.jaccardSimilarities(terms);
 
   /// Returns a normalized similarity index value between 0.0 and 1.0 for terms
   /// [a] and [b] using a [k]-gram length of [k].
@@ -96,11 +118,17 @@ abstract class TermSimilarity {
   /// a [k]-gram length of [k].
   ///
   /// Not case-sensitive.
-  @Deprecated('Use method [getSuggestions] in stead.')
   static Map<Term, double> termSimilarityMap(
           Term term, Iterable<Term> candidates,
           [int k = 2]) =>
       term.termSimilarityMap(candidates, k);
+
+  /// Returns a ordered list of [SimilarityIndex] values for the [terms], in
+  /// descending order of [SimilarityIndex.similarity].
+  ///
+  /// Not case-sensitive.
+  List<SimilarityIndex> termSimilarities(Term term, Iterable<Term> terms) =>
+      term.termSimilarities(terms);
 
   /// Returns the best matches for [term] from [candidates], in descending
   /// order of [termSimilarity] (best match first).
@@ -120,6 +148,16 @@ abstract class TermSimilarity {
 
   //
 }
+
+/// Returns a collection of [SimilarityIndex]s for this String from [terms] using
+/// a [k]-gram length of [k].
+///
+/// Suggestions are returned in descending order of[SimilarityIndex.similarity].
+///
+/// Not case-sensitive.
+List<SimilarityIndex> getSuggestions(Term term, Iterable<Term> terms,
+        {int k = 2, int limit = 10}) =>
+    term.getSuggestions(terms, k: k, limit: limit);
 
 /// Extension methods on [Term] that exposes methods for computing similarity
 /// of terms.
@@ -145,6 +183,16 @@ extension TermSimilarityExtensions on Term {
     }
     return similarity;
   }
+
+  /// Returns a ordered list of [SimilarityIndex] values for the terms, in
+  /// descending order of [SimilarityIndex.similarity].
+  ///
+  /// Not case-sensitive.
+  List<SimilarityIndex> editSimilarities(Iterable<Term> terms) =>
+      editSimilarityMap(terms)
+          .entries
+          .map((e) => SimilarityIndex(e.key, e.value))
+          .sortBySimilarity();
 
   /// Returns a hashmap of [terms] to their [editSimilarity] with this.
   ///
@@ -270,6 +318,16 @@ extension TermSimilarityExtensions on Term {
     return similarity;
   }
 
+  /// Returns a ordered list of [SimilarityIndex] values for the [terms], in
+  /// descending order of [SimilarityIndex.similarity].
+  ///
+  /// Not case-sensitive.
+  List<SimilarityIndex> lengthSimilarities(Iterable<Term> terms) =>
+      lengthSimilarityMap(terms)
+          .entries
+          .map((e) => SimilarityIndex(e.key, e.value))
+          .sortBySimilarity();
+
   /// Returns a hashmap of [terms] to their [lengthSimilarity] with this.
   Map<Term, double> lengthSimilarityMap(Iterable<Term> terms) {
     final retVal = <Term, double>{};
@@ -310,6 +368,16 @@ extension TermSimilarityExtensions on Term {
     return retVal;
   }
 
+  /// Returns a ordered list of [SimilarityIndex] values for the [terms], in
+  /// descending order of [SimilarityIndex.similarity].
+  ///
+  /// Not case-sensitive.
+  List<SimilarityIndex> jaccardSimilarities(Iterable<Term> terms) =>
+      jaccardSimilarityMap(terms)
+          .entries
+          .map((e) => SimilarityIndex(e.key, e.value))
+          .sortBySimilarity();
+
   /// Returns a similarity index value between 0.0 and 1.0 using a [k]-gram
   /// length of [k].
   ///
@@ -322,27 +390,26 @@ extension TermSimilarityExtensions on Term {
   /// - have an identical collection of [k]-grams.
   ///
   /// Not case-sensitive.
-  double termSimilarity(Term other, [int k = 2]) {
-    final j = jaccardSimilarity(other, k);
-    final l = lengthSimilarity(other);
-    final e = editSimilarity(other);
-    if (l == 1) {
-      print('$other:');
-      print('j = ${j.toStringAsFixed(2)}');
-      print('k = ${j.toStringAsFixed(2)}');
-    }
-    final similarity = (j * 2 + l * 3 + e * 5) / 10;
-    if (similarity > 1.0) {
-      return 1.0;
-    }
-    return similarity;
-  }
+  double termSimilarity(Term other, [int k = 2]) =>
+      (jaccardSimilarity(other, k) * 2 +
+          lengthSimilarity(other) * 3 +
+          editSimilarity(other) * 5) /
+      10;
+
+  /// Returns a ordered list of [SimilarityIndex] values for the [terms], in
+  /// descending order of [SimilarityIndex.similarity].
+  ///
+  /// Not case-sensitive.
+  List<SimilarityIndex> termSimilarities(Iterable<Term> terms) =>
+      termSimilarityMap(terms)
+          .entries
+          .map((e) => SimilarityIndex(e.key, e.value))
+          .sortBySimilarity();
 
   /// Returns an hashmap of [terms] to [termSimilarity] with this term using
   /// a [k]-gram length of [k].
   ///
   /// Not case-sensitive.
-  @Deprecated('Use method [getSuggestions] in stead.')
   Map<Term, double> termSimilarityMap(Iterable<Term> terms, [int k = 2]) {
     final retVal = <Term, double>{};
     for (final other in terms) {
@@ -351,25 +418,27 @@ extension TermSimilarityExtensions on Term {
     return retVal;
   }
 
-  /// Returns a collection of [Suggestion]s for this String from [terms] using
+  /// Returns a collection of [SimilarityIndex]s for this String from [terms] using
   /// a [k]-gram length of [k].
   ///
-  /// Suggestions are returned in descending order of[Suggestion.similarity].
+  /// Suggestions are returned in descending order of[SimilarityIndex.similarity].
   ///
   /// Not case-sensitive.
-  List<Suggestion> getSuggestions(Iterable<Term> terms, [int k = 2]) {
-    final retVal = <Suggestion>[];
+  List<SimilarityIndex> getSuggestions(Iterable<Term> terms,
+      {int k = 2, int limit = 10}) {
+    final retVal = <SimilarityIndex>[];
     for (final other in terms.toSet()) {
       var similarity = termSimilarity(other);
       if (similarity > 1) {
         similarity = 1;
       }
-      final suggestion = Suggestion(other, similarity);
+      final suggestion = SimilarityIndex(other, similarity);
       retVal.add(suggestion);
     }
     // sort in descending order of similarity
-    retVal.sort(((a, b) => b.similarity.compareTo(a.similarity)));
-    return retVal;
+    retVal.sortBySimilarity();
+    //return only the first [limit] results
+    return retVal.length > limit ? retVal.sublist(0, limit) : retVal;
   }
 
   /// Returns the best matches for a term from [terms], in descending
@@ -381,15 +450,11 @@ extension TermSimilarityExtensions on Term {
   /// matches are found.
   ///
   /// Not case-sensitive.
-  List<Term> matches(Iterable<Term> terms, {int k = 2, int limit = 10}) {
-    final suggestions = getSuggestions(terms, k)
-        .where((element) => element.similarity > 0)
-        .map((e) => e.term)
-        .toList();
-    return suggestions.length > limit
-        ? suggestions.sublist(0, limit)
-        : suggestions;
-  }
+  List<Term> matches(Iterable<Term> terms, {int k = 2, int limit = 10}) =>
+      getSuggestions(terms, k: k, limit: limit)
+          .where((element) => element.similarity > 0)
+          .map((e) => e.term)
+          .toList();
 
   /// Returns a set of (lower-case) k-grams in the term.
   Set<KGram> kGrams([int k = 2]) {

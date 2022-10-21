@@ -153,12 +153,12 @@ void main() {
   });
 
   group('TextAnalyzer', (() {
-    test('TextAnalyser,spelling', (() {
-      final analyzer = English.analyzer;
-      final term = 'teh';
-      final suggestions = analyzer.spellings(term, 25);
-      print(suggestions);
-    }));
+    // test('TextAnalyser,spelling', (() {
+    //   final analyzer = English.analyzer;
+    //   final term = 'teh';
+    //   final suggestions = analyzer.spellings(term, 25);
+    //   print(suggestions);
+    // }));
   }));
 }
 

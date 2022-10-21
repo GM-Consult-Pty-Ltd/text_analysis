@@ -2,7 +2,7 @@
 // Copyright ©2022, GM Consult Pty Ltd
 // All rights reserved
 
-import '_index.dart';
+import '../_index.dart';
 
 /// Interface for a text analyser class that extracts tokens from text for use
 /// in full-text search queries and indexes:

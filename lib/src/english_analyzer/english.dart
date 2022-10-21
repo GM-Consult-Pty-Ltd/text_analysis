@@ -5,9 +5,6 @@
 import 'package:porter_2_stemmer/constants.dart';
 
 import '../_index.dart';
-import 'data/english_kgrams.dart';
-import 'data/english_lexicon.dart';
-
 part 'english_constants.dart';
 part 'english_extensions.dart';
 part 'syllable_stemmer.dart';
@@ -38,10 +35,6 @@ class English implements TextAnalyzer {
 
   /// A hashmap of abbreviations in the analyzed language.
   Map<String, String> get abbreviations => EnglishConstants.kAbbreviations;
-
-  // /// A hashmap of kGrams (k=2) to commonly misspelt words in English.
-  // @override
-  // Map<String, Set<String>> get spellingKgrams => _kGrams;
 
   /// A hashmap of words to token terms for special words that should not be
   /// re-capitalized, stemmed or lemmatized.
@@ -146,24 +139,7 @@ class English implements TextAnalyzer {
                 .trim();
       };
 
-  // /// Cleans the term as follows:
-  // /// - change all quote marks to single apostrophe +U0027;
-  // /// - remove enclosing quote marks;
-  // /// - hange all dashes to single standard hyphen;
-  // /// - remove all characters except letters and numbers at end of term
-  // Term _sanitize(Term term) => term
-  //     .toLowerCase()
-  //     // change all quote marks to single apostrophe +U0027
-  //     .replaceAll(RegExp('[\'"“”„‟’‘‛]+'), "'")
-  //     // remove enclosing quote marks
-  //     .replaceAll(RegExp(r"(^'+)|('+(?=$))"), '')
-  //     // change all dashes to single standard hyphen
-  //     .replaceAll(RegExp(r'[\-—]+'), '-')
-  //     // remove all characters except letters and numbers at end of term
-  //     .replaceAll(RegExp(r"[^0-9a-zA-ZÀ-öø-ÿ'\-]+(?=$)"), '')
-  //     .trim();
-
-  /// The [English] implemenation of [termSplitter].
+  /// The [English] implementation of [termSplitter].
   ///
   /// Algorithm:
   /// - Replace all punctuation, brackets and carets with white_space.
@@ -206,21 +182,20 @@ class English implements TextAnalyzer {
   /// - Split the term using the [termSplitter]
   @override
   SyllableCounter get syllableCounter => (term) {
-        //
-
-        var count = 0;
         term = term.trim();
         // return 0 if term is empty
         if (term.isEmpty) return 0;
         // return 1 if term length is less than 3
         if (term.length < 3) {
-          count = 1;
+          return 1;
         } else {
+          // initialize the return value
+          var count = 0;
           // split term into terms at non-word characters
           final terms =
               term.split(RegExp(Porter2StemmerConstants.rEnglishNonWordChars));
           for (var e in terms) {
-            // stem the remaining term with the Porter 2 Stemmer.
+            // stem the remaining term with the SyllableStemmer.
             // DO NOT USE the analyzer stemmer as it may be overridden and we
             // must make sure the trailing silent e's are removed and vowel "y"s
             // are converted to "i"
@@ -235,14 +210,6 @@ class English implements TextAnalyzer {
             if (e.toUpperCase() == e) {
               // this is more than likely an acronym, so add 1
               count++;
-              // } else if (abbreviations.keys.contains(e) ||
-              //     e.contains(RegExp(r'[^a-z]'))) {
-              //   // still has non-letters, let's split it and get the syllables for
-              //   // each sub-term
-              //   final subTerms = e.split(RegExp('[^a-zA-Z]+'));
-              //   for (final es in subTerms) {
-              //     count += syllableCounter(es.trim());
-              //   }
             } else {
               // add all the single vowels, diphtongs and triptongs.
               // As e has been stemmed by the Porter2 stemmer, we know trailing
@@ -261,40 +228,8 @@ class English implements TextAnalyzer {
               }
             }
           }
+          // if count is 0, return 1 because a word must have at least one syllable
+          return count < 1 ? 1 : count;
         }
-        // if count is 0, return 1 because a word must have at least one syllable
-        return count < 1 ? 1 : count;
-      };
-
-  @override
-  TermExpander get spellings => (term, [int? limit]) {
-        // first check the lexicon. If it exists, return the term.
-        final lexTerm = englishLexicon[term];
-        if (lexTerm != null) return [Suggestion(term, 1.0)];
-        final suggestionsMap = <Term, Suggestion>{};
-        final termGrams = term.kGrams(2);
-        // get all the terms that may match.
-        final termEntries =
-            englishKGrams.entries.where((e) => termGrams.contains(e.key));
-        for (final e in termEntries) {
-          final terms = e.value
-              .where((element) => term.lengthSimilarity(element) > 0.5)
-              .toSet();
-          final suggestions = term.getSuggestions(terms);
-          for (final suggestion in suggestions) {
-            final existing =
-                suggestionsMap[suggestion.term] ?? Suggestion(term, 0.0);
-            suggestionsMap[suggestion.term] =
-                existing.similarity > suggestion.similarity
-                    ? existing
-                    : suggestion;
-          }
-        }
-        final retVal = suggestionsMap.values.toList();
-        retVal.sort(((a, b) => b.similarity.compareTo(a.similarity)));
-
-        return limit == null || retVal.length < limit
-            ? retVal
-            : retVal.sublist(0, limit);
       };
 }

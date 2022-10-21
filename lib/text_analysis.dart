@@ -7,13 +7,16 @@
 library text_analysis;
 
 export 'src/english_analyzer/english.dart' show English;
-export 'src/part_of_speech.dart' show PartOfSpeech;
-export 'src/suggestion.dart' show Suggestion;
-export 'src/term_similarity.dart' show TermSimilarity;
-export 'src/text_analyzer.dart' show TextAnalyzer;
-export 'src/text_document.dart'
-    show TextDocument, TextDocumentMixin, TextDocumentBase;
-export 'src/text_tokenizer.dart'
-    show TextTokenizer, TextTokenizerMixin, TextTokenizerBase;
-export 'src/token.dart' show Token;
+export 'src/part_of_speech_tagging/_index.dart' show PartOfSpeech, PoSTag;
+export 'src//term_similarity/_index.dart' show SimilarityIndex, TermSimilarity;
+export 'src/text_analyzer/_index.dart'
+    show
+        TextAnalyzer,
+        TextDocument,
+        TextDocumentMixin,
+        TextDocumentBase,
+        TextTokenizer,
+        TextTokenizerMixin,
+        TextTokenizerBase,
+        Token;
 export 'package:porter_2_stemmer/porter_2_stemmer.dart' show Porter2Stemmer;

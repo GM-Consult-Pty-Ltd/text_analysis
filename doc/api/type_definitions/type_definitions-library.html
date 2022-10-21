@@ -112,6 +112,21 @@ from a <a href="../type_definitions/Term.html">Term</a>.
 
 
           
+  <dt id="KGramsMap" class="">
+  <span class="name"><a href="../type_definitions/KGramsMap.html">KGramsMap</a></span>
+    = <a href="https://api.flutter.dev/flutter/dart-core/Map-class.html">Map</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../type_definitions/KGram.html">KGram</a></span>, <span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/Set-class.html">Set</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../type_definitions/Term.html">Term</a></span>&gt;</span></span>&gt;</span>
+  </span>
+  
+
+</dt>
+<dd>
+  Alias for <code>Map&lt;String, Set&lt;String&gt;&gt;</code>.
+  
+
+</dd>
+
+
+          
   <dt id="Lemmatizer" class="callable">
     <span class="name"><a href="../type_definitions/Lemmatizer.html">Lemmatizer</a></span><span class="signature">
       <span class="returntype parameter">= <a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a> Function<span class="signature">(<span class="parameter" id="param-term"><span class="type-annotation"><a href="../type_definitions/Term.html">Term</a></span> <span class="parameter-name">term</span></span>)</span></span>
@@ -230,6 +245,21 @@ in a text source, document or query.
 
 
           
+  <dt id="TermExpander" class="callable">
+    <span class="name"><a href="../type_definitions/TermExpander.html">TermExpander</a></span><span class="signature">
+      <span class="returntype parameter">= <a href="https://api.flutter.dev/flutter/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../text_analysis/SimilarityIndex-class.html">SimilarityIndex</a></span>&gt;</span> Function<span class="signature">(<span class="parameter" id="param-term"><span class="type-annotation"><a href="../type_definitions/Term.html">Term</a></span> <span class="parameter-name">term</span>, </span><span class="parameter" id="param-limit">[<span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/int-class.html">int</a>?</span> <span class="parameter-name">limit</span>]</span>)</span></span>
+    </span>
+    
+
+  </dt>
+  <dd>
+    Returns a collection of <a href="../text_analysis/SimilarityIndex-class.html">SimilarityIndex</a>s for <code>term</code>, in descending order of
+<a href="../text_analysis/SimilarityIndex/similarity.html">SimilarityIndex.similarity</a>.
+    
+
+  </dd>
+
+          
   <dt id="TermFilter" class="callable">
     <span class="name"><a href="../type_definitions/TermFilter.html">TermFilter</a></span><span class="signature">
       <span class="returntype parameter">= <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/Set-class.html">Set</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>&gt;</span></span>&gt;</span> Function<span class="signature">(<span class="parameter" id="param-term"><span class="type-annotation"><a href="../type_definitions/Term.html">Term</a></span> <span class="parameter-name">term</span></span>)</span></span>
@@ -346,6 +376,7 @@ in the <code>corpus</code>. Represents the name of the field/zone.
   <li><a href="../type_definitions/CharacterFilter.html">CharacterFilter</a></li>
   <li><a href="../type_definitions/JsonTokenizer.html">JsonTokenizer</a></li>
   <li><a href="../type_definitions/KGram.html">KGram</a></li>
+  <li><a href="../type_definitions/KGramsMap.html">KGramsMap</a></li>
   <li><a href="../type_definitions/Lemmatizer.html">Lemmatizer</a></li>
   <li><a href="../type_definitions/ParagraphSplitter.html">ParagraphSplitter</a></li>
   <li><a href="../type_definitions/SentenceSplitter.html">SentenceSplitter</a></li>
@@ -354,6 +385,7 @@ in the <code>corpus</code>. Represents the name of the field/zone.
   <li><a href="../type_definitions/StopWords.html">StopWords</a></li>
   <li><a href="../type_definitions/SyllableCounter.html">SyllableCounter</a></li>
   <li><a href="../type_definitions/Term.html">Term</a></li>
+  <li><a href="../type_definitions/TermExpander.html">TermExpander</a></li>
   <li><a href="../type_definitions/TermFilter.html">TermFilter</a></li>
   <li><a href="../type_definitions/TermSplitter.html">TermSplitter</a></li>
   <li><a href="../type_definitions/TokenFilter.html">TokenFilter</a></li>
@@ -369,7 +401,7 @@ in the <code>corpus</code>. Represents the name of the field/zone.
 <footer>
   <span class="no-break">
     text_analysis
-      0.16.0
+      0.17.0
   </span>
 
   

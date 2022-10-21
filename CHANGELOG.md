@@ -8,18 +8,24 @@ All rights reserved.
 **BREAKING CHANGES**
 
 ### *Breaking changes*
-* Added field `TextAnalyzer.spellingKgrams`.
-
-### *Deprecated*
-* Deprecated String extension method `termSimilarityMap`, use `getSuggestions` in stead.
-* Deprecated String extension method `matches`, use `getMatches` in stead.
-* Deprecated static method `TermSimilarity.termSimilarityMap`, use `TermSimilarity.getSuggestions` in stead.
-* Deprecated static method `TermSimilarity.matches`, use `TermSimilarity.getSuggestions` in stead.
+* Changed algorithm for calculating `TermSimilarity.termSimilarity` to apply weighting
 
 ### *New*
+* Added class `SimilarityIndex`.
+* Added String extension method `getSuggestions`.
+* Added class method `TermSimilarity.getSuggestions`.
+* Added String extension method `lengthSimilarities`.
+* Added class method `TermSimilarity.lengthSimilarities`.
+* Added String extension method `editSimilarities`.
+* Added class method `TermSimilarity.editSimilarities`.
+* Added String extension method `jaccardSimilarities`.
+* Added class method `TermSimilarity.jaccardSimilarities`.
+* Added String extension method `termSimilarities`.
+* Added class method `TermSimilarity.termSimilarities`.
 * Added function definition `KGramsMap`.
-* Added field `English.spellingKgrams`.
 * Added extension `Set<KGram> toKGramsMap([int k = 2])` on `Iterable<String>`.
+* Added enumeration `PartOfSpeech`.
+* Added enumeration `PoSTag`.
 
 ### *Updated*
 * Dependencies.

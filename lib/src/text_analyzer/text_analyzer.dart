@@ -1,7 +1,7 @@
 // BSD 3-Clause License
 // Copyright ©2022, GM Consult Pty Ltd
 
-import '_index.dart';
+import '../_index.dart';
 
 /// An interface exposes language-specific properties and methods used in
 /// text analysis:
@@ -63,7 +63,7 @@ abstract class TextAnalyzer {
   /// re-capitalized, stemmed or lemmatized.
   Map<String, String> get termExceptions;
 
-  /// Returns a collection of alternate spellings for a term, in descending
-  /// order of similarity.
-  TermExpander get spellings;
+  // /// Returns a collection of alternate spellings for a term, in descending
+  // /// order of similarity.
+  // TermExpander get spellings;
 }

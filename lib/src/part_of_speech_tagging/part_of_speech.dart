@@ -100,7 +100,7 @@ enum PartOfSpeech {
   /// considered by some grammarians to be a type of adjective.
   ///
   /// Sometimes the term `determiner` (a broader class) is used in stead of
-  /// `artivle.
+  /// `article.
   article
 }
 

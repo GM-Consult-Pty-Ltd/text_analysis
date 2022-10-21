@@ -6,9 +6,9 @@
 /// the extensions from the `porter_2_stemmer` package.
 library extensions;
 
-export 'src/term_similarity.dart' show TermSimilarityExtensions;
-export 'src/token.dart' show TokenCollectionExtension;
+export 'src/term_similarity/_index.dart' show TermSimilarityExtensions;
+export 'src/text_analyzer/_index.dart'
+    show TokenCollectionExtension, KGramExtensionOnTermCollection;
 export 'package:porter_2_stemmer/porter_2_stemmer.dart'
     show Porter2StemmerExtension;
 export 'src/english_analyzer/english.dart' show EnglishStringExtensions;
-export 'src/typedefs.dart' show KGramExtensionOnTermCollection;

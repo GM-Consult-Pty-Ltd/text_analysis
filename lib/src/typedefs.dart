@@ -71,9 +71,9 @@ typedef TermSplitter = List<String> Function(SourceText source);
 /// which may end with period marks.
 typedef SentenceSplitter = List<String> Function(SourceText source);
 
-/// Returns a collection of [Suggestion]s for [term], in descending order of
-/// [Suggestion.similarity].
-typedef TermExpander = List<Suggestion> Function(Term term, [int? limit]);
+/// Returns a collection of [SimilarityIndex]s for [term], in descending order of
+/// [SimilarityIndex.similarity].
+typedef TermExpander = List<SimilarityIndex> Function(Term term, [int? limit]);
 
 /// A splitter function that returns a list of paragraphs from [source].
 ///
@@ -109,22 +109,3 @@ typedef Tokenizer = Future<Iterable<Token>> Function(SourceText source,
 /// the [fields] in a [json] document.
 typedef JsonTokenizer = Future<Iterable<Token>> Function(
     Map<String, dynamic> json, List<Zone> fields);
-
-/// String collection extensions to generate k-gram maps.
-extension KGramExtensionOnTermCollection on Iterable<String> {
-  /// Returns a hashmap of k-grams to terms from the collection of tokens.
-  Map<KGram, Set<Term>> toKGramsMap([int k = 2]) {
-    final terms = this;
-    // print the terms
-    final Map<String, Set<Term>> kGramIndex = {};
-    for (final term in terms) {
-      final kGrams = term.kGrams(k);
-      for (final kGram in kGrams) {
-        final set = kGramIndex[kGram] ?? {};
-        set.add(term);
-        kGramIndex[kGram] = set;
-      }
-    }
-    return kGramIndex;
-  }
-}

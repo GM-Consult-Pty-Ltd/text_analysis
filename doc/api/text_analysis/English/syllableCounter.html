@@ -76,21 +76,20 @@
   <h2><span>Implementation</span></h2>
   <pre class="language-dart"><code class="language-dart">@override
 SyllableCounter get syllableCounter =&gt; (term) {
-      &#47;&#47;
-
-      var count = 0;
       term = term.trim();
       &#47;&#47; return 0 if term is empty
       if (term.isEmpty) return 0;
       &#47;&#47; return 1 if term length is less than 3
       if (term.length &lt; 3) {
-        count = 1;
+        return 1;
       } else {
+        &#47;&#47; initialize the return value
+        var count = 0;
         &#47;&#47; split term into terms at non-word characters
         final terms =
             term.split(RegExp(Porter2StemmerConstants.rEnglishNonWordChars));
         for (var e in terms) {
-          &#47;&#47; stem the remaining term with the Porter 2 Stemmer.
+          &#47;&#47; stem the remaining term with the SyllableStemmer.
           &#47;&#47; DO NOT USE the analyzer stemmer as it may be overridden and we
           &#47;&#47; must make sure the trailing silent e&#39;s are removed and vowel &quot;y&quot;s
           &#47;&#47; are converted to &quot;i&quot;
@@ -105,14 +104,6 @@ SyllableCounter get syllableCounter =&gt; (term) {
           if (e.toUpperCase() == e) {
             &#47;&#47; this is more than likely an acronym, so add 1
             count++;
-            &#47;&#47; } else if (abbreviations.keys.contains(e) ||
-            &#47;&#47;     e.contains(RegExp(r&#39;[^a-z]&#39;))) {
-            &#47;&#47;   &#47;&#47; still has non-letters, let&#39;s split it and get the syllables for
-            &#47;&#47;   &#47;&#47; each sub-term
-            &#47;&#47;   final subTerms = e.split(RegExp(&#39;[^a-zA-Z]+&#39;));
-            &#47;&#47;   for (final es in subTerms) {
-            &#47;&#47;     count += syllableCounter(es.trim());
-            &#47;&#47;   }
           } else {
             &#47;&#47; add all the single vowels, diphtongs and triptongs.
             &#47;&#47; As e has been stemmed by the Porter2 stemmer, we know trailing
@@ -131,9 +122,9 @@ SyllableCounter get syllableCounter =&gt; (term) {
             }
           }
         }
+        &#47;&#47; if count is 0, return 1 because a word must have at least one syllable
+        return count &lt; 1 ? 1 : count;
       }
-      &#47;&#47; if count is 0, return 1 because a word must have at least one syllable
-      return count &lt; 1 ? 1 : count;
     };</code></pre>
 </section>
 
@@ -205,7 +196,7 @@ SyllableCounter get syllableCounter =&gt; (term) {
 <footer>
   <span class="no-break">
     text_analysis
-      0.16.0
+      0.17.0
   </span>
 
   
