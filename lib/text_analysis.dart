@@ -8,7 +8,12 @@ library text_analysis;
 
 export 'src/english_analyzer/english.dart' show English;
 export 'src/part_of_speech_tagging/_index.dart' show PartOfSpeech, PoSTag;
-export 'src//term_similarity/_index.dart' show SimilarityIndex, TermSimilarity;
+export 'src//term_similarity/_index.dart'
+    show
+        SimilarityIndex,
+        TermSimilarity,
+        TermSimilarityMixin,
+        TermSimilarityBase;
 export 'src/text_analyzer/_index.dart'
     show
         TextAnalyzer,

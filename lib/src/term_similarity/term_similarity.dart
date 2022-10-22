@@ -333,10 +333,36 @@ abstract class TermSimilarity {
           lengthSimilarityWeight: lengthSimilarityWeight);
 }
 
-/// Mixin class that implements [TermSimilarity.editSimilarity] and
-/// [TermSimilarity.lengthSimilarity].
+/// Mixin class that implements the `==` operator, [compareTo], [hashCode] and
+/// [toJson].
 abstract class TermSimilarityMixin implements TermSimilarity {
   //
+
+  /// Returns true if [runtimeType], [term] and [similarity] are equal.
+  @override
+  bool operator ==(Object other) =>
+      other is TermSimilarity &&
+      term == other.term &&
+      this.other == other.other &&
+      characterSimilarity == other.characterSimilarity &&
+      editDistance == other.editDistance &&
+      editSimilarity == other.editSimilarity &&
+      lengthDistance == other.lengthDistance &&
+      lengthSimilarity == other.lengthSimilarity &&
+      jaccardSimilarity == other.jaccardSimilarity &&
+      similarity == other.similarity;
+
+  @override
+  int get hashCode => Object.hash(
+      term,
+      other,
+      characterSimilarity,
+      editSimilarity,
+      editDistance,
+      lengthDistance,
+      lengthSimilarity,
+      jaccardSimilarity,
+      similarity);
 
   @override
   int compareTo(TermSimilarity other) {

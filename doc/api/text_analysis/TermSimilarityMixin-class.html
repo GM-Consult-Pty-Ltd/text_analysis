@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, user-scalable=no">
+  <meta name="description" content="API docs for the TermSimilarityMixin class from the text_analysis library, for the Dart programming language.">
+  <title>TermSimilarityMixin class - text_analysis library - Dart API</title>
+
+
+  
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,300;0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  
+  <link rel="stylesheet" href="../static-assets/github.css?v1">
+  <link rel="stylesheet" href="../static-assets/styles.css?v1">
+  <link rel="icon" href="../static-assets/favicon.png?v1">
+
+  
+</head>
+
+
+<body data-base-href="../"
+      data-using-base-href="false">
+
+<div id="overlay-under-drawer"></div>
+
+<header id="title">
+  <button id="sidenav-left-toggle" type="button">&nbsp;</button>
+  <ol class="breadcrumbs gt-separated dark hidden-xs">
+    <li><a href="../index.html">text_analysis</a></li>
+    <li><a href="../text_analysis/text_analysis-library.html">text_analysis</a></li>
+    <li class="self-crumb">TermSimilarityMixin abstract class</li>
+  </ol>
+  <div class="self-name">TermSimilarityMixin</div>
+  <form class="search navbar-right" role="search">
+    <input type="text" id="search-box" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
+  </form>
+</header>
+
+<main>
+
+
+  <div id="dartdoc-main-content" class="main-content">
+      <div>
+<h1><span class="kind-class">TermSimilarityMixin</span> class 
+    <a href="https://dart.dev/null-safety" class="feature feature-null-safety" title="Supports the null safety language feature.">Null safety</a>
+ 
+</h1></div>
+
+    
+<section class="desc markdown">
+  <p>Mixin class that implements the <code>==</code> operator, <a href="../text_analysis/TermSimilarityMixin/compareTo.html">compareTo</a>, <a href="../text_analysis/TermSimilarityMixin/hashCode.html">hashCode</a> and
+<a href="../text_analysis/TermSimilarityMixin/toJson.html">toJson</a>.</p>
+</section>
+
+
+    <section>
+      <dl class="dl-horizontal">
+        
+
+        
+  <dt>Implemented types</dt>
+  <dd>
+    <ul class="comma-separated clazz-relationships">
+        <li><a href="../text_analysis/TermSimilarity-class.html">TermSimilarity</a></li>
+    </ul>
+  </dd>
+        
+
+        <dt>Implementers</dt>
+        <dd><ul class="comma-separated clazz-relationships">
+          <li><a href="../text_analysis/TermSimilarityBase-class.html">TermSimilarityBase</a></li>
+        </ul></dd>
+
+
+        
+      </dl>
+    </section>
+
+    
+  <section class="summary offset-anchor" id="constructors">
+    <h2>Constructors</h2>
+
+    <dl class="constructor-summary-list">
+        <dt id="TermSimilarityMixin" class="callable">
+          <span class="name"><a href="../text_analysis/TermSimilarityMixin/TermSimilarityMixin.html">TermSimilarityMixin</a></span><span class="signature">()</span>
+        </dt>
+        <dd>
+          
+        </dd>
+    </dl>
+  </section>
+
+    <section class="summary offset-anchor" id="instance-properties">
+      <h2>Properties</h2>
+
+      <dl class="properties">
+        <dt id="characterSimilarity" class="property inherited">
+  <span class="name"><a href="../text_analysis/TermSimilarity/characterSimilarity.html">characterSimilarity</a></span>
+  <span class="signature">&#8594; <a href="https://api.flutter.dev/flutter/dart-core/double-class.html">double</a></span> 
+
+</dt>
+<dd class="inherited">
+  Returns the similarity between the collection of letters of <a href="../text_analysis/TermSimilarity/term.html">term</a> and
+<a href="../text_analysis/TermSimilarity/other.html">other</a> on a scale of 0.0 to 1.0.
+  <div class="features">read-only, inherited</div>
+
+</dd>
+
+        <dt id="editDistance" class="property inherited">
+  <span class="name"><a href="../text_analysis/TermSimilarity/editDistance.html">editDistance</a></span>
+  <span class="signature">&#8594; <a href="https://api.flutter.dev/flutter/dart-core/int-class.html">int</a></span> 
+
+</dt>
+<dd class="inherited">
+  Returns the <code>Damerau–Levenshtein distance</code>, the minimum number of
+single-character edits (transpositions, insertions, deletions or
+substitutions) required to change <a href="../text_analysis/TermSimilarity/term.html">term</a> into <a href="../text_analysis/TermSimilarity/other.html">other</a>.
+  <div class="features">read-only, inherited</div>
+
+</dd>
+
+        <dt id="editSimilarity" class="property inherited">
+  <span class="name"><a href="../text_analysis/TermSimilarity/editSimilarity.html">editSimilarity</a></span>
+  <span class="signature">&#8594; <a href="https://api.flutter.dev/flutter/dart-core/double-class.html">double</a></span> 
+
+</dt>
+<dd class="inherited">
+  A normalized measure of <a href="../text_analysis/TermSimilarity/editDistance.html">editDistance</a> on a scale of 0.0 to 1.0.
+  <div class="features">read-only, inherited</div>
+
+</dd>
+
+        <dt id="hashCode" class="property">
+  <span class="name"><a href="../text_analysis/TermSimilarityMixin/hashCode.html">hashCode</a></span>
+  <span class="signature">&#8594; <a href="https://api.flutter.dev/flutter/dart-core/int-class.html">int</a></span> 
+
+</dt>
+<dd>
+  The hash code for this object.
+  <div class="features">read-only, override</div>
+
+</dd>
+
+        <dt id="jaccardSimilarity" class="property inherited">
+  <span class="name"><a href="../text_analysis/TermSimilarity/jaccardSimilarity.html">jaccardSimilarity</a></span>
+  <span class="signature">&#8594; <a href="https://api.flutter.dev/flutter/dart-core/double-class.html">double</a></span> 
+
+</dt>
+<dd class="inherited">
+  Returns the Jaccard Similarity Index between <a href="../text_analysis/TermSimilarity/term.html">term</a> and <a href="../text_analysis/TermSimilarity/other.html">other</a>.
+  <div class="features">read-only, inherited</div>
+
+</dd>
+
+        <dt id="lengthDistance" class="property inherited">
+  <span class="name"><a href="../text_analysis/TermSimilarity/lengthDistance.html">lengthDistance</a></span>
+  <span class="signature">&#8594; <a href="https://api.flutter.dev/flutter/dart-core/int-class.html">int</a></span> 
+
+</dt>
+<dd class="inherited">
+  Returns the absolute value of the difference in length between <a href="../text_analysis/TermSimilarity/term.html">term</a>
+and <a href="../text_analysis/TermSimilarity/other.html">other</a>.
+  <div class="features">read-only, inherited</div>
+
+</dd>
+
+        <dt id="lengthSimilarity" class="property inherited">
+  <span class="name"><a href="../text_analysis/TermSimilarity/lengthSimilarity.html">lengthSimilarity</a></span>
+  <span class="signature">&#8594; <a href="https://api.flutter.dev/flutter/dart-core/double-class.html">double</a></span> 
+
+</dt>
+<dd class="inherited">
+  Returns the similarity in length between two terms, defined as:
+lengthSimilarity = 1 minus the log of the ratio between the term lengths,
+with a floor at 0.0:
+<code>1-(log(this.length/other.length))</code>
+  <div class="features">read-only, inherited</div>
+
+</dd>
+
+        <dt id="other" class="property inherited">
+  <span class="name"><a href="../text_analysis/TermSimilarity/other.html">other</a></span>
+  <span class="signature">&#8594; <a href="../type_definitions/Term.html">Term</a></span> 
+
+</dt>
+<dd class="inherited">
+  The term that is being compared to <a href="../text_analysis/TermSimilarity/term.html">term</a>.
+  <div class="features">read-only, inherited</div>
+
+</dd>
+
+        <dt id="runtimeType" class="property inherited">
+  <span class="name"><a href="https://api.flutter.dev/flutter/dart-core/Object/runtimeType.html">runtimeType</a></span>
+  <span class="signature">&#8594; <a href="https://api.flutter.dev/flutter/dart-core/Type-class.html">Type</a></span> 
+
+</dt>
+<dd class="inherited">
+  A representation of the runtime type of the object.
+  <div class="features">read-only, inherited</div>
+
+</dd>
+
+        <dt id="similarity" class="property inherited">
+  <span class="name"><a href="../text_analysis/TermSimilarity/similarity.html">similarity</a></span>
+  <span class="signature">&#8594; <a href="https://api.flutter.dev/flutter/dart-core/double-class.html">double</a></span> 
+
+</dt>
+<dd class="inherited">
+  
+  <div class="features">read-only, inherited</div>
+
+</dd>
+
+        <dt id="term" class="property inherited">
+  <span class="name"><a href="../text_analysis/TermSimilarity/term.html">term</a></span>
+  <span class="signature">&#8594; <a href="../type_definitions/Term.html">Term</a></span> 
+
+</dt>
+<dd class="inherited">
+  The term that is being compared to <a href="../text_analysis/TermSimilarity/other.html">other</a>.
+  <div class="features">read-only, inherited</div>
+
+</dd>
+
+      </dl>
+    </section>
+
+    
+  <section
+      class="summary offset-anchor"
+      id="instance-methods">
+    <h2>Methods</h2>
+    <dl class="callables">
+        <dt id="compareTo" class="callable">
+  <span class="name"><a href="../text_analysis/TermSimilarityMixin/compareTo.html">compareTo</a></span><span class="signature">(<wbr><span class="parameter" id="compareTo-param-other"><span class="type-annotation"><a href="../text_analysis/TermSimilarity-class.html">TermSimilarity</a></span> <span class="parameter-name">other</span></span>)
+    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-core/int-class.html">int</a></span>
+  </span>
+  
+
+</dt>
+<dd>
+  Compares this to other.
+  <div class="features">override</div>
+
+</dd>
+
+        <dt id="noSuchMethod" class="callable inherited">
+  <span class="name"><a href="https://api.flutter.dev/flutter/dart-core/Object/noSuchMethod.html">noSuchMethod</a></span><span class="signature">(<wbr><span class="parameter" id="noSuchMethod-param-invocation"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Invocation-class.html">Invocation</a></span> <span class="parameter-name">invocation</span></span>)
+    <span class="returntype parameter">&#8594; dynamic</span>
+  </span>
+  
+
+</dt>
+<dd class="inherited">
+  Invoked when a non-existent method or property is accessed.
+  <div class="features">inherited</div>
+
+</dd>
+
+        <dt id="toJson" class="callable">
+  <span class="name"><a href="../text_analysis/TermSimilarityMixin/toJson.html">toJson</a></span><span class="signature">(<wbr>)
+    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-core/Map-class.html">Map</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>, <span class="type-parameter">dynamic</span>&gt;</span></span>
+  </span>
+  
+
+</dt>
+<dd>
+  Serializes the <a href="../text_analysis/TermSimilarity-class.html">TermSimilarity</a> to <code>Map&lt;String, dynamic&gt;</code>.
+  <div class="features">override</div>
+
+</dd>
+
+        <dt id="toString" class="callable inherited">
+  <span class="name"><a href="https://api.flutter.dev/flutter/dart-core/Object/toString.html">toString</a></span><span class="signature">(<wbr>)
+    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>
+  </span>
+  
+
+</dt>
+<dd class="inherited">
+  A string representation of this object.
+  <div class="features">inherited</div>
+
+</dd>
+
+    </dl>
+  </section>
+    
+  <section
+      class="summary offset-anchor"
+      id="operators">
+    <h2>Operators</h2>
+    <dl class="callables">
+        <dt id="operator ==" class="callable">
+  <span class="name"><a href="../text_analysis/TermSimilarityMixin/operator_equals.html">operator ==</a></span><span class="signature">(<wbr><span class="parameter" id="==-param-other"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Object-class.html">Object</a></span> <span class="parameter-name">other</span></span>)
+    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-core/bool-class.html">bool</a></span>
+  </span>
+  
+
+</dt>
+<dd>
+  Returns true if <a href="https://api.flutter.dev/flutter/dart-core/Object/runtimeType.html">runtimeType</a>, <a href="../text_analysis/TermSimilarity/term.html">term</a> and <a href="../text_analysis/TermSimilarity/similarity.html">similarity</a> are equal.
+  <div class="features">override</div>
+
+</dd>
+
+    </dl>
+  </section>
+    
+    
+    
+
+
+  </div> <!-- /.main-content -->
+
+  <div id="dartdoc-sidebar-left" class="sidebar sidebar-offcanvas-left">
+    <header id="header-search-sidebar" class="hidden-l">
+  <form class="search-sidebar" role="search">
+    <input type="text" id="search-sidebar" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
+  </form>
+</header>
+
+<ol class="breadcrumbs gt-separated dark hidden-l" id="sidebar-nav">
+  <li><a href="../index.html">text_analysis</a></li>
+  <li><a href="../text_analysis/text_analysis-library.html">text_analysis</a></li>
+  <li class="self-crumb">TermSimilarityMixin abstract class</li>
+</ol>
+
+
+    <h5>text_analysis library</h5>
+    <ol>
+  <li class="section-title"><a href="../text_analysis/text_analysis-library.html#classes">Classes</a></li>
+  <li><a href="../text_analysis/English-class.html">English</a></li>
+  <li><a href="https://pub.dev/documentation/porter_2_stemmer/3.0.1/porter_2_stemmer/Porter2Stemmer-class.html">Porter2Stemmer</a></li>
+  <li><a href="../text_analysis/SimilarityIndex-class.html">SimilarityIndex</a></li>
+  <li><a href="../text_analysis/TermSimilarity-class.html">TermSimilarity</a></li>
+  <li><a href="../text_analysis/TermSimilarityBase-class.html">TermSimilarityBase</a></li>
+  <li><a href="../text_analysis/TermSimilarityMixin-class.html">TermSimilarityMixin</a></li>
+  <li><a href="../text_analysis/TextAnalyzer-class.html">TextAnalyzer</a></li>
+  <li><a href="../text_analysis/TextDocument-class.html">TextDocument</a></li>
+  <li><a href="../text_analysis/TextDocumentBase-class.html">TextDocumentBase</a></li>
+  <li><a href="../text_analysis/TextDocumentMixin-class.html">TextDocumentMixin</a></li>
+  <li><a href="../text_analysis/TextTokenizer-class.html">TextTokenizer</a></li>
+  <li><a href="../text_analysis/TextTokenizerBase-class.html">TextTokenizerBase</a></li>
+  <li><a href="../text_analysis/TextTokenizerMixin-class.html">TextTokenizerMixin</a></li>
+  <li><a href="../text_analysis/Token-class.html">Token</a></li>
+
+
+
+
+
+
+  <li class="section-title"><a href="../text_analysis/text_analysis-library.html#enums">Enums</a></li>
+  <li><a href="../text_analysis/PartOfSpeech.html">PartOfSpeech</a></li>
+  <li><a href="../text_analysis/PoSTag.html">PoSTag</a></li>
+
+
+</ol>
+
+  </div>
+
+  <div id="dartdoc-sidebar-right" class="sidebar sidebar-offcanvas-right">
+    <ol>
+
+        <li class="section-title"><a href="../text_analysis/TermSimilarityMixin-class.html#constructors">Constructors</a></li>
+          <li><a href="../text_analysis/TermSimilarityMixin/TermSimilarityMixin.html">TermSimilarityMixin</a></li>
+
+
+    <li class="section-title">
+      <a href="../text_analysis/TermSimilarityMixin-class.html#instance-properties">Properties</a>
+    </li>
+    <li class="inherited"><a href="../text_analysis/TermSimilarity/characterSimilarity.html">characterSimilarity</a></li>
+    <li class="inherited"><a href="../text_analysis/TermSimilarity/editDistance.html">editDistance</a></li>
+    <li class="inherited"><a href="../text_analysis/TermSimilarity/editSimilarity.html">editSimilarity</a></li>
+    <li><a href="../text_analysis/TermSimilarityMixin/hashCode.html">hashCode</a></li>
+    <li class="inherited"><a href="../text_analysis/TermSimilarity/jaccardSimilarity.html">jaccardSimilarity</a></li>
+    <li class="inherited"><a href="../text_analysis/TermSimilarity/lengthDistance.html">lengthDistance</a></li>
+    <li class="inherited"><a href="../text_analysis/TermSimilarity/lengthSimilarity.html">lengthSimilarity</a></li>
+    <li class="inherited"><a href="../text_analysis/TermSimilarity/other.html">other</a></li>
+    <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/runtimeType.html">runtimeType</a></li>
+    <li class="inherited"><a href="../text_analysis/TermSimilarity/similarity.html">similarity</a></li>
+    <li class="inherited"><a href="../text_analysis/TermSimilarity/term.html">term</a></li>
+
+    <li class="section-title"><a href="../text_analysis/TermSimilarityMixin-class.html#instance-methods">Methods</a></li>
+    <li><a href="../text_analysis/TermSimilarityMixin/compareTo.html">compareTo</a></li>
+    <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/noSuchMethod.html">noSuchMethod</a></li>
+    <li><a href="../text_analysis/TermSimilarityMixin/toJson.html">toJson</a></li>
+    <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/toString.html">toString</a></li>
+
+    <li class="section-title"><a href="../text_analysis/TermSimilarityMixin-class.html#operators">Operators</a></li>
+    <li><a href="../text_analysis/TermSimilarityMixin/operator_equals.html">operator ==</a></li>
+
+
+
+
+</ol>
+
+  </div><!--/.sidebar-offcanvas-->
+
+</main>
+
+<footer>
+  <span class="no-break">
+    text_analysis
+      0.18.0
+  </span>
+
+  
+</footer>
+
+
+
+<script src="../static-assets/highlight.pack.js?v1"></script>
+<script src="../static-assets/script.js?v1"></script>
+
+
+
+</body>
+
+</html>
+
