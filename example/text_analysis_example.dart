@@ -217,20 +217,23 @@ void _similarityExamples(
     // print the jaccardSimilarity
     print(
         '- Jaccard Similarity:  ${term.jaccardSimilarity(other).toStringAsFixed(3)}');
-    // print the editDistance
+    // print the editSimilarity
     print(
         '- Edit Similarity:     ${term.editSimilarity(other).toStringAsFixed(3)}');
-    // print the termSimilarity
+    // print the characterSimilarity
     print(
-        '- String Similarity:     ${term.termSimilarity(other).toStringAsFixed(3)}');
+        '- Edit Similarity:     ${term.characterSimilarity(other).toStringAsFixed(3)}');
+    // print the termSimilarity
+    // print(
+    //     '- String Similarity:     ${term.termSimilarity(other).toStringAsFixed(3)}');
 
     // print a seperator
     _seperator();
   }
 
   // get a list of the terms orderd by descending similarity
-  final matches = term.matches(candidates);
-  print('Ranked matches: $matches');
+  // final matches = term.matches(candidates);
+  // print('Ranked matches: $matches');
 }
 
 final candidates = [

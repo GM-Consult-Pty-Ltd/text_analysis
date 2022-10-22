@@ -4,7 +4,56 @@ Copyright (c) 2022, GM Consult Pty Ltd
 All rights reserved. 
 -->
 
-### 0.17.1
+## 0.18.0
+**BREAKING CHANGES**
+
+### *Breaking changes*
+* Removed static method `TermSimilarity.editDistance`.
+* Removed static method `TermSimilarity.editSimilarity`.
+* Removed static method `TermSimilarity.editSimilaritiesMap`.
+* Removed static method `TermSimilarity.lengthDistance`.
+* Removed static method `TermSimilarity.lengthSimilarity`.
+* Removed static method `TermSimilarity.lengthSimilaritiesMap`.
+* Removed static method `TermSimilarity.jaccardSimilarity`.
+* Removed static method `TermSimilarity.jaccardSimilaritiesMap`.
+* Removed static method `TermSimilarity.termSimilarities`.
+* Removed static method `TermSimilarity.termSimilarity`.
+* Changed signature of String extension method `termSimilarities`.
+* Changed signature of String extension method `termSimilarityMap`.
+* Changed signature of String extension method `getSuggestions`.
+* Changed signature of String extension method `matches`.
+* Changed signature of static method `TermSimilarity.termSimilarities`.
+* Changed signature of static method `TermSimilarity.termSimilarityMap`.
+* Changed signature of static method `TermSimilarity.getSuggestions`.
+* Changed signature of static method `TermSimilarity.matches`.
+
+### *New*
+* Added mixin class `TermSimilarityMixin`.
+* Added base class `TermSimilarityBase`.
+* Added class property `TermSimilarity.term`.
+* Added class property `TermSimilarity.other`.
+* Added class property `TermSimilarity.editDistance`.
+* Added class property `TermSimilarity.editSimilarity`.
+* Added class property `TermSimilarity.lengthDistance`.
+* Added class property `TermSimilarity.lengthSimilarity`.
+* Added class property `TermSimilarity.jaccardSimilarity`.
+* Added class property `TermSimilarity.characterSimilarity`.
+* Added class property `TermSimilarity.similarity`.
+* Added class method `TermSimilarity.toJson()`.
+* Added class method `TermSimilarity.compareTo(TermSimilarity other)`.
+* Added extension method `sortBySimilarity(bool descending = true)` on `Iterable<TermSimilarity>`.
+* Added extension method `limit(int? limit)` on `Iterable<TermSimilarity>`.
+* Added extension method `sortBySimilarity(bool descending = true)` on `Iterable<SimilarityIndex>`.
+* Added extension method `limit(int? limit)` on `Iterable<SimilarityIndex>`.
+* Added unnamed constructor `TermSimilarity`.
+
+### *Updated*
+* Dependencies.
+* Tests.
+* Documentation
+* Examples.
+
+## 0.17.1
 
 ### *Bug fixes*
 * Fixed sorting error in `TermSimilarity.getSuggestions`.

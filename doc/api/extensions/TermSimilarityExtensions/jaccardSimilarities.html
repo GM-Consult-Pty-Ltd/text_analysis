@@ -53,7 +53,8 @@
       
 
 <span class="returntype"><a href="https://api.flutter.dev/flutter/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../../text_analysis/SimilarityIndex-class.html">SimilarityIndex</a></span>&gt;</span></span>
-<span class="name ">jaccardSimilarities</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="jaccardSimilarities-param-terms"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../../type_definitions/Term.html">Term</a></span>&gt;</span></span> <span class="parameter-name">terms</span></span></li>
+<span class="name ">jaccardSimilarities</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="jaccardSimilarities-param-terms"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../../type_definitions/Term.html">Term</a></span>&gt;</span></span> <span class="parameter-name">terms</span>, </span></li>
+<li><span class="parameter" id="jaccardSimilarities-param-k">[<span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/int-class.html">int</a></span> <span class="parameter-name">k</span> = <span class="default-value">2</span>]</span></li>
 </ol>)
 
       
@@ -62,7 +63,8 @@
     
 <section class="desc markdown">
   <p>Returns a ordered list of <code>SimilarityIndex</code> values for the <code>terms</code>, in
-descending order of <a href="../../text_analysis/SimilarityIndex/similarity.html">SimilarityIndex.similarity</a>.</p>
+descending order of <a href="../../text_analysis/SimilarityIndex/similarity.html">SimilarityIndex.similarity</a> using a
+<code>k</code>-gram length of <code>k</code>. <code>k</code> defaults to 2.</p>
 <p>Not case-sensitive.</p>
 </section>
 
@@ -70,8 +72,9 @@ descending order of <a href="../../text_analysis/SimilarityIndex/similarity.html
     
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
-  <pre class="language-dart"><code class="language-dart">List&lt;SimilarityIndex&gt; jaccardSimilarities(Iterable&lt;Term&gt; terms) =&gt;
-    jaccardSimilarityMap(terms)
+  <pre class="language-dart"><code class="language-dart">List&lt;SimilarityIndex&gt; jaccardSimilarities(Iterable&lt;Term&gt; terms,
+        [int k = 2]) =&gt;
+    jaccardSimilarityMap(terms, k)
         .entries
         .map((e) =&gt; SimilarityIndex(e.key, e.value))
         .sortBySimilarity();</code></pre>
@@ -103,6 +106,9 @@ descending order of <a href="../../text_analysis/SimilarityIndex/similarity.html
 
 
     <li class="section-title"><a href="../../extensions/TermSimilarityExtensions.html#instance-methods">Methods</a></li>
+    <li><a href="../../extensions/TermSimilarityExtensions/characterSimilarities.html">characterSimilarities</a></li>
+    <li><a href="../../extensions/TermSimilarityExtensions/characterSimilarity.html">characterSimilarity</a></li>
+    <li><a href="../../extensions/TermSimilarityExtensions/characterSimilarityMap.html">characterSimilarityMap</a></li>
     <li><a href="../../extensions/TermSimilarityExtensions/editDistance.html">editDistance</a></li>
     <li><a href="../../extensions/TermSimilarityExtensions/editDistanceMap.html">editDistanceMap</a></li>
     <li><a href="../../extensions/TermSimilarityExtensions/editSimilarities.html">editSimilarities</a></li>
@@ -119,7 +125,6 @@ descending order of <a href="../../text_analysis/SimilarityIndex/similarity.html
     <li><a href="../../extensions/TermSimilarityExtensions/lengthSimilarityMap.html">lengthSimilarityMap</a></li>
     <li><a href="../../extensions/TermSimilarityExtensions/matches.html">matches</a></li>
     <li><a href="../../extensions/TermSimilarityExtensions/termSimilarities.html">termSimilarities</a></li>
-    <li><a href="../../extensions/TermSimilarityExtensions/termSimilarity.html">termSimilarity</a></li>
     <li><a href="../../extensions/TermSimilarityExtensions/termSimilarityMap.html">termSimilarityMap</a></li>
 
 
@@ -137,7 +142,7 @@ descending order of <a href="../../text_analysis/SimilarityIndex/similarity.html
 <footer>
   <span class="no-break">
     text_analysis
-      0.17.1
+      0.18.0
   </span>
 
   

@@ -49,16 +49,15 @@ The [TextDocument](#textdocument) enumerates a text document's *paragraphs*, *se
 
 ### String Comparison
 
-The following measures of `term` similarity are provided:
-
+The following measures of `term` similarity are provided as extensions on String:
 * `Damerau–Levenshtein distance` is the minimum number of  single-character edits (transpositions, insertions, deletions or substitutions) required to change one `term` into another;
 * `edit similarity` is a normalized measure of `Damerau–Levenshtein distance` on a scale of 0.0 to 1.0, calculated by dividing the the difference between the maximum edit distance (sum of the length of the two terms) and the computed `editDistance`, by  the maximum edit distance;
 * `length distance` returns the absolute value of the difference in length between two terms;
-* `length similarity` returns the similarity in length between two terms on a scale of 0.0 to 1.0 on a log scale (1 - the log of the ratio of the term lengths); 
-* `Jaccard similarity` measures similarity between finite sample sets, and is defined as the size of the intersection divided by the size of the union of the sample sets; and
-* `termSimilarity` returns a similarity index value between 0.0 and 1.0, product of `edit similarity` , `Jaccard similarity` and `length similarity`. A term similarity of 1.0 means the two terms are identical in all respects.
+* `character similarity` returns the similarity two terms as it relates to the collection of unique characters in each term on a scale of 0.0 to 1.0;
+* `length similarity` returns the similarity in length between two terms on a scale of 0.0 to 1.0 on a log scale (1 - the log of the ratio of the term lengths); and
+* `Jaccard similarity` measures similarity between finite sample sets, and is defined as the size of the intersection divided by the size of the union of the sample sets.
 
-Functions that return the term similarity measures are provided by static methods of the [TermSimilarity](#termsimilarity) class. 
+The [TermSimilarity](#termsimilarity) class enumerates all the similarity measures of two terms and provides the `TermSimilarity.similarity` property that combines the four measures into a single value.
 
 The [TermSimilarity](#termsimilarity) class also provides a function for splitting terms into `k-grams`, used in spell correction algorithms.
 
@@ -78,7 +77,6 @@ In your code file add the text_analysis library import. This will also import th
 ```dart
 // import the core classes
 import 'package:text_analysis/text_analysis.dart';
-
 
 ```
 
@@ -177,21 +175,21 @@ The API contains a fair amount of boiler-plate, but we aim to make the code as r
 
 #### TermSimilarity
 
-The [TermSimilarity](https://pub.dev/documentation/text_analysis/0.12.0-2/text_analysis/TermSimilarity-class.html) class provides the following static methods used for (case-insensitive) comparison of `terms`:
-* `kGrams` parses a term, to a set of k-grams.  The default k-gram length is 2 (bi-gram).
+The [TermSimilarity](https://pub.dev/documentation/text_analysis/0.12.0-2/text_analysis/TermSimilarity-class.html) class provides the following measures of similarity between two terms:
+* `characterSimilarity` returns the similarity two terms as it relates to the collection of unique characters in each term on a scale of 0.0 to 1.0;
 * `editDistance` returns the `Damerau–Levenshtein distance`, the minimum number of  single-character edits (transpositions, insertions, deletions or substitutions) required to change one `term` into another;
 * `editSimilarity` returns a normalized measure of `Damerau–Levenshtein distance` on a scale of 0.0 to 1.0, calculated by dividing the the difference between the maximum edit distance (sum of the length of the two terms) and the computed `editDistance`, by by the maximum edit distance;
 * `lengthDistance` returns the absolute value of the difference in length between two terms;
 * `lengthSimilarity` returns the similarity in length between two terms on a scale of 0.0 to 1.0 on a log scale (1 - the log of the ratio of the term lengths); 
-* `jaccardSimilarity` returns the Jaccard Similarity Index of two terms; 
-* `termSimilarity` returns a similarity index value between 0.0 and 1.0, product of `editSimilarity` , `jaccardSimilarity` and `lengthSimilarity`. A term similarity of 1.0 means the two terms are identical in all respects, *except case*; 
+* `jaccardSimilarity` returns the Jaccard Similarity Index of two terms.
 
-To compare one term with a collection of other terms, the following methods are also provided:
-* `editDistanceyMap` returns a hashmap of `terms` to their `editSimilarity` with a term;
+To compare one term with a collection of other terms, the following static methods are also provided:
+* `editDistanceMap` returns a hashmap of `terms` to their `editSimilarity` with a term;
 * `editSimilarityMap` returns a hashmap of `terms` to their `editSimilarity` with a term;
 * `lengthSimilarityMap` returns a hashmap of `terms` to their `lengthSimilarity` with a term;
 * `jaccardSimilarityMap` returns a hashmap of `terms` to Jaccard Similarity Index with a term;
-* `termSimilarityMap` returns a hashmap of `terms` to termSimilarity with a term; and
+* `termSimilarityMap` returns a hashmap of `terms` to termSimilarity with a term;
+* `termSimilarities`,  `editSimilarities`, `characterSimilarities`, `lengthSimilarities` and `jaccardSimilarities` all return a list of [SimilarityIndex] values for candidate terms; and
 * `matches` returns the best matches from `terms` for a term, in descending order of term similarity (best match first).
 
 *Term comparisons are NOT case-sensitive.*
@@ -248,7 +246,7 @@ The following definitions are used throughout the [documentation](https://pub.de
 
 * `corpus`- the collection of `documents` for which an `index` is maintained.
 * `character filter` - filters characters from text in preparation of tokenization.  
-* `Damerau–Levenshtein distance` - a metric for measuring the `edit distance` between two `terms` by counting the minimum number of operations (insertions, deletions or substitutions of a single character, or transposition of two adjacent characters) required to change one `term` into the other.
+* `Damerau–Levenshtein distance` - a metric for measuring the `edit distance` between two `terms` by counting the minimum number of operations (insertions, deletions or substitutions of a single character, or transposition of two adjacent characters) required to change one `term` into the other (from [Wikipedia](https://en.wikipedia.org/wiki/Damerau%E2%80%93Levenshtein_distance)).
 * `dictionary (in an index)` - a hash of `terms` (`vocabulary`) to the frequency of occurence in the `corpus` documents.
 * `document` - a record in the `corpus`, that has a unique identifier (`docId`) in the `corpus`'s primary key and that contains one or more text fields that are indexed.
 * `document frequency (dFt)` - the number of documents in the `corpus` that contain a term.
@@ -302,6 +300,7 @@ The following definitions are used throughout the [documentation](https://pub.de
 * [Wikipedia (11), "*Phonetic transcription*", from Wikipedia, the free encyclopedia](https://en.wikipedia.org/wiki/Phonetic_transcription)
 * [Wikipedia (12), "*Etymology*", from Wikipedia, the free encyclopedia](https://en.wikipedia.org/wiki/Etymology)
 * [Wikipedia (13), "*Part-of-speech tagging*", from Wikipedia, the free encyclopedia](https://en.wikipedia.org/wiki/Part-of-speech_tagging)
+* [Wikipedia (14), "*Damerau–Levenshtein distance*", from Wikipedia, the free encyclopedia](https://en.wikipedia.org/wiki/Damerau%E2%80%93Levenshtein_distance)
 
 (*[back to top](#)*)
 

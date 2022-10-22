@@ -4,8 +4,8 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, user-scalable=no">
-  <meta name="description" content="API docs for the editDistance method from the TermSimilarity class, for the Dart programming language.">
-  <title>editDistance method - TermSimilarity class - text_analysis library - Dart API</title>
+  <meta name="description" content="API docs for the editDistance property from the TermSimilarity class, for the Dart programming language.">
+  <title>editDistance property - TermSimilarity class - text_analysis library - Dart API</title>
 
 
   
@@ -32,7 +32,7 @@
     <li><a href="../../index.html">text_analysis</a></li>
     <li><a href="../../text_analysis/text_analysis-library.html">text_analysis</a></li>
     <li><a href="../../text_analysis/TermSimilarity-class.html">TermSimilarity</a></li>
-    <li class="self-crumb">editDistance method</li>
+    <li class="self-crumb">editDistance property</li>
   </ol>
   <div class="self-name">editDistance</div>
   <form class="search navbar-right" role="search">
@@ -45,34 +45,35 @@
 
   <div id="dartdoc-main-content" class="main-content">
       <div>
-<h1><span class="kind-method">editDistance</span> method 
+<h1><span class="kind-property">editDistance</span> property 
     <a href="https://dart.dev/null-safety" class="feature feature-null-safety" title="Supports the null safety language feature.">Null safety</a>
 </h1></div>
 
-    <section class="multi-line-signature">
-      
 
-<span class="returntype"><a href="https://api.flutter.dev/flutter/dart-core/int-class.html">int</a></span>
-<span class="name ">editDistance</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="editDistance-param-a"><span class="type-annotation"><a href="../../type_definitions/Term.html">Term</a></span> <span class="parameter-name">a</span>, </span></li>
-<li><span class="parameter" id="editDistance-param-b"><span class="type-annotation"><a href="../../type_definitions/Term.html">Term</a></span> <span class="parameter-name">b</span></span></li>
-</ol>)
+        
+<section id="getter">
 
-      
+<section class="multi-line-signature">
+  <span class="returntype"><a href="https://api.flutter.dev/flutter/dart-core/int-class.html">int</a></span>
+  <span class="name ">editDistance</span>
+  
 
-    </section>
-    
+</section>
+
+
 <section class="desc markdown">
   <p>Returns the <code>Damerau–Levenshtein distance</code>, the minimum number of
 single-character edits (transpositions, insertions, deletions or
-substitutions) required to change one word (<code>a</code>) into another <code>b</code>.</p>
+substitutions) required to change <a href="../../text_analysis/TermSimilarity/term.html">term</a> into <a href="../../text_analysis/TermSimilarity/other.html">other</a>.</p>
 <p>Not case-sensitive.</p>
 </section>
 
 
-    
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
-  <pre class="language-dart"><code class="language-dart">static int editDistance(Term a, Term b) =&gt; a.editDistance(b);</code></pre>
+  <pre class="language-dart"><code class="language-dart">int get editDistance;</code></pre>
+</section>
+
 </section>
 
 
@@ -89,7 +90,7 @@ substitutions) required to change one word (<code>a</code>) into another <code>b
   <li><a href="../../index.html">text_analysis</a></li>
   <li><a href="../../text_analysis/text_analysis-library.html">text_analysis</a></li>
   <li><a href="../../text_analysis/TermSimilarity-class.html">TermSimilarity</a></li>
-  <li class="self-crumb">editDistance method</li>
+  <li class="self-crumb">editDistance property</li>
 </ol>
 
 
@@ -100,17 +101,25 @@ substitutions) required to change one word (<code>a</code>) into another <code>b
           <li><a href="../../text_analysis/TermSimilarity/TermSimilarity.html">TermSimilarity</a></li>
 
 
-    <li class="section-title inherited">
+    <li class="section-title">
       <a href="../../text_analysis/TermSimilarity-class.html#instance-properties">Properties</a>
     </li>
+    <li><a href="../../text_analysis/TermSimilarity/characterSimilarity.html">characterSimilarity</a></li>
+    <li><a href="../../text_analysis/TermSimilarity/editDistance.html">editDistance</a></li>
+    <li><a href="../../text_analysis/TermSimilarity/editSimilarity.html">editSimilarity</a></li>
     <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/hashCode.html">hashCode</a></li>
+    <li><a href="../../text_analysis/TermSimilarity/jaccardSimilarity.html">jaccardSimilarity</a></li>
+    <li><a href="../../text_analysis/TermSimilarity/lengthDistance.html">lengthDistance</a></li>
+    <li><a href="../../text_analysis/TermSimilarity/lengthSimilarity.html">lengthSimilarity</a></li>
+    <li><a href="../../text_analysis/TermSimilarity/other.html">other</a></li>
     <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/runtimeType.html">runtimeType</a></li>
+    <li><a href="../../text_analysis/TermSimilarity/similarity.html">similarity</a></li>
+    <li><a href="../../text_analysis/TermSimilarity/term.html">term</a></li>
 
     <li class="section-title"><a href="../../text_analysis/TermSimilarity-class.html#instance-methods">Methods</a></li>
-    <li><a href="../../text_analysis/TermSimilarity/jaccardSimilarities.html">jaccardSimilarities</a></li>
-    <li><a href="../../text_analysis/TermSimilarity/lengthSimilarities.html">lengthSimilarities</a></li>
+    <li><a href="../../text_analysis/TermSimilarity/compareTo.html">compareTo</a></li>
     <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/noSuchMethod.html">noSuchMethod</a></li>
-    <li><a href="../../text_analysis/TermSimilarity/termSimilarities.html">termSimilarities</a></li>
+    <li><a href="../../text_analysis/TermSimilarity/toJson.html">toJson</a></li>
     <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/toString.html">toString</a></li>
 
     <li class="section-title inherited"><a href="../../text_analysis/TermSimilarity-class.html#operators">Operators</a></li>
@@ -119,19 +128,15 @@ substitutions) required to change one word (<code>a</code>) into another <code>b
 
 
         <li class="section-title"><a href="../../text_analysis/TermSimilarity-class.html#static-methods">Static methods</a></li>
-          <li><a href="../../text_analysis/TermSimilarity/editDistance.html">editDistance</a></li>
+          <li><a href="../../text_analysis/TermSimilarity/characterSimilarities.html">characterSimilarities</a></li>
           <li><a href="../../text_analysis/TermSimilarity/editDistanceMap.html">editDistanceMap</a></li>
           <li><a href="../../text_analysis/TermSimilarity/editSimilarities.html">editSimilarities</a></li>
-          <li><a href="../../text_analysis/TermSimilarity/editSimilarity.html">editSimilarity</a></li>
-          <li><a href="../../text_analysis/TermSimilarity/editSimilarityMap.html">editSimilarityMap</a></li>
-          <li><a href="../../text_analysis/TermSimilarity/jaccardSimilarity.html">jaccardSimilarity</a></li>
-          <li><a href="../../text_analysis/TermSimilarity/jaccardSimilarityMap.html">jaccardSimilarityMap</a></li>
+          <li><a href="../../text_analysis/TermSimilarity/getSuggestions.html">getSuggestions</a></li>
+          <li><a href="../../text_analysis/TermSimilarity/jaccardSimilarities.html">jaccardSimilarities</a></li>
           <li><a href="../../text_analysis/TermSimilarity/kGrams.html">kGrams</a></li>
-          <li><a href="../../text_analysis/TermSimilarity/lengthDistance.html">lengthDistance</a></li>
-          <li><a href="../../text_analysis/TermSimilarity/lengthSimilarity.html">lengthSimilarity</a></li>
-          <li><a href="../../text_analysis/TermSimilarity/lengthSimilarityMap.html">lengthSimilarityMap</a></li>
+          <li><a href="../../text_analysis/TermSimilarity/lengthSimilarities.html">lengthSimilarities</a></li>
           <li><a href="../../text_analysis/TermSimilarity/matches.html">matches</a></li>
-          <li><a href="../../text_analysis/TermSimilarity/termSimilarity.html">termSimilarity</a></li>
+          <li><a href="../../text_analysis/TermSimilarity/termSimilarities.html">termSimilarities</a></li>
           <li><a href="../../text_analysis/TermSimilarity/termSimilarityMap.html">termSimilarityMap</a></li>
 
 </ol>
@@ -146,7 +151,7 @@ substitutions) required to change one word (<code>a</code>) into another <code>b
 <footer>
   <span class="no-break">
     text_analysis
-      0.17.1
+      0.18.0
   </span>
 
   

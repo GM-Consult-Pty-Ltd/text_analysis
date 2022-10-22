@@ -1,27 +1,100 @@
 // BSD 3-Clause License
 // Copyright ©2022, GM Consult Pty Ltd
 
-// ignore_for_file: camel_case_types
-
 import '../_index.dart';
-import 'dart:math';
 
 /// A static/abstract class that exposes methods for computing similarity of
 /// terms.
 abstract class TermSimilarity {
   //
 
-  /// Returns the `Damerau–Levenshtein distance`, the minimum number of
-  /// single-character edits (transpositions, insertions, deletions or
-  /// substitutions) required to change one word ([a]) into another [b].
+  /// Returns a immutable TermSimilarity for [term] and [other].
+  /// - [k] is the [k]-gram length used to calculate [jaccardSimilarity],
+  ///   defaults to 2.
+  /// - [jaccardSimilarityWeight] is the weighting of the [jaccardSimilarity]
+  ///   in [similarity], defaults to 1.0.
+  /// - [lengthSimilarityWeight] is the weighting of the [lengthSimilarity]
+  ///   in [similarity], defaults to 1.0.
+  /// - [editSimilarityWeight] is the weighting of the [editSimilarity]
+  ///   in [similarity], defaults to 1.0.
+  /// - [characterSimilarityWeight] is the weighting of the
+  ///   [characterSimilarity] in [similarity], defaults to 1.0.
   ///
   /// Not case-sensitive.
-  static int editDistance(Term a, Term b) => a.editDistance(b);
+  factory TermSimilarity(String term, String other,
+      {int k = 2,
+      double jaccardSimilarityWeight = 1.0,
+      double lengthSimilarityWeight = 1.0,
+      double editSimilarityWeight = 1.0,
+      double characterSimilarityWeight = 1.0}) {
+    final editDistance = term.editDistance(other);
+    final editSimilarity = _getEditSimilarity(term, other, editDistance);
+    final jaccardSimilarity = term.jaccardSimilarity(other, k);
+    final lengthDistance = term.lengthDistance(other);
+    final lengthSimilarity = term.lengthSimilarity(other);
+    final characterSimilarity = term.characterSimilarity(other);
+    final similarity = _weightedSimilarity(
+        characterSimilarity,
+        editSimilarity,
+        jaccardSimilarity,
+        lengthSimilarity,
+        jaccardSimilarityWeight,
+        lengthSimilarityWeight,
+        editSimilarityWeight,
+        characterSimilarityWeight);
+    return _TermSimilarityImpl(
+        term,
+        other,
+        similarity,
+        lengthDistance,
+        lengthSimilarity,
+        editDistance,
+        editSimilarity,
+        jaccardSimilarity,
+        characterSimilarity);
+  }
+
+  /// Computes a weighted average of the similarity indexes.
+  static double _weightedSimilarity(
+          double characterSimilarity,
+          double editSimilarity,
+          double jaccardSimilarity,
+          double lengthSimilarity,
+          double jaccardSimilarityWeight,
+          double lengthSimilarityWeight,
+          double editSimilarityWeight,
+          double characterSimilarityWeight) =>
+      (characterSimilarityWeight * characterSimilarity +
+          lengthSimilarityWeight * lengthSimilarity +
+          editSimilarityWeight * editSimilarity +
+          jaccardSimilarityWeight * editSimilarity) /
+      (characterSimilarityWeight +
+          lengthSimilarityWeight +
+          editSimilarityWeight +
+          jaccardSimilarityWeight);
+
+  /// The term that is being compared to [other].
+  Term get term;
+
+  /// The term that is being compared to [term].
+  Term get other;
+
+  ///
+  double get similarity;
+
+  /// Compares this to other.
+  ///
+  /// Returns a negative number if this is less than other, zero if they are
+  /// equal, and a positive number if this is greater than other.
+  int compareTo(TermSimilarity other);
+
+  /// Serializes the [TermSimilarity] to `Map<String, dynamic>`.
+  Map<String, dynamic> toJson();
 
   /// A normalized measure of [editDistance] on a scale of 0.0 to 1.0.
   ///
   /// The [editSimilarity] is defined as the difference between the maximum
-  /// edit distance (sum of the length of the [a] and [b]) and the
+  /// edit distance (sum of the length of the [term] and [other]) and the
   /// computed [editDistance], divided by the maximum edit distance
   /// - identical terms with an edit distance of 0 equates to an edit
   ///   similarity of 1.0; and
@@ -29,13 +102,50 @@ abstract class TermSimilarity {
   ///   lengths) have an edit similarity of 0.0.
   ///
   /// Not case-sensitive.
-  static double editSimilarity(Term a, Term b) => a.editSimilarity(b);
+  double get editSimilarity;
 
-  /// Returns a hashmap of [terms] to their [editSimilarity] with [term].
+  /// Returns the similarity between the collection of letters of [term] and
+  /// [other] on a scale of 0.0 to 1.0.
+  ///
+  /// Compares the characters in [term] and [other] by splitting each string
+  /// into a set of its unique characters and finding the intersection between
+  /// the two sets of characters.
+  /// - Returns 1.0 if the two Strings are the same
+  ///   `(term.trim().toLowerCase() == other.trim().toLowerCase())`.
+  /// - Returns 1.0 if the character set for [term] and the intersection have
+  ///   the same length AND [term] and [other] are the same length.
+  /// - Returns 0.0 if the intersection is empty (no shared characters).
+  /// - Returns the intersection length divided by the average length of the two
+  ///   character sets multiplied by the length similarity.
   ///
   /// Not case-sensitive.
-  static Map<Term, double> editSimilarityMap(Term term, Iterable<Term> terms) =>
-      term.editSimilarityMap(terms);
+  double get characterSimilarity;
+
+  /// Returns the similarity in length between two terms, defined as:
+  /// lengthSimilarity = 1 minus the log of the ratio between the term lengths,
+  /// with a floor at 0.0:
+  ///     `1-(log(this.length/other.length))`
+  ///
+  /// Returns:
+  /// - 1.0 if this and [other] are the same length; and
+  /// - 0.0 if the ratio between term lengths is more than 10 or less than 0.1.
+  double get lengthSimilarity;
+
+  /// Returns the Jaccard Similarity Index between [term] and [other].
+  ///
+  /// Not case-sensitive.
+  double get jaccardSimilarity;
+
+  /// Returns the absolute value of the difference in length between [term]
+  /// and [other].
+  int get lengthDistance;
+
+  /// Returns the `Damerau–Levenshtein distance`, the minimum number of
+  /// single-character edits (transpositions, insertions, deletions or
+  /// substitutions) required to change [term] into [other].
+  ///
+  /// Not case-sensitive.
+  int get editDistance;
 
   /// Returns a ordered list of [SimilarityIndex] values of [term] to the
   /// [terms] in descending order of [SimilarityIndex.similarity].
@@ -51,535 +161,276 @@ abstract class TermSimilarity {
   static Map<Term, int> editDistanceMap(Term term, Iterable<Term> terms) =>
       term.editDistanceMap(terms);
 
-  /// Returns the absolute value of the difference in length between [a]
-  /// and [b].
-  static int lengthDistance(Term a, Term b) => a.lengthDistance(b);
-
-  /// Returns the similarity in length between two terms, defined as:
-  /// lengthSimilarity = 1 minus the log of the ratio between the term lengths,
-  /// with a floor at 0.0:
-  ///     `1-(log(this.length/other.length))`
-  ///
-  /// Returns:
-  /// - 1.0 if this and [other] are the same length; and
-  /// - 0.0 if the ratio between term lengths is more than 10 or less than 0.1.
-  static double lengthSimilarity(Term a, Term b) => a.lengthSimilarity(b);
-
-  /// Returns a hashmap of [terms] to their [lengthSimilarity] with [term].
-  static Map<Term, double> lengthSimilarityMap(
-          Term term, Iterable<Term> terms) =>
-      term.lengthSimilarityMap(terms);
-
   /// Returns a ordered list of [SimilarityIndex] values for the [terms], in
   /// descending order of [SimilarityIndex.similarity].
   ///
   /// Not case-sensitive.
-  List<SimilarityIndex> lengthSimilarities(Term term, Iterable<Term> terms) =>
+  static List<SimilarityIndex> lengthSimilarities(
+          Term term, Iterable<Term> terms) =>
       term.lengthSimilarities(terms);
 
-  /// Returns the Jaccard Similarity Index between [a] and [b]
-  /// using a [k]-gram length.
-  ///
-  /// Not case-sensitive.
-  static double jaccardSimilarity(Term a, Term b, [int k = 2]) =>
-      a.jaccardSimilarity(b);
-
-  /// Returns a hashmap of [terms] to Jaccard Similarity Index with [term]
-  /// using a [k]-gram length.
-  ///
-  /// Not case-sensitive.
-  static Map<Term, double> jaccardSimilarityMap(Term term, Iterable<Term> terms,
-          [int k = 2]) =>
-      term.jaccardSimilarityMap(terms, k);
-
   /// Returns a ordered list of [SimilarityIndex] values of [term] to the
-  /// [terms] in descending order of [SimilarityIndex.similarity].
+  /// [terms] in descending order of [SimilarityIndex.similarity] using a
+  /// [k]-gram length of [k]. [k] defaults to 2.
   ///
   /// Not case-sensitive.
-  List<SimilarityIndex> jaccardSimilarities(Term term, Iterable<Term> terms) =>
-      term.jaccardSimilarities(terms);
-
-  /// Returns a normalized similarity index value between 0.0 and 1.0 for terms
-  /// [a] and [b] using a [k]-gram length of [k].
-  ///
-  /// The [termSimilarity] is defined as the product of [jaccardSimilarity],
-  /// [lengthSimilarity] and [editSimilarity].
-  ///
-  /// A term similarity of 1.0 means the two terms are identical:
-  /// - have the same characters in the same order (edit distance of 0);
-  /// - are of equal in length; and
-  /// - have an identical collection of [k]-grams.
-  ///
-  /// Not case-sensitive.
-  static double termSimilarity(Term a, Term b, [int k = 2]) =>
-      a.termSimilarity(b, k);
-
-  /// Returns a hashmap of [candidates] to [termSimilarity] with [term] using
-  /// a [k]-gram length of [k].
-  ///
-  /// Not case-sensitive.
-  static Map<Term, double> termSimilarityMap(
-          Term term, Iterable<Term> candidates,
+  static List<SimilarityIndex> jaccardSimilarities(
+          Term term, Iterable<Term> terms,
           [int k = 2]) =>
-      term.termSimilarityMap(candidates, k);
+      term.jaccardSimilarities(terms, k);
 
   /// Returns a ordered list of [SimilarityIndex] values for the [terms], in
   /// descending order of [SimilarityIndex.similarity].
   ///
   /// Not case-sensitive.
-  List<SimilarityIndex> termSimilarities(Term term, Iterable<Term> terms) =>
-      term.termSimilarities(terms);
-
-  /// Returns the best matches for [term] from [candidates], in descending
-  /// order of [termSimilarity] (best match first).
-  ///
-  /// Only matches with a [termSimilarity] > 0.0 are returned.
-  ///
-  /// The returned matches will be limited to [limit] if more than [limit]
-  /// matches are found.
-  ///
-  /// Not case-sensitive.
-  static List<Term> matches(Term term, Iterable<Term> candidates,
-          {int k = 2, int limit = 10}) =>
-      term.matches(candidates, k: k, limit: limit);
+  static List<SimilarityIndex> characterSimilarities(
+          Term term, Iterable<Term> terms) =>
+      term.characterSimilarities(terms);
 
   /// Returns a set of (lower-case) k-grams in the [term].
   static Set<KGram> kGrams(Term term, [int k = 2]) => term.kGrams(k);
 
-  //
-}
-
-/// Returns a collection of [SimilarityIndex]s for this String from [terms] using
-/// a [k]-gram length of [k].
-///
-/// Suggestions are returned in descending order of[SimilarityIndex.similarity].
-///
-/// Not case-sensitive.
-List<SimilarityIndex> getSuggestions(Term term, Iterable<Term> terms,
-        {int k = 2, int limit = 10}) =>
-    term.getSuggestions(terms, k: k, limit: limit);
-
-/// Extension methods on [Term] that exposes methods for computing similarity
-/// of terms.
-extension TermSimilarityExtensions on Term {
-  //
-
-  /// A normalized measure of [editDistance] on a scale of 0.0 to 1.0.
-  ///
-  /// The [editSimilarity] is defined as the difference between the maximum
-  /// edit distance (sum of the length of the two terms) and the
-  /// computed [editDistance], divided by the maximum edit distance:
-  /// - identical terms with an edit distance of 0 equates to an edit
-  ///   similarity of 1.0; and
-  /// - terms with no shared characters (edit distance equal to sum of the term
-  ///   lengths) have an edit similarity of 0.0.
-  ///
-  /// Not case-sensitive.
-  double editSimilarity(Term other) {
-    final similarity =
-        (length + other.length - editDistance(other)) / (length + other.length);
+  /// Private static function to compute edit similarity from a known
+  /// edit distance for two terms. Used by factory constructor.
+  static double _getEditSimilarity(Term term, Term other, int editDistance) {
+    final similarity = (term.length + other.length - editDistance) /
+        (term.length + other.length);
     if (similarity > 1.0) {
       return 1.0;
     }
     return similarity;
   }
 
-  /// Returns a ordered list of [SimilarityIndex] values for the terms, in
-  /// descending order of [SimilarityIndex.similarity].
+  /// Returns a collection of [SimilarityIndex]s for this String from [terms].
+  ///
+  /// Suggestions are returned in descending order of
+  /// [SimilarityIndex.similarity].
+  ///
+  /// - If [greaterThan] is not null only matches with
+  ///   `[TermSimilarity.similarity] > [greaterThan]` are returned.  ///
+  /// - the returned matches will be limited to [limit] if more than [limit]
+  ///   matches are found.
+  /// - [k] is the [k]-gram length used to calculate [jaccardSimilarity],
+  ///   defaults to 2.
+  /// - [jaccardSimilarityWeight] is the weighting of the [jaccardSimilarity]
+  ///   in [TermSimilarity.similarity], defaults to 1.0.
+  /// - [lengthSimilarityWeight] is the weighting of the [lengthSimilarity]
+  ///   in [TermSimilarity.similarity], defaults to 1.0.
+  /// - [editSimilarityWeight] is the weighting of the [editSimilarity]
+  ///   in [TermSimilarity.similarity], defaults to 1.0.
+  /// - [characterSimilarityWeight] is the weighting of the
+  ///   [characterSimilarity] in [TermSimilarity.similarity], defaults to 1.0.
   ///
   /// Not case-sensitive.
-  List<SimilarityIndex> editSimilarities(Iterable<Term> terms) =>
-      editSimilarityMap(terms)
-          .entries
-          .map((e) => SimilarityIndex(e.key, e.value))
-          .sortBySimilarity();
-
-  /// Returns a hashmap of [terms] to their [editSimilarity] with this.
-  ///
-  /// Not case-sensitive.
-  Map<Term, double> editSimilarityMap(Iterable<Term> terms) {
-    final retVal = <Term, double>{};
-    for (var other in terms) {
-      retVal[other] = editSimilarity(other);
-    }
-    return retVal;
-  }
-
-  /// Returns a hashmap of [terms] to their [editDistance] with this.
-  ///
-  /// Not case-sensitive.
-  Map<Term, int> editDistanceMap(Iterable<Term> terms) {
-    final retVal = <Term, int>{};
-    for (var other in terms) {
-      retVal[other] = editDistance(other);
-    }
-    return retVal;
-  }
-
-  /// Returns the `Damerau–Levenshtein distance`, the minimum number of
-  /// single-character edits (transpositions, insertions, deletions or
-  /// substitutions) required to change one word into another [other].
-  ///
-  /// Not case-sensitive.
-  int editDistance(Term other) {
-    //
-
-    // initialize a 1-based array of 26 integers with all values set to 0
-    final da = _Da();
-
-    // initialize a 1-based character array for this
-    final a = _CharArray(toLowerCase());
-
-    // initialize a 1-based character array for other
-    final b = _CharArray(other.toLowerCase());
-
-    // initialize the -1 based edit distance matrix
-    final dList = <List<int>>[];
-    for (var i = 0; i < b.length + 2; i++) {
-      dList.add(List.filled(a.length + 2, i * 0, growable: false));
-    }
-    final d = _Matrix.from(dList, i: -1, j: -1);
-
-    // compute the maximum distance
-    // (remove all the charcters in this and insert with all characters in other)
-    final maxDist = a.length + b.length;
-
-    // add maxDist at the top-left of matrix
-    d.setAt(-1, -1, maxDist);
-
-    for (var i = 0; i <= a.length; i++) {
-      d.setAt(i, -1, maxDist);
-      d.setAt(i, 0, i);
-    }
-
-    for (var j = 0; j <= b.length; j++) {
-      d.setAt(-1, j, maxDist);
-      d.setAt(0, j, j);
-    }
-
-    for (var i = 1; i <= a.length; i++) {
-      var db = 0;
-      final charA = a.get(i) - 96;
-
-      for (var j = 1; j <= b.length; j++) {
-        final charB = b.get(j) - 96;
-        final k = da.get(charB);
-        final l = db;
-        int cost = 0;
-        if (charA == charB) {
-          cost = 0;
-          db = j;
-        } else {
-          cost = 1;
-        }
-        final costs = <int>[
-          //substitution cost
-          d.get(i - 1, j - 1) + cost,
-          //insertion cost
-          d.get(i, j - 1) + 1,
-          //deletion cost
-          d.get(i - 1, j) + 1,
-          //transposition cost
-          d.get(k - 1, l - 1) + (i - k - 1) + 1 + (j - l - 1)
-        ];
-        costs.sort(((a, b) => a.compareTo(b)));
-        d.setAt(i, j, costs.first);
-      }
-      da.setAt(charA, i);
-    }
-
-    // return the value from the edit distance matrix matrix
-    return d.get(a.length, b.length);
-  }
-
-  /// Returns the absolute value of the difference in length between two terms.
-  int lengthDistance(Term other) => (length - other.length).abs();
-
-  /// Returns the similarity in length between two terms, defined as:
-  /// lengthSimilarity = 1 minus the log of the ratio between the term lengths,
-  /// with a floor at 0.0:
-  ///     `1-(log(this.length/other.length))`
-  ///
-  /// Returns:
-  /// - 1.0 if this and [other] are the same length; and
-  /// - 0.0 if the ratio between term lengths is more than 10 or less than 0.1.
-  double lengthSimilarity(Term other) {
-    final logRatio = isEmpty
-        ? other.isEmpty
-            ? 0
-            : 1
-        : other.isEmpty
-            ? 1
-            : (log(other.length / length)).abs();
-    final similarity = logRatio > 1 ? 0.0 : 1.0 - logRatio;
-    if (similarity > 1.0) {
-      return 1.0;
-    }
-    return similarity;
-  }
+  static List<SimilarityIndex> getSuggestions(String term, Iterable<Term> terms,
+          {int limit = 10,
+          int k = 2,
+          double? greaterThan,
+          double jaccardSimilarityWeight = 1.0,
+          double lengthSimilarityWeight = 1.0,
+          double editSimilarityWeight = 1.0,
+          double characterSimilarityWeight = 1.0}) =>
+      term.getSuggestions(terms,
+          greaterThan: greaterThan,
+          k: k,
+          jaccardSimilarityWeight: jaccardSimilarityWeight,
+          characterSimilarityWeight: characterSimilarityWeight,
+          editSimilarityWeight: editSimilarityWeight,
+          lengthSimilarityWeight: lengthSimilarityWeight);
 
   /// Returns a ordered list of [SimilarityIndex] values for the [terms], in
   /// descending order of [SimilarityIndex.similarity].
+  /// - [k] is the [k]-gram length used to calculate [jaccardSimilarity],
+  ///   defaults to 2.
+  /// - [jaccardSimilarityWeight] is the weighting of the [jaccardSimilarity]
+  ///   in [TermSimilarity.similarity], defaults to 1.0.
+  /// - [lengthSimilarityWeight] is the weighting of the [lengthSimilarity]
+  ///   in [TermSimilarity.similarity], defaults to 1.0.
+  /// - [editSimilarityWeight] is the weighting of the [editSimilarity]
+  ///   in [TermSimilarity.similarity], defaults to 1.0.
+  /// - [characterSimilarityWeight] is the weighting of the
+  ///   [characterSimilarity] in [TermSimilarity.similarity], defaults to 1.0.
   ///
   /// Not case-sensitive.
-  List<SimilarityIndex> lengthSimilarities(Iterable<Term> terms) =>
-      lengthSimilarityMap(terms)
-          .entries
-          .map((e) => SimilarityIndex(e.key, e.value))
-          .sortBySimilarity();
+  static List<TermSimilarity> termSimilarities(
+          String term, Iterable<Term> terms,
+          {int k = 2,
+          double jaccardSimilarityWeight = 1.0,
+          double lengthSimilarityWeight = 1.0,
+          double editSimilarityWeight = 1.0,
+          double characterSimilarityWeight = 1.0}) =>
+      term.termSimilarities(terms,
+          k: k,
+          jaccardSimilarityWeight: jaccardSimilarityWeight,
+          characterSimilarityWeight: characterSimilarityWeight,
+          editSimilarityWeight: editSimilarityWeight,
+          lengthSimilarityWeight: lengthSimilarityWeight);
 
-  /// Returns a hashmap of [terms] to their [lengthSimilarity] with this.
-  Map<Term, double> lengthSimilarityMap(Iterable<Term> terms) {
-    final retVal = <Term, double>{};
-    for (var other in terms) {
-      retVal[other] = lengthSimilarity(other);
-    }
-    return retVal;
-  }
-
-  /// Returns the Jaccard Similarity Index between this term and [other]
-  /// using a [k]-gram length of [k].
+  /// Returns an hashmap of [terms] to [TermSimilarity] with [term].
+  ///
+  /// - [k] is the [k]-gram length used to calculate [jaccardSimilarity],
+  ///   defaults to 2.
+  /// - [jaccardSimilarityWeight] is the weighting of the [jaccardSimilarity]
+  ///   in [TermSimilarity.similarity], defaults to 1.0.
+  /// - [lengthSimilarityWeight] is the weighting of the [lengthSimilarity]
+  ///   in [TermSimilarity.similarity], defaults to 1.0.
+  /// - [editSimilarityWeight] is the weighting of the [editSimilarity]
+  ///   in [TermSimilarity.similarity], defaults to 1.0.
+  /// - [characterSimilarityWeight] is the weighting of the
+  ///   [characterSimilarity] in [TermSimilarity.similarity], defaults to 1.0.
   ///
   /// Not case-sensitive.
-  double jaccardSimilarity(Term other, [int k = 2]) =>
-      _jaccardSimilarity(kGrams(k), other, k);
-
-  double _jaccardSimilarity(Set<String> termGrams, Term other, int k) {
-    final otherGrams = other.kGrams(k);
-    final intersection = termGrams.intersection(otherGrams);
-    final union = termGrams.union(otherGrams);
-    final similarity = intersection.length / union.length;
-    if (similarity > 1.0) {
-      return 1.0;
-    }
-    return similarity;
-  }
-
-  /// Returns a hashmap of [terms] to Jaccard Similarity Index with this term
-  /// using a [k]-gram length of [k].
-  ///
-  /// Not case-sensitive.
-  Map<Term, double> jaccardSimilarityMap(Iterable<Term> terms, [int k = 2]) {
-    final retVal = <Term, double>{};
-    final termGrams = kGrams(k);
-    for (final other in terms) {
-      retVal[other] = _jaccardSimilarity(termGrams, other, k);
-    }
-    return retVal;
-  }
-
-  /// Returns a ordered list of [SimilarityIndex] values for the [terms], in
-  /// descending order of [SimilarityIndex.similarity].
-  ///
-  /// Not case-sensitive.
-  List<SimilarityIndex> jaccardSimilarities(Iterable<Term> terms) =>
-      jaccardSimilarityMap(terms)
-          .entries
-          .map((e) => SimilarityIndex(e.key, e.value))
-          .sortBySimilarity();
-
-  /// Returns a similarity index value between 0.0 and 1.0 using a [k]-gram
-  /// length of [k].
-  ///
-  /// The [termSimilarity] is defined as the product of [jaccardSimilarity],
-  /// [lengthSimilarity] and [editSimilarity].
-  ///
-  /// A term similarity of 1.0 means the two terms are identical:
-  /// - have the same characters in the same order (edit distance of 0);
-  /// - are of equal in length; and
-  /// - have an identical collection of [k]-grams.
-  ///
-  /// Not case-sensitive.
-  double termSimilarity(Term other, [int k = 2]) =>
-      (jaccardSimilarity(other, k) * 2 +
-          lengthSimilarity(other) * 3 +
-          editSimilarity(other) * 5) /
-      10;
-
-  /// Returns a ordered list of [SimilarityIndex] values for the [terms], in
-  /// descending order of [SimilarityIndex.similarity].
-  ///
-  /// Not case-sensitive.
-  List<SimilarityIndex> termSimilarities(Iterable<Term> terms) =>
-      termSimilarityMap(terms)
-          .entries
-          .map((e) => SimilarityIndex(e.key, e.value))
-          .sortBySimilarity();
-
-  /// Returns an hashmap of [terms] to [termSimilarity] with this term using
-  /// a [k]-gram length of [k].
-  ///
-  /// Not case-sensitive.
-  Map<Term, double> termSimilarityMap(Iterable<Term> terms, [int k = 2]) {
-    final retVal = <Term, double>{};
-    for (final other in terms) {
-      retVal[other] = termSimilarity(other);
-    }
-    return retVal;
-  }
-
-  /// Returns a collection of [SimilarityIndex]s for this String from [terms] using
-  /// a [k]-gram length of [k].
-  ///
-  /// Suggestions are returned in descending order of[SimilarityIndex.similarity].
-  ///
-  /// Not case-sensitive.
-  List<SimilarityIndex> getSuggestions(Iterable<Term> terms,
-      {int k = 2, int limit = 10}) {
-    var retVal = <SimilarityIndex>[];
-    for (final other in terms.toSet()) {
-      var similarity = termSimilarity(other);
-      if (similarity > 1) {
-        similarity = 1;
-      }
-      final suggestion = SimilarityIndex(other, similarity);
-      retVal.add(suggestion);
-    }
-    // sort in descending order of similarity
-    retVal = retVal.sortBySimilarity();
-    //return only the first [limit] results
-    return retVal.length > limit ? retVal.sublist(0, limit) : retVal;
-  }
+  static Map<Term, TermSimilarity> termSimilarityMap(
+          String term, Iterable<Term> terms,
+          {int k = 2,
+          double jaccardSimilarityWeight = 1.0,
+          double lengthSimilarityWeight = 1.0,
+          double editSimilarityWeight = 1.0,
+          double characterSimilarityWeight = 1.0}) =>
+      term.termSimilarityMap(terms,
+          k: k,
+          jaccardSimilarityWeight: jaccardSimilarityWeight,
+          characterSimilarityWeight: characterSimilarityWeight,
+          editSimilarityWeight: editSimilarityWeight,
+          lengthSimilarityWeight: lengthSimilarityWeight);
 
   /// Returns the best matches for a term from [terms], in descending
-  /// order of [termSimilarity] (best match first).
+  /// order of term similarity (best match first).
   ///
-  /// Only matches with a [termSimilarity] > 0.0 are returned.
+  /// Matches are returned in descending order of[SimilarityIndex.similarity].
   ///
-  /// The returned matches will be limited to [limit] if more than [limit]
-  /// matches are found.
+  /// - If [greaterThan] is not null only matches with
+  ///   `[TermSimilarity.similarity] > [greaterThan]` are returned.  ///
+  /// - the returned matches will be limited to [limit] if more than [limit]
+  ///   matches are found.
+  /// - [k] is the [k]-gram length used to calculate [jaccardSimilarity],
+  ///   defaults to 2.
+  /// - [jaccardSimilarityWeight] is the weighting of the [jaccardSimilarity]
+  ///   in [TermSimilarity.similarity], defaults to 1.0.
+  /// - [lengthSimilarityWeight] is the weighting of the [lengthSimilarity]
+  ///   in [TermSimilarity.similarity], defaults to 1.0.
+  /// - [editSimilarityWeight] is the weighting of the [editSimilarity]
+  ///   in [TermSimilarity.similarity], defaults to 1.0.
+  /// - [characterSimilarityWeight] is the weighting of the
+  ///   [characterSimilarity] in [TermSimilarity.similarity], defaults to 1.0.
   ///
   /// Not case-sensitive.
-  List<Term> matches(Iterable<Term> terms, {int k = 2, int limit = 10}) =>
-      getSuggestions(terms, k: k, limit: limit)
-          .where((element) => element.similarity > 0)
-          .map((e) => e.term)
-          .toList();
-
-  /// Returns a set of (lower-case) k-grams in the term.
-  Set<KGram> kGrams([int k = 2]) {
-    final Set<KGram> kGrams = {};
-    final term = toLowerCase();
-    if (isNotEmpty) {
-      // get the opening k-gram
-      kGrams.add(r'$' + term.substring(0, length < k ? null : k - 1));
-      // get the closing k-gram
-      kGrams.add(length < k ? term : (term.substring(length - k + 1)) + r'$');
-      if (length <= k) {
-        kGrams.add(term);
-      } else {
-        for (var i = 0; i <= length - k; i++) {
-          kGrams.add(term.substring(i, i + k));
-        }
-      }
-    }
-    return kGrams;
-  }
+  static List<Term> matches(String term, Iterable<Term> terms,
+          {int limit = 10,
+          int k = 2,
+          double? greaterThan,
+          double jaccardSimilarityWeight = 1.0,
+          double lengthSimilarityWeight = 1.0,
+          double editSimilarityWeight = 1.0,
+          double characterSimilarityWeight = 1.0}) =>
+      term.matches(terms,
+          k: k,
+          limit: limit,
+          greaterThan: greaterThan,
+          jaccardSimilarityWeight: jaccardSimilarityWeight,
+          characterSimilarityWeight: characterSimilarityWeight,
+          editSimilarityWeight: editSimilarityWeight,
+          lengthSimilarityWeight: lengthSimilarityWeight);
 }
 
-/// A 1-based, 1-dimensional array of integers, 26 charcters in length.
-class _Da extends _Array<int> {
+/// Mixin class that implements [TermSimilarity.editSimilarity] and
+/// [TermSimilarity.lengthSimilarity].
+abstract class TermSimilarityMixin implements TermSimilarity {
   //
 
-  _Da() : super(List<int>.generate(26, (index) => 0), 1);
-}
-
-/// Splits a [Term] into characters and places them in a 1-based array.
-class _CharArray extends _Array<int> {
-  //
-
-  /// The term used to construct the termChars
-  final String term;
-
-  _CharArray(this.term)
-      : super(
-            term
-                .toLowerCase()
-                .trim()
-                .replaceAll(RegExp(r'[^a-z]'), '')
-                .codeUnits
-                .map((e) => e.toInt())
-                .toList(),
-            1);
-}
-
-/// A [i]-based, 1-dimensional array of [T].
-class _Array<T extends Object> {
-  //
-
-  /// The index of the first element of the array.
-  final int i;
-
-  /// Returns the number of elements in the array.
-  int get length => elements.length;
-
-  /// The elements of the array as a zero-based ordered collection of [T].
-  final List<T> elements;
-
-  /// Instantiate a [i]-based [_Array] from the [elements].
-  const _Array(this.elements, [this.i = 0]);
-
-  T get(int index) => elements[index - i];
-
-  void setAt(int index, T value) => elements[index - i] = value;
-}
-
-/// A two-dimensional array ([i], [j]) - based two dimensional array
-class _Matrix<T extends Object> {
-  //
-
-  /// The base index of the matrix rows.
-  final int j;
-
-  /// the base index of the matrix columns
-  final int i;
-
-  /// The number of rows in the matrix.
-  int get rowCount => elements.length;
-
-  final _Array<_Array<T>> elements;
-
-  /// The number of columns in the matrix.
-  int get columnCount {
-    final lengths = elements.elements.map((e) => e.length).toList();
-    if (lengths.isNotEmpty) {
-      lengths.sort(((a, b) => b.compareTo(a)));
-      return lengths.first;
-    }
-    return 0;
+  @override
+  int compareTo(TermSimilarity other) {
+    if (term.toLowerCase() == this.other.toLowerCase()) return 0;
+    return similarity == other.similarity
+        ? 0
+        : similarity > other.similarity
+            ? 1
+            : -1;
   }
 
-  const _Matrix._(this.elements, this.i, this.j);
+  @override
+  Map<String, dynamic> toJson() => {
+        'term': term,
+        'other': other,
+        'characterSimilarity': characterSimilarity,
+        'editDistance': editDistance,
+        'editSimilarity': editSimilarity,
+        'lengthDistance': lengthDistance,
+        'lengthSimilarity': lengthSimilarity,
+        'jaccardSimilarity': jaccardSimilarity,
+        'similarity': similarity
+      };
+}
 
-  // /// Unnamed factory constructor initializes an empty [_Matrix].
-  // factory _Matrix(int i, int j) {
-  //   return _Matrix._(_Array([], j), i, j);
-  // }
+/// Implementation class for TermSimilarity unnamed factory constructor.
+abstract class TermSimilarityBase with TermSimilarityMixin {}
 
-  T get(int x, int y) => elements.get(y).get(x);
+/// Implementation class for TermSimilarity unnamed factory constructor.
+class _TermSimilarityImpl extends TermSimilarityBase {
+  //
 
-  void setAt(int i, int j, T value) {
-    final jValue =
-        elements.length > j - this.j ? elements.get(j) : _Array(<T>[], this.j);
-    jValue.setAt(i, value);
-    elements.setAt(j, jValue);
-  }
+  @override
+  final double characterSimilarity;
 
-  void setRowAt(int y, List<T> row) {
-    elements.setAt(y, _Array(row, i));
-  }
+  @override
+  final int editDistance;
 
-  /// Factory [_Matrix.from] initializes a [_Matrix]
-  /// and populates it with [value].
+  @override
+  final double jaccardSimilarity;
+
+  @override
+  final int lengthDistance;
+
+  @override
+  final double editSimilarity;
+
+  @override
+  final double lengthSimilarity;
+
+  @override
+  final Term other;
+
+  @override
+  final Term term;
+
+  _TermSimilarityImpl(
+      this.term,
+      this.other,
+      this.similarity,
+      this.lengthDistance,
+      this.lengthSimilarity,
+      this.editDistance,
+      this.editSimilarity,
+      this.jaccardSimilarity,
+      this.characterSimilarity);
+
+  @override
+  final double similarity;
+}
+
+/// Extension methods on collection of [SimilarityIndex].
+extension TermSimilarityCollectionExtension on Iterable<TermSimilarity> {
+//
+
+  /// Returns the first [limit] instances of the collection.
   ///
-  /// Provide the index of the first element of each dimension (defaults to
-  /// i=0 and j=0).
-  // ignore: unused_element
-  factory _Matrix.from(List<List<T>> value, {int i = 0, int j = 0}) {
-    final _Array<_Array<T>> elements = _Array([], j);
-    for (final e in value) {
-      elements.elements.add(_Array(e, i));
+  /// Returns the entire collection as an ordered list if [limit] is null.
+  List<TermSimilarity> limit([int? limit = 10]) {
+    final list = List<TermSimilarity>.from(this);
+    return (limit != null && list.length > limit)
+        ? list.sublist(0, limit)
+        : list;
+  }
+
+  /// Sorts the collection of [SimilarityIndex] instances in descending
+  /// order of [SimilarityIndex.similarity].
+  List<TermSimilarity> sortBySimilarity([bool descending = true]) {
+    final list = List<TermSimilarity>.from(this);
+    if (descending) {
+      list.sort(((a, b) => b.compareTo(a)));
+    } else {
+      list.sort(((a, b) => a.compareTo(b)));
     }
-    return _Matrix._(elements, i, j);
+    return list;
   }
 }

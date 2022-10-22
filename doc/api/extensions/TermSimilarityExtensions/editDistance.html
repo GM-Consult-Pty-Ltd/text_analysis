@@ -64,7 +64,8 @@
   <p>Returns the <code>Damerau–Levenshtein distance</code>, the minimum number of
 single-character edits (transpositions, insertions, deletions or
 substitutions) required to change one word into another <code>other</code>.</p>
-<p>Not case-sensitive.</p>
+<p>Not case-sensitive.
+See <a href="https://en.wikipedia.org/wiki/Damerau%25E2%2580%2593Levenshtein_distance">https://en.wikipedia.org/wiki/Damerau%E2%80%93Levenshtein_distance</a>.</p>
 </section>
 
 
@@ -83,7 +84,7 @@ substitutions) required to change one word into another <code>other</code>.</p>
   &#47;&#47; initialize a 1-based character array for other
   final b = _CharArray(other.toLowerCase());
 
-  &#47;&#47; initialize the -1 based edit distance matrix
+  &#47;&#47; initialize the -1 based edit distance matrix, filling it with zeros
   final dList = &lt;List&lt;int&gt;&gt;[];
   for (var i = 0; i &lt; b.length + 2; i++) {
     dList.add(List.filled(a.length + 2, i * 0, growable: false));
@@ -98,21 +99,26 @@ substitutions) required to change one word into another <code>other</code>.</p>
   d.setAt(-1, -1, maxDist);
 
   for (var i = 0; i &lt;= a.length; i++) {
+    &#47;&#47; set the entire top row to maxDist
     d.setAt(i, -1, maxDist);
+    &#47;&#47; set the second row to [0, 0, 1, 2 ...]
     d.setAt(i, 0, i);
   }
 
   for (var j = 0; j &lt;= b.length; j++) {
+    &#47;&#47; set the entire first column to maxDist
     d.setAt(-1, j, maxDist);
+    &#47;&#47; set the second column to
     d.setAt(0, j, j);
   }
 
   for (var i = 1; i &lt;= a.length; i++) {
     var db = 0;
-    final charA = a.get(i) - 96;
+    final charA = a.get(i);
 
     for (var j = 1; j &lt;= b.length; j++) {
-      final charB = b.get(j) - 96;
+      &#47;&#47; print(&#39;Start with $i - $j&#39;);
+      final charB = b.get(j);
       final k = da.get(charB);
       final l = db;
       int cost = 0;
@@ -132,8 +138,14 @@ substitutions) required to change one word into another <code>other</code>.</p>
         &#47;&#47;transposition cost
         d.get(k - 1, l - 1) + (i - k - 1) + 1 + (j - l - 1)
       ];
+      &#47;&#47; print(costs);
       costs.sort(((a, b) =&gt; a.compareTo(b)));
       d.setAt(i, j, costs.first);
+      &#47;&#47; for (var i = 0; i &lt; d.elements.length; i++) {
+      &#47;&#47;   final arr = d.elements.elements[i];
+      &#47;&#47;   print(arr.elements);
+      &#47;&#47; }
+      &#47;&#47; print(&#39;Done with $i - $j&#39;);
     }
     da.setAt(charA, i);
   }
@@ -169,6 +181,9 @@ substitutions) required to change one word into another <code>other</code>.</p>
 
 
     <li class="section-title"><a href="../../extensions/TermSimilarityExtensions.html#instance-methods">Methods</a></li>
+    <li><a href="../../extensions/TermSimilarityExtensions/characterSimilarities.html">characterSimilarities</a></li>
+    <li><a href="../../extensions/TermSimilarityExtensions/characterSimilarity.html">characterSimilarity</a></li>
+    <li><a href="../../extensions/TermSimilarityExtensions/characterSimilarityMap.html">characterSimilarityMap</a></li>
     <li><a href="../../extensions/TermSimilarityExtensions/editDistance.html">editDistance</a></li>
     <li><a href="../../extensions/TermSimilarityExtensions/editDistanceMap.html">editDistanceMap</a></li>
     <li><a href="../../extensions/TermSimilarityExtensions/editSimilarities.html">editSimilarities</a></li>
@@ -185,7 +200,6 @@ substitutions) required to change one word into another <code>other</code>.</p>
     <li><a href="../../extensions/TermSimilarityExtensions/lengthSimilarityMap.html">lengthSimilarityMap</a></li>
     <li><a href="../../extensions/TermSimilarityExtensions/matches.html">matches</a></li>
     <li><a href="../../extensions/TermSimilarityExtensions/termSimilarities.html">termSimilarities</a></li>
-    <li><a href="../../extensions/TermSimilarityExtensions/termSimilarity.html">termSimilarity</a></li>
     <li><a href="../../extensions/TermSimilarityExtensions/termSimilarityMap.html">termSimilarityMap</a></li>
 
 
@@ -203,7 +217,7 @@ substitutions) required to change one word into another <code>other</code>.</p>
 <footer>
   <span class="no-break">
     text_analysis
-      0.17.1
+      0.18.0
   </span>
 
   

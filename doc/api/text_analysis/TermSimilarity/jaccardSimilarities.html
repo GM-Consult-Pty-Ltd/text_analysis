@@ -54,7 +54,8 @@
 
 <span class="returntype"><a href="https://api.flutter.dev/flutter/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../../text_analysis/SimilarityIndex-class.html">SimilarityIndex</a></span>&gt;</span></span>
 <span class="name ">jaccardSimilarities</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="jaccardSimilarities-param-term"><span class="type-annotation"><a href="../../type_definitions/Term.html">Term</a></span> <span class="parameter-name">term</span>, </span></li>
-<li><span class="parameter" id="jaccardSimilarities-param-terms"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../../type_definitions/Term.html">Term</a></span>&gt;</span></span> <span class="parameter-name">terms</span></span></li>
+<li><span class="parameter" id="jaccardSimilarities-param-terms"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../../type_definitions/Term.html">Term</a></span>&gt;</span></span> <span class="parameter-name">terms</span>, </span></li>
+<li><span class="parameter" id="jaccardSimilarities-param-k">[<span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/int-class.html">int</a></span> <span class="parameter-name">k</span> = <span class="default-value">2</span>]</span></li>
 </ol>)
 
       
@@ -63,7 +64,8 @@
     
 <section class="desc markdown">
   <p>Returns a ordered list of <code>SimilarityIndex</code> values of <code>term</code> to the
-<code>terms</code> in descending order of <a href="../../text_analysis/SimilarityIndex/similarity.html">SimilarityIndex.similarity</a>.</p>
+<code>terms</code> in descending order of <a href="../../text_analysis/SimilarityIndex/similarity.html">SimilarityIndex.similarity</a> using a
+<code>k</code>-gram length of <code>k</code>. <code>k</code> defaults to 2.</p>
 <p>Not case-sensitive.</p>
 </section>
 
@@ -71,8 +73,10 @@
     
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
-  <pre class="language-dart"><code class="language-dart">List&lt;SimilarityIndex&gt; jaccardSimilarities(Term term, Iterable&lt;Term&gt; terms) =&gt;
-    term.jaccardSimilarities(terms);</code></pre>
+  <pre class="language-dart"><code class="language-dart">static List&lt;SimilarityIndex&gt; jaccardSimilarities(
+        Term term, Iterable&lt;Term&gt; terms,
+        [int k = 2]) =&gt;
+    term.jaccardSimilarities(terms, k);</code></pre>
 </section>
 
 
@@ -100,17 +104,25 @@
           <li><a href="../../text_analysis/TermSimilarity/TermSimilarity.html">TermSimilarity</a></li>
 
 
-    <li class="section-title inherited">
+    <li class="section-title">
       <a href="../../text_analysis/TermSimilarity-class.html#instance-properties">Properties</a>
     </li>
+    <li><a href="../../text_analysis/TermSimilarity/characterSimilarity.html">characterSimilarity</a></li>
+    <li><a href="../../text_analysis/TermSimilarity/editDistance.html">editDistance</a></li>
+    <li><a href="../../text_analysis/TermSimilarity/editSimilarity.html">editSimilarity</a></li>
     <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/hashCode.html">hashCode</a></li>
+    <li><a href="../../text_analysis/TermSimilarity/jaccardSimilarity.html">jaccardSimilarity</a></li>
+    <li><a href="../../text_analysis/TermSimilarity/lengthDistance.html">lengthDistance</a></li>
+    <li><a href="../../text_analysis/TermSimilarity/lengthSimilarity.html">lengthSimilarity</a></li>
+    <li><a href="../../text_analysis/TermSimilarity/other.html">other</a></li>
     <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/runtimeType.html">runtimeType</a></li>
+    <li><a href="../../text_analysis/TermSimilarity/similarity.html">similarity</a></li>
+    <li><a href="../../text_analysis/TermSimilarity/term.html">term</a></li>
 
     <li class="section-title"><a href="../../text_analysis/TermSimilarity-class.html#instance-methods">Methods</a></li>
-    <li><a href="../../text_analysis/TermSimilarity/jaccardSimilarities.html">jaccardSimilarities</a></li>
-    <li><a href="../../text_analysis/TermSimilarity/lengthSimilarities.html">lengthSimilarities</a></li>
+    <li><a href="../../text_analysis/TermSimilarity/compareTo.html">compareTo</a></li>
     <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/noSuchMethod.html">noSuchMethod</a></li>
-    <li><a href="../../text_analysis/TermSimilarity/termSimilarities.html">termSimilarities</a></li>
+    <li><a href="../../text_analysis/TermSimilarity/toJson.html">toJson</a></li>
     <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/toString.html">toString</a></li>
 
     <li class="section-title inherited"><a href="../../text_analysis/TermSimilarity-class.html#operators">Operators</a></li>
@@ -119,19 +131,15 @@
 
 
         <li class="section-title"><a href="../../text_analysis/TermSimilarity-class.html#static-methods">Static methods</a></li>
-          <li><a href="../../text_analysis/TermSimilarity/editDistance.html">editDistance</a></li>
+          <li><a href="../../text_analysis/TermSimilarity/characterSimilarities.html">characterSimilarities</a></li>
           <li><a href="../../text_analysis/TermSimilarity/editDistanceMap.html">editDistanceMap</a></li>
           <li><a href="../../text_analysis/TermSimilarity/editSimilarities.html">editSimilarities</a></li>
-          <li><a href="../../text_analysis/TermSimilarity/editSimilarity.html">editSimilarity</a></li>
-          <li><a href="../../text_analysis/TermSimilarity/editSimilarityMap.html">editSimilarityMap</a></li>
-          <li><a href="../../text_analysis/TermSimilarity/jaccardSimilarity.html">jaccardSimilarity</a></li>
-          <li><a href="../../text_analysis/TermSimilarity/jaccardSimilarityMap.html">jaccardSimilarityMap</a></li>
+          <li><a href="../../text_analysis/TermSimilarity/getSuggestions.html">getSuggestions</a></li>
+          <li><a href="../../text_analysis/TermSimilarity/jaccardSimilarities.html">jaccardSimilarities</a></li>
           <li><a href="../../text_analysis/TermSimilarity/kGrams.html">kGrams</a></li>
-          <li><a href="../../text_analysis/TermSimilarity/lengthDistance.html">lengthDistance</a></li>
-          <li><a href="../../text_analysis/TermSimilarity/lengthSimilarity.html">lengthSimilarity</a></li>
-          <li><a href="../../text_analysis/TermSimilarity/lengthSimilarityMap.html">lengthSimilarityMap</a></li>
+          <li><a href="../../text_analysis/TermSimilarity/lengthSimilarities.html">lengthSimilarities</a></li>
           <li><a href="../../text_analysis/TermSimilarity/matches.html">matches</a></li>
-          <li><a href="../../text_analysis/TermSimilarity/termSimilarity.html">termSimilarity</a></li>
+          <li><a href="../../text_analysis/TermSimilarity/termSimilarities.html">termSimilarities</a></li>
           <li><a href="../../text_analysis/TermSimilarity/termSimilarityMap.html">termSimilarityMap</a></li>
 
 </ol>
@@ -146,7 +154,7 @@
 <footer>
   <span class="no-break">
     text_analysis
-      0.17.1
+      0.18.0
   </span>
 
   

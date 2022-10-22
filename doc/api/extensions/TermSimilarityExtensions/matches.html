@@ -54,8 +54,13 @@
 
 <span class="returntype"><a href="https://api.flutter.dev/flutter/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../../type_definitions/Term.html">Term</a></span>&gt;</span></span>
 <span class="name ">matches</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="matches-param-terms"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../../type_definitions/Term.html">Term</a></span>&gt;</span></span> <span class="parameter-name">terms</span>, </span></li>
-<li><span class="parameter" id="matches-param-k">{<span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/int-class.html">int</a></span> <span class="parameter-name">k</span> = <span class="default-value">2</span>, </span></li>
-<li><span class="parameter" id="matches-param-limit"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/int-class.html">int</a></span> <span class="parameter-name">limit</span> = <span class="default-value">10</span>}</span></li>
+<li><span class="parameter" id="matches-param-limit">{<span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/int-class.html">int</a></span> <span class="parameter-name">limit</span> = <span class="default-value">10</span>, </span></li>
+<li><span class="parameter" id="matches-param-k"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/int-class.html">int</a></span> <span class="parameter-name">k</span> = <span class="default-value">2</span>, </span></li>
+<li><span class="parameter" id="matches-param-greaterThan"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/double-class.html">double</a>?</span> <span class="parameter-name">greaterThan</span>, </span></li>
+<li><span class="parameter" id="matches-param-jaccardSimilarityWeight"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/double-class.html">double</a></span> <span class="parameter-name">jaccardSimilarityWeight</span> = <span class="default-value">1.0</span>, </span></li>
+<li><span class="parameter" id="matches-param-lengthSimilarityWeight"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/double-class.html">double</a></span> <span class="parameter-name">lengthSimilarityWeight</span> = <span class="default-value">1.0</span>, </span></li>
+<li><span class="parameter" id="matches-param-editSimilarityWeight"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/double-class.html">double</a></span> <span class="parameter-name">editSimilarityWeight</span> = <span class="default-value">1.0</span>, </span></li>
+<li><span class="parameter" id="matches-param-characterSimilarityWeight"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/double-class.html">double</a></span> <span class="parameter-name">characterSimilarityWeight</span> = <span class="default-value">1.0</span>}</span></li>
 </ol>)
 
       
@@ -64,10 +69,24 @@
     
 <section class="desc markdown">
   <p>Returns the best matches for a term from <code>terms</code>, in descending
-order of <a href="../../extensions/TermSimilarityExtensions/termSimilarity.html">termSimilarity</a> (best match first).</p>
-<p>Only matches with a <a href="../../extensions/TermSimilarityExtensions/termSimilarity.html">termSimilarity</a> &gt; 0.0 are returned.</p>
-<p>The returned matches will be limited to <code>limit</code> if more than <code>limit</code>
-matches are found.</p>
+order of term similarity (best match first).</p>
+<p>Matches are returned in descending order of<a href="../../text_analysis/SimilarityIndex/similarity.html">SimilarityIndex.similarity</a>.</p>
+<ul>
+<li>If <code>greaterThan</code> is not null only matches with
+<code>[TermSimilarity.similarity] &gt; [greaterThan]</code> are returned.  ///</li>
+<li>the returned matches will be limited to <code>limit</code> if more than <code>limit</code>
+matches are found.</li>
+<li><code>k</code> is the <code>k</code>-gram length used to calculate <a href="../../extensions/TermSimilarityExtensions/jaccardSimilarity.html">jaccardSimilarity</a>,
+defaults to 2.</li>
+<li><code>jaccardSimilarityWeight</code> is the weighting of the <a href="../../extensions/TermSimilarityExtensions/jaccardSimilarity.html">jaccardSimilarity</a>
+in <a href="../../text_analysis/TermSimilarity/similarity.html">TermSimilarity.similarity</a>, defaults to 1.0.</li>
+<li><code>lengthSimilarityWeight</code> is the weighting of the <a href="../../extensions/TermSimilarityExtensions/lengthSimilarity.html">lengthSimilarity</a>
+in <a href="../../text_analysis/TermSimilarity/similarity.html">TermSimilarity.similarity</a>, defaults to 1.0.</li>
+<li><code>editSimilarityWeight</code> is the weighting of the <a href="../../extensions/TermSimilarityExtensions/editSimilarity.html">editSimilarity</a>
+in <a href="../../text_analysis/TermSimilarity/similarity.html">TermSimilarity.similarity</a>, defaults to 1.0.</li>
+<li><code>characterSimilarityWeight</code> is the weighting of the
+<a href="../../extensions/TermSimilarityExtensions/characterSimilarity.html">characterSimilarity</a> in <a href="../../text_analysis/TermSimilarity/similarity.html">TermSimilarity.similarity</a>, defaults to 1.0.</li>
+</ul>
 <p>Not case-sensitive.</p>
 </section>
 
@@ -75,8 +94,22 @@ matches are found.</p>
     
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
-  <pre class="language-dart"><code class="language-dart">List&lt;Term&gt; matches(Iterable&lt;Term&gt; terms, {int k = 2, int limit = 10}) =&gt;
-    getSuggestions(terms, k: k, limit: limit)
+  <pre class="language-dart"><code class="language-dart">List&lt;Term&gt; matches(Iterable&lt;Term&gt; terms,
+        {int limit = 10,
+        int k = 2,
+        double? greaterThan,
+        double jaccardSimilarityWeight = 1.0,
+        double lengthSimilarityWeight = 1.0,
+        double editSimilarityWeight = 1.0,
+        double characterSimilarityWeight = 1.0}) =&gt;
+    getSuggestions(terms,
+            k: k,
+            limit: limit,
+            greaterThan: greaterThan,
+            jaccardSimilarityWeight: jaccardSimilarityWeight,
+            characterSimilarityWeight: characterSimilarityWeight,
+            editSimilarityWeight: editSimilarityWeight,
+            lengthSimilarityWeight: lengthSimilarityWeight)
         .where((element) =&gt; element.similarity &gt; 0)
         .map((e) =&gt; e.term)
         .toList();</code></pre>
@@ -108,6 +141,9 @@ matches are found.</p>
 
 
     <li class="section-title"><a href="../../extensions/TermSimilarityExtensions.html#instance-methods">Methods</a></li>
+    <li><a href="../../extensions/TermSimilarityExtensions/characterSimilarities.html">characterSimilarities</a></li>
+    <li><a href="../../extensions/TermSimilarityExtensions/characterSimilarity.html">characterSimilarity</a></li>
+    <li><a href="../../extensions/TermSimilarityExtensions/characterSimilarityMap.html">characterSimilarityMap</a></li>
     <li><a href="../../extensions/TermSimilarityExtensions/editDistance.html">editDistance</a></li>
     <li><a href="../../extensions/TermSimilarityExtensions/editDistanceMap.html">editDistanceMap</a></li>
     <li><a href="../../extensions/TermSimilarityExtensions/editSimilarities.html">editSimilarities</a></li>
@@ -124,7 +160,6 @@ matches are found.</p>
     <li><a href="../../extensions/TermSimilarityExtensions/lengthSimilarityMap.html">lengthSimilarityMap</a></li>
     <li><a href="../../extensions/TermSimilarityExtensions/matches.html">matches</a></li>
     <li><a href="../../extensions/TermSimilarityExtensions/termSimilarities.html">termSimilarities</a></li>
-    <li><a href="../../extensions/TermSimilarityExtensions/termSimilarity.html">termSimilarity</a></li>
     <li><a href="../../extensions/TermSimilarityExtensions/termSimilarityMap.html">termSimilarityMap</a></li>
 
 
@@ -142,7 +177,7 @@ matches are found.</p>
 <footer>
   <span class="no-break">
     text_analysis
-      0.17.1
+      0.18.0
   </span>
 
   

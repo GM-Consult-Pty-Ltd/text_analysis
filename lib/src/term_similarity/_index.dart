@@ -4,3 +4,4 @@
 
 export 'similarity_index.dart';
 export 'term_similarity.dart';
+export 'term_similarity_extensions.dart';

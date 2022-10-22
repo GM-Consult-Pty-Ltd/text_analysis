@@ -3,10 +3,11 @@
 
 // ignore_for_file: unused_local_variable, unused_import
 
+@Timeout(Duration(minutes: 30))
+
 import 'package:text_analysis/src/_index.dart';
 import 'package:test/test.dart';
 import 'package:gmconsult_dev/gmconsult_dev.dart';
-// import 'print_json.dart';
 
 void main() {
   final term = 'bodrer';
@@ -26,7 +27,22 @@ void main() {
     test('editDistance', (() {
       final results = <Map<String, dynamic>>[];
       for (final other in candidates) {
-        final ed = TermSimilarity.editDistance(term, other);
+        final ed = term.editDistance(other);
+        results.add({'other': other, 'Edit Distance': ed});
+      }
+      results.sort(((b, a) =>
+          (b['Edit Distance'] as num).compareTo(a['Edit Distance'] as num)));
+      Console.out(
+          title: 'EDIT DISTANCE: '
+              '$term.editDistance(other)',
+          results: results,
+          minPrintWidth: 80);
+    }));
+
+    test('editDistance(transposition)', (() {
+      final results = <Map<String, dynamic>>[];
+      for (final other in ['there', 'their']) {
+        final ed = 'tehre'.editDistance(other);
         results.add({'other': other, 'Edit Distance': ed});
       }
       results.sort(((b, a) =>
@@ -42,7 +58,7 @@ void main() {
       final k = 2;
       final results = <Map<String, dynamic>>[];
       for (final other in candidates) {
-        final jCf = TermSimilarity.jaccardSimilarity(term, other, k);
+        final jCf = term.jaccardSimilarity(other, k);
         results.add({'other': other, 'Jaccard Similarity': jCf});
       }
       results.sort(((a, b) => (b['Jaccard Similarity'] as num)
@@ -54,9 +70,24 @@ void main() {
           minPrintWidth: 80);
     }));
 
+    test('characterSimilarity', (() {
+      final results = <Map<String, dynamic>>[];
+      for (final other in candidates) {
+        final jCf = term.characterSimilarity(other);
+        results.add({'other': other, 'Jaccard Similarity': jCf});
+      }
+      results.sort(((a, b) => (b['Jaccard Similarity'] as num)
+          .compareTo(a['Jaccard Similarity'] as num)));
+      Console.out(
+          title: 'CHARACTER SIMILARITY: '
+              '$term.jaccardSimilarity(other)',
+          results: results,
+          minPrintWidth: 80);
+    }));
+
     test('jaccardSimilarityMap', (() {
       final k = 2;
-      final map = TermSimilarity.jaccardSimilarityMap(term, candidates, k);
+      final map = term.jaccardSimilarityMap(candidates, k);
 
       final results = <Map<String, dynamic>>[];
       for (final other in map.entries) {
@@ -88,11 +119,37 @@ void main() {
           minPrintWidth: 80);
     }));
 
+    test('TermSimilarity.getSuggestions', (() {
+      final k = 2;
+      final matches = TermSimilarity.getSuggestions(term, candidates, k: k);
+      final results = <Map<String, dynamic>>[];
+      var i = 0;
+      for (final other in matches) {
+        results
+            .add({'Rank': i, 'Match': other, 'Similarity': other.similarity});
+        i++;
+      }
+      Console.out(
+          title: 'RANKED MATCHES: '
+              '$term.matches(candidates, $k)',
+          results: results,
+          minPrintWidth: 80);
+    }));
+
+    test('TermSimilarity.termSimilarities', (() {
+      final matches = TermSimilarity.termSimilarities(term, candidates);
+      Console.out(
+          title: 'RANKED MATCHES: '
+              '$term.matches(candidates)',
+          results: matches.map((e) => e.toJson()),
+          minPrintWidth: 80);
+    }));
+
     test('lengthSimilarity AND lengthDistance', (() {
       final results = <Map<String, dynamic>>[];
       for (var other in candidates) {
-        final ld = TermSimilarity.lengthDistance(term, other);
-        final ls = TermSimilarity.lengthSimilarity(term, other);
+        final ld = term.lengthDistance(other);
+        final ls = term.lengthSimilarity(other);
         results.add(
             {'Term': other, 'Length Distance': ld, 'Length Similarity': ls});
       }
