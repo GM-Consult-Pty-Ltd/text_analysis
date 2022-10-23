@@ -4,6 +4,27 @@ Copyright (c) 2022, GM Consult Pty Ltd
 All rights reserved. 
 -->
 
+## 0.19.0
+**BREAKING CHANGES**
+
+### *Breaking changes*
+* Changed signature of `TextTokenizer.tokenize`.
+* Changed signature of `TextTokenizer.tokenizeJson`.
+* Changed `TextTokenizer.tokenize` algorithm to generate an n-gram for each token, using an n-gram range.
+* Changed signature of `Token` default constructor by adding unnamed parameter `Token.n`.
+
+### *New*
+* Added class `NGramRange`.
+* Added field `int Token.n`.
+* Added optional named parameter `NGramRange nGramRange = NGramRange(1, 1)` to `TextDocument.analyze` factory.
+* Added optional named parameter `NGramRange nGramRange = NGramRange(1, 1)` to `TextDocument.analyzeJson` factory.
+
+### *Updated*
+* Dependencies.
+* Tests.
+* Documentation
+* Examples.
+
 ## 0.18.0
 **BREAKING CHANGES**
 

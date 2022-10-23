@@ -48,8 +48,8 @@ void main() {
           English(termExceptions: {'alphabet': 'ALPHABET', 'google': 'Google'});
 
       // use a TextTokenizer instance to tokenize the source
-      final tokens =
-          await TextTokenizer(analyzer: analyzer).tokenize(source, 'text');
+      final tokens = await TextTokenizer(analyzer: analyzer)
+          .tokenize(source, zone: 'text');
 
       // print the tokens
       _printTokens('TOKENIZE JSON', tokens);
@@ -87,8 +87,9 @@ void main() {
           English(termExceptions: {'tesla': 'Tesla', 'Alphabet': 'GOOGLE'});
 
       // use a TextTokenizer instance to tokenize the json with 3 zones
-      final tokens = await TextTokenizer(analyzer: analyzer)
-          .tokenizeJson(TestData.json, ['name', 'description', 'hashTags']);
+      final tokens = await TextTokenizer(analyzer: analyzer).tokenizeJson(
+          TestData.json,
+          zones: ['name', 'description', 'hashTags']);
 
       // print the tokens
       _printTokens('TOKENIZE JSON', tokens);
@@ -97,11 +98,12 @@ void main() {
     /// Tokenize JSON with NO zones.
     test('TextTokenizer.tokenizeJson', () async {
       // use a TextTokenizer instance to tokenize the json with NO zones
-      final tokens = await TextTokenizer.english.tokenizeJson(TestData.json);
+      final tokens = await TextTokenizer.english.tokenizeJson(TestData.json,
+          nGramRange: NGramRange(1, 2), zones: ['description']);
       // map the document's tokens to a list of terms (strings)
 
       // print the tokens
-      _printTokens('TOKENIZE JSON', tokens);
+      _printTokens('TOKENIZE JSON (${tokens.length})', tokens);
     });
 
     /// Tokenize JSON with NO zones.
@@ -126,8 +128,8 @@ void main() {
       await Future.forEach(TestData.stockData.entries,
           (MapEntry<String, Map<String, dynamic>> entry) async {
         final json = entry.value;
-        final tokens = await TextTokenizer.english.tokenizeJson(
-            json, ['ticker', 'name', 'description', 'hashTag', 'symbol']);
+        final tokens = await TextTokenizer.english.tokenizeJson(json,
+            zones: ['ticker', 'name', 'description', 'hashTag', 'symbol']);
         for (final term in Set<String>.from(tokens.map((e) => e.term))) {
           final tf = (dictionary[term] ?? 0) + 1;
           dictionary[term] = tf;

@@ -4,6 +4,7 @@
 /// Add the import(s) at the top of your code file.
 ///
 /// Import the text_analysis package.
+import 'package:text_analysis/src/text_analyzer/text_tokenizer.dart';
 import 'package:text_analysis/text_analysis.dart';
 
 /// Import the extensions if you prefer the convenience of calling an extension.
@@ -166,7 +167,7 @@ Future<List<Token>> _tokenizeJson(
 
   // use a TextTokenizer instance to tokenize the json
   final tokens =
-      await TextTokenizer(analyzer: analyzer).tokenizeJson(json, zones);
+      await TextTokenizer(analyzer: analyzer).tokenizeJson(json, zones: zones);
   // map the document's tokens to a list of terms (strings)
   return tokens;
 }
@@ -187,7 +188,8 @@ Future<List<Token>> _tokenizeParagraphs(Iterable<String> paragraphs) async {
   final source = sourceBuilder.toString();
 
   // use a TextTokenizer instance to tokenize the source
-  final tokens = await TextTokenizer.english.tokenize(source);
+  final tokens = await TextTokenizer.english
+      .tokenize(source, nGramRange: NGramRange(1, 3));
 
   return tokens;
 }

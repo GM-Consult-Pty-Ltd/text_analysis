@@ -51,7 +51,8 @@ abstract class TextTokenizer {
   /// which the term is located.
   ///
   /// Returns a List<[Token]>.
-  Future<List<Token>> tokenize(SourceText source, [Zone? zone]);
+  Future<List<Token>> tokenize(SourceText source,
+      {NGramRange nGramRange = const NGramRange(1, 1), Zone? zone});
 
   /// Extracts tokens from the [zones] in a JSON [document] for use in
   /// full-text search queries and indexes.
@@ -61,7 +62,7 @@ abstract class TextTokenizer {
   ///
   /// Returns a List<[Token]>.
   Future<List<Token>> tokenizeJson(Map<String, dynamic> document,
-      [Iterable<Zone>? zones]);
+      {NGramRange nGramRange = const NGramRange(1, 1), Iterable<Zone>? zones});
 }
 
 /// A [TextTokenizer] implementation that mixes in [TextTokenizerMixin], which
@@ -80,7 +81,8 @@ abstract class TextTokenizerMixin implements TextTokenizer {
 
   @override
   Future<List<Token>> tokenizeJson(Map<String, dynamic> document,
-      [Iterable<Zone>? zones]) async {
+      {NGramRange nGramRange = const NGramRange(1, 1),
+      Iterable<Zone>? zones}) async {
     final tokens = <Token>[];
     if (zones == null || zones.isEmpty) {
       zones = document.keys;
@@ -91,7 +93,8 @@ abstract class TextTokenizerMixin implements TextTokenizer {
       if (value != null) {
         final source = value.toString();
         if (source.isNotEmpty) {
-          tokens.addAll(await tokenize(source, zone));
+          tokens.addAll(
+              await tokenize(source, zone: zone, nGramRange: nGramRange));
         }
       }
     }
@@ -99,24 +102,80 @@ abstract class TextTokenizerMixin implements TextTokenizer {
   }
 
   @override
-  Future<List<Token>> tokenize(SourceText text, [Zone? zone]) async {
+  Future<List<Token>> tokenize(SourceText text,
+      {NGramRange nGramRange = const NGramRange(1, 1), Zone? zone}) async {
     int position = 0;
 // perform the first punctuation and white-space split
     final terms = analyzer.termSplitter(text.trim());
     // initialize the tokens collection (return value)
     final tokens = <Token>[];
     // iterate through the terms
+    final nGramTerms = <Set<String>>[];
     await Future.forEach(terms, (String term) async {
       // remove white-space at start and end of term
       term = term.trim();
       final splitTerms = await analyzer.termFilter(term);
-      for (var splitTerm in splitTerms) {
-        tokens.add(Token(splitTerm.trim(), position, zone));
+      if (splitTerms.isNotEmpty) {
+        nGramTerms.add(splitTerms);
+        if (nGramTerms.length > nGramRange.nMax) {
+          nGramTerms.removeAt(0);
+        }
+        tokens.addAll(_getNGrams(nGramTerms, nGramRange, position, zone));
       }
+
       position++;
     });
     // apply the tokenFilter if it is not null and return the tokens collection
     return tokenFilter != null ? await tokenFilter!(tokens) : tokens;
+  }
+
+  static Iterable<List<String>> _prefixWordsTo(
+      Iterable<List<String>> nkGrams, Iterable<String> words) {
+    final nGrams = List<List<String>>.from(nkGrams);
+    words = words.map((e) => e.trim()).where((element) => element.isNotEmpty);
+    final retVal = <List<String>>[];
+    if (nGrams.isEmpty) {
+      retVal.addAll(words.map((e) => [e]));
+    }
+    for (final word in words) {
+      for (final nGram in nGrams) {
+        nGram.insert(0, word);
+        retVal.add(nGram);
+      }
+    }
+    return retVal;
+  }
+
+  Iterable<Token> _getNGrams(List<Set<String>> nGramTerms,
+      NGramRange nGramRange, int termPosition, Zone? zone) {
+    if (nGramTerms.length > nGramRange.nMax) {
+      nGramTerms = nGramTerms.sublist(nGramTerms.length - nGramRange.nMax);
+    }
+    if (nGramTerms.length < nGramRange.nMin) {
+      return <Token>[];
+    }
+    final nGrams = <List<String>>[];
+    var n = 0;
+
+    for (var i = nGramTerms.length - 1; i >= 0; i--) {
+      final param = <List<String>>[];
+      param.addAll(nGrams
+          .where((element) => element.length == n)
+          .map((e) => List<String>.from(e)));
+      final newNGrams = _prefixWordsTo(param, nGramTerms[i]);
+      nGrams.addAll(newNGrams);
+      n++;
+    }
+    final tokenGrams = nGrams.where((element) =>
+        element.length >= nGramRange.nMin && element.length <= nGramRange.nMax);
+
+    final tokens = <Token>[];
+    for (final e in tokenGrams) {
+      final n = e.length;
+      final term = e.join(' ');
+      tokens.add(Token(term, n, termPosition, zone));
+    }
+    return tokens;
   }
 }
 
@@ -155,4 +214,17 @@ class _TextTokenizerImpl with TextTokenizerMixin {
   // @override
   // List<String> sentences(SourceText source) =>
   //     analyzer.sentenceSplitter(source);
+}
+
+/// Enumerates the minimum and maximum size of N-grams.
+class NGramRange {
+  //
+  /// The minimum number of terms in the n-gram
+  final int nMin;
+
+  /// The maximum number of terms in the n-gram
+  final int nMax;
+
+  ///
+  const NGramRange(this.nMin, this.nMax);
 }

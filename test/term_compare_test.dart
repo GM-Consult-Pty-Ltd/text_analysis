@@ -40,17 +40,11 @@ void main() {
     }));
 
     test('editDistance(transposition)', (() {
-      final results = <Map<String, dynamic>>[];
-      for (final other in ['there', 'their']) {
-        final ed = 'tehre'.editDistance(other);
-        results.add({'other': other, 'Edit Distance': ed});
-      }
-      results.sort(((b, a) =>
-          (b['Edit Distance'] as num).compareTo(a['Edit Distance'] as num)));
+      final results = 'teh'.termSimilarities(['the', 'ted', 'tea', 'there']);
       Console.out(
-          title: 'EDIT DISTANCE: '
+          title: 'TERM SIMILARITY ("teh" -> "the"): '
               '$term.editDistance(other)',
-          results: results,
+          results: results.map((e) => e.toJson()),
           minPrintWidth: 80);
     }));
 

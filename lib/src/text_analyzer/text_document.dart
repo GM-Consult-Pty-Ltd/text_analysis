@@ -54,9 +54,10 @@ abstract class TextDocument {
   static Future<TextDocument> analyze(
       {required String sourceText,
       required TextAnalyzer analyzer,
+      NGramRange nGramRange = const NGramRange(1, 1),
       Zone? zone}) async {
-    final tokens =
-        await TextTokenizer(analyzer: analyzer).tokenize(sourceText, zone);
+    final tokens = await TextTokenizer(analyzer: analyzer)
+        .tokenize(sourceText, zone: zone, nGramRange: nGramRange);
     return _TextDocumentImpl(analyzer, sourceText, tokens);
   }
 
@@ -71,6 +72,7 @@ abstract class TextDocument {
   static Future<TextDocument> analyzeJson(
       {required Map<String, dynamic> document,
       required TextAnalyzer analyzer,
+      NGramRange nGramRange = const NGramRange(1, 1),
       Iterable<Zone>? zones}) async {
     final sourceText = StringBuffer();
     if (zones == null || zones.isEmpty) {
@@ -88,8 +90,8 @@ abstract class TextDocument {
         }
       }
     }
-    final tokens =
-        await TextTokenizer(analyzer: analyzer).tokenizeJson(document, zones);
+    final tokens = await TextTokenizer(analyzer: analyzer)
+        .tokenizeJson(document, zones: zones, nGramRange: nGramRange);
     return _TextDocumentImpl(analyzer, sourceText.toString(), tokens);
   }
 

@@ -12,14 +12,17 @@ class Token {
   //
 
   /// Instantiates [Token] instance.
-  static const empty = Token('', 0, null);
+  static const empty = Token('', 0, 0, null);
 
-  /// Instantiates [Token] instance:
+  /// Instantiates a [Token] instance:
   /// - [term] is the term that will be looked up in the index;
   /// - [termPosition] is the zero-based position of the [term] in an ordered
   ///   list of all the terms in the source text;
   /// - [zone] is the nullable / optional name of the zone the [term] is in;
-  const Token(this.term, this.termPosition, [this.zone]);
+  const Token(this.term, this.n, this.termPosition, [this.zone]);
+
+  /// The number of terms in the n-gram.
+  final int n;
 
   /// The term that will be looked up in the index. The [term] is extracted
   /// from the query phrase by [TextTokenizer] and may not match the String in

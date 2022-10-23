@@ -55,12 +55,11 @@ class English implements TextAnalyzer {
           } else if (exception != null) {
             terms.add(exception);
           } else {
-            // check if term is in exceptions (case-sensitive)
             {
               // Cleans the term as follows:
               // - change all quote marks to single apostrophe +U0027;
               // - remove enclosing quote marks;
-              // - hange all dashes to single standard hyphen;
+              // - change all dashes to single standard hyphen;
               // - remove all characters except letters and numbers at end of term
               term = characterFilter(term);
               // check the resulting term is longer than 1 characters and not
@@ -84,6 +83,7 @@ class English implements TextAnalyzer {
                   } else if (splitTerm.isNotEmpty) {
                     if (!stopWords.contains(splitTerm) &&
                         splitTerm.length > 1) {
+                      // only add terms longer than 1 character to exclude possesives etc.
                       terms.add(splitTerm);
                     }
                   }

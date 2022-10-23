@@ -87,12 +87,11 @@ TermFilter get termFilter =&gt; (Term term) async {
         } else if (exception != null) {
           terms.add(exception);
         } else {
-          &#47;&#47; check if term is in exceptions (case-sensitive)
           {
             &#47;&#47; Cleans the term as follows:
             &#47;&#47; - change all quote marks to single apostrophe +U0027;
             &#47;&#47; - remove enclosing quote marks;
-            &#47;&#47; - hange all dashes to single standard hyphen;
+            &#47;&#47; - change all dashes to single standard hyphen;
             &#47;&#47; - remove all characters except letters and numbers at end of term
             term = characterFilter(term);
             &#47;&#47; check the resulting term is longer than 1 characters and not
@@ -116,6 +115,7 @@ TermFilter get termFilter =&gt; (Term term) async {
                 } else if (splitTerm.isNotEmpty) {
                   if (!stopWords.contains(splitTerm) &amp;&amp;
                       splitTerm.length &gt; 1) {
+                    &#47;&#47; only add terms longer than 1 character to exclude possesives etc.
                     terms.add(splitTerm);
                   }
                 }
@@ -205,7 +205,7 @@ TermFilter get termFilter =&gt; (Term term) async {
 <footer>
   <span class="no-break">
     text_analysis
-      0.18.0
+      0.19.0
   </span>
 
   

@@ -55,6 +55,7 @@
 <span class="returntype"><a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../../text_analysis/TextDocument-class.html">TextDocument</a></span>&gt;</span></span>
 <span class="name ">analyzeJson</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="analyzeJson-param-document">{<span>required</span> <span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Map-class.html">Map</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>, <span class="type-parameter">dynamic</span>&gt;</span></span> <span class="parameter-name">document</span>, </span></li>
 <li><span class="parameter" id="analyzeJson-param-analyzer"><span>required</span> <span class="type-annotation"><a href="../../text_analysis/TextAnalyzer-class.html">TextAnalyzer</a></span> <span class="parameter-name">analyzer</span>, </span></li>
+<li><span class="parameter" id="analyzeJson-param-nGramRange"><span class="type-annotation">NGramRange</span> <span class="parameter-name">nGramRange</span> = <span class="default-value">const NGramRange(1, 1)</span>, </span></li>
 <li><span class="parameter" id="analyzeJson-param-zones"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../../type_definitions/Zone.html">Zone</a></span>&gt;</span>?</span> <span class="parameter-name">zones</span>}</span></li>
 </ol>)
 
@@ -82,6 +83,7 @@ populate the <a href="../../text_analysis/TextDocument/tokens.html">tokens</a> p
   <pre class="language-dart"><code class="language-dart">static Future&lt;TextDocument&gt; analyzeJson(
     {required Map&lt;String, dynamic&gt; document,
     required TextAnalyzer analyzer,
+    NGramRange nGramRange = const NGramRange(1, 1),
     Iterable&lt;Zone&gt;? zones}) async {
   final sourceText = StringBuffer();
   if (zones == null || zones.isEmpty) {
@@ -99,8 +101,8 @@ populate the <a href="../../text_analysis/TextDocument/tokens.html">tokens</a> p
       }
     }
   }
-  final tokens =
-      await TextTokenizer(analyzer: analyzer).tokenizeJson(document, zones);
+  final tokens = await TextTokenizer(analyzer: analyzer)
+      .tokenizeJson(document, zones: zones, nGramRange: nGramRange);
   return _TextDocumentImpl(analyzer, sourceText.toString(), tokens);
 }</code></pre>
 </section>
@@ -171,7 +173,7 @@ populate the <a href="../../text_analysis/TextDocument/tokens.html">tokens</a> p
 <footer>
   <span class="no-break">
     text_analysis
-      0.18.0
+      0.19.0
   </span>
 
   

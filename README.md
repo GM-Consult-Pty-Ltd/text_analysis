@@ -35,7 +35,7 @@ Tokenization comprises the following steps:
 * a `term splitter` splits text to a list of terms at appropriate places like white-space and mid-sentence punctuation;
 * a `character filter` manipulates terms prior to tokenization (e.g. changing case and / or removing non-word characters);
 * a `term filter` manipulates the terms by splitting compound or hyphenated terms or applying stemming and lemmatization. The `termFilter` can also filter out `stopwords`; and
-* the `tokenizer` converts the resulting terms to a collection of `tokens` that contain tokenized versions of the term and a pointer to the position of the tokenized term in the source text.
+* the `tokenizer` converts the resulting terms to a collection of `tokens` that contain tokenized versions of the term and a pointer to the position of the tokenized term in the source text. The tokens are generated for n-grams extracted from the text, and the desired n-gram range can be passed when tokenizing the text or document.
 
 ![Text analysis](https://github.com/GM-Consult-Pty-Ltd/text_analysis/raw/main/assets/images/text_analysis.png?raw=true?raw=true "Tokenizing overview")
 
@@ -101,7 +101,8 @@ Basic English tokenization can be performed by using a `TextTokenizer.english` s
 ```dart
   // Use the static TextTokenizer.english instance to tokenize the text using the  
   // English analyzer.
-  final document = await TextTokenizer.english.tokenize(text);
+  final document = 
+      await TextTokenizer.english.tokenize(source, nGramRange: NGramRange(1, 3));
 ```
 To analyze text or a document, hydrate a [TextDocument](#textdocument) to obtain the text statistics and readibility scores:
 
@@ -220,7 +221,7 @@ The [English](https://pub.dev/documentation/text_analysis/latest/text_analysis/E
 
 The [TextTokenizer](https://pub.dev/documentation/text_analysis/latest/text_analysis/TextTokenizer-class.html) extracts tokens from text for use in full-text search queries and indexes. It uses a [TextAnalyzer](#textanalyzer) and [token filter](https://pub.dev/documentation/text_analysis/latest/text_analysis/TextTokenizer/tokenFilter.html) in the [tokenize](https://pub.dev/documentation/text_analysis/latest/text_analysis/TextTokenizer/tokenize.html) and [tokenizeJson](https://pub.dev/documentation/text_analysis/latest/text_analysis/TextTokenizer/tokenizeJson.html) methods that return a list of [tokens](https://pub.dev/documentation/text_analysis/0.12.0-1/text_analysis/Token-class.html) from text or a document. 
 
-An [unnamed factory constructor](https://pub.dev/documentation/text_analysis/latest/text_analysis/TextTokenizer/TextTokenizer.html) hydrates an implementation class or extend [TextTokenizerBase](https://pub.dev/documentation/text_analysis/latest/text_analysis/TextTokenizerBase-class.html).
+An [unnamed factory constructor](https://pub.dev/documentation/text_analysis/latest/text_analysis/TextTokenizer/TextTokenizer.html) hydrates an implementation class. Alternatively you can extend [TextTokenizerBase](https://pub.dev/documentation/text_analysis/latest/text_analysis/TextTokenizerBase-class.html).
 
 (*[back to top](#)*)
 
@@ -262,6 +263,7 @@ The following definitions are used throughout the [documentation](https://pub.de
 * `Map<String, dynamic>` is an acronym for `"Java Script Object Notation"`, a common format for persisting data.
 * `k-gram` - a sequence of (any) k consecutive characters from a `term`. A `k-gram` can start with "$", denoting the start of the term, and end with "$", denoting the end of the term. The 3-grams for "castle" are { $ca, cas, ast, stl, tle, le$ }.
 * `lemma  or lemmatizer` - lemmatisation (or lemmatization) in linguistics is the process of grouping together the inflected forms of a word so they can be analysed as a single item, identified by the word's lemma, or dictionary form (from [Wikipedia](https://en.wikipedia.org/wiki/Lemmatisation)).
+* `n-gram` (sometimes also called Q-gram) is a contiguous sequence of `n` items from a given sample of text or speech. The items can be phonemes, syllables, letters, words or base pairs according to the application. The `n-grams` typically are collected from a text or speech `corpus`. When the items are words, `n-grams` may also be called shingles (from [Wikipedia](https://en.wikipedia.org/wiki/N-gram)).
 * `Natural language processing (NLP)` is a subfield of linguistics, computer science, and artificial intelligence concerned with the interactions between computers and human language, in particular how to program computers to process and analyze large amounts of natural language data (from [Wikipedia](https://en.wikipedia.org/wiki/Natural_language_processing)).
 * `Part-of-Speech (PoS) tagging` is the task of labelling every word in a sequence of words with a tag indicating what lexical syntactic category it assumes in the given sequence (from [Wikipedia](https://en.wikipedia.org/wiki/Part-of-speech_tagging)).
 * `Phonetic transcription` - the visual representation of speech sounds (or phones) by means of symbols. The most common type of phonetic transcription uses a phonetic alphabet, such as the International Phonetic Alphabet (from [Wikipedia](https://en.wikipedia.org/wiki/Phonetic_transcription)).
@@ -301,6 +303,7 @@ The following definitions are used throughout the [documentation](https://pub.de
 * [Wikipedia (12), "*Etymology*", from Wikipedia, the free encyclopedia](https://en.wikipedia.org/wiki/Etymology)
 * [Wikipedia (13), "*Part-of-speech tagging*", from Wikipedia, the free encyclopedia](https://en.wikipedia.org/wiki/Part-of-speech_tagging)
 * [Wikipedia (14), "*Damerau–Levenshtein distance*", from Wikipedia, the free encyclopedia](https://en.wikipedia.org/wiki/Damerau%E2%80%93Levenshtein_distance)
+* [Wikipedia (14), "*n-gram*", from Wikipedia, the free encyclopedia](https://en.wikipedia.org/wiki/N-gram)
 
 (*[back to top](#)*)
 
