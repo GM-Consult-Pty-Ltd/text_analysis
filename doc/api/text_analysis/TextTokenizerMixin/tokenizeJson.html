@@ -59,7 +59,7 @@
 
 <span class="returntype"><a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../../text_analysis/Token-class.html">Token</a></span>&gt;</span></span>&gt;</span></span>
 <span class="name ">tokenizeJson</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="tokenizeJson-param-document"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Map-class.html">Map</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>, <span class="type-parameter">dynamic</span>&gt;</span></span> <span class="parameter-name">document</span>, </span></li>
-<li><span class="parameter" id="tokenizeJson-param-nGramRange">{<span class="type-annotation">NGramRange</span> <span class="parameter-name">nGramRange</span> = <span class="default-value">const NGramRange(1, 1)</span>, </span></li>
+<li><span class="parameter" id="tokenizeJson-param-nGramRange">{<span class="type-annotation"><a href="../../text_analysis/NGramRange-class.html">NGramRange</a></span> <span class="parameter-name">nGramRange</span> = <span class="default-value">const NGramRange(1, 2)</span>, </span></li>
 <li><span class="parameter" id="tokenizeJson-param-zones"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../../type_definitions/Zone.html">Zone</a></span>&gt;</span>?</span> <span class="parameter-name">zones</span>}</span></li>
 </ol>)
 
@@ -70,8 +70,11 @@
 <section class="desc markdown">
   <p>Extracts tokens from the <code>zones</code> in a JSON <code>document</code> for use in
 full-text search queries and indexes.</p>
-<p>The required parameter <code>zones</code> is the collection of the names of the
-zones in <code>document</code> that are to be tokenized.</p>
+<ul>
+<li><code>nGramRange</code> is the range of N-gram lengths to generate; and</li>
+<li><code>zones</code> is the collection of the names of the
+zones in <code>document</code> that are to be tokenized.</li>
+</ul>
 <p>Returns a List&lt;<a href="../../text_analysis/Token-class.html">Token</a>&gt;.</p>
 </section>
 
@@ -81,7 +84,7 @@ zones in <code>document</code> that are to be tokenized.</p>
   <h2><span>Implementation</span></h2>
   <pre class="language-dart"><code class="language-dart">@override
 Future&lt;List&lt;Token&gt;&gt; tokenizeJson(Map&lt;String, dynamic&gt; document,
-    {NGramRange nGramRange = const NGramRange(1, 1),
+    {NGramRange nGramRange = const NGramRange(1, 2),
     Iterable&lt;Zone&gt;? zones}) async {
   final tokens = &lt;Token&gt;[];
   if (zones == null || zones.isEmpty) {
@@ -159,7 +162,7 @@ Future&lt;List&lt;Token&gt;&gt; tokenizeJson(Map&lt;String, dynamic&gt; document
 <footer>
   <span class="no-break">
     text_analysis
-      0.19.0
+      0.20.0
   </span>
 
   

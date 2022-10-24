@@ -4,7 +4,6 @@
 /// Add the import(s) at the top of your code file.
 ///
 /// Import the text_analysis package.
-import 'package:text_analysis/src/text_analyzer/text_tokenizer.dart';
 import 'package:text_analysis/text_analysis.dart';
 
 /// Import the extensions if you prefer the convenience of calling an extension.
@@ -33,7 +32,7 @@ void main() async {
   // print a seperator
   _seperator();
 
-  // get a a hashmap of tri-gram to terms in exampleText.first
+  // get a hashmap of tri-gram to terms in exampleText.first
   await _getKgramIndex('CREATE A k-Gram INDEX', exampleText.first, 3);
 
   // print a seperator
@@ -47,6 +46,14 @@ void main() async {
 
   // print term similarity values for term vs candidates
   _similarityExamples('TERM SIMILARITY', term, candidates);
+
+  // print a seperator
+  _seperator();
+
+  // print the n-grams in a paragraph of text
+  _NGramsExample();
+
+  //
 }
 
 // Simple example(s) for the README.md file.
@@ -93,8 +100,10 @@ Future<void> _analyseText(String title, String text) async {
   print(title);
 
   // hydrate the TextDocument
-  final textDoc =
-      await TextDocument.analyze(sourceText: text, analyzer: English.analyzer);
+  final textDoc = await TextDocument.analyze(
+      sourceText: text,
+      analyzer: English.analyzer,
+      nGramRange: NGramRange(1, 3));
 
   // print the `average sentence length`
   print('Average sentence length:    ${textDoc.averageSentenceLength()}');
@@ -194,6 +203,12 @@ Future<List<Token>> _tokenizeParagraphs(Iterable<String> paragraphs) async {
   return tokens;
 }
 
+void _NGramsExample() {
+  final nGrams = English().nGrammer(readabilityExample, NGramRange(1, 3));
+  print('N-Grams');
+  print(nGrams);
+}
+
 /// Print term similarity values for [term] vs [candidates].
 void _similarityExamples(
     String title, String term, Iterable<String> candidates) {
@@ -224,7 +239,7 @@ void _similarityExamples(
         '- Edit Similarity:     ${term.editSimilarity(other).toStringAsFixed(3)}');
     // print the characterSimilarity
     print(
-        '- Edit Similarity:     ${term.characterSimilarity(other).toStringAsFixed(3)}');
+        '- Character Similarity:     ${term.characterSimilarity(other).toStringAsFixed(3)}');
     // print the termSimilarity
     // print(
     //     '- String Similarity:     ${term.termSimilarity(other).toStringAsFixed(3)}');

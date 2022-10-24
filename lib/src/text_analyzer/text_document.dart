@@ -12,7 +12,9 @@ import 'package:collection/collection.dart';
 ///   ending marks;
 /// - [sentences] is a list of strings after splitting [sourceText] at sentence
 ///   ending punctuation and line ending marks;
-/// - [terms] is all the words in the [sourceText]; and
+/// - [nGrams] is a collection of word sequences generated from the terms;
+/// - [terms] is all the words in the [sourceText];
+/// - [syllableCount] is the total number of syllables in the document; and
 /// - [tokens] is all the tokens extracted from [sourceText].
 ///
 /// The following functions return analysis results from the [sourceText]
@@ -30,69 +32,93 @@ import 'package:collection/collection.dart';
 abstract class TextDocument {
   //
 
-  /// Hydrates a [TextDocument] from the [sourceText], [tokens] and
-  /// [analyzer] parameters:
-  /// - [sourceText] is all the analysed text in the document;
-  /// - [tokens] is all the tokens extracted from [sourceText]; and
-  /// - [analyzer] is a [TextAnalyzer] used to split the [sourceText] into
-  ///   [paragraphs], [sentences] and [terms].
+  /// Hydrates a const [TextDocument] from the document properties.
+  /// - [sourceText] is all the analysed text in the document. The text from
+  ///   a JSON document's (analysed) fields is joined with line ending marks;
+  /// - [paragraphs] is a list of strings after splitting [sourceText] at line
+  ///   ending marks;
+  /// - [sentences] is a list of strings after splitting [sourceText] at sentence
+  ///   ending punctuation and line ending marks;
+  /// - [nGrams] is a collection of word sequences generated from the terms;
+  /// - [terms] is all the words in the [sourceText];
+  /// - [syllableCount] is the total number of syllables in the document; and
+  /// - [tokens] is all the tokens extracted from [sourceText].
   factory TextDocument(
           {required String sourceText,
           required List<Token> tokens,
-          required TextAnalyzer analyzer}) =>
-      _TextDocumentImpl(analyzer, sourceText, tokens);
+          required List<String> paragraphs,
+          required List<String> sentences,
+          required List<String> terms,
+          required List<String> nGrams,
+          required int syllableCount}) =>
+      _TextDocumentImpl(sourceText, tokens, paragraphs, sentences, terms,
+          nGrams, syllableCount);
 
   /// Hydrates a [TextDocument] from the [sourceText], [zone] and
   /// [analyzer] parameters:
   /// - [sourceText] is all the analysed text in the document;
   /// - [zone] is the name to be used for all tokens extracted from the
-  ///   [sourceText]; and
+  ///   [sourceText];
+  /// - [nGramRange] is the range of N-gram lengths to generate; and
   /// - [analyzer] is a [TextAnalyzer] used to split the [sourceText] into
-  ///   [paragraphs], [sentences] and [terms].
-  /// The static factory instantiates a [TextTokenizer] to tokenize
-  /// the [sourceText] and populate the [tokens] property.
+  ///   [paragraphs], [sentences], [terms] and [nGrams] in the [nGramRange].
+  /// The static factory instantiates a [TextTokenizer] to tokenize the
+  /// [sourceText] and populate the [tokens] property.
   static Future<TextDocument> analyze(
       {required String sourceText,
       required TextAnalyzer analyzer,
-      NGramRange nGramRange = const NGramRange(1, 1),
+      NGramRange nGramRange = const NGramRange(1, 2),
       Zone? zone}) async {
     final tokens = await TextTokenizer(analyzer: analyzer)
         .tokenize(sourceText, zone: zone, nGramRange: nGramRange);
-    return _TextDocumentImpl(analyzer, sourceText, tokens);
+    final terms = analyzer.termSplitter(sourceText);
+    final nGrams = terms.nGrams(nGramRange);
+    final sentences = analyzer.sentenceSplitter(sourceText);
+    final paragraphs = analyzer.paragraphSplitter(sourceText);
+    final syllableCount = terms.map((e) => analyzer.syllableCounter(e)).sum;
+    return _TextDocumentImpl(sourceText, tokens, paragraphs, sentences, terms,
+        nGrams, syllableCount);
   }
 
   /// Hydrates a [TextDocument] from the [document], [zones] and
   /// [analyzer] parameters. The static factory:
   /// - extracts the [sourceText] from the [zones] in a JSON [document],
   ///   inserting line ending marks between the [zones]; then
-  /// - splits the [sourceText] into [paragraphs], [sentences] and [terms] using
-  ///   the [analyzer]; and then
+  /// - splits the [sourceText] into [paragraphs], [sentences], [terms] and
+  ///   [nGrams] in the [nGramRange] using the [analyzer]; and then
   /// - instantiates a [TextTokenizer] to tokenize the [sourceText] and
   ///   populate the [tokens] property.
   static Future<TextDocument> analyzeJson(
       {required Map<String, dynamic> document,
       required TextAnalyzer analyzer,
-      NGramRange nGramRange = const NGramRange(1, 1),
+      NGramRange nGramRange = const NGramRange(1, 2),
       Iterable<Zone>? zones}) async {
-    final sourceText = StringBuffer();
+    final buffer = StringBuffer();
     if (zones == null || zones.isEmpty) {
       for (final fieldValue in document.values) {
-        sourceText.writeln(fieldValue.toString());
-        sourceText.write('\n');
+        buffer.writeln(fieldValue.toString());
+        buffer.write('\n');
       }
     } else {
       zones = zones.toSet();
       for (final zone in zones) {
         final value = document[zone];
         if (value != null) {
-          sourceText.writeln(value.toString());
-          sourceText.write('\n');
+          buffer.writeln(value.toString());
+          buffer.write('\n');
         }
       }
     }
+    final sourceText = buffer.toString();
     final tokens = await TextTokenizer(analyzer: analyzer)
         .tokenizeJson(document, zones: zones, nGramRange: nGramRange);
-    return _TextDocumentImpl(analyzer, sourceText.toString(), tokens);
+    final terms = analyzer.termSplitter(sourceText);
+    final nGrams = terms.nGrams(nGramRange);
+    final sentences = analyzer.sentenceSplitter(sourceText);
+    final paragraphs = analyzer.paragraphSplitter(sourceText);
+    final syllableCount = terms.map((e) => analyzer.syllableCounter(e)).sum;
+    return _TextDocumentImpl(sourceText, tokens, paragraphs, sentences, terms,
+        nGrams, syllableCount);
   }
 
   /// Returns the source text associated with the document.
@@ -109,6 +135,9 @@ abstract class TextDocument {
 
   /// The tokens extracted from [sourceText].
   List<Token> get tokens;
+
+  /// A collection of n-grams from the [terms] in the document.
+  List<String> get nGrams;
 
   /// The average number of words in [sentences].
   int averageSentenceLength();
@@ -135,6 +164,9 @@ abstract class TextDocument {
   ///
   /// A score of 7 to 8 indicates good readibility without being too simple.
   int fleschKincaidGradeLevel();
+
+  /// The total number of syllables in the document.
+  int get syllableCount;
 }
 
 /// The [TextDocumentMixin] provides implementations of the
@@ -144,9 +176,6 @@ abstract class TextDocument {
 abstract class TextDocumentMixin implements TextDocument {
   //
 
-  /// The language properties and methods used in text analysis.
-  TextAnalyzer get analyzer;
-
   @override
   int wordCount() => terms.length;
 
@@ -154,8 +183,7 @@ abstract class TextDocumentMixin implements TextDocument {
   int averageSentenceLength() => (terms.length / sentences.length).round();
 
   @override
-  double averageSyllableCount() =>
-      (terms.map((e) => analyzer.syllableCounter(e)).sum / terms.length);
+  double averageSyllableCount() => syllableCount / terms.length;
 
   @override
   double fleschReadingEaseScore() =>
@@ -182,9 +210,6 @@ class _TextDocumentImpl with TextDocumentMixin {
   //
 
   @override
-  final TextAnalyzer analyzer;
-
-  @override
   final List<String> paragraphs;
 
   @override
@@ -197,10 +222,14 @@ class _TextDocumentImpl with TextDocumentMixin {
   final List<String> terms;
 
   @override
+  final List<String> nGrams;
+
+  @override
+  final int syllableCount;
+
+  @override
   final List<Token> tokens;
 
-  _TextDocumentImpl(this.analyzer, this.sourceText, this.tokens)
-      : terms = analyzer.termSplitter(sourceText),
-        sentences = analyzer.sentenceSplitter(sourceText),
-        paragraphs = analyzer.paragraphSplitter(sourceText);
+  const _TextDocumentImpl(this.sourceText, this.tokens, this.paragraphs,
+      this.sentences, this.terms, this.nGrams, this.syllableCount);
 }

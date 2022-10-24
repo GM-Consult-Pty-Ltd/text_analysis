@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, user-scalable=no">
+  <meta name="description" content="API docs for the nGrams method from the TextAnalysisExtensionsOnStringList extension, for the Dart programming language.">
+  <title>nGrams method - TextAnalysisExtensionsOnStringList extension - extensions library - Dart API</title>
+
+
+  
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,300;0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  
+  <link rel="stylesheet" href="../../static-assets/github.css?v1">
+  <link rel="stylesheet" href="../../static-assets/styles.css?v1">
+  <link rel="icon" href="../../static-assets/favicon.png?v1">
+
+  
+</head>
+
+
+<body data-base-href="../../"
+      data-using-base-href="false">
+
+<div id="overlay-under-drawer"></div>
+
+<header id="title">
+  <button id="sidenav-left-toggle" type="button">&nbsp;</button>
+  <ol class="breadcrumbs gt-separated dark hidden-xs">
+    <li><a href="../../index.html">text_analysis</a></li>
+    <li><a href="../../extensions/extensions-library.html">extensions</a></li>
+    <li><a href="../../extensions/TextAnalysisExtensionsOnStringList.html">TextAnalysisExtensionsOnStringList</a></li>
+    <li class="self-crumb">nGrams method</li>
+  </ol>
+  <div class="self-name">nGrams</div>
+  <form class="search navbar-right" role="search">
+    <input type="text" id="search-box" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
+  </form>
+</header>
+
+<main>
+
+
+  <div id="dartdoc-main-content" class="main-content">
+      <div>
+<h1><span class="kind-method">nGrams</span> method 
+    <a href="https://dart.dev/null-safety" class="feature feature-null-safety" title="Supports the null safety language feature.">Null safety</a>
+</h1></div>
+
+    <section class="multi-line-signature">
+      
+
+<span class="returntype"><a href="https://api.flutter.dev/flutter/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>&gt;</span></span>
+<span class="name ">nGrams</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="nGrams-param-range"><span class="type-annotation"><a href="../../text_analysis/NGramRange-class.html">NGramRange</a></span> <span class="parameter-name">range</span></span></li>
+</ol>)
+
+      
+
+    </section>
+    
+<section class="desc markdown">
+  <p>Returns an ordered collection of n-grams from the list of Strings.</p>
+<p>The n-gram lengths are limited by <code>range</code>. If range is NGramRange(1,1)
+the list will be returned as is.</p>
+</section>
+
+
+    
+<section class="summary source-code" id="source">
+  <h2><span>Implementation</span></h2>
+  <pre class="language-dart"><code class="language-dart">List&lt;String&gt; nGrams(NGramRange range) {
+  &#47;&#47; return empty list if the collection is empty
+  if (isEmpty) return [];
+
+  &#47;&#47; initialize the return value collection
+  final retVal = &lt;String&gt;[];
+  &#47;&#47; initialize a rolling n-gram element word-list
+  final nGramTerms = &lt;String&gt;[];
+  &#47;&#47; iterate through the terms
+  for (var term in this) {
+    &#47;&#47; initialize the ngrams collection
+    final nGrams = &lt;List&lt;String&gt;&gt;[];
+    &#47;&#47; remove white-space at start and end of term
+    term = term.trim();
+    &#47;&#47; ignore empty strings
+    if (term.isNotEmpty) {
+      nGramTerms.add(term);
+      if (nGramTerms.length &gt; range.max) {
+        nGramTerms.removeAt(0);
+      }
+      var n = 0;
+      for (var i = nGramTerms.length - 1; i &gt;= 0; i--) {
+        final param = &lt;List&lt;String&gt;&gt;[];
+        param.addAll(nGrams
+            .where((element) =&gt; element.length == n)
+            .map((e) =&gt; List&lt;String&gt;.from(e)));
+        final newNGrams = _prefixWordTo(param, nGramTerms[i]);
+        nGrams.addAll(newNGrams);
+        n++;
+      }
+    }
+    final tokenGrams = nGrams.where((element) =&gt;
+        element.length &gt;= range.min &amp;&amp; element.length &lt;= range.max);
+    for (final e in tokenGrams) {
+      final nGram = e.join(&#39; &#39;);
+      retVal.add(nGram);
+    }
+  }
+  return retVal;
+}</code></pre>
+</section>
+
+
+  </div> <!-- /.main-content -->
+
+  <div id="dartdoc-sidebar-left" class="sidebar sidebar-offcanvas-left">
+    <header id="header-search-sidebar" class="hidden-l">
+  <form class="search-sidebar" role="search">
+    <input type="text" id="search-sidebar" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
+  </form>
+</header>
+
+<ol class="breadcrumbs gt-separated dark hidden-l" id="sidebar-nav">
+  <li><a href="../../index.html">text_analysis</a></li>
+  <li><a href="../../extensions/extensions-library.html">extensions</a></li>
+  <li><a href="../../extensions/TextAnalysisExtensionsOnStringList.html">TextAnalysisExtensionsOnStringList</a></li>
+  <li class="self-crumb">nGrams method</li>
+</ol>
+
+
+    <h5>TextAnalysisExtensionsOnStringList extension</h5>
+    <ol>
+
+
+
+
+
+    <li class="section-title"><a href="../../extensions/TextAnalysisExtensionsOnStringList.html#instance-methods">Methods</a></li>
+    <li><a href="../../extensions/TextAnalysisExtensionsOnStringList/nGrams.html">nGrams</a></li>
+
+
+
+
+</ol>
+
+  </div><!--/.sidebar-offcanvas-->
+
+  <div id="dartdoc-sidebar-right" class="sidebar sidebar-offcanvas-right">
+  </div><!--/.sidebar-offcanvas-->
+
+</main>
+
+<footer>
+  <span class="no-break">
+    text_analysis
+      0.20.0
+  </span>
+
+  
+</footer>
+
+
+
+<script src="../../static-assets/highlight.pack.js?v1"></script>
+<script src="../../static-assets/script.js?v1"></script>
+
+
+
+</body>
+
+</html>
+

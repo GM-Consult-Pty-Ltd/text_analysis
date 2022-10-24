@@ -4,6 +4,32 @@ Copyright (c) 2022, GM Consult Pty Ltd
 All rights reserved. 
 -->
 
+## 0.20.0
+**BREAKING CHANGES**
+
+### *Breaking changes*
+* Renamed `NGramRange.nMin` to `NGramRange.min`.
+* Renamed `NGramRange.nMax` to `NGramRange.max`.
+* Changed signature of `TextDocument` unnamed factory.
+* Changed signature of `TextDocument.analyze` factory.
+* Changed signature of `TextDocument.analyzeJson` factory.
+* Removed field `TextDocument.analyzer`.
+
+### *New*
+* Implemented `NGramRange.==` and `NGramRange.hashCode`.
+* Added extension method `nGrams(NGramRange range)` on `List<String>`.
+* Added typedef `NGrammer = List<String> Function(String text, NGramRange range)`.
+* Added field `TextAnalyzer.nGrammer`.
+* Implemented field `English.nGrammer`.
+* Added field `TextDocument.syllableCount`.
+* Added field `TextDocument.nGrams`.
+
+### *Updated*
+* Dependencies.
+* Tests.
+* Documentation
+* Examples.
+
 ## 0.19.0
 **BREAKING CHANGES**
 
@@ -16,8 +42,8 @@ All rights reserved.
 ### *New*
 * Added class `NGramRange`.
 * Added field `int Token.n`.
-* Added optional named parameter `NGramRange nGramRange = NGramRange(1, 1)` to `TextDocument.analyze` factory.
-* Added optional named parameter `NGramRange nGramRange = NGramRange(1, 1)` to `TextDocument.analyzeJson` factory.
+* Added optional named parameter `NGramRange nGramRange = NGramRange(1, 2)` to `TextDocument.analyze` factory.
+* Added optional named parameter `NGramRange nGramRange = NGramRange(1, 2)` to `TextDocument.analyzeJson` factory.
 
 ### *Updated*
 * Dependencies.

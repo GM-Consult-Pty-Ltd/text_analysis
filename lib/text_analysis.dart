@@ -23,5 +23,6 @@ export 'src/text_analyzer/_index.dart'
         TextTokenizer,
         TextTokenizerMixin,
         TextTokenizerBase,
+        NGramRange,
         Token;
 export 'package:porter_2_stemmer/porter_2_stemmer.dart' show Porter2Stemmer;

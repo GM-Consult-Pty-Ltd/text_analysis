@@ -59,6 +59,9 @@ abstract class TextAnalyzer {
   /// Language-specific function that returns the lemma of a term.
   Lemmatizer get lemmatizer;
 
+  /// A language-specific function that generates n-grams from text.
+  NGrammer get nGrammer;
+
   /// A hashmap of words to token terms for special words that should not be
   /// re-capitalized, stemmed or lemmatized.
   Map<String, String> get termExceptions;

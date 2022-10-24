@@ -35,7 +35,7 @@ Tokenization comprises the following steps:
 * a `term splitter` splits text to a list of terms at appropriate places like white-space and mid-sentence punctuation;
 * a `character filter` manipulates terms prior to tokenization (e.g. changing case and / or removing non-word characters);
 * a `term filter` manipulates the terms by splitting compound or hyphenated terms or applying stemming and lemmatization. The `termFilter` can also filter out `stopwords`; and
-* the `tokenizer` converts the resulting terms to a collection of `tokens` that contain tokenized versions of the term and a pointer to the position of the tokenized term in the source text. The tokens are generated for n-grams extracted from the text, and the desired n-gram range can be passed when tokenizing the text or document.
+* the `tokenizer` converts the resulting terms to a collection of `tokens` that contain tokenized versions of the term and a pointer to the position of the tokenized term (n-gram) in the source text. The tokens are generated for n-grams extracted from the text, and the desired n-gram range can be passed in when tokenizing the text or document.
 
 ![Text analysis](https://github.com/GM-Consult-Pty-Ltd/text_analysis/raw/main/assets/images/text_analysis.png?raw=true?raw=true "Tokenizing overview")
 
@@ -43,7 +43,7 @@ Tokenization comprises the following steps:
 
 The [TextDocument](#textdocument) enumerates a text document's *paragraphs*, *sentences*, *terms* and *tokens* and computes readability measures:
 * the average number of words in each sentence;
-* the average number of syllables for words;
+* the average number of syllables per word;
 * the `Flesch reading ease score`, a readibility measure calculated from  sentence length and word length on a 100-point scale; and
 * `Flesch-Kincaid grade level`, a readibility measure relative to U.S. school grade level.
 
@@ -107,17 +107,20 @@ Basic English tokenization can be performed by using a `TextTokenizer.english` s
 To analyze text or a document, hydrate a [TextDocument](#textdocument) to obtain the text statistics and readibility scores:
 
 ```dart
-      // get some sample text
-      final sample =
-          'The Australian platypus is seemingly a hybrid of a mammal and reptilian creature.';
+  // get some sample text
+  final sample =
+      'The Australian platypus is seemingly a hybrid of a mammal and reptilian creature.';
 
-      // hydrate the TextDocument
-      final textDoc = await TextDocument.analyze(sourceText: sample);
+  // hydrate the TextDocument
+  final textDoc = await TextDocument.analyze(
+      sourceText: text,
+      analyzer: English.analyzer,
+      nGramRange: NGramRange(1, 3));
 
-      // print the `Flesch reading ease score`
-      print(
-          'Flesch Reading Ease: ${textDoc.fleschReadingEaseScore().toStringAsFixed(1)}');
-      // prints "Flesch Reading Ease: 37.5"
+  // print the `Flesch reading ease score`
+  print(
+      'Flesch Reading Ease: ${textDoc.fleschReadingEaseScore().toStringAsFixed(1)}');
+  // prints "Flesch Reading Ease: 37.5"
 ```
 For more complex text analysis:
 * implement a `TextAnalyzer` for a different language or non-language documents;
@@ -227,7 +230,7 @@ An [unnamed factory constructor](https://pub.dev/documentation/text_analysis/lat
 
 ### TextDocument
 
-The [TextDocument](https://pub.dev/documentation/text_analysis/latest/text_analysis/TextDocument-class.html) object model enumerates a text document's *paragraphs*, *sentences*, *terms* and *tokens* and provides functions that return text analysis measures:
+The [TextDocument](https://pub.dev/documentation/text_analysis/latest/text_analysis/TextDocument-class.html) object model enumerates a text document's *paragraphs*, *sentences*, *terms*, *n-grams*, *syllable count* and *tokens* and provides functions that return text analysis measures:
 * [averageSentenceLength](https://pub.dev/documentation/text_analysis/latest/text_analysis/TextDocument/averageSentenceLength.html) is the average number of words in [sentences](https://pub.dev/documentation/text_analysis/latest/text_analysis/TextDocument/sentences.html);
 * [averageSyllableCount](https://pub.dev/documentation/text_analysis/latest/text_analysis/TextDocument/averageSyllableCount.html) is the average number of syllables per word in
   [terms](https://pub.dev/documentation/text_analysis/latest/text_analysis/TextDocument/terms.html);

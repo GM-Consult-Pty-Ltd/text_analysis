@@ -15,18 +15,20 @@ import 'package:text_analysis/src/_index.dart';
 import 'package:test/test.dart';
 
 void main() {
+  final sample =
+      'The Australian platypus is seemingly a hybrid-mammal and reptilian '
+      'creature. It orignates from the U.S.A, roaming the pavé of the Cote '
+      'D\'Azure. He often has stubble on his chin.';
   group('TextTokenizer', () {
     //
 
     test('TextDocument', (() async {
       //
-      final sample =
-          'The Australian platypus is seemingly a hybrid-mammal and reptilian '
-          'creature. It orignates from the U.S.A, roaming the pavé of the Cote '
-          'D\'Azure. He often has stubble on his chin.';
 
       final textDoc = await TextDocument.analyze(
-          sourceText: sample, analyzer: English.analyzer);
+          sourceText: sample,
+          analyzer: English.analyzer,
+          nGramRange: NGramRange(1, 3));
 
       print('Average sentence length: ${textDoc.averageSentenceLength()}');
 
@@ -161,12 +163,10 @@ void main() {
   });
 
   group('TextAnalyzer', (() {
-    // test('TextAnalyser,spelling', (() {
-    //   final analyzer = English.analyzer;
-    //   final term = 'teh';
-    //   final suggestions = analyzer.spellings(term, 25);
-    //   print(suggestions);
-    // }));
+    test('English().nGrammer(sample, NGramRange(1, 3)', (() {
+      final nGrams = English().nGrammer(sample, NGramRange(1, 3));
+      print(nGrams);
+    }));
   }));
 }
 

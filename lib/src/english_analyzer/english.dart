@@ -232,4 +232,11 @@ class English implements TextAnalyzer {
           return count < 1 ? 1 : count;
         }
       };
+
+  @override
+  NGrammer get nGrammer => (String text, NGramRange range) {
+        // perform the punctuation and white-space split
+        final terms = analyzer.termSplitter(text.trim());
+        return terms.nGrams(range);
+      };
 }

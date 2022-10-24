@@ -12,7 +12,11 @@ export 'src/term_similarity/_index.dart'
         TermSimilarityCollectionExtension,
         SimilarityIndexCollectionExtension;
 export 'src/text_analyzer/_index.dart'
-    show TokenCollectionExtension, KGramExtensionOnTermCollection;
+    show
+        TokenCollectionExtension,
+        KGramExtensionOnTermCollection,
+        TextAnalysisExtensionsOnString,
+        TextAnalysisExtensionsOnStringList;
 export 'package:porter_2_stemmer/porter_2_stemmer.dart'
     show Porter2StemmerExtension;
 export 'src/english_analyzer/english.dart' show EnglishStringExtensions;

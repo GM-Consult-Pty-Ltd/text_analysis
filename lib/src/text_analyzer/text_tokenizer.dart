@@ -47,22 +47,24 @@ abstract class TextTokenizer {
   /// Extracts one or more tokens from [source] for use in full-text search
   /// queries and indexes.
   ///
-  /// Optional parameter [zone] is the name of the zone in a document in
-  /// which the term is located.
+  /// - [nGramRange] is the range of N-gram lengths to generate; and
+  /// - [zone] is the name of the zone in a document in which the term is
+  ///   located.
   ///
   /// Returns a List<[Token]>.
   Future<List<Token>> tokenize(SourceText source,
-      {NGramRange nGramRange = const NGramRange(1, 1), Zone? zone});
+      {NGramRange nGramRange = const NGramRange(1, 2), Zone? zone});
 
   /// Extracts tokens from the [zones] in a JSON [document] for use in
   /// full-text search queries and indexes.
   ///
-  /// The required parameter [zones] is the collection of the names of the
+  /// - [nGramRange] is the range of N-gram lengths to generate; and
+  /// - [zones] is the collection of the names of the
   /// zones in [document] that are to be tokenized.
   ///
   /// Returns a List<[Token]>.
   Future<List<Token>> tokenizeJson(Map<String, dynamic> document,
-      {NGramRange nGramRange = const NGramRange(1, 1), Iterable<Zone>? zones});
+      {NGramRange nGramRange = const NGramRange(1, 2), Iterable<Zone>? zones});
 }
 
 /// A [TextTokenizer] implementation that mixes in [TextTokenizerMixin], which
@@ -81,7 +83,7 @@ abstract class TextTokenizerMixin implements TextTokenizer {
 
   @override
   Future<List<Token>> tokenizeJson(Map<String, dynamic> document,
-      {NGramRange nGramRange = const NGramRange(1, 1),
+      {NGramRange nGramRange = const NGramRange(1, 2),
       Iterable<Zone>? zones}) async {
     final tokens = <Token>[];
     if (zones == null || zones.isEmpty) {
@@ -103,21 +105,21 @@ abstract class TextTokenizerMixin implements TextTokenizer {
 
   @override
   Future<List<Token>> tokenize(SourceText text,
-      {NGramRange nGramRange = const NGramRange(1, 1), Zone? zone}) async {
+      {NGramRange nGramRange = const NGramRange(1, 2), Zone? zone}) async {
     int position = 0;
 // perform the first punctuation and white-space split
     final terms = analyzer.termSplitter(text.trim());
     // initialize the tokens collection (return value)
     final tokens = <Token>[];
     // iterate through the terms
-    final nGramTerms = <Set<String>>[];
+    final nGramTerms = <List<String>>[];
     await Future.forEach(terms, (String term) async {
       // remove white-space at start and end of term
       term = term.trim();
       final splitTerms = await analyzer.termFilter(term);
       if (splitTerms.isNotEmpty) {
-        nGramTerms.add(splitTerms);
-        if (nGramTerms.length > nGramRange.nMax) {
+        nGramTerms.add(splitTerms.toList());
+        if (nGramTerms.length > nGramRange.max) {
           nGramTerms.removeAt(0);
         }
         tokens.addAll(_getNGrams(nGramTerms, nGramRange, position, zone));
@@ -146,12 +148,12 @@ abstract class TextTokenizerMixin implements TextTokenizer {
     return retVal;
   }
 
-  Iterable<Token> _getNGrams(List<Set<String>> nGramTerms,
+  Iterable<Token> _getNGrams(List<List<String>> nGramTerms,
       NGramRange nGramRange, int termPosition, Zone? zone) {
-    if (nGramTerms.length > nGramRange.nMax) {
-      nGramTerms = nGramTerms.sublist(nGramTerms.length - nGramRange.nMax);
+    if (nGramTerms.length > nGramRange.max) {
+      nGramTerms = nGramTerms.sublist(nGramTerms.length - nGramRange.max);
     }
-    if (nGramTerms.length < nGramRange.nMin) {
+    if (nGramTerms.length < nGramRange.min) {
       return <Token>[];
     }
     final nGrams = <List<String>>[];
@@ -167,7 +169,7 @@ abstract class TextTokenizerMixin implements TextTokenizer {
       n++;
     }
     final tokenGrams = nGrams.where((element) =>
-        element.length >= nGramRange.nMin && element.length <= nGramRange.nMax);
+        element.length >= nGramRange.min && element.length <= nGramRange.max);
 
     final tokens = <Token>[];
     for (final e in tokenGrams) {
@@ -214,17 +216,4 @@ class _TextTokenizerImpl with TextTokenizerMixin {
   // @override
   // List<String> sentences(SourceText source) =>
   //     analyzer.sentenceSplitter(source);
-}
-
-/// Enumerates the minimum and maximum size of N-grams.
-class NGramRange {
-  //
-  /// The minimum number of terms in the n-gram
-  final int nMin;
-
-  /// The maximum number of terms in the n-gram
-  final int nMax;
-
-  ///
-  const NGramRange(this.nMin, this.nMax);
 }
