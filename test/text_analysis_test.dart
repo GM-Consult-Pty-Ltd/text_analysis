@@ -51,7 +51,7 @@ void main() {
 
       // use a TextTokenizer instance to tokenize the source
       final tokens = await TextTokenizer(analyzer: analyzer)
-          .tokenize(source, zone: 'text');
+          .tokenize(source, zone: 'text', nGramRange: NGramRange(1, 3));
 
       // print the tokens
       _printTokens('TOKENIZE JSON', tokens);

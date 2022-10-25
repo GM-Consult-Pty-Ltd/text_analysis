@@ -59,7 +59,7 @@
 
 <span class="returntype"><a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../../text_analysis/Token-class.html">Token</a></span>&gt;</span></span>&gt;</span></span>
 <span class="name ">tokenize</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="tokenize-param-text"><span class="type-annotation"><a href="../../type_definitions/SourceText.html">SourceText</a></span> <span class="parameter-name">text</span>, </span></li>
-<li><span class="parameter" id="tokenize-param-nGramRange">{<span class="type-annotation"><a href="../../text_analysis/NGramRange-class.html">NGramRange</a></span> <span class="parameter-name">nGramRange</span> = <span class="default-value">const NGramRange(1, 2)</span>, </span></li>
+<li><span class="parameter" id="tokenize-param-nGramRange">{<span class="type-annotation"><a href="../../text_analysis/NGramRange-class.html">NGramRange</a></span> <span class="parameter-name">nGramRange</span> = <span class="default-value">const NGramRange(1, 1)</span>, </span></li>
 <li><span class="parameter" id="tokenize-param-zone"><span class="type-annotation"><a href="../../type_definitions/Zone.html">Zone</a>?</span> <span class="parameter-name">zone</span>}</span></li>
 </ol>)
 
@@ -84,7 +84,7 @@ located.</li>
   <h2><span>Implementation</span></h2>
   <pre class="language-dart"><code class="language-dart">@override
 Future&lt;List&lt;Token&gt;&gt; tokenize(SourceText text,
-    {NGramRange nGramRange = const NGramRange(1, 2), Zone? zone}) async {
+    {NGramRange nGramRange = const NGramRange(1, 1), Zone? zone}) async {
   int position = 0;
 &#47;&#47; perform the first punctuation and white-space split
   final terms = analyzer.termSplitter(text.trim());
@@ -168,7 +168,7 @@ Future&lt;List&lt;Token&gt;&gt; tokenize(SourceText text,
 <footer>
   <span class="no-break">
     text_analysis
-      0.20.0
+      0.21.0
   </span>
 
   

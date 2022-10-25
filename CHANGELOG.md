@@ -4,6 +4,24 @@ Copyright (c) 2022, GM Consult Pty Ltd
 All rights reserved. 
 -->
 
+## 0.21.0
+**BREAKING CHANGES**
+
+### *Breaking changes*
+* Static method `TextDocument.analyze` signature changed. Default for parameter `nGramRange` changed to `NGramRange(1, 1)`.
+* Static method `TextDocument.analyzeJson` signature changed. Default for parameter `nGramRange` changed to `NGramRange(1, 1)`.
+* Method `TextTokenize.tokenize` signature changed. Default for parameter `nGramRange` changed to `NGramRange(1, 1)`.
+* Method `TextTokenize.tokenizeJson` signature changed. Default for parameter `nGramRange` changed to `NGramRange(1, 1)`.
+
+### *Bug fixes*
+* Fixed bugs where n-grams would contain repeated words.
+
+### *Updated*
+* Dependencies.
+* Tests.
+* Documentation
+* Examples.
+
 ## 0.20.0
 **BREAKING CHANGES**
 
