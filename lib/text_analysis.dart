@@ -14,12 +14,12 @@ export 'src//term_similarity/_index.dart'
         TermSimilarity,
         TermSimilarityMixin,
         TermSimilarityBase;
-export 'src/text_analyzer/_index.dart'
+export 'src/text_analyzer/_index.dart' show TextAnalyzer;
+
+export 'src/text_document/_index.dart'
+    show TextDocument, TextDocumentMixin, TextDocumentBase;
+export 'src/text_tokenizer/_index.dart'
     show
-        TextAnalyzer,
-        TextDocument,
-        TextDocumentMixin,
-        TextDocumentBase,
         TextTokenizer,
         TextTokenizerMixin,
         TextTokenizerBase,

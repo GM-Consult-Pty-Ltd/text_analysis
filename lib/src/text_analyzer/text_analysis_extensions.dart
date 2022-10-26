@@ -130,3 +130,37 @@ extension KGramExtensionOnTermCollection on Iterable<String> {
     return kGramIndex;
   }
 }
+
+/// Extensions on List<String> lists.
+extension StringCollectionCollectionExtension on Iterable<List<String>> {
+//
+
+  /// Returns a set of all the unique terms contained in the Keyword collection.
+  Set<String> toUniqueTerms() {
+    final retVal = <String>{};
+    for (final e in this) {
+      retVal.addAll(e);
+    }
+    return retVal;
+  }
+
+  /// Builds a co-occurrency graph for the ordered list of terms from the
+  /// elements (keywords) of the collection.
+  Map<String, List<int>> coOccurenceGraph(List<String> terms) {
+    final Map<String, List<int>> retVal = {};
+    for (final rowKey in terms) {
+      final row = List<int>.filled(terms.length, 0);
+      var x = 0;
+      for (final term in terms) {
+        final tF = where(
+                (element) => element.contains(rowKey) && element.contains(term))
+            .length;
+        row[x] = tF;
+        x++;
+      }
+      retVal[rowKey] = row;
+    }
+
+    return retVal;
+  }
+}

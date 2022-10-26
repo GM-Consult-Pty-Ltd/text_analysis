@@ -8,4 +8,6 @@ export 'english_analyzer/english.dart';
 export 'part_of_speech_tagging/_index.dart';
 export 'term_similarity/_index.dart';
 export 'text_analyzer/_index.dart';
+export 'text_document/_index.dart';
+export 'text_tokenizer/_index.dart';
 export 'typedefs.dart';

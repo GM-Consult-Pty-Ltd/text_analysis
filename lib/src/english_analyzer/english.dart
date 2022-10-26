@@ -29,9 +29,8 @@ class English implements TextAnalyzer {
   @override
   Lemmatizer get lemmatizer => EnglishConstants.kLemmatizer;
 
-  /// Stopwords are terms that commonly occur in a language and that do not add
-  /// material value to the analysis of text.
-  Iterable<String> get stopWords => EnglishConstants.kStopWords;
+  @override
+  Set<String> get stopWords => EnglishConstants.kStopWords;
 
   /// A hashmap of abbreviations in the analyzed language.
   Map<String, String> get abbreviations => EnglishConstants.kAbbreviations;
@@ -149,9 +148,8 @@ class English implements TextAnalyzer {
   ///   matches any of the abbreviations.
   /// - Return only non-empty terms.
   @override
-  TermSplitter get termSplitter => (SourceText source) => source
-      .replacePunctuationWithWhiteSpace()
-      .splitAtWhiteSpace(abbreviations);
+  TermSplitter get termSplitter => (SourceText source) =>
+      source.replacePunctuationWith(' ').splitAtWhiteSpace(abbreviations);
 
   /// The [English] implementation of [sentenceSplitter].
   ///
@@ -239,4 +237,8 @@ class English implements TextAnalyzer {
         final terms = analyzer.termSplitter(text.trim());
         return terms.nGrams(range);
       };
+
+  @override
+  KeywordExtractor get keywordExtractor =>
+      (source) => source.toKeyWords(abbreviations, stopWords, stemmer);
 }

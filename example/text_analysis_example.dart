@@ -51,7 +51,7 @@ void main() async {
   _seperator();
 
   // print the n-grams in a paragraph of text
-  _NGramsExample();
+  _nGramsExample();
 
   //
 }
@@ -203,7 +203,7 @@ Future<List<Token>> _tokenizeParagraphs(Iterable<String> paragraphs) async {
   return tokens;
 }
 
-void _NGramsExample() {
+void _nGramsExample() {
   final nGrams = English().nGrammer(readabilityExample, NGramRange(1, 3));
   print('N-Grams');
   print(nGrams);

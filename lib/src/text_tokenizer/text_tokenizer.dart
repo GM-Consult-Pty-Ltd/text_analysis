@@ -2,6 +2,8 @@
 // Copyright ©2022, GM Consult Pty Ltd
 // All rights reserved
 
+import 'package:text_analysis/src/text_tokenizer/tokenizer_strategy.dart';
+
 import '../_index.dart';
 
 /// Interface for a text analyser class that extracts tokens from text for use
@@ -53,7 +55,9 @@ abstract class TextTokenizer {
   ///
   /// Returns a List<[Token]>.
   Future<List<Token>> tokenize(SourceText source,
-      {NGramRange nGramRange = const NGramRange(1, 1), Zone? zone});
+      {NGramRange nGramRange = const NGramRange(1, 1),
+      Zone? zone,
+      TokenizingStrategy strategy = TokenizingStrategy.terms});
 
   /// Extracts tokens from the [zones] in a JSON [document] for use in
   /// full-text search queries and indexes.
@@ -64,7 +68,9 @@ abstract class TextTokenizer {
   ///
   /// Returns a List<[Token]>.
   Future<List<Token>> tokenizeJson(Map<String, dynamic> document,
-      {NGramRange nGramRange = const NGramRange(1, 1), Iterable<Zone>? zones});
+      {NGramRange nGramRange = const NGramRange(1, 1),
+      Iterable<Zone>? zones,
+      TokenizingStrategy strategy = TokenizingStrategy.terms});
 }
 
 /// A [TextTokenizer] implementation that mixes in [TextTokenizerMixin], which
@@ -84,7 +90,8 @@ abstract class TextTokenizerMixin implements TextTokenizer {
   @override
   Future<List<Token>> tokenizeJson(Map<String, dynamic> document,
       {NGramRange nGramRange = const NGramRange(1, 1),
-      Iterable<Zone>? zones}) async {
+      Iterable<Zone>? zones,
+      TokenizingStrategy strategy = TokenizingStrategy.terms}) async {
     final tokens = <Token>[];
     if (zones == null || zones.isEmpty) {
       zones = document.keys;
@@ -95,8 +102,8 @@ abstract class TextTokenizerMixin implements TextTokenizer {
       if (value != null) {
         final source = value.toString();
         if (source.isNotEmpty) {
-          tokens.addAll(
-              await tokenize(source, zone: zone, nGramRange: nGramRange));
+          tokens.addAll(await tokenize(source,
+              zone: zone, nGramRange: nGramRange, strategy: strategy));
         }
       }
     }
@@ -105,7 +112,9 @@ abstract class TextTokenizerMixin implements TextTokenizer {
 
   @override
   Future<List<Token>> tokenize(SourceText text,
-      {NGramRange nGramRange = const NGramRange(1, 1), Zone? zone}) async {
+      {NGramRange nGramRange = const NGramRange(1, 1),
+      Zone? zone,
+      TokenizingStrategy strategy = TokenizingStrategy.terms}) async {
     int position = 0;
 // perform the first punctuation and white-space split
     final terms = analyzer.termSplitter(text.trim());

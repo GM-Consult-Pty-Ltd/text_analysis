@@ -41,7 +41,12 @@ abstract class TextAnalyzer {
 
   /// Returns a list of terms from text.
   TermSplitter get termSplitter;
-  //List<String> splitIntoTerms(SourceText source);
+
+  /// A splitter function that returns a list of phrases from source text.
+  ///
+  /// The text is split at punctuation, line endings and stop-words, resulting
+  /// in an ordered collection of term sequences of varying length.
+  KeywordExtractor get keywordExtractor;
 
   /// Returns a list of sentences from text.
   SentenceSplitter get sentenceSplitter;
@@ -65,4 +70,10 @@ abstract class TextAnalyzer {
   /// A hashmap of words to token terms for special words that should not be
   /// re-capitalized, stemmed or lemmatized.
   Map<String, String> get termExceptions;
+
+  /// Stopwords are terms that commonly occur in a language and that do not add
+  /// material value to the analysis of text.
+  ///
+  /// Stopwords are used by the [phraseSplitter] and [termFilter].
+  Set<String> get stopWords;
 }

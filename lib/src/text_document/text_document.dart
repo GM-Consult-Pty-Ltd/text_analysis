@@ -14,6 +14,8 @@ import 'package:collection/collection.dart';
 ///   ending punctuation and line ending marks;
 /// - [nGrams] is a collection of word sequences generated from the terms;
 /// - [terms] is all the words in the [sourceText];
+/// - [keywords] is the keywords in the document mapped to their RAKE keyword
+///   score in a [TermCoOccurrenceGraph];
 /// - [syllableCount] is the total number of syllables in the document; and
 /// - [tokens] is all the tokens extracted from [sourceText].
 ///
@@ -41,6 +43,8 @@ abstract class TextDocument {
   ///   ending punctuation and line ending marks;
   /// - [nGrams] is a collection of word sequences generated from the terms;
   /// - [terms] is all the words in the [sourceText];
+  /// - [keywords] is the keywords in the document mapped to their RAKE keyword
+  ///   score in a [TermCoOccurrenceGraph];
   /// - [syllableCount] is the total number of syllables in the document; and
   /// - [tokens] is all the tokens extracted from [sourceText].
   factory TextDocument(
@@ -50,9 +54,10 @@ abstract class TextDocument {
           required List<String> sentences,
           required List<String> terms,
           required List<String> nGrams,
+          required TermCoOccurrenceGraph keywords,
           required int syllableCount}) =>
       _TextDocumentImpl(sourceText, tokens, paragraphs, sentences, terms,
-          nGrams, syllableCount);
+          nGrams, syllableCount, keywords);
 
   /// Hydrates a [TextDocument] from the [sourceText], [zone] and
   /// [analyzer] parameters:
@@ -61,7 +66,9 @@ abstract class TextDocument {
   ///   [sourceText];
   /// - [nGramRange] is the range of N-gram lengths to generate; and
   /// - [analyzer] is a [TextAnalyzer] used to split the [sourceText] into
-  ///   [paragraphs], [sentences], [terms] and [nGrams] in the [nGramRange].
+  ///   [paragraphs], [sentences], [terms] and [nGrams] in the [nGramRange] and
+  ///   to extract the keywords in the [sourceText] to a
+  ///   [TermCoOccurrenceGraph].
   /// The static factory instantiates a [TextTokenizer] to tokenize the
   /// [sourceText] and populate the [tokens] property.
   static Future<TextDocument> analyze(
@@ -75,9 +82,11 @@ abstract class TextDocument {
     final nGrams = terms.nGrams(nGramRange);
     final sentences = analyzer.sentenceSplitter(sourceText);
     final paragraphs = analyzer.paragraphSplitter(sourceText);
+    final keywords = analyzer.keywordExtractor(sourceText);
+    final graph = TermCoOccurrenceGraph(keywords);
     final syllableCount = terms.map((e) => analyzer.syllableCounter(e)).sum;
     return _TextDocumentImpl(sourceText, tokens, paragraphs, sentences, terms,
-        nGrams, syllableCount);
+        nGrams, syllableCount, graph);
   }
 
   /// Hydrates a [TextDocument] from the [document], [zones] and
@@ -116,10 +125,16 @@ abstract class TextDocument {
     final nGrams = terms.nGrams(nGramRange);
     final sentences = analyzer.sentenceSplitter(sourceText);
     final paragraphs = analyzer.paragraphSplitter(sourceText);
+    final keywords = analyzer.keywordExtractor(sourceText);
+    final graph = TermCoOccurrenceGraph(keywords);
     final syllableCount = terms.map((e) => analyzer.syllableCounter(e)).sum;
     return _TextDocumentImpl(sourceText, tokens, paragraphs, sentences, terms,
-        nGrams, syllableCount);
+        nGrams, syllableCount, graph);
   }
+
+  /// The unique keywords in the document mapped to their RAKE keyword score
+  /// in a [TermCoOccurrenceGraph].
+  TermCoOccurrenceGraph get keywords;
 
   /// Returns the source text associated with the document.
   String get sourceText;
@@ -213,6 +228,9 @@ class _TextDocumentImpl with TextDocumentMixin {
   final List<String> paragraphs;
 
   @override
+  final TermCoOccurrenceGraph keywords;
+
+  @override
   final List<String> sentences;
 
   @override
@@ -230,6 +248,13 @@ class _TextDocumentImpl with TextDocumentMixin {
   @override
   final List<Token> tokens;
 
-  const _TextDocumentImpl(this.sourceText, this.tokens, this.paragraphs,
-      this.sentences, this.terms, this.nGrams, this.syllableCount);
+  const _TextDocumentImpl(
+      this.sourceText,
+      this.tokens,
+      this.paragraphs,
+      this.sentences,
+      this.terms,
+      this.nGrams,
+      this.syllableCount,
+      this.keywords);
 }

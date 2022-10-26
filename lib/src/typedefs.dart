@@ -74,6 +74,13 @@ typedef TermSplitter = List<String> Function(SourceText source);
 /// which may end with period marks.
 typedef SentenceSplitter = List<String> Function(SourceText source);
 
+/// A splitter function that returns an ordered collection of keyword phrases
+/// from text.
+///
+/// The text is split at punctuation, line endings and stop-words, resulting
+/// in an ordered collection of term sequences of varying length.
+typedef KeywordExtractor = List<List<String>> Function(SourceText source);
+
 /// A splitter function that returns a list of paragraphs from [source].
 ///
 /// In English, the [source] text is split at:

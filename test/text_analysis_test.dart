@@ -18,7 +18,7 @@ void main() {
   final sample =
       'The Australian platypus is seemingly a hybrid-mammal and reptilian '
       'creature. It orignates from the U.S.A, roaming the pavé of the Cote '
-      'D\'Azure. He often has stubble on his chin.';
+      'D\'Azure (cigar in hand). He often has stubble (three day old) on his chin.';
   group('TextTokenizer', () {
     //
 
@@ -163,10 +163,68 @@ void main() {
   });
 
   group('TextAnalyzer', (() {
+    //
+
     test('English().nGrammer(sample, NGramRange(1, 3)', (() {
       final nGrams = English().nGrammer(sample, NGramRange(1, 3));
       print(nGrams);
     }));
+//
+
+    test('English().keywordExtractor(sample).coOccurrenceGraph', (() {
+      final text =
+          'Google quietly rolled out a new way for Android users to listen to '
+          'podcasts and subscribe to shows they like, and it already works on '
+          'your phone. Podcast production company Pacific Content got the '
+          'exclusive on it. This text is taken from Google news.';
+
+      final keyWords = English().keywordExtractor(text);
+
+      final graph =
+          keyWords.coOccurenceGraph(keyWords.toUniqueTerms().toList());
+      // .map((e) => e.join(' '));
+      print(sample);
+      print(''.padRight(140, '-'));
+      for (final e in graph.entries) {
+        print('${e.key}: ${e.value}');
+      }
+    }));
+
+    test('TextDocument.analyze(sample)(Keywords)', (() async {
+      final text =
+          'Google quietly rolled out a new way for Android users to listen to '
+          'podcasts and subscribe to shows they like, and it already works on '
+          'your phone. Podcast production company Pacific Content got the '
+          'exclusive on it. This text is taken from Google news.';
+
+      final document = await TextDocument.analyze(
+          sourceText: sample, analyzer: English.analyzer);
+
+      // .map((e) => e.join(' '));
+      print(sample);
+      print(''.padRight(140, '-'));
+      for (final e in document.keywords.keywordScores.entries) {
+        print('${e.key}: ${e.value}');
+      }
+    }));
+
+    test('English().keywordExtractor(sample)', (() {
+      final text =
+          'Google quietly rolled out a new way for Android users to listen to '
+          'podcasts and subscribe to shows they like, and it already works on '
+          'your phone. Podcast production company Pacific Content got the '
+          'exclusive on it. This text is taken from Google news.';
+
+      final keyWords = English().keywordExtractor(text);
+
+      // .map((e) => e.join(' '));
+      print(text);
+      print(''.padRight(140, '-'));
+      print(keyWords);
+      print(keyWords.toUniqueTerms());
+    }));
+
+    //
   }));
 }
 

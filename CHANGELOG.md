@@ -4,6 +4,25 @@ Copyright (c) 2022, GM Consult Pty Ltd
 All rights reserved. 
 -->
 
+## 0.21.1
+**BREAKING CHANGES**
+
+### *Breaking changes*
+* Added field `TextAnalyzer.phraseSplitter`.
+
+### *New*
+* New enum `TokenizingStrategy`.
+* New function definition `PhraseSplitter`.
+* Added optional named parameter `TokenizingStrategy strategy` to `TextTokenizer.tokenize` method.
+* Added optional named parameter `TokenizingStrategy strategy` to `TextTokenizer.tokenizeJson` method.
+* Implemented method `English.phraseSplitter`.
+
+### *Updated*
+* Dependencies.
+* Tests.
+* Documentation
+* Examples.
+
 ## 0.21.0
 **BREAKING CHANGES**
 
