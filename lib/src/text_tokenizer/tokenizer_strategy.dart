@@ -12,9 +12,7 @@ enum TokenizingStrategy {
   /// Build n-grams to match [NGramRange] from any sequence of terms.
   terms,
 
-  /// Split the text at punctuation, line endings and stopwords.
-  ///
-  /// Split each individual phrase into terms at white-space and build
-  /// n-grams to match [NGramRange] from the terms in each phrase only.
-  phrases
+  /// Split the text at punctuation, line endings and stopwords, returning
+  /// a token for each keyword.
+  keyWords
 }

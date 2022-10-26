@@ -9,13 +9,20 @@ All rights reserved.
 
 ### *Breaking changes*
 * Added field `TextAnalyzer.phraseSplitter`.
+* Added field `TextDocument.keywords`.
+* Changed signature of `TextDocument` unnamed factory constructor.
+* Moved export of all mixins and base-classes to `implementation` mini-library.
 
 ### *New*
 * New enum `TokenizingStrategy`.
-* New function definition `PhraseSplitter`.
+* New class `TermCoOccurrenceGraph`.
+* New type alias `Phrase`.
+* New function definition `KeywordExtractor`.
+* New extension method `Set<String> toUniqueTerms()` on `Iterable<List<String>>`.
+* New extension method `Map<String, List<int>> coOccurenceGraph(List<String> terms)` on `Iterable<List<String>>`.
 * Added optional named parameter `TokenizingStrategy strategy` to `TextTokenizer.tokenize` method.
 * Added optional named parameter `TokenizingStrategy strategy` to `TextTokenizer.tokenizeJson` method.
-* Implemented method `English.phraseSplitter`.
+* Implemented method `English.KeywordExtractor`.
 
 ### *Updated*
 * Dependencies.

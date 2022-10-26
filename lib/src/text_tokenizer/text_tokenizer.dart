@@ -92,6 +92,7 @@ abstract class TextTokenizerMixin implements TextTokenizer {
       {NGramRange nGramRange = const NGramRange(1, 1),
       Iterable<Zone>? zones,
       TokenizingStrategy strategy = TokenizingStrategy.terms}) async {
+    //TODO: implement the strategy parameter
     final tokens = <Token>[];
     if (zones == null || zones.isEmpty) {
       zones = document.keys;
@@ -122,6 +123,7 @@ abstract class TextTokenizerMixin implements TextTokenizer {
     final tokens = <Token>[];
     // iterate through the terms
     final nGramTerms = <List<String>>[];
+    //TODO: implement the strategy parameter
     await Future.forEach(terms, (String term) async {
       // remove white-space at start and end of term
       term = term.trim();

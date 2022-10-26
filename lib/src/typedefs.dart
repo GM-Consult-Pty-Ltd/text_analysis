@@ -15,6 +15,10 @@ typedef Zone = String;
 /// in a text source, document or query.
 typedef Term = String;
 
+/// An alias for `List<String>` when used in the context of the terms of a
+/// phrase split to an ordered list of terms.
+typedef Phrase = List<String>;
+
 /// An alias for String, used in the context of a sequence of k characters
 /// from a [Term].
 ///

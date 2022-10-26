@@ -8,21 +8,8 @@ library text_analysis;
 
 export 'src/english_analyzer/english.dart' show English;
 export 'src/part_of_speech_tagging/_index.dart' show PartOfSpeech, PoSTag;
-export 'src//term_similarity/_index.dart'
-    show
-        SimilarityIndex,
-        TermSimilarity,
-        TermSimilarityMixin,
-        TermSimilarityBase;
-export 'src/text_analyzer/_index.dart' show TextAnalyzer;
-
-export 'src/text_document/_index.dart'
-    show TextDocument, TextDocumentMixin, TextDocumentBase;
-export 'src/text_tokenizer/_index.dart'
-    show
-        TextTokenizer,
-        TextTokenizerMixin,
-        TextTokenizerBase,
-        NGramRange,
-        Token;
+export 'src//term_similarity/_index.dart' show SimilarityIndex, TermSimilarity;
+export 'src/text_analyzer/_index.dart' show TextAnalyzer, TermCoOccurrenceGraph;
+export 'src/text_document/_index.dart' show TextDocument;
+export 'src/text_tokenizer/_index.dart' show TextTokenizer, NGramRange, Token;
 export 'package:porter_2_stemmer/porter_2_stemmer.dart' show Porter2Stemmer;
