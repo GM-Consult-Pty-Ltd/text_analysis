@@ -16,7 +16,8 @@ export 'src/text_analyzer/_index.dart'
         TokenCollectionExtension,
         KGramExtensionOnTermCollection,
         TextAnalysisExtensionsOnString,
+        StringCollectionCollectionExtension,
         TextAnalysisExtensionsOnStringList;
 export 'package:porter_2_stemmer/porter_2_stemmer.dart'
     show Porter2StemmerExtension;
-export 'src/english_analyzer/english.dart' show EnglishStringExtensions;
+// export 'src/english_analyzer/english.dart' show EnglishStringExtensions;

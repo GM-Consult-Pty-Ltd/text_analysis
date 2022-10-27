@@ -7,18 +7,22 @@
 @Timeout(Duration(minutes: 1))
 
 import 'package:gmconsult_dev/gmconsult_dev.dart';
-// import '../dev/data/english_vocabulary.dart';
-import '../dev/data/lexicon/english_lexicon.dart';
-import 'dart:io';
 import 'package:gmconsult_dev/test_data.dart';
-import 'package:text_analysis/src/_index.dart';
+// import 'package:gmconsult_dev/type_definitions.dart';
+import '../dev/data/lexicon/english_lexicon.dart';
+import 'package:text_analysis/extensions.dart';
+import 'package:text_analysis/text_analysis.dart';
+import 'dart:io';
+// import 'package:gmconsult_dev/test_data.dart';
+// import 'package:text_analysis/src/_index.dart';
 import 'package:test/test.dart';
 
 void main() {
   final sample =
       'The Australian platypus is seemingly a hybrid-mammal and reptilian '
-      'creature. It orignates from the U.S.A, roaming the pavé of the Cote '
-      'D\'Azure (cigar in hand). He often has stubble (three day old) on his chin.';
+      'creature. It originates from the U.S.A, roaming the pavé of the Cote '
+      'D\'Azure (cigar in hand). He often has (three day old) stubble on his chin.';
+  //
   group('TextTokenizer', () {
     //
 
@@ -49,12 +53,33 @@ void main() {
       final analyzer =
           English(termExceptions: {'alphabet': 'ALPHABET', 'google': 'Google'});
 
-      // use a TextTokenizer instance to tokenize the source
-      final tokens = await TextTokenizer(analyzer: analyzer)
-          .tokenize(source, zone: 'text', nGramRange: NGramRange(1, 3));
+      for (final strategy in TokenizingStrategy.values) {
+        // use a TextTokenizer instance to tokenize the source
+        final tokens = await TextTokenizer(analyzer: analyzer).tokenize(source,
+            zone: 'text', strategy: strategy, nGramRange: NGramRange(1, 2));
 
-      // print the tokens
-      _printTokens('TOKENIZE JSON', tokens);
+        // print the tokens
+        _printTokens('TOKENIZE JSON ($strategy)', tokens);
+      }
+    });
+
+    test('TextTokenizer.english', () async {
+      //
+
+      // convert the StringBuffer to a String
+      final source = TestData.text;
+
+      final analyzer =
+          English(termExceptions: {'alphabet': 'ALPHABET', 'google': 'Google'});
+
+      for (final strategy in TokenizingStrategy.values) {
+        // use a TextTokenizer instance to tokenize the source
+        final tokens = await TextTokenizer.english
+            .tokenize(source, strategy: strategy, nGramRange: NGramRange(1, 2));
+
+        // print the tokens
+        _printTokens('TOKENIZE JSON ($strategy)', tokens);
+      }
     });
 
     test('TextTokenizer.split', () async {
@@ -168,6 +193,20 @@ void main() {
     test('English().nGrammer(sample, NGramRange(1, 3)', (() {
       final nGrams = English().nGrammer(sample, NGramRange(1, 3));
       print(nGrams);
+    }));
+
+    test('English().syllableCounter(sample, NGramRange(1, 3)', (() {
+      final analyzer = English.analyzer;
+      final results = <Map<String, dynamic>>[];
+      final terms = analyzer.termSplitter(sample);
+      for (final e in terms) {
+        results.add({
+          'Term': e,
+          'Filtered': analyzer.termFilter(e),
+          'Syllables': analyzer.syllableCounter(e)
+        });
+      }
+      Console.out(title: 'Syllable Counter', results: results);
     }));
 //
 

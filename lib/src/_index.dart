@@ -4,7 +4,6 @@
 
 export 'package:porter_2_stemmer/porter_2_stemmer.dart';
 export 'package:porter_2_stemmer/extensions.dart';
-export 'english_analyzer/english.dart';
 export 'part_of_speech_tagging/_index.dart';
 export 'term_similarity/_index.dart';
 export 'text_analyzer/_index.dart';

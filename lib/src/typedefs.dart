@@ -2,7 +2,7 @@
 // Copyright ©2022, GM Consult Pty Ltd
 
 import 'dart:async';
-import '_index.dart';
+import 'package:text_analysis/text_analysis.dart';
 
 /// An alias for String.
 typedef SourceText = String;
@@ -98,7 +98,7 @@ typedef ParagraphSplitter = List<String> Function(String source);
 /// - return an empty collection if the term is to be excluded from analysis;
 /// - return multiple terms if the term is split; and/or
 /// - return modified term(s), such as applying a stemmer algorithm.
-typedef TermFilter = Future<Set<String>> Function(Term term);
+typedef TermFilter = Set<String> Function(Term term);
 
 /// A filter function that returns a subset of [tokens].
 typedef TokenFilter = Future<List<Token>> Function(List<Token> tokens);

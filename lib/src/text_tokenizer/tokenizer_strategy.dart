@@ -6,10 +6,17 @@ import 'package:text_analysis/src/text_tokenizer/_index.dart';
 /// The strategy to apply when splitting text to [Token]s.
 enum TokenizingStrategy {
   //
+  /// Tokenize into terms, n-grams and keyWords.
+  all,
 
   /// Split the text at all white-space and punctuation and remove stop-words.
   ///
-  /// Build n-grams to match [NGramRange] from any sequence of terms.
+  /// Build n-grams to match a [NGramRange] from any sequence of terms.
+  ngrams,
+
+  /// Split the text at all white-space and punctuation and remove stop-words.
+  ///
+  /// Build n-grams to match a [NGramRange] from any sequence of terms.
   terms,
 
   /// Split the text at punctuation, line endings and stopwords, returning

@@ -1,7 +1,9 @@
 // BSD 3-Clause License
 // Copyright ©2022, GM Consult Pty Ltd
 
-import '../_index.dart';
+import 'package:text_analysis/type_definitions.dart';
+import 'package:text_analysis/text_analysis.dart';
+import 'package:text_analysis/extensions.dart';
 
 /// A static/abstract class that exposes methods for computing similarity of
 /// terms.

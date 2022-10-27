@@ -24,18 +24,18 @@ The `text_analysis` package provides methods to tokenize text, compute readibili
 It is split into [four libraries](#usage):
 * [text_analysis](https://pub.dev/documentation/text_analysis/0.12.0-2/text_analysis/text_analysis-library.html) is the core library that exports the tokenization, analysis and string similarity functions;
 * [extensions](https://pub.dev/documentation/text_analysis/0.12.0-2/extensions/extensions-library.html) exports extension methods also provided as static methods of the [TextSimilarity](https://pub.dev/documentation/text_analysis/latest/text_analysis/TermSimilarity-class.html) class;
-* [package_exports](https://pub.dev/documentation/text_analysis/0.12.0-2/package_exports/package_exports-library.html) exports the [porter_2_stemmer](https://pub.dev/packages/porter_2_stemmer) package; and
+* [implementation](https://pub.dev/documentation/text_analysis/0.12.0-2/package_exports/implementation-library.html) exports the mixins and base classes that implement the interfaces; and
 * [type_definitions](https://pub.dev/documentation/text_analysis/0.12.0-2/type_definitions/type_definitions-library.html) exports all the typedefs used in this package.
 
 Refer to the [references](#references) to learn more about information retrieval systems and the theory behind this library.
 
-#### Tokenization
+### Tokenization
 
 Tokenization comprises the following steps:
 * a `term splitter` splits text to a list of terms at appropriate places like white-space and mid-sentence punctuation;
 * a `character filter` manipulates terms prior to tokenization (e.g. changing case and / or removing non-word characters);
 * a `term filter` manipulates the terms by splitting compound or hyphenated terms or applying stemming and lemmatization. The `termFilter` can also filter out `stopwords`; and
-* the `tokenizer` converts the resulting terms to a collection of `tokens` that contain tokenized versions of the term and a pointer to the position of the tokenized term (n-gram) in the source text. The tokens are generated for n-grams extracted from the text, and the desired n-gram range can be passed in when tokenizing the text or document.
+* the `tokenizer` converts terms to a collection of `tokens` that contain tokenized versions of the term and a pointer to the position of the tokenized term (n-gram) in the source text. The tokens are generated for keywords, terms and/or n-grams, depending on the `TokenizingStrategy` selected. The desired n-gram range can be passed in when tokenizing the text or document.
 
 ![Text analysis](https://github.com/GM-Consult-Pty-Ltd/text_analysis/raw/main/assets/images/text_analysis.png?raw=true?raw=true "Tokenizing overview")
 
@@ -46,6 +46,7 @@ The [TextDocument](#textdocument) enumerates a text document's *paragraphs*, *se
 * the average number of syllables per word;
 * the `Flesch reading ease score`, a readibility measure calculated from  sentence length and word length on a 100-point scale; and
 * `Flesch-Kincaid grade level`, a readibility measure relative to U.S. school grade level.
+The `TextDocument` also includes a co-occurrence graph generated using the Rapid Keyword Extraction (RAKE) algorithm, from which the keywords (and keyword scores) can be obtained.
 
 ### String Comparison
 
@@ -90,9 +91,8 @@ import 'package:text_indexing/type_definitions.dart';
 // import the extensions, if needed
 import 'package:text_indexing/extensions.dart'; 
 
-
-// import the constants, if needed
-import 'package:text_indexing/constants.dart'; 
+// import the implementation classes, if needed
+import 'package:text_indexing/implementation.dart'; 
 
 ```
 
@@ -101,8 +101,10 @@ Basic English tokenization can be performed by using a `TextTokenizer.english` s
 ```dart
   // Use the static TextTokenizer.english instance to tokenize the text using the  
   // English analyzer.
-  final document = 
-      await TextTokenizer.english.tokenize(source, nGramRange: NGramRange(1, 3));
+    final tokens = await TextTokenizer(analyzer: English()).tokenize(
+      readabilityExample,
+      strategy: TokenizingStrategy.all,
+      nGramRange: NGramRange(1, 2));
 ```
 To analyze text or a document, hydrate a [TextDocument](#textdocument) to obtain the text statistics and readibility scores:
 
@@ -113,7 +115,7 @@ To analyze text or a document, hydrate a [TextDocument](#textdocument) to obtain
 
   // hydrate the TextDocument
   final textDoc = await TextDocument.analyze(
-      sourceText: text,
+      sourceText: sample,
       analyzer: English.analyzer,
       nGramRange: NGramRange(1, 3));
 
@@ -128,7 +130,7 @@ For more complex text analysis:
 * pass in a `TokenFilter` function to a `TextTokenizer` to manipulate the tokens after tokenization as shown in the [examples](https://pub.dev/packages/text_analysis/example); and/or
 extend [TextDocumentBase](https://pub.dev/documentation/text_analysis/0.12.0-1/text_analysis/TextDocumentBase-class.html).
 
-To compare terms, call the required extension on the `term`, or the static method from the [TermSimilarity](https://pub.dev/documentation/text_analysis/0.12.0-1/text_analysis/TermSimilarity-class.html) class:
+To compare terms, call the desired extension on the `term`, or the static method from the [TermSimilarity](https://pub.dev/documentation/text_analysis/0.12.0-1/text_analysis/TermSimilarity-class.html) class:
 
 ```dart
 
@@ -216,7 +218,10 @@ The  [TextSimilarity](https://pub.dev/documentation/text_analysis/latest/text_an
 * [stopWords](https://pub.dev/documentation/text_analysis/latest/text_analysis/TextAnalyzer/stopWords.html) are terms that commonly occur in a language and that do not add material value to the analysis of text; and
 * [syllableCounter](https://pub.dev/documentation/text_analysis/latest/text_analysis/TextAnalyzer/syllableCounter.html) returns the number of syllables in a word or text.
 
-The [English](https://pub.dev/documentation/text_analysis/latest/text_analysis/English-class.html) implementation of [TextAnalyzer](https://pub.dev/documentation/text_analysis/latest/text_analysis/TextAnalyzer-class.html) is included in this library.
+The [LatinLanguageAnalyzerMixin](https://pub.dev/documentation/text_analysis/latest/text_analysis/LatinLanguageAnalyzerMixin-class.html) implements the `TextAnalyzer` interface methods for languages that use
+the Latin/Roman alphabet/character set.
+
+The [English](https://pub.dev/documentation/text_analysis/latest/text_analysis/English-class.html) implementation of [TextAnalyzer](https://pub.dev/documentation/text_analysis/latest/text_analysis/TextAnalyzer-class.html) is included in this library and mixes in the `LatinLanguageAnalyzerMixin`.
 
 (*[back to top](#)*)
 

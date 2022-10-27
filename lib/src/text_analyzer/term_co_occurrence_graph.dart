@@ -3,7 +3,7 @@
 // All rights reserved
 
 import 'package:collection/collection.dart';
-import '../_index.dart';
+import 'package:text_analysis/extensions.dart';
 
 /// A RAKE co-occurrence graph for evaluating the score of keywords extracted
 /// from text.
@@ -12,7 +12,7 @@ abstract class TermCoOccurrenceGraph {
 
   /// Unnamed factory constructor hydrates a [TermCoOccurrenceGraph] from the
   /// [keywords].
-  factory TermCoOccurrenceGraph(Iterable<List<String>> keywords) {
+  factory TermCoOccurrenceGraph(List<List<String>> keywords) {
     final uniqueTerms = keywords.toUniqueTerms();
     final terms = uniqueTerms.toList();
     final coOccurrenceGraph = keywords.coOccurenceGraph(terms);

@@ -3,7 +3,9 @@
 
 // ignore_for_file: camel_case_types
 
-import '../_index.dart';
+import 'package:text_analysis/type_definitions.dart';
+import 'package:text_analysis/text_analysis.dart';
+import 'package:text_analysis/extensions.dart';
 import 'dart:math';
 
 /// Extension methods on [Term] that exposes methods for computing similarity.

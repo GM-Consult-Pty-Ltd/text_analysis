@@ -3,11 +3,45 @@
 
 // ignore_for_file: camel_case_types
 
-import '../_index.dart';
+import 'package:text_analysis/type_definitions.dart';
+import 'package:text_analysis/text_analysis.dart';
+import 'package:text_analysis/extensions.dart';
 
 /// Extension methods on [Term] that exposes methods analysing and tokenizing
 /// text.
-extension TextAnalysisExtensionsOnString on String {}
+extension TextAnalysisExtensionsOnString on String {
+//
+
+  /// Selector for all single or double quotation marks and apostrophes.
+  static const _rQuotes = '[\'"“”„‟’‘‛]';
+
+  /// Trims all forms of quotation marks from start and end of String.
+  String removeEnclosingQuotes() =>
+      replaceAll(RegExp('(^$_rQuotes+)|($_rQuotes+(?=\$))'), '');
+
+  /// Returns all the vowels in the String.
+  List<String> get vowels => RegExp(r'[aeiouyà-æè-ðò-öø-ÿ]')
+      .allMatches(this)
+      .map((e) => e.group(0) as String)
+      .toList();
+
+  /// Returns all the diphtongs in the String.
+  List<String> get diphtongs => RegExp(r'[aeiouyà-æè-ðò-öø-ÿ]{2,}')
+      .allMatches(this)
+      .map((e) => e.group(0) as String)
+      .toList();
+
+  /// Returns all the diphtongs in the String.
+  List<String> get triptongs => RegExp(r'[aeiouyà-æè-ðò-öø-ÿ]{3,}')
+      .allMatches(this)
+      .map((e) => e.group(0) as String)
+      .toList();
+
+  /// Returns the number of single vowels, diphtongs and triptongs in the
+  /// String.
+  int get vowelDipthongAndTriptongCount =>
+      RegExp(r'[aeiouyà-æè-ðò-öø-ÿ]+').allMatches(this).length;
+}
 
 /// Extension methods on [Term] that exposes methods analysing and tokenizing
 /// text.

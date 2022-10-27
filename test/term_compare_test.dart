@@ -5,9 +5,11 @@
 
 @Timeout(Duration(minutes: 30))
 
-import 'package:text_analysis/src/_index.dart';
 import 'package:test/test.dart';
 import 'package:gmconsult_dev/gmconsult_dev.dart';
+import 'package:text_analysis/type_definitions.dart';
+import 'package:text_analysis/text_analysis.dart';
+import 'package:text_analysis/extensions.dart';
 
 void main() {
   final term = 'bodrer';

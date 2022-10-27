@@ -1,7 +1,9 @@
 // BSD 3-Clause License
 // Copyright ©2022, GM Consult Pty Ltd
 
-import '../_index.dart';
+import 'package:text_analysis/type_definitions.dart';
+import 'package:text_analysis/text_analysis.dart';
+import 'package:text_analysis/extensions.dart';
 import 'package:collection/collection.dart';
 
 /// The [TextDocument] object model enumerates properties for analysing a text

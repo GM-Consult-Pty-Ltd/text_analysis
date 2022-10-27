@@ -52,7 +52,7 @@
     
 <section class="desc markdown">
   <p>An interface exposes language-specific properties and methods used in
-text analysis:</p>
+text analysis.</p>
 <ul>
 <li><a href="../text_analysis/TextAnalyzer/characterFilter.html">characterFilter</a> is a function that manipulates text prior to stemming
 and tokenization;</li>
@@ -69,8 +69,16 @@ endings;</li>
 term;</li>
 <li><a href="../text_analysis/TextAnalyzer/lemmatizer.html">lemmatizer</a> is a language-specific function that returns the lemma of a
 term;</li>
+<li><a href="../text_analysis/TextAnalyzer/keywordExtractor.html">keywordExtractor</a> is a splitter function that returns an ordered
+collection of keyword phrasesfrom text. The text is split at punctuation,
+line endings and stop-words, resulting in an ordered collection of term
+sequences of varying length.</li>
 <li><a href="../text_analysis/TextAnalyzer/termExceptions.html">termExceptions</a> is a hashmap of words to token terms for special words
-that should not be re-capitalized, stemmed or lemmatized; and</li>
+that should not be re-capitalized, stemmed or lemmatized;</li>
+<li><a href="../text_analysis/TextAnalyzer/stopWords.html">stopWords</a> are terms that commonly occur in a language and that do not
+add material value to the analysis of text.</li>
+<li><a href="../text_analysis/TextAnalyzer/abbreviations.html">abbreviations</a> is a hashmap of abbreviations in the analyzed language;
+and</li>
 <li><a href="../text_analysis/TextAnalyzer/syllableCounter.html">syllableCounter</a> returns the number of syllables in a word or text.</li>
 </ul>
 </section>
@@ -86,6 +94,7 @@ that should not be re-capitalized, stemmed or lemmatized; and</li>
         <dt>Implementers</dt>
         <dd><ul class="comma-separated clazz-relationships">
           <li><a href="../text_analysis/English-class.html">English</a></li>
+          <li><a href="../implementation/LatinLanguageAnalyzerMixin-class.html">LatinLanguageAnalyzerMixin</a></li>
         </ul></dd>
 
 
@@ -111,6 +120,17 @@ that should not be re-capitalized, stemmed or lemmatized; and</li>
       <h2>Properties</h2>
 
       <dl class="properties">
+        <dt id="abbreviations" class="property">
+  <span class="name"><a href="../text_analysis/TextAnalyzer/abbreviations.html">abbreviations</a></span>
+  <span class="signature">&#8594; <a href="https://api.flutter.dev/flutter/dart-core/Map-class.html">Map</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>, <span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>&gt;</span></span> 
+
+</dt>
+<dd>
+  A hashmap of abbreviations in the analyzed language.
+  <div class="features">read-only</div>
+
+</dd>
+
         <dt id="characterFilter" class="property">
   <span class="name"><a href="../text_analysis/TextAnalyzer/characterFilter.html">characterFilter</a></span>
   <span class="signature">&#8594; <a href="../type_definitions/CharacterFilter.html">CharacterFilter</a></span> 
@@ -130,6 +150,18 @@ that should not be re-capitalized, stemmed or lemmatized; and</li>
 <dd class="inherited">
   The hash code for this object.
   <div class="features">read-only, inherited</div>
+
+</dd>
+
+        <dt id="keywordExtractor" class="property">
+  <span class="name"><a href="../text_analysis/TextAnalyzer/keywordExtractor.html">keywordExtractor</a></span>
+  <span class="signature">&#8594; <a href="../type_definitions/KeywordExtractor.html">KeywordExtractor</a></span> 
+
+</dt>
+<dd>
+  A splitter function that returns an ordered collection of keyword phrases
+from text.
+  <div class="features">read-only</div>
 
 </dd>
 
@@ -195,6 +227,18 @@ that should not be re-capitalized, stemmed or lemmatized; and</li>
 </dt>
 <dd>
   Language-specific function that returns the stem of a term.
+  <div class="features">read-only</div>
+
+</dd>
+
+        <dt id="stopWords" class="property">
+  <span class="name"><a href="../text_analysis/TextAnalyzer/stopWords.html">stopWords</a></span>
+  <span class="signature">&#8594; <a href="https://api.flutter.dev/flutter/dart-core/Set-class.html">Set</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>&gt;</span></span> 
+
+</dt>
+<dd>
+  Stopwords are terms that commonly occur in a language and that do not add
+material value to the analysis of text.
   <div class="features">read-only</div>
 
 </dd>
@@ -331,16 +375,11 @@ re-capitalized, stemmed or lemmatized.
   <li><a href="../text_analysis/NGramRange-class.html">NGramRange</a></li>
   <li><a href="https://pub.dev/documentation/porter_2_stemmer/3.0.1/porter_2_stemmer/Porter2Stemmer-class.html">Porter2Stemmer</a></li>
   <li><a href="../text_analysis/SimilarityIndex-class.html">SimilarityIndex</a></li>
+  <li><a href="../text_analysis/TermCoOccurrenceGraph-class.html">TermCoOccurrenceGraph</a></li>
   <li><a href="../text_analysis/TermSimilarity-class.html">TermSimilarity</a></li>
-  <li><a href="../text_analysis/TermSimilarityBase-class.html">TermSimilarityBase</a></li>
-  <li><a href="../text_analysis/TermSimilarityMixin-class.html">TermSimilarityMixin</a></li>
   <li><a href="../text_analysis/TextAnalyzer-class.html">TextAnalyzer</a></li>
   <li><a href="../text_analysis/TextDocument-class.html">TextDocument</a></li>
-  <li><a href="../text_analysis/TextDocumentBase-class.html">TextDocumentBase</a></li>
-  <li><a href="../text_analysis/TextDocumentMixin-class.html">TextDocumentMixin</a></li>
   <li><a href="../text_analysis/TextTokenizer-class.html">TextTokenizer</a></li>
-  <li><a href="../text_analysis/TextTokenizerBase-class.html">TextTokenizerBase</a></li>
-  <li><a href="../text_analysis/TextTokenizerMixin-class.html">TextTokenizerMixin</a></li>
   <li><a href="../text_analysis/Token-class.html">Token</a></li>
 
 
@@ -351,6 +390,7 @@ re-capitalized, stemmed or lemmatized.
   <li class="section-title"><a href="../text_analysis/text_analysis-library.html#enums">Enums</a></li>
   <li><a href="../text_analysis/PartOfSpeech.html">PartOfSpeech</a></li>
   <li><a href="../text_analysis/PoSTag.html">PoSTag</a></li>
+  <li><a href="../text_analysis/TokenizingStrategy.html">TokenizingStrategy</a></li>
 
 
 </ol>
@@ -367,14 +407,17 @@ re-capitalized, stemmed or lemmatized.
     <li class="section-title">
       <a href="../text_analysis/TextAnalyzer-class.html#instance-properties">Properties</a>
     </li>
+    <li><a href="../text_analysis/TextAnalyzer/abbreviations.html">abbreviations</a></li>
     <li><a href="../text_analysis/TextAnalyzer/characterFilter.html">characterFilter</a></li>
     <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/hashCode.html">hashCode</a></li>
+    <li><a href="../text_analysis/TextAnalyzer/keywordExtractor.html">keywordExtractor</a></li>
     <li><a href="../text_analysis/TextAnalyzer/lemmatizer.html">lemmatizer</a></li>
     <li><a href="../text_analysis/TextAnalyzer/nGrammer.html">nGrammer</a></li>
     <li><a href="../text_analysis/TextAnalyzer/paragraphSplitter.html">paragraphSplitter</a></li>
     <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/runtimeType.html">runtimeType</a></li>
     <li><a href="../text_analysis/TextAnalyzer/sentenceSplitter.html">sentenceSplitter</a></li>
     <li><a href="../text_analysis/TextAnalyzer/stemmer.html">stemmer</a></li>
+    <li><a href="../text_analysis/TextAnalyzer/stopWords.html">stopWords</a></li>
     <li><a href="../text_analysis/TextAnalyzer/syllableCounter.html">syllableCounter</a></li>
     <li><a href="../text_analysis/TextAnalyzer/termExceptions.html">termExceptions</a></li>
     <li><a href="../text_analysis/TextAnalyzer/termFilter.html">termFilter</a></li>
@@ -399,7 +442,7 @@ re-capitalized, stemmed or lemmatized.
 <footer>
   <span class="no-break">
     text_analysis
-      0.21.0
+      0.22.0
   </span>
 
   

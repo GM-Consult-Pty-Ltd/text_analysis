@@ -2,9 +2,8 @@
 // Copyright ©2022, GM Consult Pty Ltd
 // All rights reserved
 
-import 'package:text_analysis/src/text_tokenizer/tokenizer_strategy.dart';
-
-import '../_index.dart';
+import 'package:text_analysis/type_definitions.dart';
+import 'package:text_analysis/text_analysis.dart';
 
 /// Interface for a text analyser class that extracts tokens from text for use
 /// in full-text search queries and indexes:
@@ -20,7 +19,7 @@ abstract class TextTokenizer {
   //
 
   /// Returns a static const [TextTokenizer] using the [English] analyzer.
-  static const english = _TextTokenizerImpl(English.analyzer, null);
+  static const english = _TextTokenizerImpl(English(), null);
 
   /// Instantiates a const [TextTokenizerBase] instance.
   /// - [analyzer] is used by the [TextTokenizer] to tokenize source text
@@ -89,10 +88,9 @@ abstract class TextTokenizerMixin implements TextTokenizer {
 
   @override
   Future<List<Token>> tokenizeJson(Map<String, dynamic> document,
-      {NGramRange nGramRange = const NGramRange(1, 1),
+      {NGramRange? nGramRange,
       Iterable<Zone>? zones,
       TokenizingStrategy strategy = TokenizingStrategy.terms}) async {
-    //TODO: implement the strategy parameter
     final tokens = <Token>[];
     if (zones == null || zones.isEmpty) {
       zones = document.keys;
@@ -113,21 +111,90 @@ abstract class TextTokenizerMixin implements TextTokenizer {
 
   @override
   Future<List<Token>> tokenize(SourceText text,
-      {NGramRange nGramRange = const NGramRange(1, 1),
+      {NGramRange? nGramRange,
       Zone? zone,
       TokenizingStrategy strategy = TokenizingStrategy.terms}) async {
+    List<Token> tokens = [];
+    // add term tokens and n-gram tokens
+    if (strategy != TokenizingStrategy.keyWords) {
+      tokens.addAll(await _nGramAndTermTokens(
+          text, _effectiveNGramRange(nGramRange, strategy), zone));
+    }
+    // add keyword tokens
+    if (strategy == TokenizingStrategy.keyWords ||
+        strategy == TokenizingStrategy.all) {
+      tokens.addAll(_keyWordTokens(text, zone));
+    }
+    // remove duplicate tokens
+    tokens = tokens.toSet().toList();
+    // sort the tokens
+    tokens.sort(((a, b) => a.termPosition.compareTo(b.termPosition)));
+    // apply the tokenFilter if it is not null and return the tokens collection
+    return tokenFilter != null ? await tokenFilter!(tokens) : tokens;
+  }
+
+  /// Private worker function.
+  ///
+  /// Splits the text into keywords, applies the termfilter to each word
+  /// in the keyword and returns token(s) for each keyword.
+  List<Token> _keyWordTokens(String text, Zone? zone) {
+    final tokens = <Token>[];
+    int position = 0;
+    final keyWords = analyzer.keywordExtractor(text);
+    for (final keyWord in keyWords) {
+      final List<String> tokenTerms = [];
+      for (final term in keyWord) {
+        final splitTerms = analyzer.termFilter(term);
+        final oldTerms = List<String>.from(tokenTerms);
+        if (oldTerms.isEmpty) {
+          oldTerms.add('');
+        }
+        tokenTerms.clear();
+        for (final tokenTerm in oldTerms) {
+          if (splitTerms.isNotEmpty) {
+            for (var splitTerm in splitTerms) {
+              tokenTerms
+                  .add('$tokenTerm${tokenTerm.isEmpty ? '' : ' '}$splitTerm');
+            }
+          } else {
+            if (tokenTerm.isNotEmpty) {
+              tokenTerms.add(tokenTerm);
+            }
+          }
+        }
+      }
+      for (var tokenTerm in tokenTerms) {
+        tokenTerm = tokenTerm.trim().replaceAll(RegExp(r'\s+'), ' ');
+        if (tokenTerm.isNotEmpty) {
+          final n = tokenTerm.split(' ').length;
+          final token = Token(tokenTerm, n, position, zone);
+          tokens.add(token);
+        }
+      }
+      position = position + keyWord.length;
+    }
+    return tokens;
+  }
+
+  /// Private worker function.
+  ///
+  /// Splits the text into terms, applies the termfilter to the terms then
+  /// generates n-grams from the terms.
+  Future<List<Token>> _nGramAndTermTokens(
+      String text, NGramRange nGramRange, Zone? zone) async {
+    // initialize position counter
     int position = 0;
 // perform the first punctuation and white-space split
     final terms = analyzer.termSplitter(text.trim());
     // initialize the tokens collection (return value)
     final tokens = <Token>[];
-    // iterate through the terms
+    // initialize a collection for previous terms to build n-grams from
     final nGramTerms = <List<String>>[];
-    //TODO: implement the strategy parameter
-    await Future.forEach(terms, (String term) async {
+    // iterate through the terms
+    for (var term in terms) {
       // remove white-space at start and end of term
       term = term.trim();
-      final splitTerms = await analyzer.termFilter(term);
+      final splitTerms = analyzer.termFilter(term);
       if (splitTerms.isNotEmpty) {
         nGramTerms.add(splitTerms.toList());
         if (nGramTerms.length > nGramRange.max) {
@@ -135,33 +202,56 @@ abstract class TextTokenizerMixin implements TextTokenizer {
         }
         tokens.addAll(_getNGrams(nGramTerms, nGramRange, position, zone));
       }
-
       position++;
-    });
-    // apply the tokenFilter if it is not null and return the tokens collection
-    return tokenFilter != null ? await tokenFilter!(tokens) : tokens;
+    }
+    return tokens;
   }
 
-  static Iterable<List<String>> _prefixWordsTo(
-      Iterable<List<String>> nkGrams, Iterable<String> words) {
-    final nGrams = List<List<String>>.from(nkGrams);
+  /// Private worker function.
+  ///
+  /// Returns the effective n-gram range depending on the tokenizing strategy
+  /// adopted.
+  NGramRange _effectiveNGramRange(
+      NGramRange? nGramRange, TokenizingStrategy strategy) {
+    int max = 1;
+    int min = 1;
+    switch (strategy) {
+      case TokenizingStrategy.all:
+        max = nGramRange?.max ?? 2;
+        break;
+      case TokenizingStrategy.ngrams:
+        max = nGramRange?.max ?? 2;
+        min = nGramRange?.min ?? 1;
+        break;
+      default:
+    }
+    return NGramRange(min, max);
+  }
+
+  /// Private wrker function that pre-pends [words] to existing n-grams.
+  static Iterable<List<String>> _prependWords(
+      Iterable<List<String>> termNGrams, Iterable<String> words) {
+    final nGrams = List<List<String>>.from(termNGrams);
     words = words.map((e) => e.trim()).where((element) => element.isNotEmpty);
     final retVal = <List<String>>[];
     if (nGrams.isEmpty) {
-      retVal.addAll(words.map((e) => [e]));
+      retVal.addAll(words.map((e) => e.split(' ')));
     }
     for (final word in words) {
       for (final nGram in nGrams) {
-        final newNGram = List<String>.from(nGram);
-        newNGram.insert(0, word);
+        final newNGram = word.split(' ') + List<String>.from(nGram);
         retVal.add(newNGram);
       }
     }
     return retVal;
   }
 
-  Iterable<Token> _getNGrams(List<List<String>> nGramTerms,
-      NGramRange nGramRange, int termPosition, Zone? zone) {
+  /// Private worker function.
+  ///
+  /// Returns a collection of tokens where the terms are n-grams built from
+  /// the [nGramTerms].
+  List<Token> _getNGrams(List<List<String>> nGramTerms, NGramRange nGramRange,
+      int termPosition, Zone? zone) {
     if (nGramTerms.length > nGramRange.max) {
       nGramTerms = nGramTerms.sublist(nGramTerms.length - nGramRange.max);
     }
@@ -169,19 +259,18 @@ abstract class TextTokenizerMixin implements TextTokenizer {
       return <Token>[];
     }
     final nGrams = <List<String>>[];
-    var n = 0;
+    var j = 0;
     for (var i = nGramTerms.length - 1; i >= 0; i--) {
       final param = <List<String>>[];
       param.addAll(nGrams
-          .where((element) => element.length == n)
+          .where((element) => element.length == j)
           .map((e) => List<String>.from(e)));
-      final newNGrams = _prefixWordsTo(param, nGramTerms[i]);
+      final newNGrams = _prependWords(param, nGramTerms[i]);
       nGrams.addAll(newNGrams);
-      n++;
+      j++;
     }
     final tokenGrams = nGrams.where((element) =>
         element.length >= nGramRange.min && element.length <= nGramRange.max);
-
     final tokens = <Token>[];
     for (final e in tokenGrams) {
       final n = e.length;

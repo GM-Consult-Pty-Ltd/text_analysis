@@ -56,6 +56,7 @@
 <li><span class="parameter" id="-param-sentences"><span>required</span> <span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>&gt;</span></span> <span class="parameter-name">sentences</span>, </span></li>
 <li><span class="parameter" id="-param-terms"><span>required</span> <span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>&gt;</span></span> <span class="parameter-name">terms</span>, </span></li>
 <li><span class="parameter" id="-param-nGrams"><span>required</span> <span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>&gt;</span></span> <span class="parameter-name">nGrams</span>, </span></li>
+<li><span class="parameter" id="-param-keywords"><span>required</span> <span class="type-annotation"><a href="../../text_analysis/TermCoOccurrenceGraph-class.html">TermCoOccurrenceGraph</a></span> <span class="parameter-name">keywords</span>, </span></li>
 <li><span class="parameter" id="-param-syllableCount"><span>required</span> <span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/int-class.html">int</a></span> <span class="parameter-name">syllableCount</span>}</span></li>
 </ol>)
     </section>
@@ -72,6 +73,8 @@ ending marks;</li>
 ending punctuation and line ending marks;</li>
 <li><code>nGrams</code> is a collection of word sequences generated from the terms;</li>
 <li><code>terms</code> is all the words in the <code>sourceText</code>;</li>
+<li><code>keywords</code> is the keywords in the document mapped to their RAKE keyword
+score in a <a href="../../text_analysis/TermCoOccurrenceGraph-class.html">TermCoOccurrenceGraph</a>;</li>
 <li><code>syllableCount</code> is the total number of syllables in the document; and</li>
 <li><code>tokens</code> is all the tokens extracted from <code>sourceText</code>.</li>
 </ul>
@@ -88,9 +91,10 @@ ending punctuation and line ending marks;</li>
         required List&lt;String&gt; sentences,
         required List&lt;String&gt; terms,
         required List&lt;String&gt; nGrams,
+        required TermCoOccurrenceGraph keywords,
         required int syllableCount}) =&gt;
     _TextDocumentImpl(sourceText, tokens, paragraphs, sentences, terms,
-        nGrams, syllableCount);</code></pre>
+        nGrams, syllableCount, keywords);</code></pre>
 </section>
 
 
@@ -122,6 +126,7 @@ ending punctuation and line ending marks;</li>
       <a href="../../text_analysis/TextDocument-class.html#instance-properties">Properties</a>
     </li>
     <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/hashCode.html">hashCode</a></li>
+    <li><a href="../../text_analysis/TextDocument/keywords.html">keywords</a></li>
     <li><a href="../../text_analysis/TextDocument/nGrams.html">nGrams</a></li>
     <li><a href="../../text_analysis/TextDocument/paragraphs.html">paragraphs</a></li>
     <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/runtimeType.html">runtimeType</a></li>
@@ -161,7 +166,7 @@ ending punctuation and line ending marks;</li>
 <footer>
   <span class="no-break">
     text_analysis
-      0.21.0
+      0.22.0
   </span>
 
   

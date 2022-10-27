@@ -6,11 +6,14 @@
 /// information retrieval systems.
 library implementation;
 
-export 'src//term_similarity/_index.dart'
-    show TermSimilarityBase, TermSimilarityMixin;
-export 'src/text_analyzer/_index.dart'
-    show TermCoOccurrenceGraphMixin, TermCoOccurrenceGraphBase;
-export 'src/text_document/_index.dart' show TextDocumentMixin, TextDocumentBase;
-export 'src/text_tokenizer/_index.dart'
-    show TextTokenizerMixin, TextTokenizerBase;
-export 'package:porter_2_stemmer/porter_2_stemmer.dart' show Porter2Stemmer;
+export 'src/_index.dart'
+    show
+        TermSimilarityBase,
+        TermSimilarityMixin,
+        TermCoOccurrenceGraphMixin,
+        TermCoOccurrenceGraphBase,
+        LatinLanguageAnalyzerMixin,
+        TextDocumentMixin,
+        TextDocumentBase,
+        TextTokenizerMixin,
+        TextTokenizerBase;

@@ -4,7 +4,7 @@ Copyright (c) 2022, GM Consult Pty Ltd
 All rights reserved. 
 -->
 
-## 0.21.1
+## 0.22.0
 **BREAKING CHANGES**
 
 ### *Breaking changes*
@@ -12,10 +12,12 @@ All rights reserved.
 * Added field `TextDocument.keywords`.
 * Changed signature of `TextDocument` unnamed factory constructor.
 * Moved export of all mixins and base-classes to `implementation` mini-library.
+* Changed function definition `TermFilter`.
 
 ### *New*
 * New enum `TokenizingStrategy`.
 * New class `TermCoOccurrenceGraph`.
+* New mixin class `LatinLanguageAnalyzerMixin`.
 * New type alias `Phrase`.
 * New function definition `KeywordExtractor`.
 * New extension method `Set<String> toUniqueTerms()` on `Iterable<List<String>>`.

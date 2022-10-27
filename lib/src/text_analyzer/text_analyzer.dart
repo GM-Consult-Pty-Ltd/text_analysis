@@ -1,10 +1,10 @@
 // BSD 3-Clause License
 // Copyright ©2022, GM Consult Pty Ltd
 
-import '../_index.dart';
+import 'package:text_analysis/type_definitions.dart';
 
 /// An interface exposes language-specific properties and methods used in
-/// text analysis:
+/// text analysis.
 /// - [characterFilter] is a function that manipulates text prior to stemming
 ///   and tokenization;
 /// - [termFilter] is a filter function that returns a collection of terms from
@@ -20,8 +20,16 @@ import '../_index.dart';
 ///   term;
 /// - [lemmatizer] is a language-specific function that returns the lemma of a
 ///   term;
+/// - [keywordExtractor] is a splitter function that returns an ordered
+///   collection of keyword phrasesfrom text. The text is split at punctuation,
+///   line endings and stop-words, resulting in an ordered collection of term
+///   sequences of varying length.
 /// - [termExceptions] is a hashmap of words to token terms for special words
-///   that should not be re-capitalized, stemmed or lemmatized; and
+///   that should not be re-capitalized, stemmed or lemmatized;
+/// - [stopWords] are terms that commonly occur in a language and that do not
+///   add material value to the analysis of text.
+/// - [abbreviations] is a hashmap of abbreviations in the analyzed language;
+///   and
 /// - [syllableCounter] returns the number of syllables in a word or text.
 abstract class TextAnalyzer {
   //
@@ -42,7 +50,8 @@ abstract class TextAnalyzer {
   /// Returns a list of terms from text.
   TermSplitter get termSplitter;
 
-  /// A splitter function that returns a list of phrases from source text.
+  /// A splitter function that returns an ordered collection of keyword phrases
+  /// from text.
   ///
   /// The text is split at punctuation, line endings and stop-words, resulting
   /// in an ordered collection of term sequences of varying length.
@@ -74,6 +83,9 @@ abstract class TextAnalyzer {
   /// Stopwords are terms that commonly occur in a language and that do not add
   /// material value to the analysis of text.
   ///
-  /// Stopwords are used by the [phraseSplitter] and [termFilter].
+  /// Stopwords are used by the [keywordExtractor] and [termFilter].
   Set<String> get stopWords;
+
+  /// A hashmap of abbreviations in the analyzed language.
+  Map<String, String> get abbreviations;
 }

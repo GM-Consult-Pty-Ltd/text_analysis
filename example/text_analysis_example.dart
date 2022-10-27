@@ -4,6 +4,7 @@
 /// Add the import(s) at the top of your code file.
 ///
 /// Import the text_analysis package.
+
 import 'package:text_analysis/text_analysis.dart';
 
 /// Import the extensions if you prefer the convenience of calling an extension.
@@ -15,7 +16,7 @@ import 'package:gmconsult_dev/gmconsult_dev.dart';
 void main() async {
   //
 
-  _readMeExample('README.md EXAMPLE');
+  await _readMeExample('README.md EXAMPLE');
 
   // print a seperator
   _seperator();
@@ -39,7 +40,7 @@ void main() async {
   _seperator();
 
   // print text statistics and readibility scores for readbilityExample
-  await _analyseText('ANALYZE TEXT', readabilityExample);
+  await _analyzeText('ANALYZE TEXT', readabilityExample);
 
   // print a seperator
   _seperator();
@@ -57,7 +58,7 @@ void main() async {
 }
 
 // Simple example(s) for the README.md file.
-void _readMeExample(String title) {
+Future<void> _readMeExample(String title) async {
   //
   // print a heading
   print(title);
@@ -85,6 +86,24 @@ void _readMeExample(String title) {
   // prints:
   //     Ranked matches: [border, boarder, bored, brother, board, bord, broad]
   //
+
+  // Use the static TextTokenizer.english instance to tokenize the text using the
+  // English analyzer.
+  final tokens = await TextTokenizer(analyzer: English()).tokenize(
+      readabilityExample,
+      strategy: TokenizingStrategy.all,
+      nGramRange: NGramRange(1, 2));
+  print(tokens.terms);
+
+  // hydrate the TextDocument
+  final textDoc = await TextDocument.analyze(
+      sourceText: readabilityExample,
+      analyzer: English.analyzer,
+      nGramRange: NGramRange(1, 3));
+
+  // print the `Flesch reading ease score`
+  print(
+      'Flesch Reading Ease: ${textDoc.fleschReadingEaseScore().toStringAsFixed(1)}');
 }
 
 // Print separator
@@ -94,7 +113,7 @@ void _seperator() {
 }
 
 /// Print text statistics and readibility scores for [text].
-Future<void> _analyseText(String title, String text) async {
+Future<void> _analyzeText(String title, String text) async {
 //
   // print a heading
   print(title);

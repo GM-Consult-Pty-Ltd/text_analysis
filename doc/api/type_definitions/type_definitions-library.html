@@ -96,6 +96,21 @@ the <code>fields</code> in a <code>json</code> document.
   </dd>
 
           
+  <dt id="KeywordExtractor" class="callable">
+    <span class="name"><a href="../type_definitions/KeywordExtractor.html">KeywordExtractor</a></span><span class="signature">
+      <span class="returntype parameter">= <a href="https://api.flutter.dev/flutter/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>&gt;</span></span>&gt;</span> Function<span class="signature">(<span class="parameter" id="param-source"><span class="type-annotation"><a href="../type_definitions/SourceText.html">SourceText</a></span> <span class="parameter-name">source</span></span>)</span></span>
+    </span>
+    
+
+  </dt>
+  <dd>
+    A splitter function that returns an ordered collection of keyword phrases
+from text.
+    
+
+  </dd>
+
+          
   <dt id="KGram" class="">
   <span class="name"><a href="../type_definitions/KGram.html">KGram</a></span>
     = <a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a>
@@ -167,6 +182,22 @@ from a <a href="../type_definitions/Term.html">Term</a>.
     
 
   </dd>
+
+          
+  <dt id="Phrase" class="">
+  <span class="name"><a href="../type_definitions/Phrase.html">Phrase</a></span>
+    = <a href="https://api.flutter.dev/flutter/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>&gt;</span>
+  </span>
+  
+
+</dt>
+<dd>
+  An alias for <code>List&lt;String&gt;</code> when used in the context of the terms of a
+phrase split to an ordered list of terms.
+  
+
+</dd>
+
 
           
   <dt id="SentenceSplitter" class="callable">
@@ -261,7 +292,7 @@ in a text source, document or query.
           
   <dt id="TermFilter" class="callable">
     <span class="name"><a href="../type_definitions/TermFilter.html">TermFilter</a></span><span class="signature">
-      <span class="returntype parameter">= <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/Set-class.html">Set</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>&gt;</span></span>&gt;</span> Function<span class="signature">(<span class="parameter" id="param-term"><span class="type-annotation"><a href="../type_definitions/Term.html">Term</a></span> <span class="parameter-name">term</span></span>)</span></span>
+      <span class="returntype parameter">= <a href="https://api.flutter.dev/flutter/dart-core/Set-class.html">Set</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>&gt;</span> Function<span class="signature">(<span class="parameter" id="param-term"><span class="type-annotation"><a href="../type_definitions/Term.html">Term</a></span> <span class="parameter-name">term</span></span>)</span></span>
     </span>
     
 
@@ -353,8 +384,8 @@ in the <code>corpus</code>. Represents the name of the field/zone.
     <h5><span class="package-name">text_analysis</span> <span class="package-kind">package</span></h5>
     <ol>
       <li class="section-title">Libraries</li>
-      <li><a href="../constants/constants-library.html">constants</a></li>
       <li><a href="../extensions/extensions-library.html">extensions</a></li>
+      <li><a href="../implementation/implementation-library.html">implementation</a></li>
       <li><a href="../text_analysis/text_analysis-library.html">text_analysis</a></li>
       <li><a href="../type_definitions/type_definitions-library.html">type_definitions</a></li>
 </ol>
@@ -374,11 +405,13 @@ in the <code>corpus</code>. Represents the name of the field/zone.
   <li class="section-title"><a href="../type_definitions/type_definitions-library.html#typedefs">Typedefs</a></li>
   <li><a href="../type_definitions/CharacterFilter.html">CharacterFilter</a></li>
   <li><a href="../type_definitions/JsonTokenizer.html">JsonTokenizer</a></li>
+  <li><a href="../type_definitions/KeywordExtractor.html">KeywordExtractor</a></li>
   <li><a href="../type_definitions/KGram.html">KGram</a></li>
   <li><a href="../type_definitions/KGramsMap.html">KGramsMap</a></li>
   <li><a href="../type_definitions/Lemmatizer.html">Lemmatizer</a></li>
   <li><a href="../type_definitions/NGrammer.html">NGrammer</a></li>
   <li><a href="../type_definitions/ParagraphSplitter.html">ParagraphSplitter</a></li>
+  <li><a href="../type_definitions/Phrase.html">Phrase</a></li>
   <li><a href="../type_definitions/SentenceSplitter.html">SentenceSplitter</a></li>
   <li><a href="../type_definitions/SourceText.html">SourceText</a></li>
   <li><a href="../type_definitions/Stemmer.html">Stemmer</a></li>
@@ -400,7 +433,7 @@ in the <code>corpus</code>. Represents the name of the field/zone.
 <footer>
   <span class="no-break">
     text_analysis
-      0.21.0
+      0.22.0
   </span>
 
   
