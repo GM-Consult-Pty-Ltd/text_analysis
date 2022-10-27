@@ -15,6 +15,8 @@ import 'package:collection/collection.dart';
 /// - [sentences] is a list of strings after splitting [sourceText] at sentence
 ///   ending punctuation and line ending marks;
 /// - [nGrams] is a collection of word sequences generated from the terms;
+/// - [zones] is a collection of the names of the zones in document that
+///   are tokenized.
 /// - [terms] is all the words in the [sourceText];
 /// - [keywords] is the keywords in the document mapped to their RAKE keyword
 ///   score in a [TermCoOccurrenceGraph];
@@ -57,8 +59,9 @@ abstract class TextDocument {
           required List<String> terms,
           required List<String> nGrams,
           required TermCoOccurrenceGraph keywords,
-          required int syllableCount}) =>
-      _TextDocumentImpl(sourceText, tokens, paragraphs, sentences, terms,
+          required int syllableCount,
+          List<String>? zones}) =>
+      _TextDocumentImpl(sourceText, zones, tokens, paragraphs, sentences, terms,
           nGrams, syllableCount, keywords);
 
   /// Hydrates a [TextDocument] from the [sourceText], [zone] and
@@ -87,8 +90,8 @@ abstract class TextDocument {
     final keywords = analyzer.keywordExtractor(sourceText);
     final graph = TermCoOccurrenceGraph(keywords);
     final syllableCount = terms.map((e) => analyzer.syllableCounter(e)).sum;
-    return _TextDocumentImpl(sourceText, tokens, paragraphs, sentences, terms,
-        nGrams, syllableCount, graph);
+    return _TextDocumentImpl(sourceText, null, tokens, paragraphs, sentences,
+        terms, nGrams, syllableCount, graph);
   }
 
   /// Hydrates a [TextDocument] from the [document], [zones] and
@@ -104,23 +107,7 @@ abstract class TextDocument {
       required TextAnalyzer analyzer,
       NGramRange nGramRange = const NGramRange(1, 1),
       Iterable<Zone>? zones}) async {
-    final buffer = StringBuffer();
-    if (zones == null || zones.isEmpty) {
-      for (final fieldValue in document.values) {
-        buffer.writeln(fieldValue.toString());
-        buffer.write('\n');
-      }
-    } else {
-      zones = zones.toSet();
-      for (final zone in zones) {
-        final value = document[zone];
-        if (value != null) {
-          buffer.writeln(value.toString());
-          buffer.write('\n');
-        }
-      }
-    }
-    final sourceText = buffer.toString();
+    final sourceText = document.toSourceText(zones);
     final tokens = await TextTokenizer(analyzer: analyzer)
         .tokenizeJson(document, zones: zones, nGramRange: nGramRange);
     final terms = analyzer.termSplitter(sourceText);
@@ -130,8 +117,8 @@ abstract class TextDocument {
     final keywords = analyzer.keywordExtractor(sourceText);
     final graph = TermCoOccurrenceGraph(keywords);
     final syllableCount = terms.map((e) => analyzer.syllableCounter(e)).sum;
-    return _TextDocumentImpl(sourceText, tokens, paragraphs, sentences, terms,
-        nGrams, syllableCount, graph);
+    return _TextDocumentImpl(sourceText, zones, tokens, paragraphs, sentences,
+        terms, nGrams, syllableCount, graph);
   }
 
   /// The unique keywords in the document mapped to their RAKE keyword score
@@ -155,6 +142,10 @@ abstract class TextDocument {
 
   /// A collection of n-grams from the [terms] in the document.
   List<String> get nGrams;
+
+  /// A collection of the names of the zones in document that are to be
+  /// tokenized.
+  Iterable<Zone>? get zones;
 
   /// The average number of words in [sentences].
   int averageSentenceLength();
@@ -242,6 +233,9 @@ class _TextDocumentImpl with TextDocumentMixin {
   final List<String> terms;
 
   @override
+  final Iterable<String>? zones;
+
+  @override
   final List<String> nGrams;
 
   @override
@@ -252,6 +246,7 @@ class _TextDocumentImpl with TextDocumentMixin {
 
   const _TextDocumentImpl(
       this.sourceText,
+      this.zones,
       this.tokens,
       this.paragraphs,
       this.sentences,

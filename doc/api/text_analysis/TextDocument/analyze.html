@@ -98,8 +98,8 @@ The static factory instantiates a <a href="../../text_analysis/TextTokenizer-cla
   final keywords = analyzer.keywordExtractor(sourceText);
   final graph = TermCoOccurrenceGraph(keywords);
   final syllableCount = terms.map((e) =&gt; analyzer.syllableCounter(e)).sum;
-  return _TextDocumentImpl(sourceText, tokens, paragraphs, sentences, terms,
-      nGrams, syllableCount, graph);
+  return _TextDocumentImpl(sourceText, null, tokens, paragraphs, sentences,
+      terms, nGrams, syllableCount, graph);
 }</code></pre>
 </section>
 
@@ -141,6 +141,7 @@ The static factory instantiates a <a href="../../text_analysis/TextTokenizer-cla
     <li><a href="../../text_analysis/TextDocument/syllableCount.html">syllableCount</a></li>
     <li><a href="../../text_analysis/TextDocument/terms.html">terms</a></li>
     <li><a href="../../text_analysis/TextDocument/tokens.html">tokens</a></li>
+    <li><a href="../../text_analysis/TextDocument/zones.html">zones</a></li>
 
     <li class="section-title"><a href="../../text_analysis/TextDocument-class.html#instance-methods">Methods</a></li>
     <li><a href="../../text_analysis/TextDocument/averageSentenceLength.html">averageSentenceLength</a></li>
@@ -172,7 +173,7 @@ The static factory instantiates a <a href="../../text_analysis/TextTokenizer-cla
 <footer>
   <span class="no-break">
     text_analysis
-      0.22.0
+      0.23.0
   </span>
 
   

@@ -62,8 +62,8 @@ abstract class TextTokenizer {
   /// full-text search queries and indexes.
   ///
   /// - [nGramRange] is the range of N-gram lengths to generate; and
-  /// - [zones] is the collection of the names of the
-  /// zones in [document] that are to be tokenized.
+  /// - [zones] is the collection of the names of the zones in [document] that
+  ///   are to be tokenized.
   ///
   /// Returns a List<[Token]>.
   Future<List<Token>> tokenizeJson(Map<String, dynamic> document,

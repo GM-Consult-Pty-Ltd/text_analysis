@@ -9,6 +9,42 @@ import 'package:text_analysis/extensions.dart';
 
 /// Extension methods on [Term] that exposes methods analysing and tokenizing
 /// text.
+extension TextAnalysisExtensionsOnJSON on Map<String, dynamic> {
+  /// Parses the JSON to text.
+  ///
+  /// Calls toString() on the value of every field in [fieldNames] and writes
+  /// the text to the return value as a new line, followed by an empty line.
+  ///
+  /// Every field value is preceded by a token in the format %fieldName%.
+  ///
+  /// If [fieldNames] is null, all the fields in the JSON will be parsed in
+  /// the order of map entries.
+  String toSourceText([Iterable<Zone>? fieldNames]) {
+    final buffer = StringBuffer();
+    if (fieldNames == null) {
+      for (final entry in entries) {
+        final fieldValue = entry.toString();
+        buffer.writeln('%${entry.key}%');
+        buffer.writeln(fieldValue);
+        buffer.write('\n');
+      }
+    } else {
+      fieldNames = fieldNames.toSet();
+      for (final zone in fieldNames) {
+        final value = this[zone];
+        if (value != null) {
+          buffer.writeln('%$zone%');
+          buffer.writeln(value.toString());
+          buffer.write('\n');
+        }
+      }
+    }
+    return buffer.toString();
+  }
+}
+
+/// Extension methods on [Term] that exposes methods analysing and tokenizing
+/// text.
 extension TextAnalysisExtensionsOnString on String {
 //
 

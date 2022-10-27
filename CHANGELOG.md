@@ -4,6 +4,22 @@ Copyright (c) 2022, GM Consult Pty Ltd
 All rights reserved. 
 -->
 
+
+## 0.23.0
+**BREAKING CHANGES**
+
+### *Breaking changes*
+* Added and implemented new field `TextDocument.zones`.
+
+### *New*
+* Extension method `String toSourceText([Iterable<Zone>? fieldNames])` on `Map<String, dynamic>`.
+
+### *Updated*
+* Dependencies.
+* Tests.
+* Documentation
+* Examples.
+
 ## 0.22.0
 **BREAKING CHANGES**
 
