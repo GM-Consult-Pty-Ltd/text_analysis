@@ -44,7 +44,7 @@ abstract class _LatinLanguageConstants {
 
   ///
   static const rPhraseDelimiterSelector =
-      '$rePunctuationSelector|$reBracketsAndCarets+|"+';
+      '$reLineEndingSelector|$rePunctuationSelector|$reBracketsAndCarets+|"+';
 
   /// Matches all sentence endings.
   static const reSentenceEndingSelector =

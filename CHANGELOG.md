@@ -4,6 +4,16 @@ Copyright (c) 2022, GM Consult Pty Ltd
 All rights reserved. 
 -->
 
+## 0.23.0+1
+
+### *Bug fixes*
+* Fixed chunking of text to keywords to also chunk at line endings.
+
+### *Updated*
+* Dependencies.
+* Tests.
+* Documentation
+* Examples.
 
 ## 0.23.0
 **BREAKING CHANGES**
