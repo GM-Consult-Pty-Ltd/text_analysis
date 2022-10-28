@@ -34,9 +34,10 @@ extension _LatinLanguageStringExtensions on String {
     if (term.isNotEmpty && !stopWords.contains(term)) {
       // exclude empty terms and that are stopwords
       final exception = termExceptions[term]?.trim();
-      if (abbreviations.keys.contains(term)) {
+      final abbreviation = abbreviations[term];
+      if (abbreviation != null) {
         // return the abbreviation and a version with no punctuation.
-        retVal.addAll({term, term.replaceAll('.', '').trim()});
+        retVal.addAll({term, abbreviation, term.replaceAll('.', '').trim()});
       } else if (exception != null) {
         retVal.add(exception);
       } else {
@@ -220,36 +221,73 @@ extension _LatinLanguageStringExtensions on String {
   ///
   /// Each element of the list is an ordered list of terms that make up the
   /// keyword.
-  List<List<String>> toKeyWords(
-      Map<String, String> abbreviations, Set<String> stopWords,
-      [Stemmer? stemmer]) {
+  List<List<String>> toKeyWords(Map<String, String> abbreviations,
+      Map<String, String> exceptions, Set<String> stopWords,
+      {Stemmer? stemmer, NGramRange? range}) {
     // final phraseTerms = <List<String>>[];
     final retVal = <List<String>>[];
+    final keyWordSet = <String>{};
     final phrases = toChunks();
     for (final e in phrases) {
       final phrase = <String>[];
       final terms =
           e.replacePunctuationWith(' ').splitAtWhiteSpace(abbreviations);
       for (var e in terms) {
-        e = e.trim().toLowerCase();
-        final stem = (stemmer != null ? stemmer(e) : e).trim();
-        if (!stopWords.contains(e) &&
-            !stopWords.contains(stem) &&
-            stem.isNotEmpty) {
-          phrase.add(stem);
-        } else {
-          if (phrase.isNotEmpty) {
-            retVal.add(List<String>.from(phrase));
+        e = e.trim();
+        if (e.length > 1) {
+          final abbreviation = abbreviations[e] ?? abbreviations['$e.'];
+          final exception = exceptions[e];
+          final alt = exceptions[e] ?? abbreviations[e] ?? abbreviations['$e.'];
+          if (exception != null) {
+            final words = exception.split(' ');
+            words.removeWhere((element) => stopWords.contains(element));
+            e = words.join(' ').toLowerCase();
+          } else if (abbreviation != null) {
+            _addPhraseToKeyWords(
+                [abbreviation.toLowerCase()], keyWordSet, retVal, range);
+            e = '$e.'.replaceAll(RegExp(r'\.+'), '.').toLowerCase();
+          } else {
+            e = e.toLowerCase();
+            e = (stemmer != null ? stemmer(e) : e).trim();
+
+            e = alt ?? e;
           }
-          phrase.clear();
+          if (!stopWords.contains(e) && e.isNotEmpty) {
+            phrase.add(e);
+          } else {
+            _addPhraseToKeyWords(phrase, keyWordSet, retVal, range);
+            phrase.clear();
+          }
         }
       }
-      if (phrase.isNotEmpty) {
-        retVal.add(List<String>.from(phrase));
-      }
+      _addPhraseToKeyWords(phrase, keyWordSet, retVal, range);
     }
 
     return retVal;
+  }
+
+  /// Worker method for toKeywords extension method.
+  static void _addPhraseToKeyWords(List<String> phrase, Set<String> keyWordSet,
+      List<List<String>> retVal, NGramRange? range) {
+    final keyWord = phrase.join(' ').toLowerCase();
+    if (phrase.isNotEmpty) {
+      if (!keyWordSet.contains(keyWord)) {
+        retVal.add(List<String>.from(phrase));
+        keyWordSet.add(keyWord);
+        if (range != null) {
+          final nGrams = phrase.nGrams(range).map((e) => e.split(' '));
+          for (var nGram in nGrams) {
+            final keyWord = nGram.join(' ');
+            if (!keyWordSet.contains(keyWord)) {
+              if (nGram.length != phrase.length) {
+                retVal.add(nGram);
+                keyWordSet.add(keyWord);
+              }
+            }
+          }
+        }
+      }
+    }
   }
 
   /// Splits the String into phrases at phrase delimiters:

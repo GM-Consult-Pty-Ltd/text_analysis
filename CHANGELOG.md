@@ -4,6 +4,24 @@ Copyright (c) 2022, GM Consult Pty Ltd
 All rights reserved. 
 -->
 
+
+## 0.23.1
+
+### *Non-breaking changes*
+* Added optional parameters to function defintion `Tokenizer`.
+* Added optional parameters to function defintion `JsonTokenizer`.
+* Added optional parameters to function defintion `KeywordExtractor`.
+
+### *Bug fixes*
+* Fixed keyword extractor to return all keywords as lower-case.
+* Fixed tokenizer to not return duplicate tokens (same term, zone and termPosition).
+
+### *Updated*
+* Dependencies.
+* Tests.
+* Documentation
+* Examples.
+
 ## 0.23.0+1
 
 ### *Bug fixes*

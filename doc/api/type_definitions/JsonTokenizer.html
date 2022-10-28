@@ -51,7 +51,7 @@
 
     <section class="multi-line-signature">
         <span class="name ">JsonTokenizer</span> =
-     <span class="returntype"><a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../text_analysis/Token-class.html">Token</a></span>&gt;</span></span>&gt;</span> Function<span class="signature">(<span class="parameter" id="param-json"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Map-class.html">Map</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>, <span class="type-parameter">dynamic</span>&gt;</span></span> <span class="parameter-name">json</span>, </span><span class="parameter" id="param-fields"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../type_definitions/Zone.html">Zone</a></span>&gt;</span></span> <span class="parameter-name">fields</span></span>)</span></span>
+     <span class="returntype"><a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../text_analysis/Token-class.html">Token</a></span>&gt;</span></span>&gt;</span> Function<span class="signature">(<span class="parameter" id="param-json"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Map-class.html">Map</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>, <span class="type-parameter">dynamic</span>&gt;</span></span> <span class="parameter-name">json</span>, </span><span class="parameter" id="param-fields"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../type_definitions/Zone.html">Zone</a></span>&gt;</span></span> <span class="parameter-name">fields</span>, </span><span class="parameter" id="param-nGramRange">{<span class="type-annotation"><a href="../text_analysis/NGramRange-class.html">NGramRange</a>?</span> <span class="parameter-name">nGramRange</span>, </span><span class="parameter" id="param-strategy"><span class="type-annotation"><a href="../text_analysis/TokenizingStrategy.html">TokenizingStrategy</a>?</span> <span class="parameter-name">strategy</span>}</span>)</span></span>
 
     </section>
 
@@ -65,7 +65,8 @@ the <code>fields</code> in a <code>json</code> document.</p>
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
   <pre class="language-dart"><code class="language-dart">typedef JsonTokenizer = Future&lt;Iterable&lt;Token&gt;&gt; Function(
-    Map&lt;String, dynamic&gt; json, List&lt;Zone&gt; fields);</code></pre>
+    Map&lt;String, dynamic&gt; json, List&lt;Zone&gt; fields,
+    {NGramRange? nGramRange, TokenizingStrategy? strategy});</code></pre>
 </section>
 
 
@@ -128,7 +129,7 @@ the <code>fields</code> in a <code>json</code> document.</p>
 <footer>
   <span class="no-break">
     text_analysis
-      0.23.0+1
+      0.23.1
   </span>
 
   

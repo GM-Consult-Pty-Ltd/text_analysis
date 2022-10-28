@@ -56,6 +56,7 @@
 <span class="name ">analyzeJson</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="analyzeJson-param-document">{<span>required</span> <span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Map-class.html">Map</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>, <span class="type-parameter">dynamic</span>&gt;</span></span> <span class="parameter-name">document</span>, </span></li>
 <li><span class="parameter" id="analyzeJson-param-analyzer"><span>required</span> <span class="type-annotation"><a href="../../text_analysis/TextAnalyzer-class.html">TextAnalyzer</a></span> <span class="parameter-name">analyzer</span>, </span></li>
 <li><span class="parameter" id="analyzeJson-param-nGramRange"><span class="type-annotation"><a href="../../text_analysis/NGramRange-class.html">NGramRange</a></span> <span class="parameter-name">nGramRange</span> = <span class="default-value">const NGramRange(1, 1)</span>, </span></li>
+<li><span class="parameter" id="analyzeJson-param-strategy"><span class="type-annotation"><a href="../../text_analysis/TokenizingStrategy.html">TokenizingStrategy</a></span> <span class="parameter-name">strategy</span> = <span class="default-value">TokenizingStrategy.terms</span>, </span></li>
 <li><span class="parameter" id="analyzeJson-param-zones"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../../type_definitions/Zone.html">Zone</a></span>&gt;</span>?</span> <span class="parameter-name">zones</span>}</span></li>
 </ol>)
 
@@ -84,15 +85,20 @@ populate the <a href="../../text_analysis/TextDocument/tokens.html">tokens</a> p
     {required Map&lt;String, dynamic&gt; document,
     required TextAnalyzer analyzer,
     NGramRange nGramRange = const NGramRange(1, 1),
+    TokenizingStrategy strategy = TokenizingStrategy.terms,
     Iterable&lt;Zone&gt;? zones}) async {
   final sourceText = document.toSourceText(zones);
-  final tokens = await TextTokenizer(analyzer: analyzer)
-      .tokenizeJson(document, zones: zones, nGramRange: nGramRange);
+  final tokens = await TextTokenizer(analyzer: analyzer).tokenizeJson(
+      document,
+      zones: zones,
+      nGramRange: nGramRange,
+      strategy: strategy);
   final terms = analyzer.termSplitter(sourceText);
   final nGrams = terms.nGrams(nGramRange);
   final sentences = analyzer.sentenceSplitter(sourceText);
   final paragraphs = analyzer.paragraphSplitter(sourceText);
-  final keywords = analyzer.keywordExtractor(sourceText);
+  final keywords =
+      analyzer.keywordExtractor(sourceText, nGramRange: nGramRange);
   final graph = TermCoOccurrenceGraph(keywords);
   final syllableCount = terms.map((e) =&gt; analyzer.syllableCounter(e)).sum;
   return _TextDocumentImpl(sourceText, zones, tokens, paragraphs, sentences,
@@ -170,7 +176,7 @@ populate the <a href="../../text_analysis/TextDocument/tokens.html">tokens</a> p
 <footer>
   <span class="no-break">
     text_analysis
-      0.23.0+1
+      0.23.1
   </span>
 
   

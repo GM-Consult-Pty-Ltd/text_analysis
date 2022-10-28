@@ -79,15 +79,17 @@ abstract class TextDocument {
   static Future<TextDocument> analyze(
       {required String sourceText,
       required TextAnalyzer analyzer,
+      TokenizingStrategy strategy = TokenizingStrategy.terms,
       NGramRange nGramRange = const NGramRange(1, 1),
       Zone? zone}) async {
-    final tokens = await TextTokenizer(analyzer: analyzer)
-        .tokenize(sourceText, zone: zone, nGramRange: nGramRange);
+    final tokens = await TextTokenizer(analyzer: analyzer).tokenize(sourceText,
+        zone: zone, nGramRange: nGramRange, strategy: strategy);
     final terms = analyzer.termSplitter(sourceText);
     final nGrams = terms.nGrams(nGramRange);
     final sentences = analyzer.sentenceSplitter(sourceText);
     final paragraphs = analyzer.paragraphSplitter(sourceText);
-    final keywords = analyzer.keywordExtractor(sourceText);
+    final keywords =
+        analyzer.keywordExtractor(sourceText, nGramRange: nGramRange);
     final graph = TermCoOccurrenceGraph(keywords);
     final syllableCount = terms.map((e) => analyzer.syllableCounter(e)).sum;
     return _TextDocumentImpl(sourceText, null, tokens, paragraphs, sentences,
@@ -106,15 +108,20 @@ abstract class TextDocument {
       {required Map<String, dynamic> document,
       required TextAnalyzer analyzer,
       NGramRange nGramRange = const NGramRange(1, 1),
+      TokenizingStrategy strategy = TokenizingStrategy.terms,
       Iterable<Zone>? zones}) async {
     final sourceText = document.toSourceText(zones);
-    final tokens = await TextTokenizer(analyzer: analyzer)
-        .tokenizeJson(document, zones: zones, nGramRange: nGramRange);
+    final tokens = await TextTokenizer(analyzer: analyzer).tokenizeJson(
+        document,
+        zones: zones,
+        nGramRange: nGramRange,
+        strategy: strategy);
     final terms = analyzer.termSplitter(sourceText);
     final nGrams = terms.nGrams(nGramRange);
     final sentences = analyzer.sentenceSplitter(sourceText);
     final paragraphs = analyzer.paragraphSplitter(sourceText);
-    final keywords = analyzer.keywordExtractor(sourceText);
+    final keywords =
+        analyzer.keywordExtractor(sourceText, nGramRange: nGramRange);
     final graph = TermCoOccurrenceGraph(keywords);
     final syllableCount = terms.map((e) => analyzer.syllableCounter(e)).sum;
     return _TextDocumentImpl(sourceText, zones, tokens, paragraphs, sentences,

@@ -73,7 +73,9 @@ in an ordered collection of term sequences of varying length.</p>
   <h2><span>Implementation</span></h2>
   <pre class="language-dart"><code class="language-dart">@override
 KeywordExtractor get keywordExtractor =&gt;
-    (source) =&gt; source.toKeyWords(abbreviations, stopWords, stemmer);</code></pre>
+    (String source, {NGramRange? nGramRange}) =&gt; source.toKeyWords(
+        abbreviations, termExceptions, stopWords,
+        stemmer: stemmer, range: nGramRange);</code></pre>
 </section>
 
 </section>
@@ -144,7 +146,7 @@ KeywordExtractor get keywordExtractor =&gt;
 <footer>
   <span class="no-break">
     text_analysis
-      0.23.0+1
+      0.23.1
   </span>
 
   

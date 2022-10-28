@@ -97,12 +97,12 @@ Future&lt;List&lt;Token&gt;&gt; tokenize(SourceText text,
   &#47;&#47; add keyword tokens
   if (strategy == TokenizingStrategy.keyWords ||
       strategy == TokenizingStrategy.all) {
-    tokens.addAll(_keyWordTokens(text, zone));
+    final keywordTokens = _keyWordTokens(text, zone);
+    final existingTerms = tokens.map((e) =&gt; e.term);
+    tokens.addAll(_newKeywordTokens(existingTerms, keywordTokens));
   }
   &#47;&#47; remove duplicate tokens
-  tokens = tokens.toSet().toList();
-  &#47;&#47; sort the tokens
-  tokens.sort(((a, b) =&gt; a.termPosition.compareTo(b.termPosition)));
+  tokens = _toOrderedSet(tokens);
   &#47;&#47; apply the tokenFilter if it is not null and return the tokens collection
   return tokenFilter != null ? await tokenFilter!(tokens) : tokens;
 }</code></pre>
@@ -165,7 +165,7 @@ Future&lt;List&lt;Token&gt;&gt; tokenize(SourceText text,
 <footer>
   <span class="no-break">
     text_analysis
-      0.23.0+1
+      0.23.1
   </span>
 
   

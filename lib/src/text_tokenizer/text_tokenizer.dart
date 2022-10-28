@@ -123,14 +123,29 @@ abstract class TextTokenizerMixin implements TextTokenizer {
     // add keyword tokens
     if (strategy == TokenizingStrategy.keyWords ||
         strategy == TokenizingStrategy.all) {
-      tokens.addAll(_keyWordTokens(text, zone));
+      final keywordTokens = _keyWordTokens(text, zone);
+      final existingTerms = tokens.map((e) => e.term);
+      tokens.addAll(_newKeywordTokens(existingTerms, keywordTokens));
     }
     // remove duplicate tokens
-    tokens = tokens.toSet().toList();
-    // sort the tokens
-    tokens.sort(((a, b) => a.termPosition.compareTo(b.termPosition)));
+    tokens = _toOrderedSet(tokens);
     // apply the tokenFilter if it is not null and return the tokens collection
     return tokenFilter != null ? await tokenFilter!(tokens) : tokens;
+  }
+
+  Iterable<Token> _newKeywordTokens(
+          Iterable<String> existingTerms, Iterable<Token> keywordTokens) =>
+      keywordTokens.where((e) => !existingTerms.contains(e.term));
+
+  List<Token> _toOrderedSet(Iterable<Token> tokens) {
+    final set = <String, Token>{};
+    for (final e in tokens) {
+      final key = '${e.term}_${e.termPosition}'.toLowerCase();
+      set[key] = e;
+    }
+    final retVal = set.values.toList();
+    retVal.sort(((a, b) => a.termPosition.compareTo(b.termPosition)));
+    return retVal;
   }
 
   /// Private worker function.
@@ -275,7 +290,7 @@ abstract class TextTokenizerMixin implements TextTokenizer {
     for (final e in tokenGrams) {
       final n = e.length;
       final term = e.join(' ');
-      tokens.add(Token(term, n, termPosition, zone));
+      tokens.add(Token(term, n, termPosition - n, zone));
     }
     return tokens;
   }

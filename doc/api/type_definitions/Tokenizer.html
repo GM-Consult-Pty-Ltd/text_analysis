@@ -51,7 +51,7 @@
 
     <section class="multi-line-signature">
         <span class="name ">Tokenizer</span> =
-     <span class="returntype"><a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../text_analysis/Token-class.html">Token</a></span>&gt;</span></span>&gt;</span> Function<span class="signature">(<span class="parameter" id="param-source"><span class="type-annotation"><a href="../type_definitions/SourceText.html">SourceText</a></span> <span class="parameter-name">source</span>, </span><span class="parameter" id="param-zone">[<span class="type-annotation"><a href="../type_definitions/Zone.html">Zone</a>?</span> <span class="parameter-name">zone</span>]</span>)</span></span>
+     <span class="returntype"><a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../text_analysis/Token-class.html">Token</a></span>&gt;</span></span>&gt;</span> Function<span class="signature">(<span class="parameter" id="param-source"><span class="type-annotation"><a href="../type_definitions/SourceText.html">SourceText</a></span> <span class="parameter-name">source</span>, </span><span class="parameter" id="param-nGramRange">{<span class="type-annotation"><a href="../text_analysis/NGramRange-class.html">NGramRange</a>?</span> <span class="parameter-name">nGramRange</span>, </span><span class="parameter" id="param-strategy"><span class="type-annotation"><a href="../text_analysis/TokenizingStrategy.html">TokenizingStrategy</a>?</span> <span class="parameter-name">strategy</span>, </span><span class="parameter" id="param-zone"><span class="type-annotation"><a href="../type_definitions/Zone.html">Zone</a>?</span> <span class="parameter-name">zone</span>}</span>)</span></span>
 
     </section>
 
@@ -67,7 +67,7 @@ which the term is located.</p>
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
   <pre class="language-dart"><code class="language-dart">typedef Tokenizer = Future&lt;Iterable&lt;Token&gt;&gt; Function(SourceText source,
-    [Zone? zone]);</code></pre>
+    {NGramRange? nGramRange, TokenizingStrategy? strategy, Zone? zone});</code></pre>
 </section>
 
 
@@ -130,7 +130,7 @@ which the term is located.</p>
 <footer>
   <span class="no-break">
     text_analysis
-      0.23.0+1
+      0.23.1
   </span>
 
   

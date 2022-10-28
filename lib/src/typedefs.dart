@@ -45,7 +45,10 @@ typedef Stemmer = String Function(Term term);
 typedef Lemmatizer = String Function(Term term);
 
 /// A language-specific function that generates n-grams from text.
-typedef NGrammer = List<String> Function(String text, NGramRange range);
+typedef NGrammer = List<String> Function(
+  String text,
+  NGramRange range,
+);
 
 /// A language-specific function that returns the number of syllables in a
 /// string after stripping out all white-space and punctuation.
@@ -83,7 +86,8 @@ typedef SentenceSplitter = List<String> Function(SourceText source);
 ///
 /// The text is split at punctuation, line endings and stop-words, resulting
 /// in an ordered collection of term sequences of varying length.
-typedef KeywordExtractor = List<List<String>> Function(SourceText source);
+typedef KeywordExtractor = List<List<String>> Function(SourceText source,
+    {NGramRange? nGramRange});
 
 /// A splitter function that returns a list of paragraphs from [source].
 ///
@@ -113,9 +117,11 @@ typedef CharacterFilter = String Function(SourceText source);
 /// Optional parameter [zone] is the name of the zone in a document in
 /// which the term is located.
 typedef Tokenizer = Future<Iterable<Token>> Function(SourceText source,
-    [Zone? zone]);
+    {NGramRange? nGramRange, TokenizingStrategy? strategy, Zone? zone});
 
 /// Type definition of a function that returns a collection of [Token] from
 /// the [fields] in a [json] document.
 typedef JsonTokenizer = Future<Iterable<Token>> Function(
-    Map<String, dynamic> json, List<Zone> fields);
+    Map<String, dynamic> json, List<Zone> fields,
+    {NGramRange? nGramRange, TokenizingStrategy? strategy});
+// {NGramRange nGramRange = const NGramRange(1, 1), TokenizingStrategy strategy = TokenizingStrategy.terms, Zone? zone}

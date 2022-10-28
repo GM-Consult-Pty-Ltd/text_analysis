@@ -8,6 +8,7 @@
 
 import 'package:gmconsult_dev/gmconsult_dev.dart';
 import 'package:gmconsult_dev/test_data.dart';
+import 'package:text_analysis/implementation.dart';
 // import 'package:gmconsult_dev/type_definitions.dart';
 import '../dev/data/lexicon/english_lexicon.dart';
 import 'package:text_analysis/extensions.dart';
@@ -32,7 +33,8 @@ void main() {
       final textDoc = await TextDocument.analyze(
           sourceText: sample,
           analyzer: English.analyzer,
-          nGramRange: NGramRange(1, 3));
+          strategy: TokenizingStrategy.all,
+          nGramRange: NGramRange(1, 2));
 
       print('Average sentence length: ${textDoc.averageSentenceLength()}');
 
@@ -46,6 +48,15 @@ void main() {
 
     test('TextTokenizer.tokenize', () async {
       //
+
+      // final stopWords = StringBuffer();
+      // final stopwords = English().stopWords.map((e) => "'${e.stemPorter2()}',");
+      // for (final e in stopwords) {
+      //   stopWords.writeln(e);
+      // }
+
+      // print(stopWords.toString());
+      // await SaveAs.text(fileName: 'stopwords', text: stopWords.toString());
 
       // convert the StringBuffer to a String
       final source = TestData.text;
@@ -217,33 +228,45 @@ void main() {
           'your phone. Podcast production company Pacific Content got the '
           'exclusive on it. This text is taken from Google news.';
 
-      final keyWords = English().keywordExtractor(text);
+      final keywords = English().keywordExtractor(sample);
 
       final graph =
-          keyWords.coOccurenceGraph(keyWords.toUniqueTerms().toList());
+          TermCoOccurrenceGraph(keywords) as TermCoOccurrenceGraphBase;
+      // keyWords.coOccurenceGraph(keyWords.toUniqueTerms().toList());
       // .map((e) => e.join(' '));
       print(sample);
       print(''.padRight(140, '-'));
-      for (final e in graph.entries) {
+      for (final e in graph.coOccurrenceGraph.entries) {
         print('${e.key}: ${e.value}');
+      }
+      print(''.padRight(140, '-'));
+      final entries = graph.keywordScores.entries.toList();
+      entries.sort(((a, b) => b.value.compareTo(a.value)));
+      for (final e in entries) {
+        print('${e.key}: ${e.value.toStringAsFixed(2)}');
       }
     }));
 
     test('TextDocument.analyze(sample)(Keywords)', (() async {
-      final text =
+      final example =
           'Google quietly rolled out a new way for Android users to listen to '
           'podcasts and subscribe to shows they like, and it already works on '
           'your phone. Podcast production company Pacific Content got the '
           'exclusive on it. This text is taken from Google news.';
 
+      final text = TestData.stockData.entries.first.value
+          .toSourceText({'name', 'description'});
+
       final document = await TextDocument.analyze(
           sourceText: sample, analyzer: English.analyzer);
 
       // .map((e) => e.join(' '));
-      print(sample);
+      print(text);
       print(''.padRight(140, '-'));
-      for (final e in document.keywords.keywordScores.entries) {
-        print('${e.key}: ${e.value}');
+      final entries = document.keywords.keywordScores.entries.toList();
+      entries.sort(((a, b) => b.value.compareTo(a.value)));
+      for (final e in entries) {
+        print('${e.key}: ${e.value.toStringAsFixed(1)}');
       }
     }));
 
@@ -257,7 +280,8 @@ void main() {
       final text = TestData.stockData.entries.first.value
           .toSourceText({'name', 'description'});
 
-      final keyWords = English().keywordExtractor(text);
+      final keyWords =
+          English().keywordExtractor(text, nGramRange: NGramRange(1, 2));
 
       // .map((e) => e.join(' '));
       print(text);
@@ -284,6 +308,21 @@ void _printTokens(String title, Iterable<Token> tokens) {
 
   //
 }
+
+// /// Print the terms in List<[Token]>.
+// void _printKeyWords(String title, Iterable<List<String>> keywords) {
+//   //
+
+//   // map the tokens to a list of JSON documents
+//   final results = keywords
+//       .map((e) => {'term': e.term, 'zone': e.zone, 'position': e.termPosition})
+//       .toList();
+
+//   // print the results
+//   Console.out(title: title, results: results, maxColWidth: 120);
+
+//   //
+// }
 
 Future<void> saveKgramIndex(Map<String, Set<String>> value,
     [String fileName = 'kGramIndex']) async {
