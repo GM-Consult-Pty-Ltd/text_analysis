@@ -56,11 +56,7 @@
 <span class="name ">matches</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="matches-param-terms"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../../type_definitions/Term.html">Term</a></span>&gt;</span></span> <span class="parameter-name">terms</span>, </span></li>
 <li><span class="parameter" id="matches-param-limit">{<span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/int-class.html">int</a></span> <span class="parameter-name">limit</span> = <span class="default-value">10</span>, </span></li>
 <li><span class="parameter" id="matches-param-k"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/int-class.html">int</a></span> <span class="parameter-name">k</span> = <span class="default-value">2</span>, </span></li>
-<li><span class="parameter" id="matches-param-greaterThan"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/double-class.html">double</a>?</span> <span class="parameter-name">greaterThan</span>, </span></li>
-<li><span class="parameter" id="matches-param-jaccardSimilarityWeight"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/double-class.html">double</a></span> <span class="parameter-name">jaccardSimilarityWeight</span> = <span class="default-value">1.0</span>, </span></li>
-<li><span class="parameter" id="matches-param-lengthSimilarityWeight"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/double-class.html">double</a></span> <span class="parameter-name">lengthSimilarityWeight</span> = <span class="default-value">1.0</span>, </span></li>
-<li><span class="parameter" id="matches-param-editSimilarityWeight"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/double-class.html">double</a></span> <span class="parameter-name">editSimilarityWeight</span> = <span class="default-value">1.0</span>, </span></li>
-<li><span class="parameter" id="matches-param-characterSimilarityWeight"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/double-class.html">double</a></span> <span class="parameter-name">characterSimilarityWeight</span> = <span class="default-value">1.0</span>}</span></li>
+<li><span class="parameter" id="matches-param-greaterThan"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/double-class.html">double</a></span> <span class="parameter-name">greaterThan</span> = <span class="default-value">0.10</span>}</span></li>
 </ol>)
 
       
@@ -70,23 +66,13 @@
 <section class="desc markdown">
   <p>Returns the best matches for a term from <code>terms</code>, in descending
 order of term similarity (best match first).</p>
-<p>Matches are returned in descending order of<a href="../../text_analysis/SimilarityIndex/similarity.html">SimilarityIndex.similarity</a>.</p>
-<ul>
-<li>If <code>greaterThan</code> is not null only matches with
-<code>[TermSimilarity.similarity] &gt; [greaterThan]</code> are returned.  ///</li>
-<li>the returned matches will be limited to <code>limit</code> if more than <code>limit</code>
-matches are found.</li>
-<li><code>k</code> is the <code>k</code>-gram length used to calculate <a href="../../extensions/TermSimilarityExtensions/jaccardSimilarity.html">jaccardSimilarity</a>,
-defaults to 2.</li>
-<li><code>jaccardSimilarityWeight</code> is the weighting of the <a href="../../extensions/TermSimilarityExtensions/jaccardSimilarity.html">jaccardSimilarity</a>
-in <a href="../../text_analysis/TermSimilarity/similarity.html">TermSimilarity.similarity</a>, defaults to 1.0.</li>
-<li><code>lengthSimilarityWeight</code> is the weighting of the <a href="../../extensions/TermSimilarityExtensions/lengthSimilarity.html">lengthSimilarity</a>
-in <a href="../../text_analysis/TermSimilarity/similarity.html">TermSimilarity.similarity</a>, defaults to 1.0.</li>
-<li><code>editSimilarityWeight</code> is the weighting of the <a href="../../extensions/TermSimilarityExtensions/editSimilarity.html">editSimilarity</a>
-in <a href="../../text_analysis/TermSimilarity/similarity.html">TermSimilarity.similarity</a>, defaults to 1.0.</li>
-<li><code>characterSimilarityWeight</code> is the weighting of the
-<a href="../../extensions/TermSimilarityExtensions/characterSimilarity.html">characterSimilarity</a> in <a href="../../text_analysis/TermSimilarity/similarity.html">TermSimilarity.similarity</a>, defaults to 1.0.</li>
-</ul>
+<p>The default <code>greaterThan</code> is 0.10. A higher value for <code>greaterThan</code> can
+improve performance as candidates with different lengths to this term
+are not evaluated, avoiding costly computation of edit distance and or
+Jaccard similarity.</p>
+<p>Suggestions are returned in descending order of similarity.</p>
+<p>The top returned matches will be limited to <code>limit</code> if more than <code>limit</code>
+matches are found.</p>
 <p>Not case-sensitive.</p>
 </section>
 
@@ -95,21 +81,8 @@ in <a href="../../text_analysis/TermSimilarity/similarity.html">TermSimilarity.s
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
   <pre class="language-dart"><code class="language-dart">List&lt;Term&gt; matches(Iterable&lt;Term&gt; terms,
-        {int limit = 10,
-        int k = 2,
-        double? greaterThan,
-        double jaccardSimilarityWeight = 1.0,
-        double lengthSimilarityWeight = 1.0,
-        double editSimilarityWeight = 1.0,
-        double characterSimilarityWeight = 1.0}) =&gt;
-    getSuggestions(terms,
-            k: k,
-            limit: limit,
-            greaterThan: greaterThan,
-            jaccardSimilarityWeight: jaccardSimilarityWeight,
-            characterSimilarityWeight: characterSimilarityWeight,
-            editSimilarityWeight: editSimilarityWeight,
-            lengthSimilarityWeight: lengthSimilarityWeight)
+        {int limit = 10, int k = 2, double greaterThan = 0.10}) =&gt;
+    getSuggestions(terms, k: k, limit: limit, greaterThan: greaterThan)
         .where((element) =&gt; element.similarity &gt; 0)
         .map((e) =&gt; e.term)
         .toList();</code></pre>
@@ -177,7 +150,7 @@ in <a href="../../text_analysis/TermSimilarity/similarity.html">TermSimilarity.s
 <footer>
   <span class="no-break">
     text_analysis
-      0.23.2
+      0.23.3
   </span>
 
   

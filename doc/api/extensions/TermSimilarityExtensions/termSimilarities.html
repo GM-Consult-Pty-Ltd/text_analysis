@@ -54,11 +54,7 @@
 
 <span class="returntype"><a href="https://api.flutter.dev/flutter/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../../text_analysis/TermSimilarity-class.html">TermSimilarity</a></span>&gt;</span></span>
 <span class="name ">termSimilarities</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="termSimilarities-param-terms"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../../type_definitions/Term.html">Term</a></span>&gt;</span></span> <span class="parameter-name">terms</span>, </span></li>
-<li><span class="parameter" id="termSimilarities-param-k">{<span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/int-class.html">int</a></span> <span class="parameter-name">k</span> = <span class="default-value">2</span>, </span></li>
-<li><span class="parameter" id="termSimilarities-param-jaccardSimilarityWeight"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/double-class.html">double</a></span> <span class="parameter-name">jaccardSimilarityWeight</span> = <span class="default-value">1.0</span>, </span></li>
-<li><span class="parameter" id="termSimilarities-param-lengthSimilarityWeight"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/double-class.html">double</a></span> <span class="parameter-name">lengthSimilarityWeight</span> = <span class="default-value">1.0</span>, </span></li>
-<li><span class="parameter" id="termSimilarities-param-editSimilarityWeight"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/double-class.html">double</a></span> <span class="parameter-name">editSimilarityWeight</span> = <span class="default-value">1.0</span>, </span></li>
-<li><span class="parameter" id="termSimilarities-param-characterSimilarityWeight"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/double-class.html">double</a></span> <span class="parameter-name">characterSimilarityWeight</span> = <span class="default-value">1.0</span>}</span></li>
+<li><span class="parameter" id="termSimilarities-param-k">{<span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/int-class.html">int</a></span> <span class="parameter-name">k</span> = <span class="default-value">2</span>}</span></li>
 </ol>)
 
       
@@ -68,18 +64,8 @@
 <section class="desc markdown">
   <p>Returns a ordered list of <a href="../../text_analysis/SimilarityIndex-class.html">SimilarityIndex</a> values for the <code>terms</code>, in
 descending order of <a href="../../text_analysis/SimilarityIndex/similarity.html">SimilarityIndex.similarity</a>.</p>
-<ul>
-<li><code>k</code> is the <code>k</code>-gram length used to calculate <a href="../../extensions/TermSimilarityExtensions/jaccardSimilarity.html">jaccardSimilarity</a>,
-defaults to 2.</li>
-<li><code>jaccardSimilarityWeight</code> is the weighting of the <a href="../../extensions/TermSimilarityExtensions/jaccardSimilarity.html">jaccardSimilarity</a>
-in <a href="../../text_analysis/TermSimilarity/similarity.html">TermSimilarity.similarity</a>, defaults to 1.0.</li>
-<li><code>lengthSimilarityWeight</code> is the weighting of the <a href="../../extensions/TermSimilarityExtensions/lengthSimilarity.html">lengthSimilarity</a>
-in <a href="../../text_analysis/TermSimilarity/similarity.html">TermSimilarity.similarity</a>, defaults to 1.0.</li>
-<li><code>editSimilarityWeight</code> is the weighting of the <a href="../../extensions/TermSimilarityExtensions/editSimilarity.html">editSimilarity</a>
-in <a href="../../text_analysis/TermSimilarity/similarity.html">TermSimilarity.similarity</a>, defaults to 1.0.</li>
-<li><code>characterSimilarityWeight</code> is the weighting of the
-<a href="../../extensions/TermSimilarityExtensions/characterSimilarity.html">characterSimilarity</a> in <a href="../../text_analysis/TermSimilarity/similarity.html">TermSimilarity.similarity</a>, defaults to 1.0.</li>
-</ul>
+<p>Parameter <code>k</code> is the k-gram length used to calculate <a href="../../extensions/TermSimilarityExtensions/jaccardSimilarity.html">jaccardSimilarity</a>,
+The default <code>k</code> is 2.</p>
 <p>Not case-sensitive.</p>
 </section>
 
@@ -87,20 +73,8 @@ in <a href="../../text_analysis/TermSimilarity/similarity.html">TermSimilarity.s
     
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
-  <pre class="language-dart"><code class="language-dart">List&lt;TermSimilarity&gt; termSimilarities(Iterable&lt;Term&gt; terms,
-        {int k = 2,
-        double jaccardSimilarityWeight = 1.0,
-        double lengthSimilarityWeight = 1.0,
-        double editSimilarityWeight = 1.0,
-        double characterSimilarityWeight = 1.0}) =&gt;
-    termSimilarityMap(terms,
-            k: k,
-            jaccardSimilarityWeight: jaccardSimilarityWeight,
-            characterSimilarityWeight: characterSimilarityWeight,
-            editSimilarityWeight: editSimilarityWeight,
-            lengthSimilarityWeight: lengthSimilarityWeight)
-        .values
-        .sortBySimilarity();</code></pre>
+  <pre class="language-dart"><code class="language-dart">List&lt;TermSimilarity&gt; termSimilarities(Iterable&lt;Term&gt; terms, {int k = 2}) =&gt;
+    termSimilarityMap(terms, k: k).values.sortBySimilarity();</code></pre>
 </section>
 
 
@@ -165,7 +139,7 @@ in <a href="../../text_analysis/TermSimilarity/similarity.html">TermSimilarity.s
 <footer>
   <span class="no-break">
     text_analysis
-      0.23.2
+      0.23.3
   </span>
 
   

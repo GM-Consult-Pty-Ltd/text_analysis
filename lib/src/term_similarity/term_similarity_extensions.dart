@@ -292,104 +292,63 @@ extension TermSimilarityExtensions on Term {
 
   /// Returns a ordered list of [SimilarityIndex] values for the [terms], in
   /// descending order of [SimilarityIndex.similarity].
-  /// - [k] is the [k]-gram length used to calculate [jaccardSimilarity],
-  ///   defaults to 2.
-  /// - [jaccardSimilarityWeight] is the weighting of the [jaccardSimilarity]
-  ///   in [TermSimilarity.similarity], defaults to 1.0.
-  /// - [lengthSimilarityWeight] is the weighting of the [lengthSimilarity]
-  ///   in [TermSimilarity.similarity], defaults to 1.0.
-  /// - [editSimilarityWeight] is the weighting of the [editSimilarity]
-  ///   in [TermSimilarity.similarity], defaults to 1.0.
-  /// - [characterSimilarityWeight] is the weighting of the
-  ///   [characterSimilarity] in [TermSimilarity.similarity], defaults to 1.0.
+  ///
+  /// Parameter [k] is the k-gram length used to calculate [jaccardSimilarity],
+  /// The default [k] is 2.
   ///
   /// Not case-sensitive.
-  List<TermSimilarity> termSimilarities(Iterable<Term> terms,
-          {int k = 2,
-          double jaccardSimilarityWeight = 1.0,
-          double lengthSimilarityWeight = 1.0,
-          double editSimilarityWeight = 1.0,
-          double characterSimilarityWeight = 1.0}) =>
-      termSimilarityMap(terms,
-              k: k,
-              jaccardSimilarityWeight: jaccardSimilarityWeight,
-              characterSimilarityWeight: characterSimilarityWeight,
-              editSimilarityWeight: editSimilarityWeight,
-              lengthSimilarityWeight: lengthSimilarityWeight)
-          .values
-          .sortBySimilarity();
+  List<TermSimilarity> termSimilarities(Iterable<Term> terms, {int k = 2}) =>
+      termSimilarityMap(terms, k: k).values.sortBySimilarity();
 
   /// Returns an hashmap of [terms] to [TermSimilarity] with this term.
   ///
   /// - [k] is the [k]-gram length used to calculate [jaccardSimilarity],
   ///   defaults to 2.
-  /// - [jaccardSimilarityWeight] is the weighting of the [jaccardSimilarity]
-  ///   in [TermSimilarity.similarity], defaults to 1.0.
-  /// - [lengthSimilarityWeight] is the weighting of the [lengthSimilarity]
-  ///   in [TermSimilarity.similarity], defaults to 1.0.
-  /// - [editSimilarityWeight] is the weighting of the [editSimilarity]
-  ///   in [TermSimilarity.similarity], defaults to 1.0.
-  /// - [characterSimilarityWeight] is the weighting of the
-  ///   [characterSimilarity] in [TermSimilarity.similarity], defaults to 1.0.
   ///
   /// Not case-sensitive.
   Map<Term, TermSimilarity> termSimilarityMap(Iterable<Term> terms,
-      {int k = 2,
-      double jaccardSimilarityWeight = 1.0,
-      double lengthSimilarityWeight = 1.0,
-      double editSimilarityWeight = 1.0,
-      double characterSimilarityWeight = 1.0}) {
+      {int k = 2}) {
     final retVal = <Term, TermSimilarity>{};
     for (final other in terms) {
-      retVal[other] = TermSimilarity(this, other,
-          k: k,
-          jaccardSimilarityWeight: jaccardSimilarityWeight,
-          characterSimilarityWeight: characterSimilarityWeight,
-          editSimilarityWeight: editSimilarityWeight,
-          lengthSimilarityWeight: lengthSimilarityWeight);
+      retVal[other] = TermSimilarity(this, other, k: k);
     }
     return retVal;
   }
 
   /// Returns a collection of [SimilarityIndex]s for this String from [terms].
   ///
-  /// Suggestions are returned in descending order of
-  /// [SimilarityIndex.similarity].
+  /// Similarity is calculated for each term in [terms] by starting with 1.0
+  /// and iteratively multiplying by [lengthSimilarity], [characterSimilarity],
+  /// [jaccardSimilarity] and [editSimilarity], terminating the iteration as
+  /// soon as the [greaterThan] threshold is reached.
   ///
-  /// - If [greaterThan] is not null only matches with
-  ///   `[TermSimilarity.similarity] > [greaterThan]` are returned.  ///
-  /// - the returned matches will be limited to [limit] if more than [limit]
-  ///   matches are found.
-  /// - [k] is the [k]-gram length used to calculate [jaccardSimilarity],
-  ///   defaults to 2.
-  /// - [jaccardSimilarityWeight] is the weighting of the [jaccardSimilarity]
-  ///   in [TermSimilarity.similarity], defaults to 1.0.
-  /// - [lengthSimilarityWeight] is the weighting of the [lengthSimilarity]
-  ///   in [TermSimilarity.similarity], defaults to 1.0.
-  /// - [editSimilarityWeight] is the weighting of the [editSimilarity]
-  ///   in [TermSimilarity.similarity], defaults to 1.0.
-  /// - [characterSimilarityWeight] is the weighting of the
-  ///   [characterSimilarity] in [TermSimilarity.similarity], defaults to 1.0.
+  /// The default [greaterThan] is 0.10. A higher value for [greaterThan] can
+  /// improve performance as candidates with different lengths to this term
+  /// are not evaluated, avoiding costly computation of edit distance and or
+  /// Jaccard similarity.
+  ///
+  /// Suggestions are returned in descending order of similarity.
+  ///
+  /// The top returned matches will be limited to [limit] if more than [limit]
+  /// matches are found.
   ///
   /// Not case-sensitive.
   List<SimilarityIndex> getSuggestions(Iterable<Term> terms,
-      {int limit = 10,
-      int k = 2,
-      double? greaterThan,
-      double jaccardSimilarityWeight = 1.0,
-      double lengthSimilarityWeight = 1.0,
-      double editSimilarityWeight = 1.0,
-      double characterSimilarityWeight = 1.0}) {
+      {int limit = 10, int k = 2, double greaterThan = 0.10}) {
     final retVal = <SimilarityIndex>[];
     for (final other in terms.toSet()) {
-      final similarity = TermSimilarity(this, other,
-              k: k,
-              jaccardSimilarityWeight: jaccardSimilarityWeight,
-              characterSimilarityWeight: characterSimilarityWeight,
-              editSimilarityWeight: editSimilarityWeight,
-              lengthSimilarityWeight: lengthSimilarityWeight)
-          .similarity;
-      if (similarity > (greaterThan ?? -1)) {
+      var similarity = lengthSimilarity(other);
+      similarity = similarity <= greaterThan
+          ? similarity
+          : similarity * characterSimilarity(other);
+      similarity = similarity <= greaterThan
+          ? similarity
+          : similarity * jaccardSimilarity(other);
+      similarity = similarity <= greaterThan
+          ? similarity
+          : similarity * editSimilarity(other);
+      similarity = (similarity * 1000).roundToDouble() / 1000;
+      if (similarity > greaterThan) {
         retVal.add(SimilarityIndex(other, similarity));
       }
     }
@@ -401,40 +360,20 @@ extension TermSimilarityExtensions on Term {
   /// Returns the best matches for a term from [terms], in descending
   /// order of term similarity (best match first).
   ///
-  /// Matches are returned in descending order of[SimilarityIndex.similarity].
+  /// The default [greaterThan] is 0.10. A higher value for [greaterThan] can
+  /// improve performance as candidates with different lengths to this term
+  /// are not evaluated, avoiding costly computation of edit distance and or
+  /// Jaccard similarity.
   ///
-  /// - If [greaterThan] is not null only matches with
-  ///   `[TermSimilarity.similarity] > [greaterThan]` are returned.  ///
-  /// - the returned matches will be limited to [limit] if more than [limit]
-  ///   matches are found.
-  /// - [k] is the [k]-gram length used to calculate [jaccardSimilarity],
-  ///   defaults to 2.
-  /// - [jaccardSimilarityWeight] is the weighting of the [jaccardSimilarity]
-  ///   in [TermSimilarity.similarity], defaults to 1.0.
-  /// - [lengthSimilarityWeight] is the weighting of the [lengthSimilarity]
-  ///   in [TermSimilarity.similarity], defaults to 1.0.
-  /// - [editSimilarityWeight] is the weighting of the [editSimilarity]
-  ///   in [TermSimilarity.similarity], defaults to 1.0.
-  /// - [characterSimilarityWeight] is the weighting of the
-  ///   [characterSimilarity] in [TermSimilarity.similarity], defaults to 1.0.
+  /// Suggestions are returned in descending order of similarity.
+  ///
+  /// The top returned matches will be limited to [limit] if more than [limit]
+  /// matches are found.
   ///
   /// Not case-sensitive.
   List<Term> matches(Iterable<Term> terms,
-          {int limit = 10,
-          int k = 2,
-          double? greaterThan,
-          double jaccardSimilarityWeight = 1.0,
-          double lengthSimilarityWeight = 1.0,
-          double editSimilarityWeight = 1.0,
-          double characterSimilarityWeight = 1.0}) =>
-      getSuggestions(terms,
-              k: k,
-              limit: limit,
-              greaterThan: greaterThan,
-              jaccardSimilarityWeight: jaccardSimilarityWeight,
-              characterSimilarityWeight: characterSimilarityWeight,
-              editSimilarityWeight: editSimilarityWeight,
-              lengthSimilarityWeight: lengthSimilarityWeight)
+          {int limit = 10, int k = 2, double greaterThan = 0.10}) =>
+      getSuggestions(terms, k: k, limit: limit, greaterThan: greaterThan)
           .where((element) => element.similarity > 0)
           .map((e) => e.term)
           .toList();

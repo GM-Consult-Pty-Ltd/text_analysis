@@ -4,6 +4,24 @@ Copyright (c) 2022, GM Consult Pty Ltd
 All rights reserved. 
 -->
 
+## 0.23.3
+**BREAKING CHANGES**
+
+### *Breaking changes*
+* Changed signature of String extension method `termSimilarities`.
+* Changed signature of String extension method `termSimilarityMap`.
+* Changed signature of String extension method `getSuggestions`.
+* Changed signature of String extension method `matches`.
+* Changed signature of static method `TermSimilarity.termSimilarities`.
+* Changed signature of static method `TermSimilarity.termSimilarityMap`.
+* Changed signature of static method `TermSimilarity.getSuggestions`.
+* Changed signature of static method `TermSimilarity.matches`.
+* Changed calculation of `getSuggestions`.
+
+### *Updated*
+* Dependencies.
+* Documentation
+
 ## 0.23.2
 
 ### *Bug fixes*

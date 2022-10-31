@@ -72,7 +72,8 @@ individually.</p>
   <h2><span>Implementation</span></h2>
   <pre class="language-dart"><code class="language-dart">Set&lt;KGram&gt; kGrams([int k = 2]) {
   final Set&lt;KGram&gt; kGrams = {};
-  final terms = toLowerCase().split(RegExp(r&quot;[^a-zA-Z0-9À-öø-ÿ¥Œ€@™#-\&amp;_\&#39;\-\$]+&quot;));
+  final terms =
+      toLowerCase().split(RegExp(r&quot;[^a-zA-Z0-9À-öø-ÿ¥Œ€@™#-\&amp;_\&#39;\-\$]+&quot;));
   for (var term in terms) {
     term = term.trim();
     if (term.isNotEmpty) {
@@ -155,7 +156,7 @@ individually.</p>
 <footer>
   <span class="no-break">
     text_analysis
-      0.23.2
+      0.23.3
   </span>
 
   

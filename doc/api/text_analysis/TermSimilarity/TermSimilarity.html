@@ -52,11 +52,7 @@
     <section class="multi-line-signature">
       <span class="name ">TermSimilarity</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="-param-term"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span> <span class="parameter-name">term</span>, </span></li>
 <li><span class="parameter" id="-param-other"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span> <span class="parameter-name">other</span>, </span></li>
-<li><span class="parameter" id="-param-k">{<span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/int-class.html">int</a></span> <span class="parameter-name">k</span> = <span class="default-value">2</span>, </span></li>
-<li><span class="parameter" id="-param-jaccardSimilarityWeight"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/double-class.html">double</a></span> <span class="parameter-name">jaccardSimilarityWeight</span> = <span class="default-value">1.0</span>, </span></li>
-<li><span class="parameter" id="-param-lengthSimilarityWeight"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/double-class.html">double</a></span> <span class="parameter-name">lengthSimilarityWeight</span> = <span class="default-value">1.0</span>, </span></li>
-<li><span class="parameter" id="-param-editSimilarityWeight"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/double-class.html">double</a></span> <span class="parameter-name">editSimilarityWeight</span> = <span class="default-value">1.0</span>, </span></li>
-<li><span class="parameter" id="-param-characterSimilarityWeight"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/double-class.html">double</a></span> <span class="parameter-name">characterSimilarityWeight</span> = <span class="default-value">1.0</span>}</span></li>
+<li><span class="parameter" id="-param-k">{<span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/int-class.html">int</a></span> <span class="parameter-name">k</span> = <span class="default-value">2</span>}</span></li>
 </ol>)
     </section>
 
@@ -66,14 +62,6 @@
 <ul>
 <li><code>k</code> is the <code>k</code>-gram length used to calculate <a href="../../text_analysis/TermSimilarity/jaccardSimilarity.html">jaccardSimilarity</a>,
 defaults to 2.</li>
-<li><code>jaccardSimilarityWeight</code> is the weighting of the <a href="../../text_analysis/TermSimilarity/jaccardSimilarity.html">jaccardSimilarity</a>
-in <a href="../../text_analysis/TermSimilarity/similarity.html">similarity</a>, defaults to 1.0.</li>
-<li><code>lengthSimilarityWeight</code> is the weighting of the <a href="../../text_analysis/TermSimilarity/lengthSimilarity.html">lengthSimilarity</a>
-in <a href="../../text_analysis/TermSimilarity/similarity.html">similarity</a>, defaults to 1.0.</li>
-<li><code>editSimilarityWeight</code> is the weighting of the <a href="../../text_analysis/TermSimilarity/editSimilarity.html">editSimilarity</a>
-in <a href="../../text_analysis/TermSimilarity/similarity.html">similarity</a>, defaults to 1.0.</li>
-<li><code>characterSimilarityWeight</code> is the weighting of the
-<a href="../../text_analysis/TermSimilarity/characterSimilarity.html">characterSimilarity</a> in <a href="../../text_analysis/TermSimilarity/similarity.html">similarity</a>, defaults to 1.0.</li>
 </ul>
 <p>Not case-sensitive.</p>
 </section>
@@ -82,27 +70,17 @@ in <a href="../../text_analysis/TermSimilarity/similarity.html">similarity</a>, 
     
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
-  <pre class="language-dart"><code class="language-dart">factory TermSimilarity(String term, String other,
-    {int k = 2,
-    double jaccardSimilarityWeight = 1.0,
-    double lengthSimilarityWeight = 1.0,
-    double editSimilarityWeight = 1.0,
-    double characterSimilarityWeight = 1.0}) {
+  <pre class="language-dart"><code class="language-dart">factory TermSimilarity(String term, String other, {int k = 2}) {
   final editDistance = term.editDistance(other);
   final editSimilarity = _getEditSimilarity(term, other, editDistance);
   final jaccardSimilarity = term.jaccardSimilarity(other, k);
   final lengthDistance = term.lengthDistance(other);
   final lengthSimilarity = term.lengthSimilarity(other);
   final characterSimilarity = term.characterSimilarity(other);
-  final similarity = _weightedSimilarity(
-      characterSimilarity,
-      editSimilarity,
-      jaccardSimilarity,
-      lengthSimilarity,
-      jaccardSimilarityWeight,
-      lengthSimilarityWeight,
-      editSimilarityWeight,
-      characterSimilarityWeight);
+  final similarity = editSimilarity *
+      jaccardSimilarity *
+      lengthSimilarity *
+      characterSimilarity;
   return _TermSimilarityImpl(
       term,
       other,
@@ -191,7 +169,7 @@ in <a href="../../text_analysis/TermSimilarity/similarity.html">similarity</a>, 
 <footer>
   <span class="no-break">
     text_analysis
-      0.23.2
+      0.23.3
   </span>
 
   
