@@ -4,6 +4,14 @@ Copyright (c) 2022, GM Consult Pty Ltd
 All rights reserved. 
 -->
 
+## 0.23.2
+
+### *Bug fixes*
+* Fixed k-gram generation to split phrases into terms before k-gramming.
+
+### *Updated*
+* Dependencies.
+* Documentation
 
 ## 0.23.1
 

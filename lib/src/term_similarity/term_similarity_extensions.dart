@@ -439,20 +439,26 @@ extension TermSimilarityExtensions on Term {
           .map((e) => e.term)
           .toList();
 
-  /// Returns a set of (lower-case) k-grams in the term.
+  /// Returns a set of (lower-case) k-grams in the term. Splits phrases into
+  /// terms at all non-word characters and generates the k-grams for each word
+  /// individually.
   Set<KGram> kGrams([int k = 2]) {
     final Set<KGram> kGrams = {};
-    final term = toLowerCase();
-    if (isNotEmpty) {
-      // get the opening k-gram
-      kGrams.add(r'$' + term.substring(0, length < k ? null : k - 1));
-      // get the closing k-gram
-      kGrams.add(length < k ? term : (term.substring(length - k + 1)) + r'$');
-      if (length <= k) {
-        kGrams.add(term);
-      } else {
-        for (var i = 0; i <= length - k; i++) {
-          kGrams.add(term.substring(i, i + k));
+    final terms =
+        toLowerCase().split(RegExp(r"[^a-zA-Z0-9À-öø-ÿ¥Œ€@™#-\&_\'\-\$]+"));
+    for (var term in terms) {
+      term = term.trim();
+      if (term.isNotEmpty) {
+        // get the opening k-gram
+        kGrams.add(r'$' + term.substring(0, length < k ? null : k - 1));
+        // get the closing k-gram
+        kGrams.add(length < k ? term : (term.substring(length - k + 1)) + r'$');
+        if (length <= k) {
+          kGrams.add(term);
+        } else {
+          for (var i = 0; i <= length - k; i++) {
+            kGrams.add(term.substring(i, i + k));
+          }
         }
       }
     }

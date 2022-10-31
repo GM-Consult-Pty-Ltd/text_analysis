@@ -8,7 +8,8 @@ import 'package:text_analysis/text_analysis.dart';
 /// - [term] is the term that will be looked up in the index;
 /// - [termPosition] is the zero-based position of the [term] in an ordered
 ///   list of all the terms in the source text;
-/// - [zone] is the nullable name of the zone the [term] is in;
+/// - [n] is the number of terms in the n-gram; and
+/// - [zone] is the nullable name of the zone the [term] is in.
 class Token {
   //
 

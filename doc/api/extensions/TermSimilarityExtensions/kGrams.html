@@ -61,7 +61,9 @@
     </section>
     
 <section class="desc markdown">
-  <p>Returns a set of (lower-case) k-grams in the term.</p>
+  <p>Returns a set of (lower-case) k-grams in the term. Splits phrases into
+terms at all non-word characters and generates the k-grams for each word
+individually.</p>
 </section>
 
 
@@ -70,17 +72,20 @@
   <h2><span>Implementation</span></h2>
   <pre class="language-dart"><code class="language-dart">Set&lt;KGram&gt; kGrams([int k = 2]) {
   final Set&lt;KGram&gt; kGrams = {};
-  final term = toLowerCase();
-  if (isNotEmpty) {
-    &#47;&#47; get the opening k-gram
-    kGrams.add(r&#39;$&#39; + term.substring(0, length &lt; k ? null : k - 1));
-    &#47;&#47; get the closing k-gram
-    kGrams.add(length &lt; k ? term : (term.substring(length - k + 1)) + r&#39;$&#39;);
-    if (length &lt;= k) {
-      kGrams.add(term);
-    } else {
-      for (var i = 0; i &lt;= length - k; i++) {
-        kGrams.add(term.substring(i, i + k));
+  final terms = toLowerCase().split(RegExp(r&quot;[^a-zA-Z0-9À-öø-ÿ¥Œ€@™#-\&amp;_\&#39;\-\$]+&quot;));
+  for (var term in terms) {
+    term = term.trim();
+    if (term.isNotEmpty) {
+      &#47;&#47; get the opening k-gram
+      kGrams.add(r&#39;$&#39; + term.substring(0, length &lt; k ? null : k - 1));
+      &#47;&#47; get the closing k-gram
+      kGrams.add(length &lt; k ? term : (term.substring(length - k + 1)) + r&#39;$&#39;);
+      if (length &lt;= k) {
+        kGrams.add(term);
+      } else {
+        for (var i = 0; i &lt;= length - k; i++) {
+          kGrams.add(term.substring(i, i + k));
+        }
       }
     }
   }
@@ -150,7 +155,7 @@
 <footer>
   <span class="no-break">
     text_analysis
-      0.23.1
+      0.23.2
   </span>
 
   
