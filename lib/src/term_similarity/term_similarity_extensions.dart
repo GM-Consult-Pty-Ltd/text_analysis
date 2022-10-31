@@ -389,13 +389,15 @@ extension TermSimilarityExtensions on Term {
       term = term.trim();
       if (term.isNotEmpty) {
         // get the opening k-gram
-        kGrams.add(r'$' + term.substring(0, length < k ? null : k - 1));
+        kGrams.add(r'$' + term.substring(0, term.length < k ? null : k - 1));
         // get the closing k-gram
-        kGrams.add(length < k ? term : (term.substring(length - k + 1)) + r'$');
-        if (length <= k) {
+        kGrams.add(term.length < k
+            ? term
+            : (term.substring(term.length - k + 1)) + r'$');
+        if (term.length <= k) {
           kGrams.add(term);
         } else {
-          for (var i = 0; i <= length - k; i++) {
+          for (var i = 0; i <= term.length - k; i++) {
             kGrams.add(term.substring(i, i + k));
           }
         }

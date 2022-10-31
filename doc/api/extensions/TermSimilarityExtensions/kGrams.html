@@ -78,13 +78,15 @@ individually.</p>
     term = term.trim();
     if (term.isNotEmpty) {
       &#47;&#47; get the opening k-gram
-      kGrams.add(r&#39;$&#39; + term.substring(0, length &lt; k ? null : k - 1));
+      kGrams.add(r&#39;$&#39; + term.substring(0, term.length &lt; k ? null : k - 1));
       &#47;&#47; get the closing k-gram
-      kGrams.add(length &lt; k ? term : (term.substring(length - k + 1)) + r&#39;$&#39;);
-      if (length &lt;= k) {
+      kGrams.add(term.length &lt; k
+          ? term
+          : (term.substring(term.length - k + 1)) + r&#39;$&#39;);
+      if (term.length &lt;= k) {
         kGrams.add(term);
       } else {
-        for (var i = 0; i &lt;= length - k; i++) {
+        for (var i = 0; i &lt;= term.length - k; i++) {
           kGrams.add(term.substring(i, i + k));
         }
       }
@@ -156,7 +158,7 @@ individually.</p>
 <footer>
   <span class="no-break">
     text_analysis
-      0.23.3
+      0.23.4
   </span>
 
   
