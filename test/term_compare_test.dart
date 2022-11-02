@@ -70,13 +70,28 @@ void main() {
       final results = <Map<String, dynamic>>[];
       for (final other in candidates) {
         final jCf = term.characterSimilarity(other);
-        results.add({'other': other, 'Jaccard Similarity': jCf});
+        results.add({'other': other, 'Character Similarity': jCf});
       }
-      results.sort(((a, b) => (b['Jaccard Similarity'] as num)
-          .compareTo(a['Jaccard Similarity'] as num)));
+      results.sort(((a, b) => (b['Character Similarity'] as num)
+          .compareTo(a['Character Similarity'] as num)));
       Console.out(
           title: 'CHARACTER SIMILARITY: '
-              '$term.jaccardSimilarity(other)',
+              '$term.characterSimilarity(other)',
+          results: results,
+          minPrintWidth: 80);
+    }));
+
+    test('startsWithSimilarity', (() {
+      final results = <Map<String, dynamic>>[];
+      for (final other in candidates) {
+        final jCf = 'bo'.startsWithSimilarity(other);
+        results.add({'other': other, 'Starts-with Similarity': jCf});
+      }
+      results.sort(((a, b) => (b['Starts-with Similarity'] as num)
+          .compareTo(a['Starts-with Similarity'] as num)));
+      Console.out(
+          title: 'STARTS-WITH SIMILARITY: '
+              '$term.startsWithSimilarity(other)',
           results: results,
           minPrintWidth: 80);
     }));
