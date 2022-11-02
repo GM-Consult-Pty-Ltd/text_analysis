@@ -21,8 +21,7 @@
 </head>
 
 
-<body data-base-href="../../"
-      data-using-base-href="false">
+<body data-base-href="../../" data-using-base-href="false">
 
 <div id="overlay-under-drawer"></div>
 
@@ -79,8 +78,10 @@ lengths) have an edit similarity of 0.0.</li>
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
   <pre class="language-dart"><code class="language-dart">double editSimilarity(Term other) {
-  final similarity =
-      (length + other.length - editDistance(other)) &#47; (length + other.length);
+  other = other.trim().toLowerCase();
+  final term = trim().toLowerCase();
+  final similarity = (term.length + other.length - editDistance(other)) &#47;
+      (term.length + other.length);
   if (similarity &gt; 1.0) {
     return 1.0;
   }
@@ -132,6 +133,10 @@ lengths) have an edit similarity of 0.0.</li>
     <li><a href="../../extensions/TermSimilarityExtensions/lengthSimilarity.html">lengthSimilarity</a></li>
     <li><a href="../../extensions/TermSimilarityExtensions/lengthSimilarityMap.html">lengthSimilarityMap</a></li>
     <li><a href="../../extensions/TermSimilarityExtensions/matches.html">matches</a></li>
+    <li><a href="../../extensions/TermSimilarityExtensions/startsWith.html">startsWith</a></li>
+    <li><a href="../../extensions/TermSimilarityExtensions/startsWithSimilarities.html">startsWithSimilarities</a></li>
+    <li><a href="../../extensions/TermSimilarityExtensions/startsWithSimilarity.html">startsWithSimilarity</a></li>
+    <li><a href="../../extensions/TermSimilarityExtensions/startsWithSimilarityMap.html">startsWithSimilarityMap</a></li>
     <li><a href="../../extensions/TermSimilarityExtensions/termSimilarities.html">termSimilarities</a></li>
     <li><a href="../../extensions/TermSimilarityExtensions/termSimilarityMap.html">termSimilarityMap</a></li>
 
@@ -150,7 +155,7 @@ lengths) have an edit similarity of 0.0.</li>
 <footer>
   <span class="no-break">
     text_analysis
-      0.23.4
+      0.23.5
   </span>
 
   
@@ -159,7 +164,7 @@ lengths) have an edit similarity of 0.0.</li>
 
 
 <script src="../../static-assets/highlight.pack.js?v1"></script>
-<script src="../../static-assets/script.js?v1"></script>
+<script src="../../static-assets/docs.dart.js"></script>
 
 
 

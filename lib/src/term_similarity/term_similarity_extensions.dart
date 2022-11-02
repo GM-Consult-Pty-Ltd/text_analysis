@@ -24,15 +24,17 @@ extension TermSimilarityExtensions on Term {
   ///
   /// Not case-sensitive.
   double editSimilarity(Term other) {
-    final similarity =
-        (length + other.length - editDistance(other)) / (length + other.length);
+    other = other.trim().toLowerCase();
+    final term = trim().toLowerCase();
+    final similarity = (term.length + other.length - editDistance(other)) /
+        (term.length + other.length);
     if (similarity > 1.0) {
       return 1.0;
     }
     return similarity;
   }
 
-  /// Returns a ordered list of [SimilarityIndex] values for the terms, in
+  /// Returns an ordered list of [SimilarityIndex] values for the terms, in
   /// descending order of [SimilarityIndex.similarity].
   ///
   /// Not case-sensitive.
@@ -68,19 +70,25 @@ extension TermSimilarityExtensions on Term {
   /// single-character edits (transpositions, insertions, deletions or
   /// substitutions) required to change one word into another [other].
   ///
+  /// The String and [other] are converted to lower-case and trimmed for the
+  /// comparison.
+  ///
   /// Not case-sensitive.
   /// See https://en.wikipedia.org/wiki/Damerau%E2%80%93Levenshtein_distance.
   int editDistance(Term other) {
     //
+    other = other.trim().toLowerCase();
+
+    final term = trim().toLowerCase();
 
     // initialize a 1-based array of 26 integers with all values set to 0
     final da = _Da();
 
     // initialize a 1-based character array for this
-    final a = _CharArray(toLowerCase());
+    final a = _CharArray(term);
 
     // initialize a 1-based character array for other
-    final b = _CharArray(other.toLowerCase());
+    final b = _CharArray(other);
 
     // initialize the -1 based edit distance matrix, filling it with zeros
     final dList = <List<int>>[];
@@ -166,6 +174,9 @@ extension TermSimilarityExtensions on Term {
   /// - Returns the intersection length divided by the average length of the two
   ///   character sets multiplied by the length similarity.
   ///
+  /// The String and [other] are converted to lower-case and trimmed for the
+  /// comparison.
+  ///
   /// Not case-sensitive.
   double characterSimilarity(Term other) {
     final term = trim().toLowerCase();
@@ -186,6 +197,9 @@ extension TermSimilarityExtensions on Term {
   /// Returns a ordered list of [SimilarityIndex] values for the [terms], in
   /// descending order of [SimilarityIndex.similarity].
   ///
+  /// The String and [other] are converted to lower-case and trimmed for the
+  /// comparison.
+  ///
   /// Not case-sensitive.
   List<SimilarityIndex> characterSimilarities(Iterable<Term> terms) =>
       characterSimilarityMap(terms)
@@ -203,7 +217,9 @@ extension TermSimilarityExtensions on Term {
   }
 
   /// Returns the absolute value of the difference in length between two terms.
-  int lengthDistance(Term other) => (length - other.length).abs();
+  ///
+  /// The String and [other] are trimmed for the calculation.
+  int lengthDistance(Term other) => (trim().length - other.trim().length).abs();
 
   /// Returns the similarity in length between two terms, defined as:
   /// lengthSimilarity = 1 minus the log of the ratio between the term lengths,
@@ -213,19 +229,107 @@ extension TermSimilarityExtensions on Term {
   /// Returns:
   /// - 1.0 if this and [other] are the same length; and
   /// - 0.0 if the ratio between term lengths is more than 10 or less than 0.1.
+  ///
+  /// The String and [other] are converted to lower-case and trimmed for the
+  /// comparison.
   double lengthSimilarity(Term other) {
-    final logRatio = isEmpty
+    final term = trim().toLowerCase();
+    other = other.trim().toLowerCase();
+    final logRatio = term.isEmpty
         ? other.isEmpty
             ? 0
             : 1
         : other.isEmpty
             ? 1
-            : (log(other.length / length)).abs();
+            : (log(other.length / term.length)).abs();
     final similarity = logRatio > 1 ? 0.0 : 1.0 - logRatio;
     if (similarity > 1.0) {
       return 1.0;
     }
     return similarity;
+  }
+
+  /// Returns a subset of [candidates] that starts with the same characters
+  /// as the String.
+  ///
+  /// The String and [terms] are converted to lower-case and trimmed for the
+  /// comparison.
+  ///
+  /// Not case sensitive.
+  List<String> startsWith(Iterable<String> terms, [int limit = 10]) {
+    final term = trim().toLowerCase();
+    if (term.isEmpty) {
+      return [];
+    }
+    final startsWithTerms = terms
+        .map((e) => e.trim().toLowerCase())
+        .where((element) => element.startsWith(term))
+        .toSet()
+        .toList();
+    startsWithTerms.sort(((a, b) => a.compareTo(b)));
+    startsWithTerms.sort(((a, b) => a.length.compareTo(b.length)));
+    return startsWithTerms.length > limit
+        ? startsWithTerms.sublist(0, limit)
+        : startsWithTerms;
+  }
+
+  /// Returns a hashmap of cadidate tems to their starts-with similarity with
+  /// this string.
+  ///
+  /// Not case sensitive.
+  Map<String, double> startsWithSimilarityMap(Iterable<String> terms) {
+    final retVal = <String, double>{};
+    final term = trim().toLowerCase();
+    final values = terms.map((e) => e.trim().toLowerCase()).toSet();
+    for (final other in values) {
+      retVal[other] = term.startsWithSimilarity(other);
+    }
+    return retVal;
+  }
+
+  /// Returns an ordered list of starts-with similarity values for the terms, in
+  /// descending order of [SimilarityIndex.similarity].
+  ///
+  /// The String and [terms] are converted to lower-case and trimmed for the
+  /// comparison.
+  ///
+  /// Not case sensitive.
+  List<SimilarityIndex> startsWithSimilarities(Iterable<String> terms) =>
+      startsWithSimilarityMap(terms)
+          .entries
+          .map((e) => SimilarityIndex(e.key, e.value))
+          .sortBySimilarity();
+
+  /// Compares the starting charcters of the String with that of [other],
+  /// limiting the comparison to a substring of this or [other] that is
+  /// the shorter of this.length or other.length.
+  ///
+  /// The two strings are converted to lower-case and trimmed for the
+  /// comparison.
+  ///
+  /// - returns 1.0 if the two strings are the same;
+  /// - returns 0.0 if the two strings do not start with the same character;
+  /// - returns 0.0  if either of the strings are empty, unless both are empty
+  ///   (equal);
+  /// - returns the edit distance between the starting characters in all other
+  ///   cases.
+  ///
+  /// Not case sensitive.
+  double startsWithSimilarity(Term other) {
+    final term = toLowerCase().trim();
+    other = other.toLowerCase().trim();
+    if (term == other) {
+      return 1.0;
+    }
+    if (term.isEmpty ||
+        other.isEmpty ||
+        !other.startsWith(term.substring(0, 1))) {
+      return 0.0;
+    }
+    final startsWithLength = term.length > other.length ? other.length : length;
+    return term
+        .substring(0, startsWithLength)
+        .editSimilarity(other.substring(0, startsWithLength));
   }
 
   /// Returns a ordered list of [SimilarityIndex] values for the [terms], in
@@ -250,11 +354,15 @@ extension TermSimilarityExtensions on Term {
   /// Returns the Jaccard Similarity Index between this term and [other]
   /// using a [k]-gram length of [k].
   ///
+  /// The two strings are converted to lower-case and trimmed for the
+  /// comparison.
+  ///
   /// Not case-sensitive.
   double jaccardSimilarity(Term other, [int k = 2]) =>
-      _jaccardSimilarity(kGrams(k), other, k);
+      _jaccardSimilarity(trim().toLowerCase().kGrams(k), other, k);
 
   double _jaccardSimilarity(Set<String> termGrams, Term other, int k) {
+    other = other.trim().toLowerCase();
     final otherGrams = other.kGrams(k);
     final intersection = termGrams.intersection(otherGrams);
     final union = termGrams.union(otherGrams);
@@ -334,7 +442,7 @@ extension TermSimilarityExtensions on Term {
   ///
   /// Not case-sensitive.
   List<SimilarityIndex> getSuggestions(Iterable<Term> terms,
-      {int limit = 10, int k = 2, double greaterThan = 0.10}) {
+      {int limit = 10, int k = 2, double greaterThan = 0.10, int roundTo = 3}) {
     final retVal = <SimilarityIndex>[];
     for (final other in terms.toSet()) {
       var similarity = lengthSimilarity(other);
@@ -343,11 +451,15 @@ extension TermSimilarityExtensions on Term {
           : similarity * characterSimilarity(other);
       similarity = similarity <= greaterThan
           ? similarity
+          : similarity * startsWithSimilarity(other);
+      similarity = similarity <= greaterThan
+          ? similarity
           : similarity * jaccardSimilarity(other);
       similarity = similarity <= greaterThan
           ? similarity
           : similarity * editSimilarity(other);
-      similarity = (similarity * 1000).roundToDouble() / 1000;
+      final f = pow(10, roundTo);
+      similarity = (similarity * f).roundToDouble() / f;
       if (similarity > greaterThan) {
         retVal.add(SimilarityIndex(other, similarity));
       }
@@ -382,9 +494,9 @@ extension TermSimilarityExtensions on Term {
   /// terms at all non-word characters and generates the k-grams for each word
   /// individually.
   Set<KGram> kGrams([int k = 2]) {
+    final term = toLowerCase().trim();
     final Set<KGram> kGrams = {};
-    final terms =
-        toLowerCase().split(RegExp(r"[^a-zA-Z0-9À-öø-ÿ¥Œ€@™#-\&_\'\-\$]+"));
+    final terms = term.split(RegExp(r"[^a-zA-Z0-9À-öø-ÿ¥Œ€@™#-\&_\'\-\$]+"));
     for (var term in terms) {
       term = term.trim();
       if (term.isNotEmpty) {

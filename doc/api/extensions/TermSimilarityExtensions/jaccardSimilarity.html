@@ -21,8 +21,7 @@
 </head>
 
 
-<body data-base-href="../../"
-      data-using-base-href="false">
+<body data-base-href="../../" data-using-base-href="false">
 
 <div id="overlay-under-drawer"></div>
 
@@ -64,6 +63,8 @@
 <section class="desc markdown">
   <p>Returns the Jaccard Similarity Index between this term and <code>other</code>
 using a <code>k</code>-gram length of <code>k</code>.</p>
+<p>The two strings are converted to lower-case and trimmed for the
+comparison.</p>
 <p>Not case-sensitive.</p>
 </section>
 
@@ -72,7 +73,7 @@ using a <code>k</code>-gram length of <code>k</code>.</p>
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
   <pre class="language-dart"><code class="language-dart">double jaccardSimilarity(Term other, [int k = 2]) =&gt;
-    _jaccardSimilarity(kGrams(k), other, k);</code></pre>
+    _jaccardSimilarity(trim().toLowerCase().kGrams(k), other, k);</code></pre>
 </section>
 
 
@@ -119,6 +120,10 @@ using a <code>k</code>-gram length of <code>k</code>.</p>
     <li><a href="../../extensions/TermSimilarityExtensions/lengthSimilarity.html">lengthSimilarity</a></li>
     <li><a href="../../extensions/TermSimilarityExtensions/lengthSimilarityMap.html">lengthSimilarityMap</a></li>
     <li><a href="../../extensions/TermSimilarityExtensions/matches.html">matches</a></li>
+    <li><a href="../../extensions/TermSimilarityExtensions/startsWith.html">startsWith</a></li>
+    <li><a href="../../extensions/TermSimilarityExtensions/startsWithSimilarities.html">startsWithSimilarities</a></li>
+    <li><a href="../../extensions/TermSimilarityExtensions/startsWithSimilarity.html">startsWithSimilarity</a></li>
+    <li><a href="../../extensions/TermSimilarityExtensions/startsWithSimilarityMap.html">startsWithSimilarityMap</a></li>
     <li><a href="../../extensions/TermSimilarityExtensions/termSimilarities.html">termSimilarities</a></li>
     <li><a href="../../extensions/TermSimilarityExtensions/termSimilarityMap.html">termSimilarityMap</a></li>
 
@@ -137,7 +142,7 @@ using a <code>k</code>-gram length of <code>k</code>.</p>
 <footer>
   <span class="no-break">
     text_analysis
-      0.23.4
+      0.23.5
   </span>
 
   
@@ -146,7 +151,7 @@ using a <code>k</code>-gram length of <code>k</code>.</p>
 
 
 <script src="../../static-assets/highlight.pack.js?v1"></script>
-<script src="../../static-assets/script.js?v1"></script>
+<script src="../../static-assets/docs.dart.js"></script>
 
 
 

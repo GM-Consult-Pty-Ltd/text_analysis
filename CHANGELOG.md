@@ -5,7 +5,27 @@ All rights reserved.
 -->
 
 
-## 0.23.4
+## 0.23.5
+**BREAKING CHANGES**
+
+### *Breaking changes*
+* Added field `TermSimilarity.startsWithSimilarity`.
+* Changed signature of `TermSimilarity` unnamed factory constructor.
+* Changed calculation of `getSuggestions` extension method to include `startsWithimilarity`.
+
+### *New*
+* Extension method `double startsWithSimilarity(Term other)` on `String`.
+* Extension method `List<String> startsWith(Iterable<String> terms, [int limit = 10])` on `String`.
+* Extension method `Map<String, double> startsWithSimilarityMap(Iterable<String> terms)` on `String`.
+* Extension method `List<SimilarityIndex> startsWithSimilarities(Iterable<String> terms)` on `String`.
+
+### *Updated*
+* Dependencies.
+* Tests.
+* Documentation
+* Examples.
+
+## 0.23.4d
 
 ### *Bug fixes*
 * Fixed k-gram generation error

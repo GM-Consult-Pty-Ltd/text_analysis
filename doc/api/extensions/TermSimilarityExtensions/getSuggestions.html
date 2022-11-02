@@ -21,8 +21,7 @@
 </head>
 
 
-<body data-base-href="../../"
-      data-using-base-href="false">
+<body data-base-href="../../" data-using-base-href="false">
 
 <div id="overlay-under-drawer"></div>
 
@@ -56,7 +55,8 @@
 <span class="name ">getSuggestions</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="getSuggestions-param-terms"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../../type_definitions/Term.html">Term</a></span>&gt;</span></span> <span class="parameter-name">terms</span>, </span></li>
 <li><span class="parameter" id="getSuggestions-param-limit">{<span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/int-class.html">int</a></span> <span class="parameter-name">limit</span> = <span class="default-value">10</span>, </span></li>
 <li><span class="parameter" id="getSuggestions-param-k"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/int-class.html">int</a></span> <span class="parameter-name">k</span> = <span class="default-value">2</span>, </span></li>
-<li><span class="parameter" id="getSuggestions-param-greaterThan"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/double-class.html">double</a></span> <span class="parameter-name">greaterThan</span> = <span class="default-value">0.10</span>}</span></li>
+<li><span class="parameter" id="getSuggestions-param-greaterThan"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/double-class.html">double</a></span> <span class="parameter-name">greaterThan</span> = <span class="default-value">0.10</span>, </span></li>
+<li><span class="parameter" id="getSuggestions-param-roundTo"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/int-class.html">int</a></span> <span class="parameter-name">roundTo</span> = <span class="default-value">3</span>}</span></li>
 </ol>)
 
       
@@ -84,7 +84,7 @@ matches are found.</p>
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
   <pre class="language-dart"><code class="language-dart">List&lt;SimilarityIndex&gt; getSuggestions(Iterable&lt;Term&gt; terms,
-    {int limit = 10, int k = 2, double greaterThan = 0.10}) {
+    {int limit = 10, int k = 2, double greaterThan = 0.10, int roundTo = 3}) {
   final retVal = &lt;SimilarityIndex&gt;[];
   for (final other in terms.toSet()) {
     var similarity = lengthSimilarity(other);
@@ -93,11 +93,15 @@ matches are found.</p>
         : similarity * characterSimilarity(other);
     similarity = similarity &lt;= greaterThan
         ? similarity
+        : similarity * startsWithSimilarity(other);
+    similarity = similarity &lt;= greaterThan
+        ? similarity
         : similarity * jaccardSimilarity(other);
     similarity = similarity &lt;= greaterThan
         ? similarity
         : similarity * editSimilarity(other);
-    similarity = (similarity * 1000).roundToDouble() &#47; 1000;
+    final f = pow(10, roundTo);
+    similarity = (similarity * f).roundToDouble() &#47; f;
     if (similarity &gt; greaterThan) {
       retVal.add(SimilarityIndex(other, similarity));
     }
@@ -152,6 +156,10 @@ matches are found.</p>
     <li><a href="../../extensions/TermSimilarityExtensions/lengthSimilarity.html">lengthSimilarity</a></li>
     <li><a href="../../extensions/TermSimilarityExtensions/lengthSimilarityMap.html">lengthSimilarityMap</a></li>
     <li><a href="../../extensions/TermSimilarityExtensions/matches.html">matches</a></li>
+    <li><a href="../../extensions/TermSimilarityExtensions/startsWith.html">startsWith</a></li>
+    <li><a href="../../extensions/TermSimilarityExtensions/startsWithSimilarities.html">startsWithSimilarities</a></li>
+    <li><a href="../../extensions/TermSimilarityExtensions/startsWithSimilarity.html">startsWithSimilarity</a></li>
+    <li><a href="../../extensions/TermSimilarityExtensions/startsWithSimilarityMap.html">startsWithSimilarityMap</a></li>
     <li><a href="../../extensions/TermSimilarityExtensions/termSimilarities.html">termSimilarities</a></li>
     <li><a href="../../extensions/TermSimilarityExtensions/termSimilarityMap.html">termSimilarityMap</a></li>
 
@@ -170,7 +178,7 @@ matches are found.</p>
 <footer>
   <span class="no-break">
     text_analysis
-      0.23.4
+      0.23.5
   </span>
 
   
@@ -179,7 +187,7 @@ matches are found.</p>
 
 
 <script src="../../static-assets/highlight.pack.js?v1"></script>
-<script src="../../static-assets/script.js?v1"></script>
+<script src="../../static-assets/docs.dart.js"></script>
 
 
 

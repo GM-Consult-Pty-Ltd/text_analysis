@@ -22,6 +22,7 @@ abstract class TermSimilarity {
     final lengthDistance = term.lengthDistance(other);
     final lengthSimilarity = term.lengthSimilarity(other);
     final characterSimilarity = term.characterSimilarity(other);
+    final startsWithSimilarity = term.startsWithSimilarity(other);
     final similarity = editSimilarity *
         jaccardSimilarity *
         lengthSimilarity *
@@ -35,7 +36,8 @@ abstract class TermSimilarity {
         editDistance,
         editSimilarity,
         jaccardSimilarity,
-        characterSimilarity);
+        characterSimilarity,
+        startsWithSimilarity);
   }
 
   /// The term that is being compared to [other].
@@ -69,6 +71,9 @@ abstract class TermSimilarity {
   /// - terms with no shared characters (edit distance equal to sum of the term
   ///   lengths) have an edit similarity of 0.0.
   ///
+  /// The two strings are converted to lower-case and trimmed for the
+  /// comparison.
+  ///
   /// Not case-sensitive.
   double get editSimilarity;
 
@@ -86,7 +91,10 @@ abstract class TermSimilarity {
   /// - Returns the intersection length divided by the average length of the two
   ///   character sets multiplied by the length similarity.
   ///
-  /// Not case-sensitive.
+  /// The two strings are converted to lower-case and trimmed for the
+  /// comparison.
+  ///
+  /// Not case sensitive.
   double get characterSimilarity;
 
   /// Returns the similarity in length between two terms, defined as:
@@ -97,26 +105,58 @@ abstract class TermSimilarity {
   /// Returns:
   /// - 1.0 if this and [other] are the same length; and
   /// - 0.0 if the ratio between term lengths is more than 10 or less than 0.1.
+  ///
+  /// The two strings are converted to lower-case and trimmed for the
+  /// comparison.
+  ///
+  /// Not case sensitive.
   double get lengthSimilarity;
 
+  /// Compares the starting charcters of the String with that of [other],
+  /// limiting the comparison to a substring of this or [other] that is
+  /// the shorter of this.length or other.length.  ///
+  /// - returns 1.0 if the two strings are the same;
+  /// - returns 0.0 if the two strings do not start with the same character;
+  /// - returns 0.0  if either of the strings are empty, unless both are empty
+  ///   (equal);
+  /// - returns the edit distance between the starting characters in all other
+  ///   cases.
+  ///
+  /// The two strings are converted to lower-case and trimmed for the
+  /// comparison.
+  ///
+  /// Not case sensitive.
+  double get startsWithSimilarity;
+
   /// Returns the Jaccard Similarity Index between [term] and [other].
+  ///
+  /// The two strings are converted to lower-case and trimmed for the
+  /// comparison.
   ///
   /// Not case-sensitive.
   double get jaccardSimilarity;
 
   /// Returns the absolute value of the difference in length between [term]
   /// and [other].
+  ///
+  /// The two strings are trimmed for the calculation of lengths.
   int get lengthDistance;
 
   /// Returns the `Damerau–Levenshtein distance`, the minimum number of
   /// single-character edits (transpositions, insertions, deletions or
   /// substitutions) required to change [term] into [other].
   ///
+  /// The two strings are converted to lower-case and trimmed for the
+  /// comparison.
+  ///
   /// Not case-sensitive.
   int get editDistance;
 
   /// Returns a ordered list of [SimilarityIndex] values of [term] to the
   /// [terms] in descending order of [SimilarityIndex.similarity].
+  ///
+  /// The [term] and [terms] are converted to lower-case and trimmed for the
+  /// comparison.
   ///
   /// Not case-sensitive.
   static List<SimilarityIndex> editSimilarities(
@@ -125,6 +165,9 @@ abstract class TermSimilarity {
 
   /// Returns a hashmap of [terms] to their [editDistance] with this.
   ///
+  /// The [term] and [terms] are converted to lower-case and trimmed for the
+  /// comparison.
+  ///
   /// Not case-sensitive.
   static Map<Term, int> editDistanceMap(Term term, Iterable<Term> terms) =>
       term.editDistanceMap(terms);
@@ -132,14 +175,31 @@ abstract class TermSimilarity {
   /// Returns a ordered list of [SimilarityIndex] values for the [terms], in
   /// descending order of [SimilarityIndex.similarity].
   ///
+  /// The [term] and [terms] are converted to lower-case and trimmed for the
+  /// comparison.
+  ///
   /// Not case-sensitive.
   static List<SimilarityIndex> lengthSimilarities(
           Term term, Iterable<Term> terms) =>
       term.lengthSimilarities(terms);
 
+  /// Returns a ordered list of [SimilarityIndex] values for the [terms], in
+  /// descending order of [SimilarityIndex.similarity].
+  ///
+  /// The [term] and [terms] are converted to lower-case and trimmed for the
+  /// comparison.
+  ///
+  /// Not case-sensitive.
+  static List<SimilarityIndex> startsWithSimilarities(
+          Term term, Iterable<Term> terms) =>
+      term.startsWithSimilarities(terms);
+
   /// Returns a ordered list of [SimilarityIndex] values of [term] to the
   /// [terms] in descending order of [SimilarityIndex.similarity] using a
   /// [k]-gram length of [k]. [k] defaults to 2.
+  ///
+  /// The [term] and [terms] are converted to lower-case and trimmed for the
+  /// comparison.
   ///
   /// Not case-sensitive.
   static List<SimilarityIndex> jaccardSimilarities(
@@ -149,6 +209,9 @@ abstract class TermSimilarity {
 
   /// Returns a ordered list of [SimilarityIndex] values for the [terms], in
   /// descending order of [SimilarityIndex.similarity].
+  ///
+  /// The [term] and [terms] are converted to lower-case and trimmed for the
+  /// comparison.
   ///
   /// Not case-sensitive.
   static List<SimilarityIndex> characterSimilarities(
@@ -329,10 +392,16 @@ class _TermSimilarityImpl extends TermSimilarityBase {
       this.editDistance,
       this.editSimilarity,
       this.jaccardSimilarity,
-      this.characterSimilarity);
+      this.characterSimilarity,
+      this.startsWithSimilarity);
 
   @override
   final double similarity;
+
+  @override
+  final double startsWithSimilarity;
+
+  //
 }
 
 /// Extension methods on collection of [SimilarityIndex].

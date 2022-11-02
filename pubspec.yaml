@@ -4,7 +4,7 @@
 
 name: text_analysis
 description: Tokenize text, compute readibility scores for a document and evaluate similarity of terms.
-version: 0.23.4
+version: 0.23.5
 repository: https://github.com/GM-Consult-Pty-Ltd/text_analysis
 homepage: https://github.com/GM-Consult-Pty-Ltd
 issue_tracker: https://github.com/GM-Consult-Pty-Ltd/text_analysis/issues
@@ -14,10 +14,10 @@ environment:
 
 dependencies:
   # -----PubDev Packages (in alphabetic order) -----
-  collection: ^1.16.0
+  collection: ^1.17.0
   porter_2_stemmer: ^3.0.0
 
 dev_dependencies:
   gmconsult_dev: ^0.0.7
-  lints: ^2.0.0
-  test: ^1.21.1
+  lints: ^2.0.1
+  test: ^1.22.0
