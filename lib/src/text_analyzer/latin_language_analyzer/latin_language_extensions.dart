@@ -198,12 +198,9 @@ extension _LatinLanguageStringExtensions on String {
       .replaceAll(RegExp(r'(\s{2,})'), ' ');
 
   /// Split the String at (one or more) white-space characters.
-  List<String> splitAtWhiteSpace(Map<String, String> abbreviations) {
+  List<String> splitAtWhiteSpace() {
     final terms = split(RegExp(r'(\s+)')).map((e) {
-      e = e.trim();
-      if (abbreviations.keys.contains(e)) {
-        return e;
-      }
+      e = e.trim();      
       return e
           .replaceAll(
               RegExp('${_LatinLanguageConstants.reNonWordChars}(?=\$)'), '')
@@ -221,7 +218,7 @@ extension _LatinLanguageStringExtensions on String {
   ///
   /// Each element of the list is an ordered list of terms that make up the
   /// keyword.
-  List<List<String>> toKeyWords(Map<String, String> abbreviations,
+  List<List<String>> toKeyWords(
       Map<String, String> exceptions, Set<String> stopWords,
       {Stemmer? stemmer, NGramRange? range}) {
     // final phraseTerms = <List<String>>[];
@@ -231,22 +228,18 @@ extension _LatinLanguageStringExtensions on String {
     for (final e in phrases) {
       final phrase = <String>[];
       final terms =
-          e.replacePunctuationWith(' ').splitAtWhiteSpace(abbreviations);
+          e.replacePunctuationWith(' ').splitAtWhiteSpace();
       for (var e in terms) {
         e = e.trim();
         if (e.length > 1) {
-          final abbreviation = abbreviations[e] ?? abbreviations['$e.'];
+          
           final exception = exceptions[e];
-          final alt = exceptions[e] ?? abbreviations[e] ?? abbreviations['$e.'];
+          final alt = exceptions[e];
           if (exception != null) {
             final words = exception.split(' ');
             words.removeWhere((element) => stopWords.contains(element));
             e = words.join(' ').toLowerCase();
-          } else if (abbreviation != null) {
-            _addPhraseToKeyWords(
-                [abbreviation.toLowerCase()], keyWordSet, retVal, range);
-            e = '$e.'.replaceAll(RegExp(r'\.+'), '.').toLowerCase();
-          } else {
+          }  else {
             e = e.toLowerCase();
             e = (stemmer != null ? stemmer(e) : e).trim();
 

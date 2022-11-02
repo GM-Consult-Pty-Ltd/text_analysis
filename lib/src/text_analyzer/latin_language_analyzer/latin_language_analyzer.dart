@@ -106,7 +106,7 @@ abstract class LatinLanguageAnalyzerMixin implements TextAnalyzer {
   /// - Return only non-empty terms.
   @override
   TermSplitter get termSplitter => (SourceText source) =>
-      source.replacePunctuationWith(' ').splitAtWhiteSpace(abbreviations);
+      source.replacePunctuationWith(' ').splitAtWhiteSpace();
 
   /// The [LatinLanguageAnalyzerMixin] implementation of [sentenceSplitter].
   ///
@@ -148,6 +148,6 @@ abstract class LatinLanguageAnalyzerMixin implements TextAnalyzer {
   @override
   KeywordExtractor get keywordExtractor =>
       (String source, {NGramRange? nGramRange}) => source.toKeyWords(
-          abbreviations, termExceptions, stopWords,
+          termExceptions, stopWords,
           stemmer: stemmer, range: nGramRange);
 }
