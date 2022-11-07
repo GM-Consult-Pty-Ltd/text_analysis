@@ -259,7 +259,8 @@ the Latin/Roman alphabet/character set.</p>
 <p>The following definitions are used throughout the <a href="https://pub.dev/documentation/text_analysis/latest/">documentation</a>:</p>
 <ul>
 <li><code>corpus</code>- the collection of <code>documents</code> for which an <code>index</code> is maintained.</li>
-<li><code>character filter</code> - filters characters from text in preparation of tokenization.</li>
+<li><code>cosine similarity</code> - similarity of two vectors measured as the cosine of the angle between them, that is, the dot product of the vectors divided by the product of their euclidian lengths (from <a href="https://en.wikipedia.org/wiki/Cosine_similarity">Wikipedia</a>).</li>
+<li><code>character filter</code> - filters characters from text in preparation of tokenization .</li>
 <li><code>Damerau–Levenshtein distance</code> - a metric for measuring the <code>edit distance</code> between two <code>terms</code> by counting the minimum number of operations (insertions, deletions or substitutions of a single character, or transposition of two adjacent characters) required to change one <code>term</code> into the other (from <a href="https://en.wikipedia.org/wiki/Damerau%E2%80%93Levenshtein_distance">Wikipedia</a>).</li>
 <li><code>dictionary (in an index)</code> - a hash of <code>terms</code> (<code>vocabulary</code>) to the frequency of occurence in the <code>corpus</code> documents.</li>
 <li><code>document</code> - a record in the <code>corpus</code>, that has a unique identifier (<code>docId</code>) in the <code>corpus</code>'s primary key and that contains one or more text fields that are indexed.</li>
@@ -314,8 +315,8 @@ the Latin/Roman alphabet/character set.</p>
 <li><a href="https://en.wikipedia.org/wiki/Phonetic_transcription">Wikipedia (11), "<em>Phonetic transcription</em>", from Wikipedia, the free encyclopedia</a></li>
 <li><a href="https://en.wikipedia.org/wiki/Etymology">Wikipedia (12), "<em>Etymology</em>", from Wikipedia, the free encyclopedia</a></li>
 <li><a href="https://en.wikipedia.org/wiki/Part-of-speech_tagging">Wikipedia (13), "<em>Part-of-speech tagging</em>", from Wikipedia, the free encyclopedia</a></li>
-<li><a href="https://en.wikipedia.org/wiki/Damerau%E2%80%93Levenshtein_distance">Wikipedia (14), "<em>Damerau–Levenshtein distance</em>", from Wikipedia, the free encyclopedia</a></li>
-<li><a href="https://en.wikipedia.org/wiki/N-gram">Wikipedia (14), "<em>n-gram</em>", from Wikipedia, the free encyclopedia</a></li>
+<li><a href="https://en.wikipedia.org/wiki/N-gram">Wikipedia (14), "<em>N-gram</em>", from Wikipedia, the free encyclopedia</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Cosine_similarity">Wikipedia (15), "<em>Cosine similarity</em>", from Wikipedia, the free encyclopedia</a></li>
 </ul>
 <p>(<em><a href="#">back to top</a></em>)</p>
 <h2 id="issues">Issues</h2>
@@ -394,7 +395,7 @@ information retrieval systems.
 <footer>
   <span class="no-break">
     text_analysis
-      0.23.6
+      0.23.7
   </span>
 
   

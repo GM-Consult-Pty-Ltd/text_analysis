@@ -4,8 +4,8 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, user-scalable=no">
-  <meta name="description" content="API docs for the TextAnalysisExtensionsOnStringList extension from the extensions library, for the Dart programming language.">
-  <title>TextAnalysisExtensionsOnStringList extension - extensions library - Dart API</title>
+  <meta name="description" content="API docs for the VectorSpaceMapExtensions extension from the extensions library, for the Dart programming language.">
+  <title>VectorSpaceMapExtensions extension - extensions library - Dart API</title>
 
 
   
@@ -30,9 +30,9 @@
   <ol class="breadcrumbs gt-separated dark hidden-xs">
     <li><a href="../index.html">text_analysis</a></li>
     <li><a href="../extensions/extensions-library.html">extensions</a></li>
-    <li class="self-crumb">TextAnalysisExtensionsOnStringList extension</li>
+    <li class="self-crumb">VectorSpaceMapExtensions extension</li>
   </ol>
-  <div class="self-name">TextAnalysisExtensionsOnStringList</div>
+  <div class="self-name">VectorSpaceMapExtensions</div>
   <form class="search navbar-right" role="search">
     <input type="text" id="search-box" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
   </form>
@@ -43,15 +43,14 @@
 
 <div id="dartdoc-main-content" class="main-content">
     <div>
-<h1><span class="kind-class">TextAnalysisExtensionsOnStringList</span> extension 
+<h1><span class="kind-class">VectorSpaceMapExtensions</span> extension 
     <a href="https://dart.dev/null-safety" class="feature feature-null-safety" title="Supports the null safety language feature.">Null safety</a>
  
 </h1></div>
 
     
 <section class="desc markdown">
-  <p>Extension methods on <a href="../type_definitions/Term.html">Term</a> that exposes methods analysing and tokenizing
-text.</p>
+  <p>Extensions on Map&lt;String, num&gt;, used for working with vector-space models.</p>
 </section>
 
     <section>
@@ -59,7 +58,7 @@ text.</p>
         <dt>on</dt>
         <dd>
           <ul class="comma-separated clazz-relationships">
-              <li><a href="https://api.flutter.dev/flutter/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>&gt;</span></li>
+              <li><a href="../type_definitions/VectorSpace.html">VectorSpace</a></li>
           </ul>
         </dd>
       </dl>
@@ -73,15 +72,15 @@ text.</p>
       id="instance-methods">
     <h2>Methods</h2>
     <dl class="callables">
-        <dt id="nGrams" class="callable">
-  <span class="name"><a href="../extensions/TextAnalysisExtensionsOnStringList/nGrams.html">nGrams</a></span><span class="signature">(<wbr><span class="parameter" id="nGrams-param-range"><span class="type-annotation"><a href="../text_analysis/NGramRange-class.html">NGramRange</a></span> <span class="parameter-name">range</span></span>)
-    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>&gt;</span></span>
+        <dt id="cosineSimilarity" class="callable">
+  <span class="name"><a href="../extensions/VectorSpaceMapExtensions/cosineSimilarity.html">cosineSimilarity</a></span><span class="signature">(<wbr><span class="parameter" id="cosineSimilarity-param-other"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Map-class.html">Map</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../type_definitions/Term.html">Term</a></span>, <span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/num-class.html">num</a></span>&gt;</span></span> <span class="parameter-name">other</span></span>)
+    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-core/double-class.html">double</a></span>
   </span>
   
 
 </dt>
 <dd>
-  Returns an ordered collection of n-grams from the list of Strings.
+  Returns the <code>cosine similarity</code> between this vector and <code>other</code>.
   
 
 </dd>
@@ -106,7 +105,7 @@ text.</p>
 <ol class="breadcrumbs gt-separated dark hidden-l" id="sidebar-nav">
   <li><a href="../index.html">text_analysis</a></li>
   <li><a href="../extensions/extensions-library.html">extensions</a></li>
-  <li class="self-crumb">TextAnalysisExtensionsOnStringList extension</li>
+  <li class="self-crumb">VectorSpaceMapExtensions extension</li>
 </ol>
 
 
@@ -143,8 +142,8 @@ text.</p>
 
 
 
-    <li class="section-title"><a href="../extensions/TextAnalysisExtensionsOnStringList.html#instance-methods">Methods</a></li>
-    <li><a href="../extensions/TextAnalysisExtensionsOnStringList/nGrams.html">nGrams</a></li>
+    <li class="section-title"><a href="../extensions/VectorSpaceMapExtensions.html#instance-methods">Methods</a></li>
+    <li><a href="../extensions/VectorSpaceMapExtensions/cosineSimilarity.html">cosineSimilarity</a></li>
 
 
 

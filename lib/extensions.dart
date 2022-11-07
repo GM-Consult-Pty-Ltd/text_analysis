@@ -15,6 +15,7 @@ export 'src/text_analyzer/_index.dart'
     show
         TokenCollectionExtension,
         TextAnalysisExtensionsOnJSON,
+        VectorSpaceMapExtensions,
         KGramExtensionOnTermCollection,
         TextAnalysisExtensionsOnString,
         StringCollectionCollectionExtension,

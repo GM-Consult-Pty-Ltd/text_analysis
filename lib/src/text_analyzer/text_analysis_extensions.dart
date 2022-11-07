@@ -6,6 +6,7 @@
 import 'package:text_analysis/type_definitions.dart';
 import 'package:text_analysis/text_analysis.dart';
 import 'package:text_analysis/extensions.dart';
+import 'dart:math';
 
 /// Extension methods on [Term] that exposes methods analysing and tokenizing
 /// text.
@@ -232,5 +233,32 @@ extension StringCollectionCollectionExtension on Iterable<List<String>> {
     }
 
     return retVal;
+  }
+}
+
+/// Extensions on Map<String, num>, used for working with vector-space models.
+extension VectorSpaceMapExtensions on VectorSpace {
+  //
+
+  /// Returns the `cosine similarity` between this vector and [other].
+  ///
+  /// Calculates the similarity of the vectors measured as the cosine of the
+  /// angle between them, i.e. the dot product of the vectors divided by the
+  /// product of their euclidian lengths
+  double cosineSimilarity(Map<Term, num> other) {
+    // initialize square of euclidian length for the document.
+    double eLDSq = 0.0;
+    // initialize square of euclidian length for query.
+    double eLQSq = 0.0;
+    double dotProduct = 0.0;
+    final terms = keys.toSet().union(other.keys.toSet());
+    for (final t in terms) {
+      final vQ = other[t] ?? 0.0;
+      final vD = this[t] ?? 0.0;
+      eLQSq = eLQSq + pow(vQ, 2);
+      eLDSq = eLDSq + pow(vD, 2);
+      dotProduct = dotProduct + vQ * vD;
+    }
+    return dotProduct / (sqrt(eLQSq) * sqrt(eLDSq));
   }
 }

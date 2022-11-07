@@ -4,6 +4,18 @@ Copyright (c) 2022, GM Consult Pty Ltd
 All rights reserved. 
 -->
 
+
+## 0.23.7
+
+### *New*
+* Extension method `double cosineSimilarity(Map<Term, num> other)` on `Map<String, num>`.
+
+### *Updated*
+* Dependencies.
+* Tests.
+* Documentation
+* Examples.
+
 ## 0.23.6
 
 ### *Bug fixes*

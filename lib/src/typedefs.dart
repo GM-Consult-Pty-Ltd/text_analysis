@@ -125,3 +125,9 @@ typedef JsonTokenizer = Future<Iterable<Token>> Function(
     Map<String, dynamic> json, List<Zone> fields,
     {NGramRange? nGramRange, TokenizingStrategy? strategy});
 // {NGramRange nGramRange = const NGramRange(1, 1), TokenizingStrategy strategy = TokenizingStrategy.terms, Zone? zone}
+
+/// Type definition for a hashmap of [Term] to value, when used as a
+/// n-dimensional vector in calculating cosine similarity between documents.
+///
+/// Alias for `Map<String, num>`.
+typedef VectorSpace = Map<String, num>;

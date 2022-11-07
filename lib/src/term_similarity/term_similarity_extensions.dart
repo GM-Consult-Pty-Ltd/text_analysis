@@ -249,7 +249,7 @@ extension TermSimilarityExtensions on Term {
     return similarity;
   }
 
-  /// Returns a subset of [candidates] that starts with the same characters
+  /// Returns a subset of candidates that starts with the same characters
   /// as the String.
   ///
   /// The String and [terms] are converted to lower-case and trimmed for the

@@ -200,7 +200,7 @@ extension _LatinLanguageStringExtensions on String {
   /// Split the String at (one or more) white-space characters.
   List<String> splitAtWhiteSpace() {
     final terms = split(RegExp(r'(\s+)')).map((e) {
-      e = e.trim();      
+      e = e.trim();
       return e
           .replaceAll(
               RegExp('${_LatinLanguageConstants.reNonWordChars}(?=\$)'), '')
@@ -227,19 +227,17 @@ extension _LatinLanguageStringExtensions on String {
     final phrases = toChunks();
     for (final e in phrases) {
       final phrase = <String>[];
-      final terms =
-          e.replacePunctuationWith(' ').splitAtWhiteSpace();
+      final terms = e.replacePunctuationWith(' ').splitAtWhiteSpace();
       for (var e in terms) {
         e = e.trim();
         if (e.length > 1) {
-          
           final exception = exceptions[e];
           final alt = exceptions[e];
           if (exception != null) {
             final words = exception.split(' ');
             words.removeWhere((element) => stopWords.contains(element));
             e = words.join(' ').toLowerCase();
-          }  else {
+          } else {
             e = e.toLowerCase();
             e = (stemmer != null ? stemmer(e) : e).trim();
 
