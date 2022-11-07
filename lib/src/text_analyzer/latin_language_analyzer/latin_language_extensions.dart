@@ -240,7 +240,6 @@ extension _LatinLanguageStringExtensions on String {
           } else {
             e = e.toLowerCase();
             e = (stemmer != null ? stemmer(e) : e).trim();
-
             e = alt ?? e;
           }
           if (!stopWords.contains(e) && e.isNotEmpty) {
@@ -263,7 +262,9 @@ extension _LatinLanguageStringExtensions on String {
     final keyWord = phrase.join(' ').toLowerCase();
     if (phrase.isNotEmpty) {
       if (!keyWordSet.contains(keyWord)) {
-        retVal.add(List<String>.from(phrase));
+        if (range == null) {
+          retVal.add(List<String>.from(phrase));
+        }
         keyWordSet.add(keyWord);
         if (range != null) {
           final nGrams = phrase.nGrams(range).map((e) => e.split(' '));
