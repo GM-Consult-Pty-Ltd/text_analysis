@@ -264,8 +264,8 @@ extension _LatinLanguageStringExtensions on String {
       if (!keyWordSet.contains(keyWord)) {
         if (range == null) {
           retVal.add(List<String>.from(phrase));
-        }
         keyWordSet.add(keyWord);
+        }
         if (range != null) {
           final nGrams = phrase.nGrams(range).map((e) => e.split(' '));
           for (var nGram in nGrams) {
