@@ -264,17 +264,14 @@ extension _LatinLanguageStringExtensions on String {
       if (!keyWordSet.contains(keyWord)) {
         if (range == null) {
           retVal.add(List<String>.from(phrase));
-        keyWordSet.add(keyWord);
-        }
-        if (range != null) {
+          keyWordSet.add(keyWord);
+        } else {
           final nGrams = phrase.nGrams(range).map((e) => e.split(' '));
           for (var nGram in nGrams) {
             final keyWord = nGram.join(' ');
             if (!keyWordSet.contains(keyWord)) {
-              if (nGram.length != phrase.length) {
-                retVal.add(nGram);
-                keyWordSet.add(keyWord);
-              }
+              retVal.add(nGram);
+              keyWordSet.add(keyWord);
             }
           }
         }

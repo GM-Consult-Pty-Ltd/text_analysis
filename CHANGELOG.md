@@ -4,11 +4,16 @@ Copyright (c) 2022, GM Consult Pty Ltd
 All rights reserved. 
 -->
 
-## 0.23.7+2
+
+## 0.23.7+3
 
 ### *Bug fixes*
 * Fixed keyword extraction bug.
 
+## 0.23.7+2
+
+### *Bug fixes*
+* Fixed keyword extraction bug.
 
 ## 0.23.7+1
 
