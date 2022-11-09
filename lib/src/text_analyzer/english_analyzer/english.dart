@@ -4,7 +4,6 @@
 
 import 'package:text_analysis/type_definitions.dart';
 import 'package:text_analysis/text_analysis.dart';
-import 'package:text_analysis/implementation.dart';
 import 'package:porter_2_stemmer/porter_2_stemmer.dart';
 
 part 'english_constants.dart';

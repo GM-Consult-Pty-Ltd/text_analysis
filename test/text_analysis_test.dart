@@ -8,7 +8,6 @@
 
 import 'package:gmconsult_dev/gmconsult_dev.dart';
 import 'package:gmconsult_dev/test_data.dart';
-import 'package:text_analysis/implementation.dart';
 // import 'package:gmconsult_dev/type_definitions.dart';
 import '../dev/data/lexicon/english_lexicon.dart';
 import 'package:text_analysis/extensions.dart';
@@ -228,7 +227,8 @@ void main() {
           'your phone. Podcast production company Pacific Content got the '
           'exclusive on it. This text is taken from Google news.';
 
-      final keywords = English().keywordExtractor(sample);
+      final keywords =
+          English().keywordExtractor(sample, nGramRange: NGramRange(1, 2));
 
       final graph =
           TermCoOccurrenceGraph(keywords) as TermCoOccurrenceGraphBase;

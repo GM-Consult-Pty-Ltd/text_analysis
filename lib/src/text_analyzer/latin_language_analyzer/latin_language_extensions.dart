@@ -220,6 +220,7 @@ extension _LatinLanguageStringExtensions on String {
     Set<String> stopWords, {
     required NGramRange? range,
     required CharacterFilter characterFilter,
+    required TermFilter termFilter,
     Stemmer? stemmer,
   }) {
     // final phraseTerms = <List<String>>[];
@@ -246,12 +247,13 @@ extension _LatinLanguageStringExtensions on String {
             phrase.add(e);
           } else {
             _addPhraseToKeyWords(
-                phrase, keyWordSet, retVal, range, characterFilter);
+                phrase, keyWordSet, retVal, range, characterFilter, termFilter);
             phrase.clear();
           }
         }
       }
-      _addPhraseToKeyWords(phrase, keyWordSet, retVal, range, characterFilter);
+      _addPhraseToKeyWords(
+          phrase, keyWordSet, retVal, range, characterFilter, termFilter);
     }
 
     return retVal;
@@ -263,7 +265,14 @@ extension _LatinLanguageStringExtensions on String {
       Set<String> keyWordSet,
       List<List<String>> retVal,
       NGramRange? range,
-      CharacterFilter characterFilter) {
+      CharacterFilter characterFilter,
+      TermFilter termFilter) {
+    phrase = phrase.map((e) => characterFilter(e)).toList();
+    final newPhrase = <String>[];
+    for (var e in phrase) {
+      newPhrase.addAll(termFilter(characterFilter(e.trim())));
+    }
+    phrase = newPhrase;
     final keyWord = phrase.join(' ');
     if (phrase.isNotEmpty) {
       if (!keyWordSet.contains(keyWord)) {
@@ -276,7 +285,7 @@ extension _LatinLanguageStringExtensions on String {
             final keyWord = nGram.join(' ');
             if (!keyWordSet.contains(keyWord)) {
               retVal.add(nGram);
-              keyWordSet.add(characterFilter(keyWord));
+              keyWordSet.add(keyWord);
             }
           }
         }

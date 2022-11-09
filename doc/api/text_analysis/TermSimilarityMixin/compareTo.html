@@ -66,7 +66,7 @@
     
 <section class="desc markdown">
   <p>Compares this to other, alphabetically, non-case sensitive.</p>
-<p>Returns a negative number if this is less than other, zero if they are 
+<p>Returns a negative number if this is less than other, zero if they are
 equal, and a positive number if this is greater than other.</p>
 <p>Not case sensitive.</p>
 </section>
@@ -76,14 +76,14 @@ equal, and a positive number if this is greater than other.</p>
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
   <pre class="language-dart"><code class="language-dart">@override
-  int compareTo(TermSimilarity other) {
-    if (term.toLowerCase() == this.other.toLowerCase()) return 0;
-    return similarity == other.similarity
-        ? 0
-        : similarity &gt; other.similarity
-            ? 1
-            : -1;
-  }</code></pre>
+int compareTo(TermSimilarity other) {
+  if (term.toLowerCase() == this.other.toLowerCase()) return 0;
+  return similarity == other.similarity
+      ? 0
+      : similarity &gt; other.similarity
+          ? 1
+          : -1;
+}</code></pre>
 </section>
 
 
@@ -151,7 +151,7 @@ equal, and a positive number if this is greater than other.</p>
 <footer>
   <span class="no-break">
     text_analysis
-      0.23.7+6
+      0.23.7+8
   </span>
 
   

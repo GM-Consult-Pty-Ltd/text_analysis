@@ -490,11 +490,15 @@ extension TermSimilarityExtensions on Term {
           .map((e) => e.term)
           .toList();
 
-  /// Returns a set of (lower-case) k-grams in the term. Splits phrases into
-  /// terms at all non-word characters and generates the k-grams for each word
-  /// individually.
-  Set<KGram> kGrams([int k = 2]) {
-    final term = toLowerCase().trim();
+  /// Returns a set of k-grams in the term.
+  ///
+  /// Splits phrases into terms at all non-word characters and generates
+  /// the k-grams for each word individually.
+  ///
+  /// If [lowerCase] is true, the texzt is converted to to lower case before
+  /// generating the k-grams.
+  Set<KGram> kGrams([int k = 2, bool lowerCase = true]) {
+    final term = lowerCase ? trim().toLowerCase() : trim();
     final Set<KGram> kGrams = {};
     final terms = term.split(RegExp(r"[^a-zA-Z0-9À-öø-ÿ¥Œ€@™#-\&_\'\-\$]+"));
     for (var term in terms) {

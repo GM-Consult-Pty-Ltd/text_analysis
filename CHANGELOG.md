@@ -4,6 +4,17 @@ Copyright (c) 2022, GM Consult Pty Ltd
 All rights reserved. 
 -->
 
+## 0.23.7+8
+
+### *Bug fixes*
+* Fixed keyword extraction bug.
+
+## 0.23.7+7
+
+### *Bug fixes*
+* Fixed keyword extraction bug.
+* Changed signature of extension method `kGrams` on String.
+
 ## 0.23.7+6
 
 ### *Bug fixes*
