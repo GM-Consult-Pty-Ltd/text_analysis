@@ -91,7 +91,6 @@ extension _LatinLanguageStringExtensions on String {
 
   /// Converts the String to a word, removing all non-word characters:
   /// - returns the term if it can be parsed as a number; else
-  /// - converts the term to lower-case;
   /// - changes all quote marks to single apostrophe +U0027;
   /// - removes enclosing quote marks;
   /// - changes all dashes to single standard hyphen;
@@ -108,8 +107,6 @@ extension _LatinLanguageStringExtensions on String {
         ? number.toString()
         // if the term is all-caps return it unchanged.
         : term
-            // convert to lower-case
-            .toLowerCase()
             // change all quote marks to single apostrophe +U0027
             .replaceAll(RegExp('[\'"“”„‟’‘‛]+'), "'")
             // remove enclosing quote marks
@@ -242,7 +239,6 @@ extension _LatinLanguageStringExtensions on String {
             words.removeWhere((element) => stopWords.contains(element));
             e = words.join(' ');
           } else {
-            e = e.toLowerCase();
             e = (stemmer != null ? stemmer(e) : e).trim();
             e = alt ?? e;
           }
@@ -268,7 +264,7 @@ extension _LatinLanguageStringExtensions on String {
       List<List<String>> retVal,
       NGramRange? range,
       CharacterFilter characterFilter) {
-    final keyWord = phrase.join(' ').toLowerCase();
+    final keyWord = phrase.join(' ');
     if (phrase.isNotEmpty) {
       if (!keyWordSet.contains(keyWord)) {
         if (range == null) {
