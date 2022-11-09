@@ -149,5 +149,7 @@ abstract class LatinLanguageAnalyzerMixin implements TextAnalyzer {
   KeywordExtractor get keywordExtractor =>
       (String source, {NGramRange? nGramRange}) => source.toKeyWords(
           termExceptions, stopWords,
-          stemmer: stemmer, range: nGramRange);
+          stemmer: stemmer,
+          range: nGramRange,
+          characterFilter: characterFilter);
 }

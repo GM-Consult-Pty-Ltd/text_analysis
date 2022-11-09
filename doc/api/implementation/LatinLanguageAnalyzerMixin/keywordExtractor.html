@@ -74,7 +74,9 @@ in an ordered collection of term sequences of varying length.</p>
 KeywordExtractor get keywordExtractor =&gt;
     (String source, {NGramRange? nGramRange}) =&gt; source.toKeyWords(
         termExceptions, stopWords,
-        stemmer: stemmer, range: nGramRange);</code></pre>
+        stemmer: stemmer,
+        range: nGramRange,
+        characterFilter: characterFilter);</code></pre>
 </section>
 
 </section>
@@ -145,7 +147,7 @@ KeywordExtractor get keywordExtractor =&gt;
 <footer>
   <span class="no-break">
     text_analysis
-      0.23.7+3
+      0.23.7+4
   </span>
 
   

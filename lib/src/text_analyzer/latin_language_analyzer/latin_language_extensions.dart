@@ -219,8 +219,12 @@ extension _LatinLanguageStringExtensions on String {
   /// Each element of the list is an ordered list of terms that make up the
   /// keyword.
   List<List<String>> toKeyWords(
-      Map<String, String> exceptions, Set<String> stopWords,
-      {Stemmer? stemmer, NGramRange? range}) {
+    Map<String, String> exceptions,
+    Set<String> stopWords, {
+    required NGramRange? range,
+    required CharacterFilter characterFilter,
+    Stemmer? stemmer,
+  }) {
     // final phraseTerms = <List<String>>[];
     final retVal = <List<String>>[];
     final keyWordSet = <String>{};
@@ -236,7 +240,7 @@ extension _LatinLanguageStringExtensions on String {
           if (exception != null) {
             final words = exception.split(' ');
             words.removeWhere((element) => stopWords.contains(element));
-            e = words.join(' ').toLowerCase();
+            e = words.join(' ');
           } else {
             e = e.toLowerCase();
             e = (stemmer != null ? stemmer(e) : e).trim();
@@ -245,20 +249,25 @@ extension _LatinLanguageStringExtensions on String {
           if (!stopWords.contains(e) && e.isNotEmpty) {
             phrase.add(e);
           } else {
-            _addPhraseToKeyWords(phrase, keyWordSet, retVal, range);
+            _addPhraseToKeyWords(
+                phrase, keyWordSet, retVal, range, characterFilter);
             phrase.clear();
           }
         }
       }
-      _addPhraseToKeyWords(phrase, keyWordSet, retVal, range);
+      _addPhraseToKeyWords(phrase, keyWordSet, retVal, range, characterFilter);
     }
 
     return retVal;
   }
 
   /// Worker method for toKeywords extension method.
-  static void _addPhraseToKeyWords(List<String> phrase, Set<String> keyWordSet,
-      List<List<String>> retVal, NGramRange? range) {
+  static void _addPhraseToKeyWords(
+      List<String> phrase,
+      Set<String> keyWordSet,
+      List<List<String>> retVal,
+      NGramRange? range,
+      CharacterFilter characterFilter) {
     final keyWord = phrase.join(' ').toLowerCase();
     if (phrase.isNotEmpty) {
       if (!keyWordSet.contains(keyWord)) {
@@ -271,7 +280,7 @@ extension _LatinLanguageStringExtensions on String {
             final keyWord = nGram.join(' ');
             if (!keyWordSet.contains(keyWord)) {
               retVal.add(nGram);
-              keyWordSet.add(keyWord);
+              keyWordSet.add(characterFilter(keyWord));
             }
           }
         }
