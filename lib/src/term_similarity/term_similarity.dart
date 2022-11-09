@@ -328,13 +328,12 @@ abstract class TermSimilarityMixin implements TermSimilarity {
       jaccardSimilarity,
       similarity);
 
-
-/// Compares this to other, alphabetically, non-case sensitive.
-///
-/// Returns a negative number if this is less than other, zero if they are 
-/// equal, and a positive number if this is greater than other.
-///
-/// Not case sensitive.
+  /// Compares this to other, alphabetically, non-case sensitive.
+  ///
+  /// Returns a negative number if this is less than other, zero if they are
+  /// equal, and a positive number if this is greater than other.
+  ///
+  /// Not case sensitive.
   @override
   int compareTo(TermSimilarity other) {
     if (term.toLowerCase() == this.other.toLowerCase()) return 0;
@@ -344,8 +343,6 @@ abstract class TermSimilarityMixin implements TermSimilarity {
             ? 1
             : -1;
   }
-
-
 
   @override
   Map<String, dynamic> toJson() => {
