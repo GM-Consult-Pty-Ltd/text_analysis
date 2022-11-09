@@ -151,6 +151,5 @@ abstract class LatinLanguageAnalyzerMixin implements TextAnalyzer {
           termExceptions, stopWords,
           stemmer: stemmer,
           range: nGramRange,
-          characterFilter: characterFilter,
-          termFilter: termFilter);
+          characterFilter: characterFilter);
 }

@@ -220,40 +220,43 @@ extension _LatinLanguageStringExtensions on String {
     Set<String> stopWords, {
     required NGramRange? range,
     required CharacterFilter characterFilter,
-    required TermFilter termFilter,
     Stemmer? stemmer,
   }) {
     // final phraseTerms = <List<String>>[];
     final retVal = <List<String>>[];
     final keyWordSet = <String>{};
     final phrases = toChunks();
-    for (final e in phrases) {
+    for (var e in phrases) {
       final phrase = <String>[];
-      final terms = e.replacePunctuationWith(' ').splitAtWhiteSpace();
-      for (var e in terms) {
-        e = e.trim();
-        if (e.length > 1) {
-          final exception = exceptions[e];
-          final alt = exceptions[e];
-          if (exception != null) {
-            final words = exception.split(' ');
-            words.removeWhere((element) => stopWords.contains(element));
-            e = words.join(' ');
-          } else {
-            e = (stemmer != null ? stemmer(e) : e).trim();
-            e = alt ?? e;
-          }
-          if (!stopWords.contains(e) && e.isNotEmpty) {
-            phrase.add(e);
-          } else {
-            _addPhraseToKeyWords(
-                phrase, keyWordSet, retVal, range, characterFilter, termFilter);
-            phrase.clear();
+      e = e.replacePunctuationWith(' ').trim();
+      e = exceptions[e] ?? e;
+      if (e.isNotEmpty) {
+        final terms = e.splitAtWhiteSpace();
+        for (var e in terms) {
+          e = e.trim();
+          if (e.length > 1) {
+            final exception = exceptions[e];
+            final alt = exceptions[e];
+            if (exception != null) {
+              final words = exception.split(' ');
+              words.removeWhere((element) => stopWords.contains(element));
+              e = words.join(' ');
+            } else {
+              e = (stemmer != null ? stemmer(e) : e).trim();
+              e = alt ?? e;
+            }
+            if (!stopWords.contains(e) && e.isNotEmpty) {
+              phrase.add(e);
+            } else {
+              _addPhraseToKeyWords(
+                  phrase, keyWordSet, retVal, range, characterFilter);
+              phrase.clear();
+            }
           }
         }
+        _addPhraseToKeyWords(
+            phrase, keyWordSet, retVal, range, characterFilter);
       }
-      _addPhraseToKeyWords(
-          phrase, keyWordSet, retVal, range, characterFilter, termFilter);
     }
 
     return retVal;
@@ -265,12 +268,11 @@ extension _LatinLanguageStringExtensions on String {
       Set<String> keyWordSet,
       List<List<String>> retVal,
       NGramRange? range,
-      CharacterFilter characterFilter,
-      TermFilter termFilter) {
+      CharacterFilter characterFilter) {
     phrase = phrase.map((e) => characterFilter(e)).toList();
     final newPhrase = <String>[];
     for (var e in phrase) {
-      newPhrase.addAll(termFilter(characterFilter(e.trim())));
+      newPhrase.add(characterFilter(e.trim()));
     }
     phrase = newPhrase;
     final keyWord = phrase.join(' ');
