@@ -4,6 +4,10 @@ Copyright (c) 2022, GM Consult Pty Ltd
 All rights reserved. 
 -->
 
+## 0.23.7+5
+
+### *Bug fixes*
+* Removed implementation library and added its exports to text_analysis library.
 
 ## 0.23.7+4
 

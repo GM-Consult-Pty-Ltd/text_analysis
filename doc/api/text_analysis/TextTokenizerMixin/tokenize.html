@@ -21,8 +21,7 @@
 </head>
 
 
-<body data-base-href="../../"
-      data-using-base-href="false">
+<body data-base-href="../../" data-using-base-href="false">
 
 <div id="overlay-under-drawer"></div>
 
@@ -59,8 +58,9 @@
 
 <span class="returntype"><a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../../text_analysis/Token-class.html">Token</a></span>&gt;</span></span>&gt;</span></span>
 <span class="name ">tokenize</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="tokenize-param-text"><span class="type-annotation"><a href="../../type_definitions/SourceText.html">SourceText</a></span> <span class="parameter-name">text</span>, </span></li>
-<li><span class="parameter" id="tokenize-param-nGramRange">{<span class="type-annotation"><a href="../../text_analysis/NGramRange-class.html">NGramRange</a></span> <span class="parameter-name">nGramRange</span> = <span class="default-value">const NGramRange(1, 1)</span>, </span></li>
-<li><span class="parameter" id="tokenize-param-zone"><span class="type-annotation"><a href="../../type_definitions/Zone.html">Zone</a>?</span> <span class="parameter-name">zone</span>}</span></li>
+<li><span class="parameter" id="tokenize-param-nGramRange">{<span class="type-annotation"><a href="../../text_analysis/NGramRange-class.html">NGramRange</a>?</span> <span class="parameter-name">nGramRange</span>, </span></li>
+<li><span class="parameter" id="tokenize-param-zone"><span class="type-annotation"><a href="../../type_definitions/Zone.html">Zone</a>?</span> <span class="parameter-name">zone</span>, </span></li>
+<li><span class="parameter" id="tokenize-param-strategy"><span class="type-annotation"><a href="../../text_analysis/TokenizingStrategy.html">TokenizingStrategy</a></span> <span class="parameter-name">strategy</span> = <span class="default-value">TokenizingStrategy.terms</span>}</span></li>
 </ol>)
 
       <div class="features">override</div>
@@ -84,28 +84,24 @@ located.</li>
   <h2><span>Implementation</span></h2>
   <pre class="language-dart"><code class="language-dart">@override
 Future&lt;List&lt;Token&gt;&gt; tokenize(SourceText text,
-    {NGramRange nGramRange = const NGramRange(1, 1), Zone? zone}) async {
-  int position = 0;
-&#47;&#47; perform the first punctuation and white-space split
-  final terms = analyzer.termSplitter(text.trim());
-  &#47;&#47; initialize the tokens collection (return value)
-  final tokens = &lt;Token&gt;[];
-  &#47;&#47; iterate through the terms
-  final nGramTerms = &lt;List&lt;String&gt;&gt;[];
-  await Future.forEach(terms, (String term) async {
-    &#47;&#47; remove white-space at start and end of term
-    term = term.trim();
-    final splitTerms = await analyzer.termFilter(term);
-    if (splitTerms.isNotEmpty) {
-      nGramTerms.add(splitTerms.toList());
-      if (nGramTerms.length &gt; nGramRange.max) {
-        nGramTerms.removeAt(0);
-      }
-      tokens.addAll(_getNGrams(nGramTerms, nGramRange, position, zone));
-    }
-
-    position++;
-  });
+    {NGramRange? nGramRange,
+    Zone? zone,
+    TokenizingStrategy strategy = TokenizingStrategy.terms}) async {
+  List&lt;Token&gt; tokens = [];
+  &#47;&#47; add term tokens and n-gram tokens
+  if (strategy != TokenizingStrategy.keyWords) {
+    tokens.addAll(await _nGramAndTermTokens(
+        text, _effectiveNGramRange(nGramRange, strategy), zone));
+  }
+  &#47;&#47; add keyword tokens
+  if (strategy == TokenizingStrategy.keyWords ||
+      strategy == TokenizingStrategy.all) {
+    final keywordTokens = _keyWordTokens(text, zone);
+    final existingTerms = tokens.map((e) =&gt; e.term);
+    tokens.addAll(_newKeywordTokens(existingTerms, keywordTokens));
+  }
+  &#47;&#47; remove duplicate tokens
+  tokens = _toOrderedSet(tokens);
   &#47;&#47; apply the tokenFilter if it is not null and return the tokens collection
   return tokenFilter != null ? await tokenFilter!(tokens) : tokens;
 }</code></pre>
@@ -168,7 +164,7 @@ Future&lt;List&lt;Token&gt;&gt; tokenize(SourceText text,
 <footer>
   <span class="no-break">
     text_analysis
-      0.21.0
+      0.23.7+5
   </span>
 
   
@@ -177,7 +173,7 @@ Future&lt;List&lt;Token&gt;&gt; tokenize(SourceText text,
 
 
 <script src="../../static-assets/highlight.pack.js?v1"></script>
-<script src="../../static-assets/script.js?v1"></script>
+<script src="../../static-assets/docs.dart.js"></script>
 
 
 

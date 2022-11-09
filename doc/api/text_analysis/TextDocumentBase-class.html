@@ -21,8 +21,7 @@
 </head>
 
 
-<body data-base-href="../"
-      data-using-base-href="false">
+<body data-base-href="../" data-using-base-href="false">
 
 <div id="overlay-under-drawer"></div>
 
@@ -100,6 +99,18 @@
 </dt>
 <dd class="inherited">
   The hash code for this object.
+  <div class="features">read-only, inherited</div>
+
+</dd>
+
+        <dt id="keywords" class="property inherited">
+  <span class="name"><a href="../text_analysis/TextDocument/keywords.html">keywords</a></span>
+  <span class="signature">&#8594; <a href="../text_analysis/TermCoOccurrenceGraph-class.html">TermCoOccurrenceGraph</a></span> 
+
+</dt>
+<dd class="inherited">
+  The unique keywords in the document mapped to their RAKE keyword score
+in a <a href="../text_analysis/TermCoOccurrenceGraph-class.html">TermCoOccurrenceGraph</a>.
   <div class="features">read-only, inherited</div>
 
 </dd>
@@ -188,6 +199,18 @@
 </dt>
 <dd class="inherited">
   The tokens extracted from <a href="../text_analysis/TextDocument/sourceText.html">sourceText</a>.
+  <div class="features">read-only, inherited</div>
+
+</dd>
+
+        <dt id="zones" class="property inherited">
+  <span class="name"><a href="../text_analysis/TextDocument/zones.html">zones</a></span>
+  <span class="signature">&#8594; <a href="https://api.flutter.dev/flutter/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../type_definitions/Zone.html">Zone</a></span>&gt;</span>?</span> 
+
+</dt>
+<dd class="inherited">
+  A collection of the names of the zones in document that are to be
+tokenized.
   <div class="features">read-only, inherited</div>
 
 </dd>
@@ -342,9 +365,13 @@ level (<code>Flesch-Kincaid Grade Level test</code>).
     <ol>
   <li class="section-title"><a href="../text_analysis/text_analysis-library.html#classes">Classes</a></li>
   <li><a href="../text_analysis/English-class.html">English</a></li>
+  <li><a href="../text_analysis/LatinLanguageAnalyzerMixin-class.html">LatinLanguageAnalyzerMixin</a></li>
   <li><a href="../text_analysis/NGramRange-class.html">NGramRange</a></li>
-  <li><a href="https://pub.dev/documentation/porter_2_stemmer/3.0.1/porter_2_stemmer/Porter2Stemmer-class.html">Porter2Stemmer</a></li>
+  <li><a href="https://pub.dev/documentation/porter_2_stemmer/3.0.2/porter_2_stemmer/Porter2Stemmer-class.html">Porter2Stemmer</a></li>
   <li><a href="../text_analysis/SimilarityIndex-class.html">SimilarityIndex</a></li>
+  <li><a href="../text_analysis/TermCoOccurrenceGraph-class.html">TermCoOccurrenceGraph</a></li>
+  <li><a href="../text_analysis/TermCoOccurrenceGraphBase-class.html">TermCoOccurrenceGraphBase</a></li>
+  <li><a href="../text_analysis/TermCoOccurrenceGraphMixin-class.html">TermCoOccurrenceGraphMixin</a></li>
   <li><a href="../text_analysis/TermSimilarity-class.html">TermSimilarity</a></li>
   <li><a href="../text_analysis/TermSimilarityBase-class.html">TermSimilarityBase</a></li>
   <li><a href="../text_analysis/TermSimilarityMixin-class.html">TermSimilarityMixin</a></li>
@@ -365,6 +392,7 @@ level (<code>Flesch-Kincaid Grade Level test</code>).
   <li class="section-title"><a href="../text_analysis/text_analysis-library.html#enums">Enums</a></li>
   <li><a href="../text_analysis/PartOfSpeech.html">PartOfSpeech</a></li>
   <li><a href="../text_analysis/PoSTag.html">PoSTag</a></li>
+  <li><a href="../text_analysis/TokenizingStrategy.html">TokenizingStrategy</a></li>
 
 
 </ol>
@@ -382,6 +410,7 @@ level (<code>Flesch-Kincaid Grade Level test</code>).
       <a href="../text_analysis/TextDocumentBase-class.html#instance-properties">Properties</a>
     </li>
     <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/hashCode.html">hashCode</a></li>
+    <li class="inherited"><a href="../text_analysis/TextDocument/keywords.html">keywords</a></li>
     <li class="inherited"><a href="../text_analysis/TextDocument/nGrams.html">nGrams</a></li>
     <li class="inherited"><a href="../text_analysis/TextDocument/paragraphs.html">paragraphs</a></li>
     <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/runtimeType.html">runtimeType</a></li>
@@ -390,6 +419,7 @@ level (<code>Flesch-Kincaid Grade Level test</code>).
     <li class="inherited"><a href="../text_analysis/TextDocument/syllableCount.html">syllableCount</a></li>
     <li class="inherited"><a href="../text_analysis/TextDocument/terms.html">terms</a></li>
     <li class="inherited"><a href="../text_analysis/TextDocument/tokens.html">tokens</a></li>
+    <li class="inherited"><a href="../text_analysis/TextDocument/zones.html">zones</a></li>
 
     <li class="section-title inherited"><a href="../text_analysis/TextDocumentBase-class.html#instance-methods">Methods</a></li>
     <li class="inherited"><a href="../text_analysis/TextDocumentMixin/averageSentenceLength.html">averageSentenceLength</a></li>
@@ -415,7 +445,7 @@ level (<code>Flesch-Kincaid Grade Level test</code>).
 <footer>
   <span class="no-break">
     text_analysis
-      0.21.0
+      0.23.7+5
   </span>
 
   
@@ -424,7 +454,7 @@ level (<code>Flesch-Kincaid Grade Level test</code>).
 
 
 <script src="../static-assets/highlight.pack.js?v1"></script>
-<script src="../static-assets/script.js?v1"></script>
+<script src="../static-assets/docs.dart.js"></script>
 
 
 

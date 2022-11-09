@@ -66,6 +66,14 @@ information retrieval systems.</p>
   A <a href="../text_analysis/TextAnalyzer-class.html">TextAnalyzer</a> implementation for <a href="../text_analysis/English-class.html">English</a> language analysis.
 </dd>
 
+        <dt id="LatinLanguageAnalyzerMixin">
+  <span class="name "><a href="../text_analysis/LatinLanguageAnalyzerMixin-class.html">LatinLanguageAnalyzerMixin</a></span> 
+
+</dt>
+<dd>
+  A <a href="../text_analysis/TextAnalyzer-class.html">TextAnalyzer</a> implementation for <a href="../text_analysis/LatinLanguageAnalyzerMixin-class.html">LatinLanguageAnalyzerMixin</a> language analysis.
+</dd>
+
         <dt id="NGramRange">
   <span class="name "><a href="../text_analysis/NGramRange-class.html">NGramRange</a></span> 
 
@@ -102,6 +110,25 @@ correction and term expansion.
 from text.
 </dd>
 
+        <dt id="TermCoOccurrenceGraphBase">
+  <span class="name "><a href="../text_analysis/TermCoOccurrenceGraphBase-class.html">TermCoOccurrenceGraphBase</a></span> 
+
+</dt>
+<dd>
+  Base class that implements <a href="../text_analysis/TermCoOccurrenceGraph-class.html">TermCoOccurrenceGraph</a> and mixes in
+<a href="../text_analysis/TermCoOccurrenceGraphMixin-class.html">TermCoOccurrenceGraphMixin</a>.
+</dd>
+
+        <dt id="TermCoOccurrenceGraphMixin">
+  <span class="name "><a href="../text_analysis/TermCoOccurrenceGraphMixin-class.html">TermCoOccurrenceGraphMixin</a></span> 
+
+</dt>
+<dd>
+  Mixin class that implements <a href="../text_analysis/TermCoOccurrenceGraph/termFrequency.html">TermCoOccurrenceGraph.termFrequency</a>,
+<a href="../text_analysis/TermCoOccurrenceGraph/termDegree.html">TermCoOccurrenceGraph.termDegree</a> and
+<a href="../text_analysis/TermCoOccurrenceGraph/keyWordScore.html">TermCoOccurrenceGraph.keyWordScore</a>.
+</dd>
+
         <dt id="TermSimilarity">
   <span class="name "><a href="../text_analysis/TermSimilarity-class.html">TermSimilarity</a></span> 
 
@@ -109,6 +136,23 @@ from text.
 <dd>
   A static/abstract class that exposes methods for computing similarity of
 terms.
+</dd>
+
+        <dt id="TermSimilarityBase">
+  <span class="name "><a href="../text_analysis/TermSimilarityBase-class.html">TermSimilarityBase</a></span> 
+
+</dt>
+<dd>
+  Implementation class for TermSimilarity unnamed factory constructor.
+</dd>
+
+        <dt id="TermSimilarityMixin">
+  <span class="name "><a href="../text_analysis/TermSimilarityMixin-class.html">TermSimilarityMixin</a></span> 
+
+</dt>
+<dd>
+  Mixin class that implements the <code>==</code> operator, <a href="../text_analysis/TermSimilarityMixin/compareTo.html">compareTo</a>, <a href="../text_analysis/TermSimilarityMixin/hashCode.html">hashCode</a> and
+<a href="../text_analysis/TermSimilarityMixin/toJson.html">toJson</a>.
 </dd>
 
         <dt id="TextAnalyzer">
@@ -129,6 +173,25 @@ text analysis.
 document:
 </dd>
 
+        <dt id="TextDocumentBase">
+  <span class="name "><a href="../text_analysis/TextDocumentBase-class.html">TextDocumentBase</a></span> 
+
+</dt>
+<dd>
+  An abstract implementation of <a href="../text_analysis/TextDocument-class.html">TextDocument</a> that uses <a href="../text_analysis/TextDocumentMixin-class.html">TextDocumentMixin</a>.
+</dd>
+
+        <dt id="TextDocumentMixin">
+  <span class="name "><a href="../text_analysis/TextDocumentMixin-class.html">TextDocumentMixin</a></span> 
+
+</dt>
+<dd>
+  The <a href="../text_analysis/TextDocumentMixin-class.html">TextDocumentMixin</a> provides implementations of the
+<a href="../text_analysis/TextDocument/averageSentenceLength.html">TextDocument.averageSentenceLength</a>, <a href="../text_analysis/TextDocument/averageSyllableCount.html">TextDocument.averageSyllableCount</a>,
+<a href="../text_analysis/TextDocument/wordCount.html">TextDocument.wordCount</a>, <a href="../text_analysis/TextDocument/fleschReadingEaseScore.html">TextDocument.fleschReadingEaseScore</a> and
+<a href="../text_analysis/TextDocument/fleschKincaidGradeLevel.html">TextDocument.fleschKincaidGradeLevel</a> methods.
+</dd>
+
         <dt id="TextTokenizer">
   <span class="name "><a href="../text_analysis/TextTokenizer-class.html">TextTokenizer</a></span> 
 
@@ -136,6 +199,24 @@ document:
 <dd>
   Interface for a text analyser class that extracts tokens from text for use
 in full-text search queries and indexes:
+</dd>
+
+        <dt id="TextTokenizerBase">
+  <span class="name "><a href="../text_analysis/TextTokenizerBase-class.html">TextTokenizerBase</a></span> 
+
+</dt>
+<dd>
+  A <a href="../text_analysis/TextTokenizer-class.html">TextTokenizer</a> implementation that mixes in <a href="../text_analysis/TextTokenizerMixin-class.html">TextTokenizerMixin</a>, which
+implements <a href="../text_analysis/TextTokenizer/tokenize.html">TextTokenizer.tokenize</a> and <a href="../text_analysis/TextTokenizer/tokenizeJson.html">TextTokenizer.tokenizeJson</a>.
+</dd>
+
+        <dt id="TextTokenizerMixin">
+  <span class="name "><a href="../text_analysis/TextTokenizerMixin-class.html">TextTokenizerMixin</a></span> 
+
+</dt>
+<dd>
+  A mixin class that implements <a href="../text_analysis/TextTokenizer/tokenize.html">TextTokenizer.tokenize</a> and
+ <a href="../text_analysis/TextTokenizer/tokenizeJson.html">TextTokenizer.tokenizeJson</a>.
 </dd>
 
         <dt id="Token">
@@ -220,14 +301,23 @@ grammatical properties.
     <ol>
   <li class="section-title"><a href="../text_analysis/text_analysis-library.html#classes">Classes</a></li>
   <li><a href="../text_analysis/English-class.html">English</a></li>
+  <li><a href="../text_analysis/LatinLanguageAnalyzerMixin-class.html">LatinLanguageAnalyzerMixin</a></li>
   <li><a href="../text_analysis/NGramRange-class.html">NGramRange</a></li>
   <li><a href="https://pub.dev/documentation/porter_2_stemmer/3.0.2/porter_2_stemmer/Porter2Stemmer-class.html">Porter2Stemmer</a></li>
   <li><a href="../text_analysis/SimilarityIndex-class.html">SimilarityIndex</a></li>
   <li><a href="../text_analysis/TermCoOccurrenceGraph-class.html">TermCoOccurrenceGraph</a></li>
+  <li><a href="../text_analysis/TermCoOccurrenceGraphBase-class.html">TermCoOccurrenceGraphBase</a></li>
+  <li><a href="../text_analysis/TermCoOccurrenceGraphMixin-class.html">TermCoOccurrenceGraphMixin</a></li>
   <li><a href="../text_analysis/TermSimilarity-class.html">TermSimilarity</a></li>
+  <li><a href="../text_analysis/TermSimilarityBase-class.html">TermSimilarityBase</a></li>
+  <li><a href="../text_analysis/TermSimilarityMixin-class.html">TermSimilarityMixin</a></li>
   <li><a href="../text_analysis/TextAnalyzer-class.html">TextAnalyzer</a></li>
   <li><a href="../text_analysis/TextDocument-class.html">TextDocument</a></li>
+  <li><a href="../text_analysis/TextDocumentBase-class.html">TextDocumentBase</a></li>
+  <li><a href="../text_analysis/TextDocumentMixin-class.html">TextDocumentMixin</a></li>
   <li><a href="../text_analysis/TextTokenizer-class.html">TextTokenizer</a></li>
+  <li><a href="../text_analysis/TextTokenizerBase-class.html">TextTokenizerBase</a></li>
+  <li><a href="../text_analysis/TextTokenizerMixin-class.html">TextTokenizerMixin</a></li>
   <li><a href="../text_analysis/Token-class.html">Token</a></li>
 
 
@@ -250,7 +340,7 @@ grammatical properties.
 <footer>
   <span class="no-break">
     text_analysis
-      0.23.7+4
+      0.23.7+5
   </span>
 
   

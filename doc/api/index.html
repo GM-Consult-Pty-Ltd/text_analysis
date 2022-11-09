@@ -62,11 +62,10 @@ All rights reserved.
 </ul>
 <h2 id="overview">Overview</h2>
 <p>The <code>text_analysis</code> package provides methods to tokenize text, compute readibility scores for a document and evaluate similarity of <code>terms</code>. It is intended to be used in Natural Language Processing (<code>NLP</code>) as part of an information retrieval system.</p>
-<p>It is split into <a href="#usage">four libraries</a>:</p>
+<p>It is split into <a href="#usage">three libraries</a>:</p>
 <ul>
 <li><a href="https://pub.dev/documentation/text_analysis/0.12.0-2/text_analysis/text_analysis-library.html">text_analysis</a> is the core library that exports the tokenization, analysis and string similarity functions;</li>
-<li><a href="https://pub.dev/documentation/text_analysis/0.12.0-2/extensions/extensions-library.html">extensions</a> exports extension methods also provided as static methods of the <a href="https://pub.dev/documentation/text_analysis/latest/text_analysis/TermSimilarity-class.html">TextSimilarity</a> class;</li>
-<li><a href="https://pub.dev/documentation/text_analysis/0.12.0-2/package_exports/implementation-library.html">implementation</a> exports the mixins and base classes that implement the interfaces; and</li>
+<li><a href="https://pub.dev/documentation/text_analysis/0.12.0-2/extensions/extensions-library.html">extensions</a> exports extension methods also provided as static methods of the <a href="https://pub.dev/documentation/text_analysis/latest/text_analysis/TermSimilarity-class.html">TextSimilarity</a> class; and</li>
 <li><a href="https://pub.dev/documentation/text_analysis/0.12.0-2/type_definitions/type_definitions-library.html">type_definitions</a> exports all the typedefs used in this package.</li>
 </ul>
 <p>Refer to the <a href="#references">references</a> to learn more about information retrieval systems and the theory behind this library.</p>
@@ -118,9 +117,6 @@ import 'package:text_indexing/type_definitions.dart';
 
 // import the extensions, if needed
 import 'package:text_indexing/extensions.dart'; 
-
-// import the implementation classes, if needed
-import 'package:text_indexing/implementation.dart'; 
 
 </code></pre>
 <p>Basic English tokenization can be performed by using a <code>TextTokenizer.english</code> static const instance that uses the <code>English</code> text analyzer and no token filter:</p>
@@ -340,8 +336,7 @@ the extensions from the <code>porter_2_stemmer</code> package.
   <span class="name"><a href="implementation/implementation-library.html">implementation</a></span> 
 
 </dt>
-<dd>DART text analyzer that extracts tokens from JSON documents for use in
-information retrieval systems.
+<dd>
 </dd>
 
           <dt id="text_analysis">
@@ -395,7 +390,7 @@ information retrieval systems.
 <footer>
   <span class="no-break">
     text_analysis
-      0.23.7+4
+      0.23.7+5
   </span>
 
   

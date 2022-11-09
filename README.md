@@ -21,10 +21,9 @@ Skip to section:
 
 The `text_analysis` package provides methods to tokenize text, compute readibility scores for a document and evaluate similarity of `terms`. It is intended to be used in Natural Language Processing (`NLP`) as part of an information retrieval system. 
 
-It is split into [four libraries](#usage):
+It is split into [three libraries](#usage):
 * [text_analysis](https://pub.dev/documentation/text_analysis/0.12.0-2/text_analysis/text_analysis-library.html) is the core library that exports the tokenization, analysis and string similarity functions;
-* [extensions](https://pub.dev/documentation/text_analysis/0.12.0-2/extensions/extensions-library.html) exports extension methods also provided as static methods of the [TextSimilarity](https://pub.dev/documentation/text_analysis/latest/text_analysis/TermSimilarity-class.html) class;
-* [implementation](https://pub.dev/documentation/text_analysis/0.12.0-2/package_exports/implementation-library.html) exports the mixins and base classes that implement the interfaces; and
+* [extensions](https://pub.dev/documentation/text_analysis/0.12.0-2/extensions/extensions-library.html) exports extension methods also provided as static methods of the [TextSimilarity](https://pub.dev/documentation/text_analysis/latest/text_analysis/TermSimilarity-class.html) class; and
 * [type_definitions](https://pub.dev/documentation/text_analysis/0.12.0-2/type_definitions/type_definitions-library.html) exports all the typedefs used in this package.
 
 Refer to the [references](#references) to learn more about information retrieval systems and the theory behind this library.
@@ -90,9 +89,6 @@ import 'package:text_indexing/type_definitions.dart';
 
 // import the extensions, if needed
 import 'package:text_indexing/extensions.dart'; 
-
-// import the implementation classes, if needed
-import 'package:text_indexing/implementation.dart'; 
 
 ```
 
