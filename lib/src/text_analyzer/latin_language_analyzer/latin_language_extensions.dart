@@ -91,6 +91,7 @@ extension _LatinLanguageStringExtensions on String {
 
   /// Converts the String to a word, removing all non-word characters:
   /// - returns the term if it can be parsed as a number; else
+  /// - change the term to lower case;
   /// - changes all quote marks to single apostrophe +U0027;
   /// - removes enclosing quote marks;
   /// - changes all dashes to single standard hyphen;
@@ -107,6 +108,8 @@ extension _LatinLanguageStringExtensions on String {
         ? number.toString()
         // if the term is all-caps return it unchanged.
         : term
+            // change to lower case.
+            .toLowerCase()
             // change all quote marks to single apostrophe +U0027
             .replaceAll(RegExp('[\'"“”„‟’‘‛]+'), "'")
             // remove enclosing quote marks
@@ -225,37 +228,35 @@ extension _LatinLanguageStringExtensions on String {
     // final phraseTerms = <List<String>>[];
     final retVal = <List<String>>[];
     final keyWordSet = <String>{};
-    final phrases = toChunks();
+    final phrases = toChunks(stopWords, characterFilter, exceptions);
     for (var e in phrases) {
       final phrase = <String>[];
       e = e.replacePunctuationWith(' ').trim();
       e = exceptions[e] ?? e;
       if (e.isNotEmpty) {
         final terms = e.splitAtWhiteSpace();
-        for (var e in terms) {
-          e = e.trim();
-          if (e.length > 1) {
-            final exception = exceptions[e];
-            final alt = exceptions[e];
+        for (var w in terms) {
+          w = w.trim();
+          if (w.length > 1) {
+            final exception = exceptions[w];
+            final alt = exception;
             if (exception != null) {
               final words = exception.split(' ');
-              words.removeWhere((element) => stopWords.contains(element));
-              e = words.join(' ');
+              w = words.join(' ');
             } else {
-              e = (stemmer != null ? stemmer(e) : e).trim();
-              e = alt ?? e;
+              w = (stemmer != null ? stemmer(w) : w).trim();
+              w = alt ?? w;
             }
-            if (!stopWords.contains(e) && e.isNotEmpty) {
-              phrase.add(e);
+            if (w.isNotEmpty) {
+              phrase.add(w);
             } else {
               _addPhraseToKeyWords(
-                  phrase, keyWordSet, retVal, range, characterFilter);
+                  exceptions, phrase, keyWordSet, retVal, range);
               phrase.clear();
             }
           }
         }
-        _addPhraseToKeyWords(
-            phrase, keyWordSet, retVal, range, characterFilter);
+        _addPhraseToKeyWords(exceptions, phrase, keyWordSet, retVal, range);
       }
     }
 
@@ -264,18 +265,14 @@ extension _LatinLanguageStringExtensions on String {
 
   /// Worker method for toKeywords extension method.
   static void _addPhraseToKeyWords(
+      Map<String, String> exceptions,
       List<String> phrase,
       Set<String> keyWordSet,
       List<List<String>> retVal,
-      NGramRange? range,
-      CharacterFilter characterFilter) {
-    phrase = phrase.map((e) => characterFilter(e)).toList();
-    final newPhrase = <String>[];
-    for (var e in phrase) {
-      newPhrase.add(characterFilter(e.trim()));
-    }
-    phrase = newPhrase;
-    final keyWord = phrase.join(' ');
+      NGramRange? range) {
+    var keyWord = phrase.join(' ');
+    keyWord = exceptions[keyWord] ?? keyWord;
+    phrase = keyWord.split(' ');
     if (phrase.isNotEmpty) {
       if (!keyWordSet.contains(keyWord)) {
         if (range == null) {
@@ -284,9 +281,10 @@ extension _LatinLanguageStringExtensions on String {
         } else {
           final nGrams = phrase.nGrams(range).map((e) => e.split(' '));
           for (var nGram in nGrams) {
-            final keyWord = nGram.join(' ');
+            keyWord = nGram.join(' ');
+            keyWord = exceptions[keyWord] ?? keyWord;
             if (!keyWordSet.contains(keyWord)) {
-              retVal.add(nGram);
+              retVal.add(keyWord.split(' '));
               keyWordSet.add(keyWord);
             }
           }
@@ -299,14 +297,27 @@ extension _LatinLanguageStringExtensions on String {
   /// - punctuation not part of abbreviations or numbers;
   /// - line endings;
   /// - phrase delimiters such as double quotes, brackets and carets.
-  List<String> toChunks() {
+  List<String> toChunks(
+    Set<String> stopWords,
+    CharacterFilter characterFilter,
+    Map<String, String> exceptions,
+  ) {
     final retVal = <String>[];
     final split =
         trim().split(RegExp(_LatinLanguageConstants.rPhraseDelimiterSelector));
     for (final e in split) {
-      final phrase = e.replaceAll(RegExp(r'\s+'), ' ').trim();
-      if (phrase.isNotEmpty) {
-        retVal.add(phrase);
+      final phrase = e.replaceAll(RegExp(r'\s+'), ' ').trim().splitMapJoin(
+        RegExp(r'\s+'),
+        onNonMatch: (p0) {
+          p0 = characterFilter(p0.trim());
+          return stopWords.contains(p0) ? '%chunk%' : p0;
+        },
+      );
+      final phrases =
+          phrase.split('%chunk%').map((e) => exceptions[e] ?? e).toList();
+      phrases.removeWhere((element) => element.trim().isEmpty);
+      if (phrases.isNotEmpty) {
+        retVal.addAll(phrases);
       }
     }
     return retVal;

@@ -261,7 +261,7 @@ void main() {
           sourceText: sample, analyzer: English.analyzer);
 
       // .map((e) => e.join(' '));
-      print(text);
+      print(sample);
       print(''.padRight(140, '-'));
       final entries = document.keywords.keywordScores.entries.toList();
       entries.sort(((a, b) => b.value.compareTo(a.value)));
