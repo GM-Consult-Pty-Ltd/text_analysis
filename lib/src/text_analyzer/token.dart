@@ -1,8 +1,8 @@
 // BSD 3-Clause License
 // Copyright ©2022, GM Consult Pty Ltd
 
-import 'package:text_analysis/type_definitions.dart';
 import 'package:text_analysis/text_analysis.dart';
+import 'package:text_analysis/type_definitions.dart';
 
 /// A [Token] represents a [term] (word) present in a text source:
 /// - [term] is the term that will be looked up in the index;
@@ -23,15 +23,14 @@ class Token {
   /// - [zone] is the nullable / optional name of the zone the [term] is in;
   const Token(this.term, this.n, this.termPosition, [this.zone]);
 
-  /// The number of terms in the n-gram.
+  /// The number of terms in a n-gram.
   final int n;
 
-  /// The term that will be looked up in the index. The [term] is extracted
-  /// from the query phrase by [TextTokenizer] and may not match the String in
-  /// the phrase exactly.
+  /// A [term] extracted text by a [TextAnalyzer].
   final Term term;
 
-  /// The name of the zone in the document that the [term] is in.
+  /// The name of the zone (e.g. field name in a JSON document) that the
+  /// [term] is in.
   final Zone? zone;
 
   /// The zero-based position of the [term] in an ordered list of all the terms

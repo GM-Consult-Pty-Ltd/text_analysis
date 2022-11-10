@@ -19,26 +19,12 @@ export 'src/_index.dart'
         TermSimilarityMixin,
         TermCoOccurrenceGraphMixin,
         TermCoOccurrenceGraphBase,
-        LatinLanguageAnalyzerMixin,
+        LatinLanguageAnalyzer,
         TextDocumentMixin,
         TextDocumentBase,
-        TextTokenizerMixin,
-        TextTokenizerBase,
         TextDocument,
-        TextTokenizer,
         TokenizingStrategy,
         NGramRange,
         Token;
 
-// export 'src/part_of_speech_tagging/_index.dart' show PartOfSpeech, PoSTag;
-// export 'src//term_similarity/_index.dart' show SimilarityIndex, TermSimilarity;
-// export 'src/text_analyzer/_index.dart'
-//     show
-// TextAnalyzer,
-// TermCoOccurrenceGraph,
-// English,
-// LatinLanguageAnalyzerMixin;
-// export 'src/text_document/_index.dart' show TextDocument;
-// export 'src/text_tokenizer/_index.dart'
-// show TextTokenizer, TokenizingStrategy, NGramRange, Token;
 export 'package:porter_2_stemmer/porter_2_stemmer.dart' show Porter2Stemmer;

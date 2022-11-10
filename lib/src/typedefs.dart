@@ -89,6 +89,46 @@ typedef SentenceSplitter = List<String> Function(SourceText source);
 typedef KeywordExtractor = List<List<String>> Function(SourceText source,
     {NGramRange? nGramRange});
 
+/// Type definition of a function that returns a collection of [Token] from
+/// the [source] text.
+///
+/// Extracts one or more tokens from [source] for use in full-text search
+/// queries and indexes.
+/// - [source] is a String that will be tokenized;
+/// - [nGramRange] is the range of N-gram lengths to generate;
+/// - [strategy] is the strategy to apply when splitting text to [Token]s;
+/// - [tokenFilter] is a filter function that returns a subset of a collection
+///   of [Token]s; and
+/// - [zone] is the of the name of the zone to be appended to the [Token]s.
+///
+/// Returns a List<[Token]>.
+typedef Tokenizer = Future<List<Token>> Function(SourceText source,
+    {NGramRange? nGramRange,
+    Zone? zone,
+    TokenFilter? tokenFilter,
+    TokenizingStrategy strategy});
+
+/// Type definition of a function that returns a collection of [Token] from
+/// the [zones] in a JSON [document].
+///
+/// Extracts tokens from the [zones] in a JSON [document] for use in
+/// full-text search queries and indexes.
+/// - [document] is a JSON document containing the [zones] as keys;
+/// - [nGramRange] is the range of N-gram lengths to generate;
+/// - [strategy] is the strategy to apply when splitting text to [Token]s;
+/// - [tokenFilter] is a filter function that returns a subset of a collection
+///   of [Token]s; and
+/// - [zones] is the collection of the names of the zones in [document] that
+///   are to be tokenized.
+///
+/// Returns a List<[Token]>.
+typedef JsonTokenizer = Future<List<Token>> Function(
+    Map<String, dynamic> document,
+    {NGramRange? nGramRange,
+    Iterable<Zone>? zones,
+    TokenFilter? tokenFilter,
+    TokenizingStrategy strategy});
+
 /// A splitter function that returns a list of paragraphs from [source].
 ///
 /// In English, the [source] text is split at:
@@ -111,19 +151,6 @@ typedef TokenFilter = Future<List<Token>> Function(List<Token> tokens);
 /// text in preparation of tokenization.
 typedef CharacterFilter = String Function(SourceText source);
 
-/// Type definition of a function that returns a collection of [Token] from
-/// the [source] text.
-///
-/// Optional parameter [zone] is the name of the zone in a document in
-/// which the term is located.
-typedef Tokenizer = Future<Iterable<Token>> Function(SourceText source,
-    {NGramRange? nGramRange, TokenizingStrategy? strategy, Zone? zone});
-
-/// Type definition of a function that returns a collection of [Token] from
-/// the [fields] in a [json] document.
-typedef JsonTokenizer = Future<Iterable<Token>> Function(
-    Map<String, dynamic> json, List<Zone> fields,
-    {NGramRange? nGramRange, TokenizingStrategy? strategy});
 // {NGramRange nGramRange = const NGramRange(1, 1), TokenizingStrategy strategy = TokenizingStrategy.terms, Zone? zone}
 
 /// Type definition for a hashmap of [Term] to value, when used as a

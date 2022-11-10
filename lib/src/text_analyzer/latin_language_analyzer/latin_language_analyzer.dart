@@ -8,12 +8,23 @@ import 'package:text_analysis/extensions.dart';
 import 'package:porter_2_stemmer/porter_2_stemmer.dart';
 import 'package:porter_2_stemmer/extensions.dart';
 
-part 'latin_language_constants.dart';
-part 'latin_language_extensions.dart';
-// part 'english_extensions.dart';
+part '_constants.dart';
+part '_extensions.dart';
+part '_keyword_extractor.dart';
+part '_tokenizer.dart';
 part 'syllable_stemmer.dart';
 
-/// A [TextAnalyzer] implementation for [LatinLanguageAnalyzerMixin] language analysis.
+/// A [TextAnalyzer] implementation for Latin languages analysis.
+///
+/// Mixes in [LatinLanguageAnalyzerMixin] and exposes a const default
+/// generative constructor.
+abstract class LatinLanguageAnalyzer
+    with _TokenizerMixin, LatinLanguageAnalyzerMixin {
+  /// Initializes a const [LatinLanguageAnalyzer].
+  const LatinLanguageAnalyzer();
+}
+
+/// A [TextAnalyzer] implementation mixin for Latin languages analysis.
 abstract class LatinLanguageAnalyzerMixin implements TextAnalyzer {
   //
 

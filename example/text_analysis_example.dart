@@ -89,7 +89,7 @@ Future<void> _readMeExample(String title) async {
 
   // Use the static TextTokenizer.english instance to tokenize the text using the
   // English analyzer.
-  final tokens = await TextTokenizer(analyzer: English()).tokenize(
+  final tokens = await English().tokenizer(
       readabilityExample,
       strategy: TokenizingStrategy.all,
       nGramRange: NGramRange(1, 2));
@@ -166,7 +166,7 @@ Future<Map<String, Set<String>>> _getKgramIndex(
     String title, String text, int k) async {
 //
 
-  final tokens = await TextTokenizer.english.tokenize(text);
+  final tokens = await English().tokenizer(text);
   // get the bi-grams
   final Map<String, Set<String>> kGramIndex = tokens.kGrams(2);
 
@@ -195,7 +195,7 @@ Future<List<Token>> _tokenizeJson(
 
   // use a TextTokenizer instance to tokenize the json
   final tokens =
-      await TextTokenizer(analyzer: analyzer).tokenizeJson(json, zones: zones);
+      await analyzer.jsonTokenizer(json, zones: zones);
   // map the document's tokens to a list of terms (strings)
   return tokens;
 }
@@ -216,8 +216,8 @@ Future<List<Token>> _tokenizeParagraphs(Iterable<String> paragraphs) async {
   final source = sourceBuilder.toString();
 
   // use a TextTokenizer instance to tokenize the source
-  final tokens = await TextTokenizer.english
-      .tokenize(source, nGramRange: NGramRange(1, 3));
+  final tokens = await English.analyzer
+      .tokenizer(source, nGramRange: NGramRange(1, 3));
 
   return tokens;
 }

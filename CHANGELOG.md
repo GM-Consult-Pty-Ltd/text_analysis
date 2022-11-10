@@ -4,6 +4,24 @@ Copyright (c) 2022, GM Consult Pty Ltd
 All rights reserved. 
 -->
 
+## 0.24.0-1
+**BREAKING CHANGES**
+
+### *Breaking changes*
+* Interface `TextTokenizer` removed. Use `TextAnalyzer.tokenize` and `TextAnalyzer.tokenizeJson` in stead.
+
+### *New*
+* New method `TextAnalyzer.tokenize`.
+* New method `TextAnalyzer.tokenizeJson`.
+* New class `LatinLanguageAnalyzer`.
+
+### *Updated*
+* Dependencies.
+* Tests.
+* Documentation
+* Examples.
+
+
 ## 0.23.7+14
 
 ### *Deprecated*

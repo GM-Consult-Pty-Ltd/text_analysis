@@ -57,6 +57,14 @@ abstract class TextAnalyzer {
   /// in an ordered collection of term sequences of varying length.
   KeywordExtractor get keywordExtractor;
 
+  /// Extracts one or more tokens from text for use in full-text search queries
+  /// and indexes.
+  Tokenizer get tokenizer;
+
+  /// Extracts tokens from the fields in a JSON document for use in full-text
+  /// search queries and indexes.
+  JsonTokenizer get jsonTokenizer;
+
   /// Returns a list of sentences from text.
   SentenceSplitter get sentenceSplitter;
 

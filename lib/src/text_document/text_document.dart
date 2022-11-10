@@ -80,12 +80,12 @@ abstract class TextDocument {
       {required String sourceText,
       required TextAnalyzer analyzer,
       TokenizingStrategy strategy = TokenizingStrategy.terms,
-      NGramRange nGramRange = const NGramRange(1, 1),
+      NGramRange? nGramRange,
       Zone? zone}) async {
-    final tokens = await TextTokenizer(analyzer: analyzer).tokenize(sourceText,
+    final tokens = await analyzer.tokenizer(sourceText,
         zone: zone, nGramRange: nGramRange, strategy: strategy);
     final terms = analyzer.termSplitter(sourceText);
-    final nGrams = terms.nGrams(nGramRange);
+    final nGrams = terms.nGrams(nGramRange ?? NGramRange(1, 1));
     final sentences = analyzer.sentenceSplitter(sourceText);
     final paragraphs = analyzer.paragraphSplitter(sourceText);
     final keywords =
@@ -111,11 +111,8 @@ abstract class TextDocument {
       TokenizingStrategy strategy = TokenizingStrategy.terms,
       Iterable<Zone>? zones}) async {
     final sourceText = document.toSourceText(zones);
-    final tokens = await TextTokenizer(analyzer: analyzer).tokenizeJson(
-        document,
-        zones: zones,
-        nGramRange: nGramRange,
-        strategy: strategy);
+    final tokens = await analyzer.jsonTokenizer(document,
+        zones: zones, nGramRange: nGramRange, strategy: strategy);
     final terms = analyzer.termSplitter(sourceText);
     final nGrams = terms.nGrams(nGramRange);
     final sentences = analyzer.sentenceSplitter(sourceText);

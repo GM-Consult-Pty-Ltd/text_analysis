@@ -65,7 +65,7 @@ void main() {
 
       for (final strategy in TokenizingStrategy.values) {
         // use a TextTokenizer instance to tokenize the source
-        final tokens = await TextTokenizer(analyzer: analyzer).tokenize(source,
+        final tokens = await analyzer.tokenizer(source,
             zone: 'text', strategy: strategy, nGramRange: NGramRange(1, 2));
 
         // print the tokens
@@ -84,8 +84,8 @@ void main() {
 
       for (final strategy in TokenizingStrategy.values) {
         // use a TextTokenizer instance to tokenize the source
-        final tokens = await TextTokenizer.english
-            .tokenize(source, strategy: strategy, nGramRange: NGramRange(1, 2));
+        final tokens = await English.analyzer.tokenizer(source,
+            strategy: strategy, nGramRange: NGramRange(1, 2));
 
         // print the tokens
         _printTokens('TOKENIZE JSON ($strategy)', tokens);
@@ -124,8 +124,7 @@ void main() {
           English(termExceptions: {'tesla': 'Tesla', 'Alphabet': 'GOOGLE'});
 
       // use a TextTokenizer instance to tokenize the json with 3 zones
-      final tokens = await TextTokenizer(analyzer: analyzer).tokenizeJson(
-          TestData.json,
+      final tokens = await analyzer.jsonTokenizer(TestData.json,
           zones: ['name', 'description', 'hashTags']);
 
       // print the tokens
@@ -135,7 +134,7 @@ void main() {
     /// Tokenize JSON with NO zones.
     test('TextTokenizer.tokenizeJson', () async {
       // use a TextTokenizer instance to tokenize the json with NO zones
-      final tokens = await TextTokenizer.english.tokenizeJson(TestData.json,
+      final tokens = await English.analyzer.jsonTokenizer(TestData.json,
           nGramRange: NGramRange(1, 2), zones: ['description']);
       // map the document's tokens to a list of terms (strings)
 
@@ -165,7 +164,7 @@ void main() {
       await Future.forEach(TestData.stockData.entries,
           (MapEntry<String, Map<String, dynamic>> entry) async {
         final json = entry.value;
-        final tokens = await TextTokenizer.english.tokenizeJson(json,
+        final tokens = await English.analyzer.jsonTokenizer(json,
             zones: ['ticker', 'name', 'description', 'hashTag', 'symbol']);
         for (final term in Set<String>.from(tokens.map((e) => e.term))) {
           final tf = (dictionary[term] ?? 0) + 1;
@@ -205,7 +204,7 @@ void main() {
       print(nGrams);
     }));
 
-    test('English().syllableCounter(sample, NGramRange(1, 3)', (() {
+    test('English().syllableCounter(sample)', (() {
       final analyzer = English.analyzer;
       final results = <Map<String, dynamic>>[];
       final terms = analyzer.termSplitter(sample);
@@ -258,7 +257,9 @@ void main() {
           .toSourceText({'name', 'description'});
 
       final document = await TextDocument.analyze(
-          sourceText: sample, analyzer: English.analyzer);
+          sourceText: sample,
+          analyzer: English.analyzer,
+          strategy: TokenizingStrategy.all);
 
       // .map((e) => e.join(' '));
       print(sample);
@@ -281,7 +282,7 @@ void main() {
           .toSourceText({'name', 'description'});
 
       final keyWords =
-          English().keywordExtractor(text, nGramRange: NGramRange(1, 2));
+          English().keywordExtractor(text);
 
       // .map((e) => e.join(' '));
       print(text);

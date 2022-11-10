@@ -9,7 +9,7 @@ import 'package:porter_2_stemmer/porter_2_stemmer.dart';
 part 'english_constants.dart';
 
 /// A [TextAnalyzer] implementation for [English] language analysis.
-class English with LatinLanguageAnalyzerMixin implements TextAnalyzer {
+class English extends LatinLanguageAnalyzer implements TextAnalyzer {
   //
 
   /// A const constructor to allow an instance to be used as default.
@@ -36,4 +36,5 @@ class English with LatinLanguageAnalyzerMixin implements TextAnalyzer {
 
   @override
   final Map<String, String> termExceptions;
+
 }
