@@ -20,69 +20,7 @@ abstract class LatinLanguageAnalyzerMixin implements TextAnalyzer {
   @override
   TermFilter get termFilter => (Term term) => term.versions(
       abbreviations, stopWords, termExceptions, characterFilter, stemmer);
-  // {
-  //       // remove white-space from start and end of term
-  //       term = term.trim();
-  //       final Set<String> retVal = {};
-  //       if (term.isNotEmpty && !stopWords.contains(term)) {
-  //         // exclude empty terms and that are stopwords
-  //         final exception = termExceptions[term]?.trim();
-  //         if (abbreviations.keys.contains(term)) {
-  //           // return the abbreviation and a version with no punctuation.
-  //           retVal.addAll({term, term.replaceAll('.', '').trim()});
-  //         } else if (exception != null) {
-  //           retVal.add(exception);
-  //         } else {
-  //           final terms = <List<String>>{};
-  //           // Cleans the term as follows:
-  //           // - change all quote marks to single apostrophe +U0027;
-  //           // - remove enclosing quote marks;
-  //           // - change all dashes to single standard hyphen;
-  //           // - remove all characters except letters and numbers at end of term
-  //           term = characterFilter(term);
-  //           // check the resulting term is longer than 1 characters and not
-  //           // contained in [stopWords]
-  //           if (!stopWords.contains(term) && term.length > 1) {
-  //             // - insert [term] in the return value
-  //             terms.add([term]);
-  //             // insert a version without hyphens
-  //             terms.add([term.replaceAll(RegExp(r'[-]'), '').trim()]);
-  //             // insert a version with hyphens replaced by spaces
-  //             terms.add(term.split(RegExp(r'[\-]')));
-  //             // split at all non-word characters unless preceded and ended by a number.
-  //             final splitTerms = term
-  //                 .split(RegExp(
-  //                     r'(?<=[^0-9\b])[^a-zA-Z0-9À-öø-ÿ]+|[^a-zA-Z0-9À-öø-ÿ\-]+(?=[^0-9\b])'))
-  //                 .map((e) => termExceptions[e.trim()]?.trim() ?? e.trim())
-  //                 .toList()
-  //                 .where((element) {
-  //               element = element.trim();
-  //               return element.length > 1 && !stopWords.contains(element);
-  //             }).toList();
-  //             terms.add(splitTerms);
-  //           }
-  //           for (final e in terms) {
-  //             final element = <String>[];
-  //             for (var term in e) {
-  //               term = stemmer(term.trim()).trim();
-  //               if (term.isNotEmpty) {
-  //                 element.add(term);
-  //               }
-  //             }
-  //             if (element.isNotEmpty) {
-  //               var value = element.join(' ');
-  //               value = (termExceptions[value] ?? value).trim();
-  //               if (value.isNotEmpty) {
-  //                 retVal.add(element.join(' '));
-  //               }
-  //             }
-  //           }
-  //         }
-  //       }
-  //       retVal.removeWhere((e) => e.trim().isEmpty);
-  //       return retVal;
-  //     };
-
+      
   /// The [LatinLanguageAnalyzerMixin] implementation of the [characterFilter] function:
   /// - returns the term if it can be parsed as a number; else
   /// - converts the term to lower-case;

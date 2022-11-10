@@ -5,6 +5,11 @@ All rights reserved.
 -->
 
 
+## 0.23.7+11
+
+### *Bug fixes*
+* Fixed keyword extraction bug.
+
 ## 0.23.7+10
 
 ### *Bug fixes*

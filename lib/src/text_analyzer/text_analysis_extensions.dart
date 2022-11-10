@@ -25,7 +25,7 @@ extension TextAnalysisExtensionsOnJSON on Map<String, dynamic> {
     if (fieldNames == null) {
       for (final entry in entries) {
         final fieldValue = entry.toString();
-        buffer.writeln('%${entry.key}%');
+        // buffer.writeln('%${entry.key}%');
         buffer.writeln(fieldValue);
         buffer.write('\n');
       }
@@ -34,7 +34,7 @@ extension TextAnalysisExtensionsOnJSON on Map<String, dynamic> {
       for (final zone in fieldNames) {
         final value = this[zone];
         if (value != null) {
-          buffer.writeln('%$zone%');
+          // buffer.writeln('%$zone%');
           buffer.writeln(value.toString());
           buffer.write('\n');
         }

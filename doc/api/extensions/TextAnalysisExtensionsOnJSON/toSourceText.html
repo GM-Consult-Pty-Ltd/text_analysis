@@ -77,7 +77,7 @@ the order of map entries.</p>
   if (fieldNames == null) {
     for (final entry in entries) {
       final fieldValue = entry.toString();
-      buffer.writeln(&#39;%${entry.key}%&#39;);
+      &#47;&#47; buffer.writeln(&#39;%${entry.key}%&#39;);
       buffer.writeln(fieldValue);
       buffer.write(&#39;\n&#39;);
     }
@@ -86,7 +86,7 @@ the order of map entries.</p>
     for (final zone in fieldNames) {
       final value = this[zone];
       if (value != null) {
-        buffer.writeln(&#39;%$zone%&#39;);
+        &#47;&#47; buffer.writeln(&#39;%$zone%&#39;);
         buffer.writeln(value.toString());
         buffer.write(&#39;\n&#39;);
       }
@@ -139,7 +139,7 @@ the order of map entries.</p>
 <footer>
   <span class="no-break">
     text_analysis
-      0.23.7+10
+      0.23.7+11
   </span>
 
   
