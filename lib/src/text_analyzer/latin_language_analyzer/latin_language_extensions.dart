@@ -270,9 +270,10 @@ extension _LatinLanguageStringExtensions on String {
       Set<String> keyWordSet,
       List<List<String>> retVal,
       NGramRange? range) {
-    var keyWord = phrase.join(' ');
+    var keyWord = phrase.join(' ').replaceAll(RegExp(r'\s+'), ' ');
     keyWord = exceptions[keyWord] ?? keyWord;
-    phrase = keyWord.split(' ');
+    phrase = keyWord.split(' ')
+      ..removeWhere((element) => element.trim().isEmpty);
     if (phrase.isNotEmpty) {
       if (!keyWordSet.contains(keyWord)) {
         if (range == null) {
@@ -281,10 +282,12 @@ extension _LatinLanguageStringExtensions on String {
         } else {
           final nGrams = phrase.nGrams(range).map((e) => e.split(' '));
           for (var nGram in nGrams) {
-            keyWord = nGram.join(' ');
+            keyWord = nGram.join(' ').replaceAll(RegExp(r'\s+'), ' ');
             keyWord = exceptions[keyWord] ?? keyWord;
             if (!keyWordSet.contains(keyWord)) {
-              retVal.add(keyWord.split(' '));
+              final nphrase = keyWord.split(' ')
+                ..removeWhere((element) => element.trim().isEmpty);
+              retVal.add(nphrase);
               keyWordSet.add(keyWord);
             }
           }
