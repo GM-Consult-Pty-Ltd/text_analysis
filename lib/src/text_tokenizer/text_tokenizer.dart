@@ -181,7 +181,7 @@ abstract class TextTokenizerMixin implements TextTokenizer {
       for (var tokenTerm in tokenTerms) {
         tokenTerm = tokenTerm.trim().replaceAll(RegExp(r'\s+'), ' ');
         if (tokenTerm.isNotEmpty) {
-          final n = tokenTerm.split(' ').length;
+          final n = tokenTerm.split(RegExp(r'\s+')).length;
           final token = Token(tokenTerm, n, position, zone);
           tokens.add(token);
         }
@@ -250,11 +250,11 @@ abstract class TextTokenizerMixin implements TextTokenizer {
     words = words.map((e) => e.trim()).where((element) => element.isNotEmpty);
     final retVal = <List<String>>[];
     if (nGrams.isEmpty) {
-      retVal.addAll(words.map((e) => e.split(' ')));
+      retVal.addAll(words.map((e) => e.split(RegExp(r'\s+'))));
     }
     for (final word in words) {
       for (final nGram in nGrams) {
-        final newNGram = word.split(' ') + List<String>.from(nGram);
+        final newNGram = word.split(RegExp(r'\s+')) + List<String>.from(nGram);
         retVal.add(newNGram);
       }
     }

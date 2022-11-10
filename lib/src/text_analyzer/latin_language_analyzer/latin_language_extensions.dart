@@ -241,7 +241,7 @@ extension _LatinLanguageStringExtensions on String {
             final exception = exceptions[w];
             final alt = exception;
             if (exception != null) {
-              final words = exception.split(' ');
+              final words = exception.split(RegExp(r'\s+'));
               w = words.join(' ');
             } else {
               w = (stemmer != null ? stemmer(w) : w).trim();
@@ -272,23 +272,30 @@ extension _LatinLanguageStringExtensions on String {
       NGramRange? range) {
     var keyWord = phrase.join(' ').replaceAll(RegExp(r'\s+'), ' ');
     keyWord = exceptions[keyWord] ?? keyWord;
-    phrase = keyWord.split(' ')
+    phrase = keyWord.split(RegExp(r'\s+'))
       ..removeWhere((element) => element.trim().isEmpty);
     if (phrase.isNotEmpty) {
       if (!keyWordSet.contains(keyWord)) {
         if (range == null) {
-          retVal.add(List<String>.from(phrase));
-          keyWordSet.add(keyWord);
+          final tphrase = List<String>.from(phrase)
+            ..removeWhere((element) => element.trim().isEmpty);
+          if (tphrase.isNotEmpty) {
+            retVal.add(List<String>.from(phrase));
+            keyWordSet.add(keyWord);
+          }
         } else {
-          final nGrams = phrase.nGrams(range).map((e) => e.split(' '));
+          final nGrams =
+              phrase.nGrams(range).map((e) => e.split(RegExp(r'\s+')));
           for (var nGram in nGrams) {
             keyWord = nGram.join(' ').replaceAll(RegExp(r'\s+'), ' ');
             keyWord = exceptions[keyWord] ?? keyWord;
             if (!keyWordSet.contains(keyWord)) {
-              final nphrase = keyWord.split(' ')
+              final nphrase = keyWord.split(RegExp(r'\s+'))
                 ..removeWhere((element) => element.trim().isEmpty);
-              retVal.add(nphrase);
-              keyWordSet.add(keyWord);
+              if (nphrase.isNotEmpty) {
+                retVal.add(nphrase);
+                keyWordSet.add(keyWord);
+              }
             }
           }
         }
