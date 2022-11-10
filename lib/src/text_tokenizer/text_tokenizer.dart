@@ -54,7 +54,7 @@ abstract class TextTokenizer {
   ///
   /// Returns a List<[Token]>.
   Future<List<Token>> tokenize(SourceText source,
-      {NGramRange nGramRange = const NGramRange(1, 1),
+      {NGramRange? nGramRange,
       Zone? zone,
       TokenizingStrategy strategy = TokenizingStrategy.terms});
 
@@ -67,7 +67,7 @@ abstract class TextTokenizer {
   ///
   /// Returns a List<[Token]>.
   Future<List<Token>> tokenizeJson(Map<String, dynamic> document,
-      {NGramRange nGramRange = const NGramRange(1, 1),
+      {NGramRange? nGramRange,
       Iterable<Zone>? zones,
       TokenizingStrategy strategy = TokenizingStrategy.terms});
 }

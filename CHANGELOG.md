@@ -4,6 +4,11 @@ Copyright (c) 2022, GM Consult Pty Ltd
 All rights reserved. 
 -->
 
+## 0.23.7+12
+
+### *Bug fixes*
+* Changed signature of `TextTokenizer.tokenize` and `TextTokenizer.tokenizeJson` to make parameter `nGramRange` nullable.
+
 
 ## 0.23.7+11
 
