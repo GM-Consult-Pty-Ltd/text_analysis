@@ -18,8 +18,8 @@ abstract class LatinLanguageAnalyzerMixin implements TextAnalyzer {
   //
 
   @override
-  TermFilter get termFilter => (Term term) => term.versions(
-      abbreviations, stopWords, termExceptions, characterFilter, stemmer);
+  TermFilter get termFilter =>
+      (Term term) => term.versions(abbreviations, stopWords, termExceptions);
 
   /// The [LatinLanguageAnalyzerMixin] implementation of the [characterFilter] function:
   /// - returns the term if it can be parsed as a number; else

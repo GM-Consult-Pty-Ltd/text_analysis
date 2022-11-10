@@ -14,8 +14,6 @@ extension _LatinLanguageStringExtensions on String {
   ///   key exists;
   /// - looks up the term in [abbreviations] and, if found, returns both the
   ///   abbreviation and a version with no punctuation;
-  /// - applies [characterFilter] to the term and checks it again for matches in
-  ///   [stopWords] and [termExceptions];
   /// - adds the resulting term if it is longer than 1;
   /// - add an un-hyphenated version if the term contains hyphens;
   /// - add a version with spaces in the place of hyphens;
@@ -23,13 +21,14 @@ extension _LatinLanguageStringExtensions on String {
   ///   against [stopWords] and [termExceptions];
   /// - apply the [stemmer] to all words;
   Set<String> versions(
-      Map<String, String> abbreviations,
-      Set<String> stopWords,
-      Map<String, String> termExceptions,
-      CharacterFilter characterFilter,
-      Stemmer stemmer) {
+    Map<String, String> abbreviations,
+    Set<String> stopWords,
+    Map<String, String> termExceptions,
+    // CharacterFilter characterFilter,
+    // Stemmer stemmer
+  ) {
     // remove white-space from start and end of term
-    var term = trim();
+    final term = trim();
     final Set<String> retVal = {};
     if (term.isNotEmpty && !stopWords.contains(term)) {
       // exclude empty terms and that are stopwords
@@ -43,7 +42,7 @@ extension _LatinLanguageStringExtensions on String {
       } else {
         final terms = <List<String>>{};
         // apply the character filter
-        term = characterFilter(term);
+        // term = characterFilter(term);
         // check the resulting term is longer than 1 characters and not
         // contained in [stopWords]
         if (!stopWords.contains(term) && term.length > 1) {
@@ -70,7 +69,6 @@ extension _LatinLanguageStringExtensions on String {
         for (final e in terms) {
           final element = <String>[];
           for (var term in e) {
-            term = (termExceptions[term.trim()] ?? stemmer(term.trim())).trim();
             if (term.isNotEmpty) {
               element.add(term);
             }

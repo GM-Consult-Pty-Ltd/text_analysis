@@ -30,7 +30,7 @@
   <ol class="breadcrumbs gt-separated dark hidden-xs">
     <li><a href="../index.html">text_analysis</a></li>
     <li><a href="../text_analysis/text_analysis-library.html">text_analysis</a></li>
-    <li class="self-crumb">TextTokenizer abstract class</li>
+    <li class="self-crumb"><span class="deprecated">TextTokenizer</span> abstract class</li>
   </ol>
   <div class="self-name">TextTokenizer</div>
   <form class="search navbar-right" role="search">
@@ -54,7 +54,7 @@
 in full-text search queries and indexes:</p>
 <ul>
 <li><a href="../text_analysis/TextTokenizer/analyzer.html">analyzer</a> is a <a href="../text_analysis/TextAnalyzer-class.html">TextAnalyzer</a> used by the
-<a href="../text_analysis/TextTokenizer-class.html">TextTokenizer</a> to tokenize source text; and</li>
+<a class="deprecated" href="../text_analysis/TextTokenizer-class.html">TextTokenizer</a> to tokenize source text; and</li>
 <li>provide a <a href="../text_analysis/TextTokenizer/tokenFilter.html">tokenFilter</a> if you want to manipulate tokens or restrict
 tokenization to tokens that meet criteria for either index or count; and</li>
 <li>the <a href="../text_analysis/TextTokenizer/tokenize.html">tokenize</a> function tokenizes source text using the <a href="../text_analysis/TextTokenizer/analyzer.html">analyzer</a>
@@ -79,6 +79,12 @@ document.</li>
 
 
         
+  <dt>Annotations</dt>
+  <dd>
+    <ul class="annotation-list clazz-relationships">
+        <li>@<a href="https://api.flutter.dev/flutter/dart-core/Deprecated-class.html">Deprecated</a>(&#39;Interface `TextTokenizer` is deprecated and will be removed &#39; &#39;from the next stable version. Use `TextAnalyzer.tokenize` and &#39; &#39;`TextAnalyzer.tokenizeJson` in stead.&#39;)</li>
+    </ul>
+  </dd>
       </dl>
     </section>
 
@@ -107,7 +113,7 @@ document.</li>
 
 </dt>
 <dd>
-  The <a href="../text_analysis/TextAnalyzer-class.html">TextAnalyzer</a> used by the <a href="../text_analysis/TextTokenizer-class.html">TextTokenizer</a>.
+  The <a href="../text_analysis/TextAnalyzer-class.html">TextAnalyzer</a> used by the <a class="deprecated" href="../text_analysis/TextTokenizer-class.html">TextTokenizer</a>.
   <div class="features">read-only</div>
 
 </dd>
@@ -246,7 +252,7 @@ full-text search queries and indexes.
 
 </dt>
 <dd>
-  Returns a static const <a href="../text_analysis/TextTokenizer-class.html">TextTokenizer</a> using the <a href="../text_analysis/English-class.html">English</a> analyzer.
+  Returns a static const <a class="deprecated" href="../text_analysis/TextTokenizer-class.html">TextTokenizer</a> using the <a href="../text_analysis/English-class.html">English</a> analyzer.
   
 
   <div>
@@ -269,7 +275,7 @@ full-text search queries and indexes.
 <ol class="breadcrumbs gt-separated dark hidden-l" id="sidebar-nav">
   <li><a href="../index.html">text_analysis</a></li>
   <li><a href="../text_analysis/text_analysis-library.html">text_analysis</a></li>
-  <li class="self-crumb">TextTokenizer abstract class</li>
+  <li class="self-crumb"><span class="deprecated">TextTokenizer</span> abstract class</li>
 </ol>
 
 
@@ -291,7 +297,7 @@ full-text search queries and indexes.
   <li><a href="../text_analysis/TextDocument-class.html">TextDocument</a></li>
   <li><a href="../text_analysis/TextDocumentBase-class.html">TextDocumentBase</a></li>
   <li><a href="../text_analysis/TextDocumentMixin-class.html">TextDocumentMixin</a></li>
-  <li><a href="../text_analysis/TextTokenizer-class.html">TextTokenizer</a></li>
+  <li><a class="deprecated" href="../text_analysis/TextTokenizer-class.html">TextTokenizer</a></li>
   <li><a href="../text_analysis/TextTokenizerBase-class.html">TextTokenizerBase</a></li>
   <li><a href="../text_analysis/TextTokenizerMixin-class.html">TextTokenizerMixin</a></li>
   <li><a href="../text_analysis/Token-class.html">Token</a></li>
@@ -349,7 +355,7 @@ full-text search queries and indexes.
 <footer>
   <span class="no-break">
     text_analysis
-      0.23.7+13
+      0.23.7+14
   </span>
 
   

@@ -15,6 +15,9 @@ import 'package:text_analysis/text_analysis.dart';
 ///   and then manipulates the output by applying [tokenFilter]; and
 /// - the [tokenizeJson] function extracts tokens from the zones in a JSON
 ///   document.
+@Deprecated('Interface `TextTokenizer` is deprecated and will be removed '
+    'from the next stable version. Use `TextAnalyzer.tokenize` and '
+    '`TextAnalyzer.tokenizeJson` in stead.')
 abstract class TextTokenizer {
   //
 
@@ -29,12 +32,6 @@ abstract class TextTokenizer {
   factory TextTokenizer(
           {required TextAnalyzer analyzer, TokenFilter? tokenFilter}) =>
       _TextTokenizerImpl(analyzer, tokenFilter);
-
-  // /// Splits the [source] into paragraphs at line ending marks.
-  // List<String> paragraphs(SourceText source);
-
-  // /// Splits the [source] into sentences at sentence ending punctuation.
-  // List<String> sentences(SourceText source);
 
   /// The [TextAnalyzer] used by the [TextTokenizer].
   TextAnalyzer get analyzer;
@@ -208,8 +205,8 @@ abstract class TextTokenizerMixin implements TextTokenizer {
     // iterate through the terms
     for (var term in terms) {
       // remove white-space at start and end of term
-      term = term.trim();
-      final splitTerms = analyzer.termFilter(term);
+      final splitTerms =
+          analyzer.termFilter(term).map((e) => analyzer.characterFilter(e));
       if (splitTerms.isNotEmpty) {
         nGramTerms.add(splitTerms.toList());
         if (nGramTerms.length > nGramRange.max) {
@@ -290,7 +287,8 @@ abstract class TextTokenizerMixin implements TextTokenizer {
     for (final e in tokenGrams) {
       final n = e.length;
       final term = e.join(' ');
-      tokens.add(Token(term, n, termPosition - n, zone));
+      //TODO: fix problem with termPosition
+      tokens.add(Token(term, n, termPosition - n + 1, zone));
     }
     return tokens;
   }
@@ -323,12 +321,4 @@ class _TextTokenizerImpl with TextTokenizerMixin {
 
   @override
   final TextAnalyzer analyzer;
-
-  // @override
-  // List<String> paragraphs(SourceText source) =>
-  //     analyzer.paragraphSplitter(source);
-
-  // @override
-  // List<String> sentences(SourceText source) =>
-  //     analyzer.sentenceSplitter(source);
 }

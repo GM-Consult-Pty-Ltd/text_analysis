@@ -4,6 +4,14 @@ Copyright (c) 2022, GM Consult Pty Ltd
 All rights reserved. 
 -->
 
+## 0.23.7+14
+
+### *Deprecated*
+* Interface `TextTokenizer` is deprecated and will be removed from the next stable version. Use `TextAnalyzer.tokenize` and `TextAnalyzer.tokenizeJson` in stead.
+
+### *Bug fixes*
+* Fixed keyword extraction bug.
+
 ## 0.23.7+13
 
 ### *Bug fixes*
