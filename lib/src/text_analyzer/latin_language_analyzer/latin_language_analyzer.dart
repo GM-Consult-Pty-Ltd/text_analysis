@@ -22,8 +22,7 @@ part 'mixins/_sentence_splitter.dart';
 
 /// A [TextAnalyzer] implementation for Latin languages analysis.
 ///
-/// Mixes in [LatinLanguageAnalyzerMixin] and exposes a const default
-/// generative constructor.
+/// Exposes a const default generative constructor.
 abstract class LatinLanguageAnalyzer
     with
         _CharacterFilter,
@@ -34,8 +33,7 @@ abstract class LatinLanguageAnalyzer
         _TermFilter,
         _TermSplitter,
         _Tokenizer,
-        _KeyWordExtractor,
-        LatinLanguageAnalyzerMixin
+        _KeyWordExtractor
     implements TextAnalyzer {
   /// Initializes a const [LatinLanguageAnalyzer].
   const LatinLanguageAnalyzer();
@@ -69,10 +67,4 @@ abstract class LatinLanguageAnalyzer
 
   @override
   KeywordExtractor get keywordExtractor => _extractKeywords;
-}
-
-/// A [TextAnalyzer] implementation mixin for Latin languages analysis.
-abstract class LatinLanguageAnalyzerMixin implements TextAnalyzer {
-  //
-
 }

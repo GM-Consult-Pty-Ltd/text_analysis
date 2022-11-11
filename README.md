@@ -84,6 +84,9 @@ To use the package's extensions and/or type definitions, also add any of the fol
 
 ```dart
 
+// import the implementation classes, if needed
+import 'package:text_indexing/implementation.dart'; 
+
 // import the typedefs, if needed
 import 'package:text_indexing/type_definitions.dart'; 
 
@@ -92,15 +95,13 @@ import 'package:text_indexing/extensions.dart';
 
 ```
 
-Basic English tokenization can be performed by using a `TextTokenizer.english` static const instance that uses the `English` text analyzer and no token filter:
+Basic English tokenization can be performed by using a `English.analyzer` static const instance with no token filter:
 
 ```dart
-  // Use the static TextTokenizer.english instance to tokenize the text using the  
+  // Use the static English.analyzer instance to tokenize the text using the
   // English analyzer.
-    final tokens = await TextTokenizer(analyzer: English()).tokenize(
-      readabilityExample,
-      strategy: TokenizingStrategy.all,
-      nGramRange: NGramRange(1, 2));
+  final tokens = await English.analyzer.tokenizer(readabilityExample,
+      strategy: TokenizingStrategy.all, nGramRange: NGramRange(1, 2));
 ```
 To analyze text or a document, hydrate a [TextDocument](#textdocument) to obtain the text statistics and readibility scores:
 
@@ -120,13 +121,8 @@ To analyze text or a document, hydrate a [TextDocument](#textdocument) to obtain
       'Flesch Reading Ease: ${textDoc.fleschReadingEaseScore().toStringAsFixed(1)}');
   // prints "Flesch Reading Ease: 37.5"
 ```
-For more complex text analysis:
-* implement a `TextAnalyzer` for a different language or non-language documents;
-* implement a custom `TextTokenizer`or extend `TextTokenizerBase`; and/or 
-* pass in a `TokenFilter` function to a `TextTokenizer` to manipulate the tokens after tokenization as shown in the [examples](https://pub.dev/packages/text_analysis/example); and/or
-extend [TextDocumentBase](https://pub.dev/documentation/text_analysis/0.12.0-1/text_analysis/TextDocumentBase-class.html).
 
-To compare terms, call the desired extension on the `term`, or the static method from the [TermSimilarity](https://pub.dev/documentation/text_analysis/0.12.0-1/text_analysis/TermSimilarity-class.html) class:
+To compare terms, call the desired extension on the `term`, or the static method from the [TermSimilarity](https://pub.dev/documentation/text_analysis/latest/text_analysis/TermSimilarity-class.html) class:
 
 ```dart
 
@@ -164,14 +160,13 @@ Please see the [examples](https://pub.dev/packages/text_analysis/example) for mo
 
 The key interfaces of the `text_analysis` library are briefly described in this section. Please refer to the [documentation](https://pub.dev/documentation/text_analysis/latest/) for details.
 
-
 The API contains a fair amount of boiler-plate, but we aim to make the code as readable, extendable and re-usable as possible:
 
 * We use an `interface > implementation mixin > base-class > implementation class pattern`:
   - the `interface` is an abstract class that exposes fields and methods but contains no implementation code. The `interface` may expose a factory constructor that returns an `implementation class` instance;
   - the `implementation mixin` implements the `interface` class methods, but not the input fields;
   - the `base-class` is an abstract class with the `implementation mixin` and exposes a default, unnamed generative const constructor for sub-classes. The intention is that `implementation classes` extend the `base class`, overriding the `interface` input fields with final properties passed in via a const generative constructor.
-* To maximise performance of the indexers the API performs lookups in nested hashmaps of DART core types. To improve code legibility the API makes use of type aliases, callback function definitions and extensions. The typedefs and extensions are not exported by the [text_analysis](https://pub.dev/documentation/text_analysis/latest/text_analysis/text_analysis-library.html) library, but can be found in the [type_definitions](https://pub.dev/documentation/text_analysis/latest/type_definitions/type_definitions-library.html) and [extensions](https://pub.dev/documentation/text_analysis/latest/extensions/extensions-library.html) mini-libraries. [Import these libraries seperately](#usage) if needed.
+* To maximise performance of the indexers the API performs lookups in nested hashmaps of DART core types. To improve code legibility the API makes use of type aliases, callback function definitions and extensions. The typedefs and extensions are not exported by the [text_analysis](https://pub.dev/documentation/text_analysis/latest/text_analysis/text_analysis-library.html) library, but can be found in the [type_definitions](https://pub.dev/documentation/text_analysis/latest/type_definitions/type_definitions-library.html), [implementation](https://pub.dev/documentation/text_analysis/latest/type_definitions/implementation-library.html) and [extensions](https://pub.dev/documentation/text_analysis/latest/extensions/extensions-library.html) mini-libraries. [Import these libraries seperately](#usage) if needed.
 
 (*[back to top](#)*)
 
@@ -196,7 +191,7 @@ To compare one term with a collection of other terms, the following static metho
 
 *Term comparisons are NOT case-sensitive.*
 
-The  [TextSimilarity](https://pub.dev/documentation/text_analysis/latest/text_analysis/TextSimilarity-class.html) class relies on [extension methods](https://pub.dev/documentation/text_analysis/0.12.0-1/extensions/TermSimilarityExtensions.html) that can be imported from the [extensions](https://pub.dev/documentation/text_analysis/0.12.0-2/extensions/extensions-library.html) library.
+The  [TextSimilarity](https://pub.dev/documentation/text_analysis/latest/text_analysis/TextSimilarity-class.html) class relies on [extension methods](https://pub.dev/documentation/text_analysis/latest/extensions/TermSimilarityExtensions.html) that can be imported from the [extensions](https://pub.dev/documentation/text_analysis/0.12.0-2/extensions/extensions-library.html) library.
 
 (*[back to top](#)*)
 
@@ -210,13 +205,13 @@ The [TextAnalyzer](https://pub.dev/documentation/text_analysis/latest/text_analy
 * [paragraphSplitter](https://pub.dev/documentation/text_analysis/latest/text_analysis/TextAnalyzer/paragraphSplitter.html) splits text into a list of paragraphs at line endings; 
 * [stemmer](https://pub.dev/documentation/text_analysis/latest/text_analysis/TextAnalyzer/stemmer.html) is a language-specific function that returns the stem of a term;
 * [lemmatizer](https://pub.dev/documentation/text_analysis/latest/text_analysis/TextAnalyzer/lemmatizer.html) is a language-specific function that returns the lemma of a term;
-* [tokenizer](https://pub.dev/documentation/text_analysis/latest/text_analysis/TextTokenizer/tokenize.html) and [jsonTokenizer](https://pub.dev/documentation/text_analysis/latest/text_analysis/TextTokenizer/tokenizeJson.html) are callbacks that return a collection of [tokens](https://pub.dev/documentation/text_analysis/0.12.0-1/text_analysis/Token-class.html) from text or a document;
-* [keywordExtractor] is a splitter function that returns an ordered collection of keyword phrases from text;
+* [tokenizer](https://pub.dev/documentation/text_analysis/latest/text_analysis/TextAnalyzer/tokenizer.html) and [jsonTokenizer](https://pub.dev/documentation/text_analysis/latest/text_analysis/TextAnalyzer/jsonTokenizer.html) are callbacks that return a collection of [tokens](https://pub.dev/documentation/text_analysis/latest/text_analysis/Token-class.html) from text or a document;
+* [keywordExtractor](https://pub.dev/documentation/text_analysis/latest/text_analysis/TextAnalyzer/keywordExtractor.html)  is a splitter function that returns an ordered collection of keyword phrases from text;
 * [termExceptions](https://pub.dev/documentation/text_analysis/latest/text_analysis/TextAnalyzer/termExceptions.html) is a hashmap of words to token terms for special words that should not be re-capitalized, stemmed or lemmatized;
 * [stopWords](https://pub.dev/documentation/text_analysis/latest/text_analysis/TextAnalyzer/stopWords.html) are terms that commonly occur in a language and that do not add material value to the analysis of text; and
 * [syllableCounter](https://pub.dev/documentation/text_analysis/latest/text_analysis/TextAnalyzer/syllableCounter.html) returns the number of syllables in a word or text.
 
-The [LatinLanguageAnalyzerMixin](https://pub.dev/documentation/text_analysis/latest/text_analysis/LatinLanguageAnalyzerMixin-class.html) implements the `TextAnalyzer` interface methods for languages that use the Latin/Roman alphabet/character set.
+The [LatinLanguageAnalyzer](https://pub.dev/documentation/text_analysis/latest/text_analysis/LatinLanguageAnalyzer-class.html) implements the `TextAnalyzer` interface methods for languages that use the Latin/Roman alphabet/character set.
 
 The [English](https://pub.dev/documentation/text_analysis/latest/text_analysis/English-class.html) implementation of [TextAnalyzer](https://pub.dev/documentation/text_analysis/latest/text_analysis/TextAnalyzer-class.html) is included in this library and mixes in the `LatinLanguageAnalyzerMixin`.
 

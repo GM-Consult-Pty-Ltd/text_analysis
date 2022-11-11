@@ -23,7 +23,7 @@ void main() {
       'creature. It originates from the U.S.A, roaming the pavé of the Cote '
       'D\'Azure (cigar in hand). He often has (three day old) stubble on his chin.';
   //
-  group('TextTokenizer', () {
+  group('Tokenization', () {
     //
 
     test('TextDocument', (() async {
@@ -45,7 +45,7 @@ void main() {
       print('Flesch-Kincaid Grade Level: ${textDoc.fleschKincaidGradeLevel()}');
     }));
 
-    test('TextTokenizer.tokenize', () async {
+    test('TextAnalyzer.tokenizer', () async {
       //
 
       // final stopWords = StringBuffer();
@@ -64,7 +64,7 @@ void main() {
           English(termExceptions: {'alphabet': 'ALPHABET', 'google': 'Google'});
 
       for (final strategy in TokenizingStrategy.values) {
-        // use a TextTokenizer instance to tokenize the source
+        // tokenize the source
         final tokens = await analyzer.tokenizer(source,
             zone: 'text', strategy: strategy, nGramRange: NGramRange(1, 2));
 
@@ -73,7 +73,7 @@ void main() {
       }
     });
 
-    test('TextTokenizer.english', () async {
+    test('English()', () async {
       //
 
       // convert the StringBuffer to a String
@@ -83,7 +83,7 @@ void main() {
           English(termExceptions: {'alphabet': 'ALPHABET', 'google': 'Google'});
 
       for (final strategy in TokenizingStrategy.values) {
-        // use a TextTokenizer instance to tokenize the source
+        // tokenize the source
         final tokens = await English.analyzer.tokenizer(source,
             strategy: strategy, nGramRange: NGramRange(1, 2));
 
@@ -92,7 +92,7 @@ void main() {
       }
     });
 
-    test('TextTokenizer.split', () async {
+    test('SPLITTERS', () async {
       // convert the StringBuffer to a String
       final source = TestData.text;
 
@@ -116,14 +116,14 @@ void main() {
       print('-'.padRight(31, '-'));
     });
 
-    test('TextTokenizer.tokenizeJson(fields)', () async {
+    test('TextAnalyzer.JsonTokenizer(fields)', () async {
       //
 
       // test some exceptions
       final analyzer =
           English(termExceptions: {'tesla': 'Tesla', 'alphabet': 'GOOGLE'});
 
-      // use a TextTokenizer instance to tokenize the json with 3 zones
+      // tokenize the json with 3 zones
       final tokens = await analyzer.jsonTokenizer(TestData.json,
           strategy: TokenizingStrategy.keyWords,
           zones: ['name', 'description', 'hashTags']);
@@ -133,8 +133,8 @@ void main() {
     });
 
     /// Tokenize JSON with NO zones.
-    test('TextTokenizer.tokenizeJson', () async {
-      // use a TextTokenizer instance to tokenize the json with NO zones
+    test('TextAnalyzer.JsonTokenizer', () async {
+      // tokenize the json with NO zones
       final tokens = await English.analyzer.jsonTokenizer(TestData.json,
           strategy: TokenizingStrategy.all,
           nGramRange: NGramRange(1, 2),
@@ -147,7 +147,7 @@ void main() {
 
     /// Tokenize JSON with NO zones.
     test('Iterable<String>.kGrams()', () async {
-      // use a TextTokenizer instance to tokenize the json with NO zones
+      // tokenize the json with NO zones
       final lexicon = englishLexicon.keys
           .where((element) => !element.contains(RegExp(r'[^a-zA-Z]')))
           .map((e) => e.toLowerCase());
@@ -158,7 +158,7 @@ void main() {
       await saveKgramIndex(kgrams);
     });
 
-    test('TextTokenizer.tokenizeJson (performance)', () async {
+    test('TextAnalyzer.JsonTokenizer (performance)', () async {
       //
       final start = DateTime.now();
       // initialize a term dictionary

@@ -87,9 +87,9 @@ Future<void> _readMeExample(String title) async {
   //     Ranked matches: [border, boarder, bored, brother, board, bord, broad]
   //
 
-  // Use the static TextTokenizer.english instance to tokenize the text using the
+  // Use the static English.analyzer instance to tokenize the text using the
   // English analyzer.
-  final tokens = await English().tokenizer(readabilityExample,
+  final tokens = await English.analyzer.tokenizer(readabilityExample,
       strategy: TokenizingStrategy.all, nGramRange: NGramRange(1, 2));
   print(tokens.terms);
 
@@ -191,7 +191,7 @@ Future<List<Token>> _tokenizeJson(
   final analyzer =
       English(termExceptions: {'tesla': 'Tesla', 'Alphabet': 'GOOGLE'});
 
-  // use a TextTokenizer instance to tokenize the json
+  // tokenize the json
   final tokens = await analyzer.jsonTokenizer(json, zones: zones);
   // map the document's tokens to a list of terms (strings)
   return tokens;
@@ -212,7 +212,7 @@ Future<List<Token>> _tokenizeParagraphs(Iterable<String> paragraphs) async {
   // convert the StringBuffer to a String
   final source = sourceBuilder.toString();
 
-  // use a TextTokenizer instance to tokenize the source
+  // tokenize the source
   final tokens =
       await English.analyzer.tokenizer(source, nGramRange: NGramRange(1, 3));
 

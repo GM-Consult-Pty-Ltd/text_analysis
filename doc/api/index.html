@@ -112,6 +112,9 @@ import 'package:text_analysis/text_analysis.dart';
 </code></pre>
 <p>To use the package's extensions and/or type definitions, also add any of the following imports:</p>
 <pre class="language-dart"><code class="language-dart">
+// import the implementation classes, if needed
+import 'package:text_indexing/implementation.dart'; 
+
 // import the typedefs, if needed
 import 'package:text_indexing/type_definitions.dart'; 
 
@@ -119,13 +122,11 @@ import 'package:text_indexing/type_definitions.dart';
 import 'package:text_indexing/extensions.dart'; 
 
 </code></pre>
-<p>Basic English tokenization can be performed by using a <code>TextTokenizer.english</code> static const instance that uses the <code>English</code> text analyzer and no token filter:</p>
-<pre class="language-dart"><code class="language-dart">  // Use the static TextTokenizer.english instance to tokenize the text using the  
+<p>Basic English tokenization can be performed by using a <code>English.analyzer</code> static const instance with no token filter:</p>
+<pre class="language-dart"><code class="language-dart">  // Use the static English.analyzer instance to tokenize the text using the
   // English analyzer.
-    final tokens = await TextTokenizer(analyzer: English()).tokenize(
-      readabilityExample,
-      strategy: TokenizingStrategy.all,
-      nGramRange: NGramRange(1, 2));
+  final tokens = await English.analyzer.tokenizer(readabilityExample,
+      strategy: TokenizingStrategy.all, nGramRange: NGramRange(1, 2));
 </code></pre>
 <p>To analyze text or a document, hydrate a <a href="#textdocument">TextDocument</a> to obtain the text statistics and readibility scores:</p>
 <pre class="language-dart"><code class="language-dart">  // get some sample text
@@ -143,14 +144,7 @@ import 'package:text_indexing/extensions.dart';
       'Flesch Reading Ease: ${textDoc.fleschReadingEaseScore().toStringAsFixed(1)}');
   // prints "Flesch Reading Ease: 37.5"
 </code></pre>
-<p>For more complex text analysis:</p>
-<ul>
-<li>implement a <code>TextAnalyzer</code> for a different language or non-language documents;</li>
-<li>implement a custom <code>TextTokenizer</code>or extend <code>TextTokenizerBase</code>; and/or</li>
-<li>pass in a <code>TokenFilter</code> function to a <code>TextTokenizer</code> to manipulate the tokens after tokenization as shown in the <a href="https://pub.dev/packages/text_analysis/example">examples</a>; and/or
-extend <a href="https://pub.dev/documentation/text_analysis/0.12.0-1/text_analysis/TextDocumentBase-class.html">TextDocumentBase</a>.</li>
-</ul>
-<p>To compare terms, call the desired extension on the <code>term</code>, or the static method from the <a href="https://pub.dev/documentation/text_analysis/0.12.0-1/text_analysis/TermSimilarity-class.html">TermSimilarity</a> class:</p>
+<p>To compare terms, call the desired extension on the <code>term</code>, or the static method from the <a href="https://pub.dev/documentation/text_analysis/latest/text_analysis/TermSimilarity-class.html">TermSimilarity</a> class:</p>
 <pre class="language-dart"><code class="language-dart">
   // define a misspelt term
   const term = 'bodrer';
@@ -190,7 +184,7 @@ extend <a href="https://pub.dev/documentation/text_analysis/0.12.0-1/text_analys
 <li>the <code>base-class</code> is an abstract class with the <code>implementation mixin</code> and exposes a default, unnamed generative const constructor for sub-classes. The intention is that <code>implementation classes</code> extend the <code>base class</code>, overriding the <code>interface</code> input fields with final properties passed in via a const generative constructor.</li>
 </ul>
 </li>
-<li>To maximise performance of the indexers the API performs lookups in nested hashmaps of DART core types. To improve code legibility the API makes use of type aliases, callback function definitions and extensions. The typedefs and extensions are not exported by the <a href="https://pub.dev/documentation/text_analysis/latest/text_analysis/text_analysis-library.html">text_analysis</a> library, but can be found in the <a href="https://pub.dev/documentation/text_analysis/latest/type_definitions/type_definitions-library.html">type_definitions</a> and <a href="https://pub.dev/documentation/text_analysis/latest/extensions/extensions-library.html">extensions</a> mini-libraries. <a href="#usage">Import these libraries seperately</a> if needed.</li>
+<li>To maximise performance of the indexers the API performs lookups in nested hashmaps of DART core types. To improve code legibility the API makes use of type aliases, callback function definitions and extensions. The typedefs and extensions are not exported by the <a href="https://pub.dev/documentation/text_analysis/latest/text_analysis/text_analysis-library.html">text_analysis</a> library, but can be found in the <a href="https://pub.dev/documentation/text_analysis/latest/type_definitions/type_definitions-library.html">type_definitions</a>, <a href="https://pub.dev/documentation/text_analysis/latest/type_definitions/implementation-library.html">implementation</a> and <a href="https://pub.dev/documentation/text_analysis/latest/extensions/extensions-library.html">extensions</a> mini-libraries. <a href="#usage">Import these libraries seperately</a> if needed.</li>
 </ul>
 <p>(<em><a href="#">back to top</a></em>)</p>
 <h4 id="termsimilarity">TermSimilarity</h4>
@@ -214,7 +208,7 @@ extend <a href="https://pub.dev/documentation/text_analysis/0.12.0-1/text_analys
 <li><code>matches</code> returns the best matches from <code>terms</code> for a term, in descending order of term similarity (best match first).</li>
 </ul>
 <p><em>Term comparisons are NOT case-sensitive.</em></p>
-<p>The  <a href="https://pub.dev/documentation/text_analysis/latest/text_analysis/TextSimilarity-class.html">TextSimilarity</a> class relies on <a href="https://pub.dev/documentation/text_analysis/0.12.0-1/extensions/TermSimilarityExtensions.html">extension methods</a> that can be imported from the <a href="https://pub.dev/documentation/text_analysis/0.12.0-2/extensions/extensions-library.html">extensions</a> library.</p>
+<p>The  <a href="https://pub.dev/documentation/text_analysis/latest/text_analysis/TextSimilarity-class.html">TextSimilarity</a> class relies on <a href="https://pub.dev/documentation/text_analysis/latest/extensions/TermSimilarityExtensions.html">extension methods</a> that can be imported from the <a href="https://pub.dev/documentation/text_analysis/0.12.0-2/extensions/extensions-library.html">extensions</a> library.</p>
 <p>(<em><a href="#">back to top</a></em>)</p>
 <h4 id="textanalyzer">TextAnalyzer</h4>
 <p>The <a href="https://pub.dev/documentation/text_analysis/latest/text_analysis/TextAnalyzer-class.html">TextAnalyzer</a> interface exposes language-specific properties and methods used in text analysis:</p>
@@ -226,13 +220,13 @@ extend <a href="https://pub.dev/documentation/text_analysis/0.12.0-1/text_analys
 <li><a href="https://pub.dev/documentation/text_analysis/latest/text_analysis/TextAnalyzer/paragraphSplitter.html">paragraphSplitter</a> splits text into a list of paragraphs at line endings;</li>
 <li><a href="https://pub.dev/documentation/text_analysis/latest/text_analysis/TextAnalyzer/stemmer.html">stemmer</a> is a language-specific function that returns the stem of a term;</li>
 <li><a href="https://pub.dev/documentation/text_analysis/latest/text_analysis/TextAnalyzer/lemmatizer.html">lemmatizer</a> is a language-specific function that returns the lemma of a term;</li>
-<li><a href="https://pub.dev/documentation/text_analysis/latest/text_analysis/TextTokenizer/tokenize.html">tokenizer</a> and <a href="https://pub.dev/documentation/text_analysis/latest/text_analysis/TextTokenizer/tokenizeJson.html">jsonTokenizer</a> are callbacks that return a collection of <a href="https://pub.dev/documentation/text_analysis/0.12.0-1/text_analysis/Token-class.html">tokens</a> from text or a document;</li>
-<li><code>keywordExtractor</code> is a splitter function that returns an ordered collection of keyword phrases from text;</li>
+<li><a href="https://pub.dev/documentation/text_analysis/latest/text_analysis/TextAnalyzer/tokenizer.html">tokenizer</a> and <a href="https://pub.dev/documentation/text_analysis/latest/text_analysis/TextAnalyzer/jsonTokenizer.html">jsonTokenizer</a> are callbacks that return a collection of <a href="https://pub.dev/documentation/text_analysis/latest/text_analysis/Token-class.html">tokens</a> from text or a document;</li>
+<li><a href="https://pub.dev/documentation/text_analysis/latest/text_analysis/TextAnalyzer/keywordExtractor.html">keywordExtractor</a>  is a splitter function that returns an ordered collection of keyword phrases from text;</li>
 <li><a href="https://pub.dev/documentation/text_analysis/latest/text_analysis/TextAnalyzer/termExceptions.html">termExceptions</a> is a hashmap of words to token terms for special words that should not be re-capitalized, stemmed or lemmatized;</li>
 <li><a href="https://pub.dev/documentation/text_analysis/latest/text_analysis/TextAnalyzer/stopWords.html">stopWords</a> are terms that commonly occur in a language and that do not add material value to the analysis of text; and</li>
 <li><a href="https://pub.dev/documentation/text_analysis/latest/text_analysis/TextAnalyzer/syllableCounter.html">syllableCounter</a> returns the number of syllables in a word or text.</li>
 </ul>
-<p>The <a href="https://pub.dev/documentation/text_analysis/latest/text_analysis/LatinLanguageAnalyzerMixin-class.html">LatinLanguageAnalyzerMixin</a> implements the <code>TextAnalyzer</code> interface methods for languages that use the Latin/Roman alphabet/character set.</p>
+<p>The <a href="https://pub.dev/documentation/text_analysis/latest/text_analysis/LatinLanguageAnalyzer-class.html">LatinLanguageAnalyzer</a> implements the <code>TextAnalyzer</code> interface methods for languages that use the Latin/Roman alphabet/character set.</p>
 <p>The <a href="https://pub.dev/documentation/text_analysis/latest/text_analysis/English-class.html">English</a> implementation of <a href="https://pub.dev/documentation/text_analysis/latest/text_analysis/TextAnalyzer-class.html">TextAnalyzer</a> is included in this library and mixes in the <code>LatinLanguageAnalyzerMixin</code>.</p>
 <p>(<em><a href="#">back to top</a></em>)</p>
 <h3 id="textdocument">TextDocument</h3>
@@ -333,7 +327,8 @@ the extensions from the <code>porter_2_stemmer</code> package.
   <span class="name"><a href="implementation/implementation-library.html">implementation</a></span> 
 
 </dt>
-<dd>
+<dd>DART text analyzer that extracts tokens from JSON documents for use in
+information retrieval systems.
 </dd>
 
           <dt id="text_analysis">
