@@ -13,7 +13,7 @@ abstract class _KeyWordExtractor implements TextAnalyzer {
     final phrases = _textToChunks(source);
     for (var e in phrases) {
       final phrase = <String>[];
-      e = e.stripPunctuation();
+      e = characterFilter(e);
       e = termExceptions[e] ?? e;
       if (e.isNotEmpty) {
         final terms = e.splitAtWhiteSpace();
