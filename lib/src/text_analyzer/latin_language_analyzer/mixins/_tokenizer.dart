@@ -125,7 +125,23 @@ abstract class _Tokenizer implements TextAnalyzer {
     // initialize position counter
     int position = 0;
 // perform the first punctuation and white-space split
-    final terms = termSplitter(text.trim());
+    final terms = <String>[];
+    final rawTerms = termSplitter(text.trim());
+    for (var term in rawTerms) {
+      term = term.trim();
+      final exception = termExceptions[term];
+      if (exception != null) {
+        terms.add(exception);
+      } else {
+        if (!stopWords.contains(term)) {
+          term = characterFilter(term.trim());
+          term =
+              term.containsNonWordCharacters ? term : stemmer(lemmatizer(term));
+
+          terms.add(term);
+        }
+      }
+    }
     // initialize the tokens collection (return value)
     final tokens = <Token>[];
     // initialize a collection for previous terms to build n-grams from
@@ -133,7 +149,7 @@ abstract class _Tokenizer implements TextAnalyzer {
     // iterate through the terms
     for (var term in terms) {
       // remove white-space at start and end of term
-      final splitTerms = termFilter(term).map((e) => characterFilter(e));
+      final splitTerms = termFilter(term);
       if (splitTerms.isNotEmpty) {
         nGramTerms.add(splitTerms.toList());
         if (nGramTerms.length > nGramRange.max) {

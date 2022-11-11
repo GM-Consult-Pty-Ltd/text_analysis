@@ -36,5 +36,4 @@ class English extends LatinLanguageAnalyzer implements TextAnalyzer {
 
   @override
   final Map<String, String> termExceptions;
-
 }

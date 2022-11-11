@@ -121,10 +121,11 @@ void main() {
 
       // test some exceptions
       final analyzer =
-          English(termExceptions: {'tesla': 'Tesla', 'Alphabet': 'GOOGLE'});
+          English(termExceptions: {'tesla': 'Tesla', 'alphabet': 'GOOGLE'});
 
       // use a TextTokenizer instance to tokenize the json with 3 zones
       final tokens = await analyzer.jsonTokenizer(TestData.json,
+          strategy: TokenizingStrategy.keyWords,
           zones: ['name', 'description', 'hashTags']);
 
       // print the tokens
@@ -135,7 +136,9 @@ void main() {
     test('TextTokenizer.tokenizeJson', () async {
       // use a TextTokenizer instance to tokenize the json with NO zones
       final tokens = await English.analyzer.jsonTokenizer(TestData.json,
-          nGramRange: NGramRange(1, 2), zones: ['description']);
+          strategy: TokenizingStrategy.all,
+          nGramRange: NGramRange(1, 2),
+          zones: ['description']);
       // map the document's tokens to a list of terms (strings)
 
       // print the tokens
@@ -165,6 +168,8 @@ void main() {
           (MapEntry<String, Map<String, dynamic>> entry) async {
         final json = entry.value;
         final tokens = await English.analyzer.jsonTokenizer(json,
+            strategy: TokenizingStrategy.all,
+            nGramRange: NGramRange(1, 2),
             zones: ['ticker', 'name', 'description', 'hashTag', 'symbol']);
         for (final term in Set<String>.from(tokens.map((e) => e.term))) {
           final tf = (dictionary[term] ?? 0) + 1;
@@ -281,8 +286,7 @@ void main() {
       final text = TestData.stockData.entries.first.value
           .toSourceText({'name', 'description'});
 
-      final keyWords =
-          English().keywordExtractor(text);
+      final keyWords = English().keywordExtractor(text);
 
       // .map((e) => e.join(' '));
       print(text);

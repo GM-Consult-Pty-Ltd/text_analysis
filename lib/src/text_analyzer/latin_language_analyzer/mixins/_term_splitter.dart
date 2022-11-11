@@ -25,28 +25,6 @@ extension _TermSplitterExtension on String {
 
   /// Split the String at (one or more) white-space characters.
   List<String> splitAtWhiteSpace() => split(RegExp(r'(\s+)'));
-
-  /// Replace all forms of apostrophe or quotation mark with U+0027, then
-  /// replace all enclosing single quotes with double quote U+201C
-  String normalizeQuotesAndApostrophes() =>
-      replaceAll(RegExp(_LatinLanguageConstants.rQuotes), "'")
-          .replaceAll(RegExp(_LatinLanguageConstants.rEnclosingQuotes), '"');
-
-  /// Replace all punctuation in the String with whitespace.
-  String stripPunctuation() => trim()
-      .normalizeQuotesAndApostrophes()
-      // replace all brackets and carets with white-space.
-      .replaceAll(RegExp(_LatinLanguageConstants.reLineEndingSelector), ' ')
-      // replace all brackets and carets with white-space.
-      .replaceAll(RegExp(_LatinLanguageConstants.reSentenceEndingSelector), ' ')
-      // replace all brackets and carets with white-space.
-      .replaceAll(RegExp(_LatinLanguageConstants.rePunctuationSelector), ' ')
-      // replace all brackets and carets with white-space.
-      .replaceAll(RegExp(_LatinLanguageConstants.reBracketsAndCarets), ' ')
-      // replace all repeated white-space with a single white-space.
-      .replaceAll(RegExp(r'(\s{2,})'), ' ')
-      // remove leading and trailing white-space
-      .trim();
 }
 
 /// LatinLanguage language specific extensions on String collections.

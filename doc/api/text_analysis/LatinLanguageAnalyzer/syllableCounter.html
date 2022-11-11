@@ -55,26 +55,21 @@
 <section class="multi-line-signature">
   <span class="returntype"><a href="../../type_definitions/SyllableCounter.html">SyllableCounter</a></span>
   <span class="name ">syllableCounter</span>
-  <div class="features">inherited</div>
+  <div class="features">override</div>
 
 </section>
 
 
 <section class="desc markdown">
-  <p>The <code>LatinLanguageAnalyzerMixin</code> implementation of <a href="../../text_analysis/LatinLanguageAnalyzer/syllableCounter.html">syllableCounter</a>.</p>
-<p>Algorithm:</p>
-<ul>
-<li>Trim leading and trailing white-space from term.</li>
-<li>Return 0 if resulting term is empty.</li>
-<li>Split the term using the <a href="../../text_analysis/LatinLanguageAnalyzer/termSplitter.html">termSplitter</a></li>
-</ul>
+  <p>Returns the number of syllables in a string after stripping out all
+white-space and punctuation.</p>
 </section>
 
 
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
   <pre class="language-dart"><code class="language-dart">@override
-SyllableCounter get syllableCounter =&gt; (term) =&gt; term.syllableCount;</code></pre>
+SyllableCounter get syllableCounter =&gt; _countSyllables;</code></pre>
 </section>
 
 </section>
@@ -104,26 +99,26 @@ SyllableCounter get syllableCounter =&gt; (term) =&gt; term.syllableCount;</code
           <li><a href="../../text_analysis/LatinLanguageAnalyzer/LatinLanguageAnalyzer.html">LatinLanguageAnalyzer</a></li>
 
 
-    <li class="section-title inherited">
+    <li class="section-title">
       <a href="../../text_analysis/LatinLanguageAnalyzer-class.html#instance-properties">Properties</a>
     </li>
     <li class="inherited"><a href="../../text_analysis/TextAnalyzer/abbreviations.html">abbreviations</a></li>
-    <li class="inherited"><a href="../../text_analysis/LatinLanguageAnalyzer/characterFilter.html">characterFilter</a></li>
+    <li><a href="../../text_analysis/LatinLanguageAnalyzer/characterFilter.html">characterFilter</a></li>
     <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/hashCode.html">hashCode</a></li>
-    <li class="inherited"><a href="../../text_analysis/LatinLanguageAnalyzer/jsonTokenizer.html">jsonTokenizer</a></li>
-    <li class="inherited"><a href="../../text_analysis/LatinLanguageAnalyzer/keywordExtractor.html">keywordExtractor</a></li>
+    <li><a href="../../text_analysis/LatinLanguageAnalyzer/jsonTokenizer.html">jsonTokenizer</a></li>
+    <li><a href="../../text_analysis/LatinLanguageAnalyzer/keywordExtractor.html">keywordExtractor</a></li>
     <li class="inherited"><a href="../../text_analysis/TextAnalyzer/lemmatizer.html">lemmatizer</a></li>
-    <li class="inherited"><a href="../../text_analysis/LatinLanguageAnalyzer/nGrammer.html">nGrammer</a></li>
-    <li class="inherited"><a href="../../text_analysis/LatinLanguageAnalyzer/paragraphSplitter.html">paragraphSplitter</a></li>
+    <li><a href="../../text_analysis/LatinLanguageAnalyzer/nGrammer.html">nGrammer</a></li>
+    <li><a href="../../text_analysis/LatinLanguageAnalyzer/paragraphSplitter.html">paragraphSplitter</a></li>
     <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/runtimeType.html">runtimeType</a></li>
-    <li class="inherited"><a href="../../text_analysis/LatinLanguageAnalyzer/sentenceSplitter.html">sentenceSplitter</a></li>
+    <li><a href="../../text_analysis/LatinLanguageAnalyzer/sentenceSplitter.html">sentenceSplitter</a></li>
     <li class="inherited"><a href="../../text_analysis/TextAnalyzer/stemmer.html">stemmer</a></li>
     <li class="inherited"><a href="../../text_analysis/TextAnalyzer/stopWords.html">stopWords</a></li>
-    <li class="inherited"><a href="../../text_analysis/LatinLanguageAnalyzer/syllableCounter.html">syllableCounter</a></li>
+    <li><a href="../../text_analysis/LatinLanguageAnalyzer/syllableCounter.html">syllableCounter</a></li>
     <li class="inherited"><a href="../../text_analysis/TextAnalyzer/termExceptions.html">termExceptions</a></li>
-    <li class="inherited"><a href="../../text_analysis/LatinLanguageAnalyzer/termFilter.html">termFilter</a></li>
-    <li class="inherited"><a href="../../text_analysis/LatinLanguageAnalyzer/termSplitter.html">termSplitter</a></li>
-    <li class="inherited"><a href="../../text_analysis/LatinLanguageAnalyzer/tokenizer.html">tokenizer</a></li>
+    <li><a href="../../text_analysis/LatinLanguageAnalyzer/termFilter.html">termFilter</a></li>
+    <li><a href="../../text_analysis/LatinLanguageAnalyzer/termSplitter.html">termSplitter</a></li>
+    <li><a href="../../text_analysis/LatinLanguageAnalyzer/tokenizer.html">tokenizer</a></li>
 
     <li class="section-title inherited"><a href="../../text_analysis/LatinLanguageAnalyzer-class.html#instance-methods">Methods</a></li>
     <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/noSuchMethod.html">noSuchMethod</a></li>

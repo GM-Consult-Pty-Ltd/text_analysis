@@ -78,7 +78,7 @@ All rights reserved.
 <li>the <code>tokenizer</code> converts terms to a collection of <code>tokens</code> that contain tokenized versions of the term and a pointer to the position of the tokenized term (n-gram) in the source text. The tokens are generated for keywords, terms and/or n-grams, depending on the <code>TokenizingStrategy</code> selected. The desired n-gram range can be passed in when tokenizing the text or document.</li>
 </ul>
 <p><img src="https://github.com/GM-Consult-Pty-Ltd/text_analysis/raw/main/assets/images/text_analysis.png?raw=true?raw=true" alt="Text analysis" title="Tokenizing overview"></p>
-<h3 id="readibility">Readibility</h3>
+<h3 id="readability">Readability</h3>
 <p>The <a href="#textdocument">TextDocument</a> enumerates a text document's <em>paragraphs</em>, <em>sentences</em>, <em>terms</em> and <em>tokens</em> and computes readability measures:</p>
 <ul>
 <li>the average number of words in each sentence;</li>
@@ -226,20 +226,17 @@ extend <a href="https://pub.dev/documentation/text_analysis/0.12.0-1/text_analys
 <li><a href="https://pub.dev/documentation/text_analysis/latest/text_analysis/TextAnalyzer/paragraphSplitter.html">paragraphSplitter</a> splits text into a list of paragraphs at line endings;</li>
 <li><a href="https://pub.dev/documentation/text_analysis/latest/text_analysis/TextAnalyzer/stemmer.html">stemmer</a> is a language-specific function that returns the stem of a term;</li>
 <li><a href="https://pub.dev/documentation/text_analysis/latest/text_analysis/TextAnalyzer/lemmatizer.html">lemmatizer</a> is a language-specific function that returns the lemma of a term;</li>
+<li><a href="https://pub.dev/documentation/text_analysis/latest/text_analysis/TextTokenizer/tokenize.html">tokenizer</a> and <a href="https://pub.dev/documentation/text_analysis/latest/text_analysis/TextTokenizer/tokenizeJson.html">jsonTokenizer</a> are callbacks that return a collection of <a href="https://pub.dev/documentation/text_analysis/0.12.0-1/text_analysis/Token-class.html">tokens</a> from text or a document;</li>
+<li><code>keywordExtractor</code> is a splitter function that returns an ordered collection of keyword phrases from text;</li>
 <li><a href="https://pub.dev/documentation/text_analysis/latest/text_analysis/TextAnalyzer/termExceptions.html">termExceptions</a> is a hashmap of words to token terms for special words that should not be re-capitalized, stemmed or lemmatized;</li>
 <li><a href="https://pub.dev/documentation/text_analysis/latest/text_analysis/TextAnalyzer/stopWords.html">stopWords</a> are terms that commonly occur in a language and that do not add material value to the analysis of text; and</li>
 <li><a href="https://pub.dev/documentation/text_analysis/latest/text_analysis/TextAnalyzer/syllableCounter.html">syllableCounter</a> returns the number of syllables in a word or text.</li>
 </ul>
-<p>The <a href="https://pub.dev/documentation/text_analysis/latest/text_analysis/LatinLanguageAnalyzerMixin-class.html">LatinLanguageAnalyzerMixin</a> implements the <code>TextAnalyzer</code> interface methods for languages that use
-the Latin/Roman alphabet/character set.</p>
+<p>The <a href="https://pub.dev/documentation/text_analysis/latest/text_analysis/LatinLanguageAnalyzerMixin-class.html">LatinLanguageAnalyzerMixin</a> implements the <code>TextAnalyzer</code> interface methods for languages that use the Latin/Roman alphabet/character set.</p>
 <p>The <a href="https://pub.dev/documentation/text_analysis/latest/text_analysis/English-class.html">English</a> implementation of <a href="https://pub.dev/documentation/text_analysis/latest/text_analysis/TextAnalyzer-class.html">TextAnalyzer</a> is included in this library and mixes in the <code>LatinLanguageAnalyzerMixin</code>.</p>
 <p>(<em><a href="#">back to top</a></em>)</p>
-<h4 id="texttokenizer">TextTokenizer</h4>
-<p>The <a href="https://pub.dev/documentation/text_analysis/latest/text_analysis/TextTokenizer-class.html">TextTokenizer</a> extracts tokens from text for use in full-text search queries and indexes. It uses a <a href="#textanalyzer">TextAnalyzer</a> and <a href="https://pub.dev/documentation/text_analysis/latest/text_analysis/TextTokenizer/tokenFilter.html">token filter</a> in the <a href="https://pub.dev/documentation/text_analysis/latest/text_analysis/TextTokenizer/tokenize.html">tokenize</a> and <a href="https://pub.dev/documentation/text_analysis/latest/text_analysis/TextTokenizer/tokenizeJson.html">tokenizeJson</a> methods that return a list of <a href="https://pub.dev/documentation/text_analysis/0.12.0-1/text_analysis/Token-class.html">tokens</a> from text or a document.</p>
-<p>An <a href="https://pub.dev/documentation/text_analysis/latest/text_analysis/TextTokenizer/TextTokenizer.html">unnamed factory constructor</a> hydrates an implementation class. Alternatively you can extend <a href="https://pub.dev/documentation/text_analysis/latest/text_analysis/TextTokenizerBase-class.html">TextTokenizerBase</a>.</p>
-<p>(<em><a href="#">back to top</a></em>)</p>
 <h3 id="textdocument">TextDocument</h3>
-<p>The <a href="https://pub.dev/documentation/text_analysis/latest/text_analysis/TextDocument-class.html">TextDocument</a> object model enumerates a text document's <em>paragraphs</em>, <em>sentences</em>, <em>terms</em>, <em>n-grams</em>, <em>syllable count</em> and <em>tokens</em> and provides functions that return text analysis measures:</p>
+<p>The <a href="https://pub.dev/documentation/text_analysis/latest/text_analysis/TextDocument-class.html">TextDocument</a> object model enumerates a text document's <em>paragraphs</em>, <em>sentences</em>, <em>terms</em>, <em>keywords</em>, <em>n-grams</em>, <em>syllable count</em> and <em>tokens</em> and provides functions that return text analysis measures:</p>
 <ul>
 <li><a href="https://pub.dev/documentation/text_analysis/latest/text_analysis/TextDocument/averageSentenceLength.html">averageSentenceLength</a> is the average number of words in <a href="https://pub.dev/documentation/text_analysis/latest/text_analysis/TextDocument/sentences.html">sentences</a>;</li>
 <li><a href="https://pub.dev/documentation/text_analysis/latest/text_analysis/TextDocument/averageSyllableCount.html">averageSyllableCount</a> is the average number of syllables per word in

@@ -74,18 +74,22 @@ abstract class TextDocument {
   ///   [paragraphs], [sentences], [terms] and [nGrams] in the [nGramRange] and
   ///   to extract the keywords in the [sourceText] to a
   ///   [TermCoOccurrenceGraph].
-  /// The static factory instantiates a [TextTokenizer] to tokenize the
+  /// The static factory uses a [analyzer] to tokenize the
   /// [sourceText] and populate the [tokens] property.
   static Future<TextDocument> analyze(
       {required String sourceText,
       required TextAnalyzer analyzer,
       TokenizingStrategy strategy = TokenizingStrategy.terms,
+      TokenFilter? tokenFilter,
       NGramRange? nGramRange,
       Zone? zone}) async {
     final tokens = await analyzer.tokenizer(sourceText,
-        zone: zone, nGramRange: nGramRange, strategy: strategy);
+        zone: zone,
+        nGramRange: nGramRange,
+        strategy: strategy,
+        tokenFilter: tokenFilter);
     final terms = analyzer.termSplitter(sourceText);
-    final nGrams = terms.nGrams(nGramRange ?? NGramRange(1, 1));
+    final nGrams = terms.nGrams(nGramRange ?? NGramRange(1, 2));
     final sentences = analyzer.sentenceSplitter(sourceText);
     final paragraphs = analyzer.paragraphSplitter(sourceText);
     final keywords =
@@ -102,19 +106,23 @@ abstract class TextDocument {
   ///   inserting line ending marks between the [zones]; then
   /// - splits the [sourceText] into [paragraphs], [sentences], [terms] and
   ///   [nGrams] in the [nGramRange] using the [analyzer]; and then
-  /// - instantiates a [TextTokenizer] to tokenize the [sourceText] and
+  /// - uses a [analyzer] to tokenize the [sourceText] and
   ///   populate the [tokens] property.
   static Future<TextDocument> analyzeJson(
       {required Map<String, dynamic> document,
       required TextAnalyzer analyzer,
-      NGramRange nGramRange = const NGramRange(1, 1),
+      NGramRange? nGramRange,
       TokenizingStrategy strategy = TokenizingStrategy.terms,
+      TokenFilter? tokenFilter,
       Iterable<Zone>? zones}) async {
     final sourceText = document.toSourceText(zones);
     final tokens = await analyzer.jsonTokenizer(document,
-        zones: zones, nGramRange: nGramRange, strategy: strategy);
+        zones: zones,
+        nGramRange: nGramRange,
+        strategy: strategy,
+        tokenFilter: tokenFilter);
     final terms = analyzer.termSplitter(sourceText);
-    final nGrams = terms.nGrams(nGramRange);
+    final nGrams = terms.nGrams(nGramRange ?? NGramRange(1, 2));
     final sentences = analyzer.sentenceSplitter(sourceText);
     final paragraphs = analyzer.paragraphSplitter(sourceText);
     final keywords =

@@ -61,6 +61,12 @@ generative constructor.</p>
         
 
         
+  <dt>Implemented types</dt>
+  <dd>
+    <ul class="comma-separated clazz-relationships">
+        <li><a href="../text_analysis/TextAnalyzer-class.html">TextAnalyzer</a></li>
+    </ul>
+  </dd>
         
 
         <dt>Implementers</dt>
@@ -88,7 +94,7 @@ generative constructor.</p>
     </dl>
   </section>
 
-    <section class="summary offset-anchor inherited" id="instance-properties">
+    <section class="summary offset-anchor" id="instance-properties">
       <h2>Properties</h2>
 
       <dl class="properties">
@@ -103,14 +109,14 @@ generative constructor.</p>
 
 </dd>
 
-        <dt id="characterFilter" class="property inherited">
+        <dt id="characterFilter" class="property">
   <span class="name"><a href="../text_analysis/LatinLanguageAnalyzer/characterFilter.html">characterFilter</a></span>
   <span class="signature">&#8594; <a href="../type_definitions/CharacterFilter.html">CharacterFilter</a></span> 
 
 </dt>
-<dd class="inherited">
-  The <code>LatinLanguageAnalyzerMixin</code> implementation of the <a href="../text_analysis/LatinLanguageAnalyzer/characterFilter.html">characterFilter</a> function:
-  <div class="features">read-only, inherited</div>
+<dd>
+  A function that manipulates text prior to stemming and tokenization.
+  <div class="features">read-only, override</div>
 
 </dd>
 
@@ -125,27 +131,27 @@ generative constructor.</p>
 
 </dd>
 
-        <dt id="jsonTokenizer" class="property inherited">
+        <dt id="jsonTokenizer" class="property">
   <span class="name"><a href="../text_analysis/LatinLanguageAnalyzer/jsonTokenizer.html">jsonTokenizer</a></span>
   <span class="signature">&#8594; <a href="../type_definitions/JsonTokenizer.html">JsonTokenizer</a></span> 
 
 </dt>
-<dd class="inherited">
+<dd>
   Extracts tokens from the fields in a JSON document for use in full-text
 search queries and indexes.
-  <div class="features">read-only, inherited</div>
+  <div class="features">read-only, override</div>
 
 </dd>
 
-        <dt id="keywordExtractor" class="property inherited">
+        <dt id="keywordExtractor" class="property">
   <span class="name"><a href="../text_analysis/LatinLanguageAnalyzer/keywordExtractor.html">keywordExtractor</a></span>
   <span class="signature">&#8594; <a href="../type_definitions/KeywordExtractor.html">KeywordExtractor</a></span> 
 
 </dt>
-<dd class="inherited">
+<dd>
   A splitter function that returns an ordered collection of keyword phrases
 from text.
-  <div class="features">read-only, inherited</div>
+  <div class="features">read-only, override</div>
 
 </dd>
 
@@ -160,25 +166,25 @@ from text.
 
 </dd>
 
-        <dt id="nGrammer" class="property inherited">
+        <dt id="nGrammer" class="property">
   <span class="name"><a href="../text_analysis/LatinLanguageAnalyzer/nGrammer.html">nGrammer</a></span>
   <span class="signature">&#8594; <a href="../type_definitions/NGrammer.html">NGrammer</a></span> 
 
 </dt>
-<dd class="inherited">
+<dd>
   A language-specific function that generates n-grams from text.
-  <div class="features">read-only, inherited</div>
+  <div class="features">read-only, override</div>
 
 </dd>
 
-        <dt id="paragraphSplitter" class="property inherited">
+        <dt id="paragraphSplitter" class="property">
   <span class="name"><a href="../text_analysis/LatinLanguageAnalyzer/paragraphSplitter.html">paragraphSplitter</a></span>
   <span class="signature">&#8594; <a href="../type_definitions/ParagraphSplitter.html">ParagraphSplitter</a></span> 
 
 </dt>
-<dd class="inherited">
-  The <code>LatinLanguageAnalyzerMixin</code> implementation of <a href="../text_analysis/LatinLanguageAnalyzer/paragraphSplitter.html">paragraphSplitter</a>.
-  <div class="features">read-only, inherited</div>
+<dd>
+  Returns a list of paragraphs from text.
+  <div class="features">read-only, override</div>
 
 </dd>
 
@@ -193,14 +199,14 @@ from text.
 
 </dd>
 
-        <dt id="sentenceSplitter" class="property inherited">
+        <dt id="sentenceSplitter" class="property">
   <span class="name"><a href="../text_analysis/LatinLanguageAnalyzer/sentenceSplitter.html">sentenceSplitter</a></span>
   <span class="signature">&#8594; <a href="../type_definitions/SentenceSplitter.html">SentenceSplitter</a></span> 
 
 </dt>
-<dd class="inherited">
-  The <code>LatinLanguageAnalyzerMixin</code> implementation of <a href="../text_analysis/LatinLanguageAnalyzer/sentenceSplitter.html">sentenceSplitter</a>.
-  <div class="features">read-only, inherited</div>
+<dd>
+  Returns a list of sentences from text.
+  <div class="features">read-only, override</div>
 
 </dd>
 
@@ -227,14 +233,15 @@ material value to the analysis of text.
 
 </dd>
 
-        <dt id="syllableCounter" class="property inherited">
+        <dt id="syllableCounter" class="property">
   <span class="name"><a href="../text_analysis/LatinLanguageAnalyzer/syllableCounter.html">syllableCounter</a></span>
   <span class="signature">&#8594; <a href="../type_definitions/SyllableCounter.html">SyllableCounter</a></span> 
 
 </dt>
-<dd class="inherited">
-  The <code>LatinLanguageAnalyzerMixin</code> implementation of <a href="../text_analysis/LatinLanguageAnalyzer/syllableCounter.html">syllableCounter</a>.
-  <div class="features">read-only, inherited</div>
+<dd>
+  Returns the number of syllables in a string after stripping out all
+white-space and punctuation.
+  <div class="features">read-only, override</div>
 
 </dd>
 
@@ -250,37 +257,37 @@ re-capitalized, stemmed or lemmatized.
 
 </dd>
 
-        <dt id="termFilter" class="property inherited">
+        <dt id="termFilter" class="property">
   <span class="name"><a href="../text_analysis/LatinLanguageAnalyzer/termFilter.html">termFilter</a></span>
   <span class="signature">&#8594; <a href="../type_definitions/TermFilter.html">TermFilter</a></span> 
 
 </dt>
-<dd class="inherited">
+<dd>
   A filter function that returns a collection of terms from term:
-  <div class="features">read-only, inherited</div>
+  <div class="features">read-only, override</div>
 
 </dd>
 
-        <dt id="termSplitter" class="property inherited">
+        <dt id="termSplitter" class="property">
   <span class="name"><a href="../text_analysis/LatinLanguageAnalyzer/termSplitter.html">termSplitter</a></span>
   <span class="signature">&#8594; <a href="../type_definitions/TermSplitter.html">TermSplitter</a></span> 
 
 </dt>
-<dd class="inherited">
-  The <code>LatinLanguageAnalyzerMixin</code> implementation of <a href="../text_analysis/LatinLanguageAnalyzer/termSplitter.html">termSplitter</a>.
-  <div class="features">read-only, inherited</div>
+<dd>
+  Returns a list of terms from text.
+  <div class="features">read-only, override</div>
 
 </dd>
 
-        <dt id="tokenizer" class="property inherited">
+        <dt id="tokenizer" class="property">
   <span class="name"><a href="../text_analysis/LatinLanguageAnalyzer/tokenizer.html">tokenizer</a></span>
   <span class="signature">&#8594; <a href="../type_definitions/Tokenizer.html">Tokenizer</a></span> 
 
 </dt>
-<dd class="inherited">
+<dd>
   Extracts one or more tokens from text for use in full-text search queries
 and indexes.
-  <div class="features">read-only, inherited</div>
+  <div class="features">read-only, override</div>
 
 </dd>
 
@@ -405,26 +412,26 @@ and indexes.
           <li><a href="../text_analysis/LatinLanguageAnalyzer/LatinLanguageAnalyzer.html">LatinLanguageAnalyzer</a></li>
 
 
-    <li class="section-title inherited">
+    <li class="section-title">
       <a href="../text_analysis/LatinLanguageAnalyzer-class.html#instance-properties">Properties</a>
     </li>
     <li class="inherited"><a href="../text_analysis/TextAnalyzer/abbreviations.html">abbreviations</a></li>
-    <li class="inherited"><a href="../text_analysis/LatinLanguageAnalyzer/characterFilter.html">characterFilter</a></li>
+    <li><a href="../text_analysis/LatinLanguageAnalyzer/characterFilter.html">characterFilter</a></li>
     <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/hashCode.html">hashCode</a></li>
-    <li class="inherited"><a href="../text_analysis/LatinLanguageAnalyzer/jsonTokenizer.html">jsonTokenizer</a></li>
-    <li class="inherited"><a href="../text_analysis/LatinLanguageAnalyzer/keywordExtractor.html">keywordExtractor</a></li>
+    <li><a href="../text_analysis/LatinLanguageAnalyzer/jsonTokenizer.html">jsonTokenizer</a></li>
+    <li><a href="../text_analysis/LatinLanguageAnalyzer/keywordExtractor.html">keywordExtractor</a></li>
     <li class="inherited"><a href="../text_analysis/TextAnalyzer/lemmatizer.html">lemmatizer</a></li>
-    <li class="inherited"><a href="../text_analysis/LatinLanguageAnalyzer/nGrammer.html">nGrammer</a></li>
-    <li class="inherited"><a href="../text_analysis/LatinLanguageAnalyzer/paragraphSplitter.html">paragraphSplitter</a></li>
+    <li><a href="../text_analysis/LatinLanguageAnalyzer/nGrammer.html">nGrammer</a></li>
+    <li><a href="../text_analysis/LatinLanguageAnalyzer/paragraphSplitter.html">paragraphSplitter</a></li>
     <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/runtimeType.html">runtimeType</a></li>
-    <li class="inherited"><a href="../text_analysis/LatinLanguageAnalyzer/sentenceSplitter.html">sentenceSplitter</a></li>
+    <li><a href="../text_analysis/LatinLanguageAnalyzer/sentenceSplitter.html">sentenceSplitter</a></li>
     <li class="inherited"><a href="../text_analysis/TextAnalyzer/stemmer.html">stemmer</a></li>
     <li class="inherited"><a href="../text_analysis/TextAnalyzer/stopWords.html">stopWords</a></li>
-    <li class="inherited"><a href="../text_analysis/LatinLanguageAnalyzer/syllableCounter.html">syllableCounter</a></li>
+    <li><a href="../text_analysis/LatinLanguageAnalyzer/syllableCounter.html">syllableCounter</a></li>
     <li class="inherited"><a href="../text_analysis/TextAnalyzer/termExceptions.html">termExceptions</a></li>
-    <li class="inherited"><a href="../text_analysis/LatinLanguageAnalyzer/termFilter.html">termFilter</a></li>
-    <li class="inherited"><a href="../text_analysis/LatinLanguageAnalyzer/termSplitter.html">termSplitter</a></li>
-    <li class="inherited"><a href="../text_analysis/LatinLanguageAnalyzer/tokenizer.html">tokenizer</a></li>
+    <li><a href="../text_analysis/LatinLanguageAnalyzer/termFilter.html">termFilter</a></li>
+    <li><a href="../text_analysis/LatinLanguageAnalyzer/termSplitter.html">termSplitter</a></li>
+    <li><a href="../text_analysis/LatinLanguageAnalyzer/tokenizer.html">tokenizer</a></li>
 
     <li class="section-title inherited"><a href="../text_analysis/LatinLanguageAnalyzer-class.html#instance-methods">Methods</a></li>
     <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/noSuchMethod.html">noSuchMethod</a></li>

@@ -38,7 +38,7 @@ Tokenization comprises the following steps:
 
 ![Text analysis](https://github.com/GM-Consult-Pty-Ltd/text_analysis/raw/main/assets/images/text_analysis.png?raw=true?raw=true "Tokenizing overview")
 
-### Readibility
+### Readability
 
 The [TextDocument](#textdocument) enumerates a text document's *paragraphs*, *sentences*, *terms* and *tokens* and computes readability measures:
 * the average number of words in each sentence;
@@ -202,7 +202,7 @@ The  [TextSimilarity](https://pub.dev/documentation/text_analysis/latest/text_an
 
 #### TextAnalyzer
 
- The [TextAnalyzer](https://pub.dev/documentation/text_analysis/latest/text_analysis/TextAnalyzer-class.html) interface exposes language-specific properties and methods used in text analysis:
+The [TextAnalyzer](https://pub.dev/documentation/text_analysis/latest/text_analysis/TextAnalyzer-class.html) interface exposes language-specific properties and methods used in text analysis:
 * [characterFilter](https://pub.dev/documentation/text_analysis/latest/text_analysis/TextAnalyzer/characterFilter.html) is a function that manipulates text prior to stemming and tokenization;
 * [termFilter](https://pub.dev/documentation/text_analysis/latest/text_analysis/TextAnalyzer/termFilter.html) is a filter function that returns a collection of terms from a term. It returns an empty collection if the term is to be excluded from analysis or, returns multiple terms if the term is split (at hyphens) and / or, returns modified term(s), such as applying a stemmer algorithm;
 * [termSplitter](https://pub.dev/documentation/text_analysis/latest/text_analysis/TextAnalyzer/termSplitter.html) returns a list of terms from text;
@@ -210,28 +210,21 @@ The  [TextSimilarity](https://pub.dev/documentation/text_analysis/latest/text_an
 * [paragraphSplitter](https://pub.dev/documentation/text_analysis/latest/text_analysis/TextAnalyzer/paragraphSplitter.html) splits text into a list of paragraphs at line endings; 
 * [stemmer](https://pub.dev/documentation/text_analysis/latest/text_analysis/TextAnalyzer/stemmer.html) is a language-specific function that returns the stem of a term;
 * [lemmatizer](https://pub.dev/documentation/text_analysis/latest/text_analysis/TextAnalyzer/lemmatizer.html) is a language-specific function that returns the lemma of a term;
+* [tokenizer](https://pub.dev/documentation/text_analysis/latest/text_analysis/TextTokenizer/tokenize.html) and [jsonTokenizer](https://pub.dev/documentation/text_analysis/latest/text_analysis/TextTokenizer/tokenizeJson.html) are callbacks that return a collection of [tokens](https://pub.dev/documentation/text_analysis/0.12.0-1/text_analysis/Token-class.html) from text or a document;
+* [keywordExtractor] is a splitter function that returns an ordered collection of keyword phrases from text;
 * [termExceptions](https://pub.dev/documentation/text_analysis/latest/text_analysis/TextAnalyzer/termExceptions.html) is a hashmap of words to token terms for special words that should not be re-capitalized, stemmed or lemmatized;
 * [stopWords](https://pub.dev/documentation/text_analysis/latest/text_analysis/TextAnalyzer/stopWords.html) are terms that commonly occur in a language and that do not add material value to the analysis of text; and
 * [syllableCounter](https://pub.dev/documentation/text_analysis/latest/text_analysis/TextAnalyzer/syllableCounter.html) returns the number of syllables in a word or text.
 
-The [LatinLanguageAnalyzerMixin](https://pub.dev/documentation/text_analysis/latest/text_analysis/LatinLanguageAnalyzerMixin-class.html) implements the `TextAnalyzer` interface methods for languages that use
-the Latin/Roman alphabet/character set.
+The [LatinLanguageAnalyzerMixin](https://pub.dev/documentation/text_analysis/latest/text_analysis/LatinLanguageAnalyzerMixin-class.html) implements the `TextAnalyzer` interface methods for languages that use the Latin/Roman alphabet/character set.
 
 The [English](https://pub.dev/documentation/text_analysis/latest/text_analysis/English-class.html) implementation of [TextAnalyzer](https://pub.dev/documentation/text_analysis/latest/text_analysis/TextAnalyzer-class.html) is included in this library and mixes in the `LatinLanguageAnalyzerMixin`.
 
 (*[back to top](#)*)
 
-#### TextTokenizer
-
-The [TextTokenizer](https://pub.dev/documentation/text_analysis/latest/text_analysis/TextTokenizer-class.html) extracts tokens from text for use in full-text search queries and indexes. It uses a [TextAnalyzer](#textanalyzer) and [token filter](https://pub.dev/documentation/text_analysis/latest/text_analysis/TextTokenizer/tokenFilter.html) in the [tokenize](https://pub.dev/documentation/text_analysis/latest/text_analysis/TextTokenizer/tokenize.html) and [tokenizeJson](https://pub.dev/documentation/text_analysis/latest/text_analysis/TextTokenizer/tokenizeJson.html) methods that return a list of [tokens](https://pub.dev/documentation/text_analysis/0.12.0-1/text_analysis/Token-class.html) from text or a document. 
-
-An [unnamed factory constructor](https://pub.dev/documentation/text_analysis/latest/text_analysis/TextTokenizer/TextTokenizer.html) hydrates an implementation class. Alternatively you can extend [TextTokenizerBase](https://pub.dev/documentation/text_analysis/latest/text_analysis/TextTokenizerBase-class.html).
-
-(*[back to top](#)*)
-
 ### TextDocument
 
-The [TextDocument](https://pub.dev/documentation/text_analysis/latest/text_analysis/TextDocument-class.html) object model enumerates a text document's *paragraphs*, *sentences*, *terms*, *n-grams*, *syllable count* and *tokens* and provides functions that return text analysis measures:
+The [TextDocument](https://pub.dev/documentation/text_analysis/latest/text_analysis/TextDocument-class.html) object model enumerates a text document's *paragraphs*, *sentences*, *terms*, *keywords*, *n-grams*, *syllable count* and *tokens* and provides functions that return text analysis measures:
 * [averageSentenceLength](https://pub.dev/documentation/text_analysis/latest/text_analysis/TextDocument/averageSentenceLength.html) is the average number of words in [sentences](https://pub.dev/documentation/text_analysis/latest/text_analysis/TextDocument/sentences.html);
 * [averageSyllableCount](https://pub.dev/documentation/text_analysis/latest/text_analysis/TextDocument/averageSyllableCount.html) is the average number of syllables per word in
   [terms](https://pub.dev/documentation/text_analysis/latest/text_analysis/TextDocument/terms.html);
