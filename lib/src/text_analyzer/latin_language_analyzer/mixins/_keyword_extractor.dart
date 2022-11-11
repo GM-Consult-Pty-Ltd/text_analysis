@@ -13,8 +13,9 @@ abstract class _KeyWordExtractor implements TextAnalyzer {
     final phrases = _textToChunks(source);
     for (var e in phrases) {
       final phrase = <String>[];
-      e = characterFilter(e);
-      e = termExceptions[e] ?? e;
+      e = termExceptions[e] ??
+          termExceptions[characterFilter(e)] ??
+          characterFilter(e);
       if (e.isNotEmpty) {
         final terms = e.splitAtWhiteSpace();
         for (var w in terms) {

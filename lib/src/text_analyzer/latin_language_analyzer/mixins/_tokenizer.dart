@@ -129,8 +129,9 @@ abstract class _Tokenizer implements TextAnalyzer {
     final rawTerms = termSplitter(text.trim());
     for (var term in rawTerms) {
       term = term.trim();
-      final exception = termExceptions[term];
-      if (exception != null) {
+      final exception =
+          termExceptions[term] ?? termExceptions[characterFilter(term)];
+      if (exception != null && exception.isNotEmpty) {
         terms.add(exception);
       } else {
         if (!stopWords.contains(term)) {
