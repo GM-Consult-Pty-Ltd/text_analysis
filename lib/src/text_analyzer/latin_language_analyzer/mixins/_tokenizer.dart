@@ -2,18 +2,12 @@
 // Copyright ©2022, GM Consult Pty Ltd
 // All rights reserved
 
-part of 'latin_language_analyzer.dart';
+part of '../latin_language_analyzer.dart';
 
 /// A mixin class that implements [TextAnalyzer.tokenize] and
 /// [TextAnalyzer.tokenizeJson].
-abstract class _TokenizerMixin implements TextAnalyzer {
+abstract class _Tokenizer implements TextAnalyzer {
   //
-
-  @override
-  JsonTokenizer get jsonTokenizer => _tokenizeJson;
-
-  @override
-  Tokenizer get tokenizer => _tokenize;
 
   /// Private [JsonTokenizer] function implements [TextAnalyzer.jsonTokenizer].
   Future<List<Token>> _tokenizeJson(Map<String, dynamic> document,
@@ -220,7 +214,6 @@ abstract class _TokenizerMixin implements TextAnalyzer {
     for (final e in tokenGrams) {
       final n = e.length;
       final term = e.join(' ');
-      //TODO: fix problem with termPosition
       tokens.add(Token(term, n, termPosition - n + 1, zone));
     }
     return tokens;

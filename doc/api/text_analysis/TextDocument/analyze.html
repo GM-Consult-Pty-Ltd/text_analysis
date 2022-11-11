@@ -55,7 +55,7 @@
 <span class="name ">analyze</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="analyze-param-sourceText">{<span>required</span> <span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span> <span class="parameter-name">sourceText</span>, </span></li>
 <li><span class="parameter" id="analyze-param-analyzer"><span>required</span> <span class="type-annotation"><a href="../../text_analysis/TextAnalyzer-class.html">TextAnalyzer</a></span> <span class="parameter-name">analyzer</span>, </span></li>
 <li><span class="parameter" id="analyze-param-strategy"><span class="type-annotation"><a href="../../text_analysis/TokenizingStrategy.html">TokenizingStrategy</a></span> <span class="parameter-name">strategy</span> = <span class="default-value">TokenizingStrategy.terms</span>, </span></li>
-<li><span class="parameter" id="analyze-param-nGramRange"><span class="type-annotation"><a href="../../text_analysis/NGramRange-class.html">NGramRange</a></span> <span class="parameter-name">nGramRange</span> = <span class="default-value">const NGramRange(1, 1)</span>, </span></li>
+<li><span class="parameter" id="analyze-param-nGramRange"><span class="type-annotation"><a href="../../text_analysis/NGramRange-class.html">NGramRange</a>?</span> <span class="parameter-name">nGramRange</span>, </span></li>
 <li><span class="parameter" id="analyze-param-zone"><span class="type-annotation"><a href="../../type_definitions/Zone.html">Zone</a>?</span> <span class="parameter-name">zone</span>}</span></li>
 </ol>)
 
@@ -75,7 +75,7 @@
 <a href="../../text_analysis/TextDocument/paragraphs.html">paragraphs</a>, <a href="../../text_analysis/TextDocument/sentences.html">sentences</a>, <a href="../../text_analysis/TextDocument/terms.html">terms</a> and <a href="../../text_analysis/TextDocument/nGrams.html">nGrams</a> in the <code>nGramRange</code> and
 to extract the keywords in the <code>sourceText</code> to a
 <a href="../../text_analysis/TermCoOccurrenceGraph-class.html">TermCoOccurrenceGraph</a>.
-The static factory instantiates a <a class="deprecated" href="../../text_analysis/TextTokenizer-class.html">TextTokenizer</a> to tokenize the
+The static factory instantiates a <code>TextTokenizer</code> to tokenize the
 <code>sourceText</code> and populate the <a href="../../text_analysis/TextDocument/tokens.html">tokens</a> property.</li>
 </ul>
 </section>
@@ -88,12 +88,12 @@ The static factory instantiates a <a class="deprecated" href="../../text_analysi
     {required String sourceText,
     required TextAnalyzer analyzer,
     TokenizingStrategy strategy = TokenizingStrategy.terms,
-    NGramRange nGramRange = const NGramRange(1, 1),
+    NGramRange? nGramRange,
     Zone? zone}) async {
-  final tokens = await TextTokenizer(analyzer: analyzer).tokenize(sourceText,
+  final tokens = await analyzer.tokenizer(sourceText,
       zone: zone, nGramRange: nGramRange, strategy: strategy);
   final terms = analyzer.termSplitter(sourceText);
-  final nGrams = terms.nGrams(nGramRange);
+  final nGrams = terms.nGrams(nGramRange ?? NGramRange(1, 1));
   final sentences = analyzer.sentenceSplitter(sourceText);
   final paragraphs = analyzer.paragraphSplitter(sourceText);
   final keywords =
@@ -175,7 +175,7 @@ The static factory instantiates a <a class="deprecated" href="../../text_analysi
 <footer>
   <span class="no-break">
     text_analysis
-      0.23.7+14
+      0.24.0-1
   </span>
 
   

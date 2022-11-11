@@ -2,10 +2,10 @@
 // Copyright ©2022, GM Consult Pty Ltd
 // All rights reserved
 
-part of 'latin_language_analyzer.dart';
+part of '../latin_language_analyzer.dart';
 
 /// English stemmer for counting syllables, performs only steps 0, 1A and 5.
-class SyllableStemmer extends Porter2StemmerBase {
+class _SyllableStemmer extends Porter2StemmerBase {
   @override
   String stem(String term) {
     // change all forms of apostrophes and quotation marks to [']

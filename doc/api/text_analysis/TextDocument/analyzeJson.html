@@ -71,7 +71,7 @@
 inserting line ending marks between the <code>zones</code>; then</li>
 <li>splits the <a href="../../text_analysis/TextDocument/sourceText.html">sourceText</a> into <a href="../../text_analysis/TextDocument/paragraphs.html">paragraphs</a>, <a href="../../text_analysis/TextDocument/sentences.html">sentences</a>, <a href="../../text_analysis/TextDocument/terms.html">terms</a> and
 <a href="../../text_analysis/TextDocument/nGrams.html">nGrams</a> in the <code>nGramRange</code> using the <code>analyzer</code>; and then</li>
-<li>instantiates a <a class="deprecated" href="../../text_analysis/TextTokenizer-class.html">TextTokenizer</a> to tokenize the <a href="../../text_analysis/TextDocument/sourceText.html">sourceText</a> and
+<li>instantiates a <code>TextTokenizer</code> to tokenize the <a href="../../text_analysis/TextDocument/sourceText.html">sourceText</a> and
 populate the <a href="../../text_analysis/TextDocument/tokens.html">tokens</a> property.</li>
 </ul>
 </section>
@@ -87,11 +87,8 @@ populate the <a href="../../text_analysis/TextDocument/tokens.html">tokens</a> p
     TokenizingStrategy strategy = TokenizingStrategy.terms,
     Iterable&lt;Zone&gt;? zones}) async {
   final sourceText = document.toSourceText(zones);
-  final tokens = await TextTokenizer(analyzer: analyzer).tokenizeJson(
-      document,
-      zones: zones,
-      nGramRange: nGramRange,
-      strategy: strategy);
+  final tokens = await analyzer.jsonTokenizer(document,
+      zones: zones, nGramRange: nGramRange, strategy: strategy);
   final terms = analyzer.termSplitter(sourceText);
   final nGrams = terms.nGrams(nGramRange);
   final sentences = analyzer.sentenceSplitter(sourceText);
@@ -175,7 +172,7 @@ populate the <a href="../../text_analysis/TextDocument/tokens.html">tokens</a> p
 <footer>
   <span class="no-break">
     text_analysis
-      0.23.7+14
+      0.24.0-1
   </span>
 
   

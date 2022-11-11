@@ -50,22 +50,37 @@
 
     <section class="multi-line-signature">
         <span class="name ">JsonTokenizer</span> =
-     <span class="returntype"><a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../text_analysis/Token-class.html">Token</a></span>&gt;</span></span>&gt;</span> Function<span class="signature">(<span class="parameter" id="param-json"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Map-class.html">Map</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>, <span class="type-parameter">dynamic</span>&gt;</span></span> <span class="parameter-name">json</span>, </span><span class="parameter" id="param-fields"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../type_definitions/Zone.html">Zone</a></span>&gt;</span></span> <span class="parameter-name">fields</span>, </span><span class="parameter" id="param-nGramRange">{<span class="type-annotation"><a href="../text_analysis/NGramRange-class.html">NGramRange</a>?</span> <span class="parameter-name">nGramRange</span>, </span><span class="parameter" id="param-strategy"><span class="type-annotation"><a href="../text_analysis/TokenizingStrategy.html">TokenizingStrategy</a>?</span> <span class="parameter-name">strategy</span>}</span>)</span></span>
+     <span class="returntype"><a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../text_analysis/Token-class.html">Token</a></span>&gt;</span></span>&gt;</span> Function<span class="signature">(<span class="parameter" id="param-document"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Map-class.html">Map</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>, <span class="type-parameter">dynamic</span>&gt;</span></span> <span class="parameter-name">document</span>, </span><span class="parameter" id="param-nGramRange">{<span class="type-annotation"><a href="../text_analysis/NGramRange-class.html">NGramRange</a>?</span> <span class="parameter-name">nGramRange</span>, </span><span class="parameter" id="param-strategy"><span class="type-annotation"><a href="../text_analysis/TokenizingStrategy.html">TokenizingStrategy</a></span> <span class="parameter-name">strategy</span>, </span><span class="parameter" id="param-tokenFilter"><span class="type-annotation"><a href="../type_definitions/TokenFilter.html">TokenFilter</a>?</span> <span class="parameter-name">tokenFilter</span>, </span><span class="parameter" id="param-zones"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../type_definitions/Zone.html">Zone</a></span>&gt;</span>?</span> <span class="parameter-name">zones</span>}</span>)</span></span>
 
     </section>
 
     
 <section class="desc markdown">
   <p>Type definition of a function that returns a collection of <a href="../text_analysis/Token-class.html">Token</a> from
-the <code>fields</code> in a <code>json</code> document.</p>
+the <code>zones</code> in a JSON <code>document</code>.</p>
+<p>Extracts tokens from the <code>zones</code> in a JSON <code>document</code> for use in
+full-text search queries and indexes.</p>
+<ul>
+<li><code>document</code> is a JSON document containing the <code>zones</code> as keys;</li>
+<li><code>nGramRange</code> is the range of N-gram lengths to generate;</li>
+<li><code>strategy</code> is the strategy to apply when splitting text to <a href="../text_analysis/Token-class.html">Token</a>s;</li>
+<li><code>tokenFilter</code> is a filter function that returns a subset of a collection
+of <a href="../text_analysis/Token-class.html">Token</a>s; and</li>
+<li><code>zones</code> is the collection of the names of the zones in <code>document</code> that
+are to be tokenized.</li>
+</ul>
+<p>Returns a List&lt;<a href="../text_analysis/Token-class.html">Token</a>&gt;.</p>
 </section>
 
     
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
-  <pre class="language-dart"><code class="language-dart">typedef JsonTokenizer = Future&lt;Iterable&lt;Token&gt;&gt; Function(
-    Map&lt;String, dynamic&gt; json, List&lt;Zone&gt; fields,
-    {NGramRange? nGramRange, TokenizingStrategy? strategy});</code></pre>
+  <pre class="language-dart"><code class="language-dart">typedef JsonTokenizer = Future&lt;List&lt;Token&gt;&gt; Function(
+    Map&lt;String, dynamic&gt; document,
+    {NGramRange? nGramRange,
+    Iterable&lt;Zone&gt;? zones,
+    TokenFilter? tokenFilter,
+    TokenizingStrategy strategy});</code></pre>
 </section>
 
 
@@ -129,7 +144,7 @@ the <code>fields</code> in a <code>json</code> document.</p>
 <footer>
   <span class="no-break">
     text_analysis
-      0.23.7+14
+      0.24.0-1
   </span>
 
   

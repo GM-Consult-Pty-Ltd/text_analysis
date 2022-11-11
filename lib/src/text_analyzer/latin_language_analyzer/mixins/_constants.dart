@@ -2,7 +2,7 @@
 // Copyright ©2022, GM Consult Pty Ltd
 // All rights reserved
 
-part of 'latin_language_analyzer.dart';
+part of '../latin_language_analyzer.dart';
 
 /// Constants used by the [LatinLanguageAnalyzer]text analyzer.
 abstract class _LatinLanguageConstants {
