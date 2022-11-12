@@ -16,9 +16,7 @@ abstract class _Tokenizer implements TextAnalyzer {
       TokenFilter? tokenFilter,
       TokenizingStrategy strategy = TokenizingStrategy.terms}) async {
     final tokens = <Token>[];
-    if (zones == null || zones.isEmpty) {
-      zones = document.keys;
-    }
+    zones ??= document.keys;
     zones = zones.toSet();
     for (final zone in zones) {
       final value = document[zone];
@@ -26,6 +24,7 @@ abstract class _Tokenizer implements TextAnalyzer {
         final source = value.toString();
         if (source.isNotEmpty) {
           tokens.addAll(await _tokenize(source,
+              tokenFilter: tokenFilter,
               zone: zone, nGramRange: nGramRange, strategy: strategy));
         }
       }
