@@ -19,21 +19,39 @@ class English extends LatinLanguageAnalyzer implements TextAnalyzer {
   /// [termExceptions] is an empty ```dart const <String, String>{}```.
   const English({this.termExceptions = const <String, String>{}});
 
+  /// Matches all instances of a posessive apostrophy, e.g. "Mary's".
+  static const rPosessiveApostrophe = _EnglishConstants.rPosessiveApostrophe;
+
+  /// A collection of stop-words excluded from tokenization.
+  static const kStopWords = _EnglishConstants.kStopWords;
+
+  /// A list of English abbreviations.
+  static const kAbbreviations = _EnglishConstants.kAbbreviations;
+
   /// Instantiates a static const [English] instance.
   static const TextAnalyzer analyzer = English();
 
-  @override
-  Stemmer get stemmer => _EnglishConstants.kStemmer;
+  /// Removes all posessive apostrophies from [text], e.g Mary's returns Mary.
+  static String removePossessiveApostrophes(String text) =>
+      text.replaceAll(RegExp(rPosessiveApostrophe), '');
 
   @override
-  Lemmatizer get lemmatizer => _EnglishConstants.kLemmatizer;
+  StringModifier get stemmer => _EnglishConstants.kStemmer;
 
   @override
-  Set<String> get stopWords => _EnglishConstants.kStopWords;
+  StringModifier get lemmatizer => _EnglishConstants.kLemmatizer;
 
   @override
   Map<String, String> get abbreviations => _EnglishConstants.kAbbreviations;
 
   @override
   final Map<String, String> termExceptions;
+
+  @override
+  CharacterFilter get characterFilter =>
+      (term) => removePossessiveApostrophes(super.characterFilter(term));
+
+  @override
+  TermFlag get isStopWord => (term) =>
+      _EnglishConstants.kStopWords.contains(term) || super.isStopWord(term);
 }

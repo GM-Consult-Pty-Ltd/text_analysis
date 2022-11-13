@@ -14,6 +14,10 @@ abstract class _EnglishConstants {
   /// The default stemmer returns the [term] unchanged.
   static String kStemmer(String term) => term.stemPorter2();
 
+  /// Matches all instances of a posessive apostrophy, e.g. "Mary's".
+  static const rPosessiveApostrophe = r"(?<=\w)'[sS]{1}(?=\W|$)";
+
+
   /// A collection of stop-words excluded from tokenization.
   static const kStopWords = {
     'a',

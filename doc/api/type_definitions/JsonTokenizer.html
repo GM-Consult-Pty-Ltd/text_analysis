@@ -50,7 +50,7 @@
 
     <section class="multi-line-signature">
         <span class="name ">JsonTokenizer</span> =
-     <span class="returntype"><a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../text_analysis/Token-class.html">Token</a></span>&gt;</span></span>&gt;</span> Function<span class="signature">(<span class="parameter" id="param-document"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Map-class.html">Map</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>, <span class="type-parameter">dynamic</span>&gt;</span></span> <span class="parameter-name">document</span>, </span><span class="parameter" id="param-nGramRange">{<span class="type-annotation"><a href="../text_analysis/NGramRange-class.html">NGramRange</a>?</span> <span class="parameter-name">nGramRange</span>, </span><span class="parameter" id="param-strategy"><span class="type-annotation"><a href="../text_analysis/TokenizingStrategy.html">TokenizingStrategy</a></span> <span class="parameter-name">strategy</span>, </span><span class="parameter" id="param-tokenFilter"><span class="type-annotation"><a href="../type_definitions/TokenFilter.html">TokenFilter</a>?</span> <span class="parameter-name">tokenFilter</span>, </span><span class="parameter" id="param-zones"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../type_definitions/Zone.html">Zone</a></span>&gt;</span>?</span> <span class="parameter-name">zones</span>}</span>)</span></span>
+     <span class="returntype"><a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../text_analysis/Token-class.html">Token</a></span>&gt;</span></span>&gt;</span> Function<span class="signature">(<span class="parameter" id="param-document"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Map-class.html">Map</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>, <span class="type-parameter">dynamic</span>&gt;</span></span> <span class="parameter-name">document</span>, </span><span class="parameter" id="param-nGramRange">{<span class="type-annotation"><a href="../text_analysis/NGramRange-class.html">NGramRange</a>?</span> <span class="parameter-name">nGramRange</span>, </span><span class="parameter" id="param-reCase"><span class="type-annotation"><a href="../type_definitions/StringModifier.html">StringModifier</a>?</span> <span class="parameter-name">reCase</span>, </span><span class="parameter" id="param-tokenFilter"><span class="type-annotation"><a href="../type_definitions/TokenFilter.html">TokenFilter</a>?</span> <span class="parameter-name">tokenFilter</span>, </span><span class="parameter" id="param-zones"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../type_definitions/Zone.html">Zone</a></span>&gt;</span>?</span> <span class="parameter-name">zones</span>}</span>)</span></span>
 
     </section>
 
@@ -63,7 +63,6 @@ full-text search queries and indexes.</p>
 <ul>
 <li><code>document</code> is a JSON document containing the <code>zones</code> as keys;</li>
 <li><code>nGramRange</code> is the range of N-gram lengths to generate;</li>
-<li><code>strategy</code> is the strategy to apply when splitting text to <a href="../text_analysis/Token-class.html">Token</a>s;</li>
 <li><code>tokenFilter</code> is a filter function that returns a subset of a collection
 of <a href="../text_analysis/Token-class.html">Token</a>s; and</li>
 <li><code>zones</code> is the collection of the names of the zones in <code>document</code> that
@@ -79,8 +78,8 @@ are to be tokenized.</li>
     Map&lt;String, dynamic&gt; document,
     {NGramRange? nGramRange,
     Iterable&lt;Zone&gt;? zones,
-    TokenFilter? tokenFilter,
-    TokenizingStrategy strategy});</code></pre>
+    StringModifier? reCase,
+    TokenFilter? tokenFilter});</code></pre>
 </section>
 
 
@@ -115,17 +114,17 @@ are to be tokenized.</li>
   <li><a href="../type_definitions/KeywordExtractor.html">KeywordExtractor</a></li>
   <li><a href="../type_definitions/KGram.html">KGram</a></li>
   <li><a href="../type_definitions/KGramsMap.html">KGramsMap</a></li>
-  <li><a href="../type_definitions/Lemmatizer.html">Lemmatizer</a></li>
   <li><a href="../type_definitions/NGrammer.html">NGrammer</a></li>
   <li><a href="../type_definitions/ParagraphSplitter.html">ParagraphSplitter</a></li>
   <li><a href="../type_definitions/Phrase.html">Phrase</a></li>
   <li><a href="../type_definitions/SentenceSplitter.html">SentenceSplitter</a></li>
   <li><a href="../type_definitions/SourceText.html">SourceText</a></li>
-  <li><a href="../type_definitions/Stemmer.html">Stemmer</a></li>
   <li><a href="../type_definitions/StopWords.html">StopWords</a></li>
+  <li><a href="../type_definitions/StringModifier.html">StringModifier</a></li>
   <li><a href="../type_definitions/SyllableCounter.html">SyllableCounter</a></li>
   <li><a href="../type_definitions/Term.html">Term</a></li>
   <li><a href="../type_definitions/TermFilter.html">TermFilter</a></li>
+  <li><a href="../type_definitions/TermFlag.html">TermFlag</a></li>
   <li><a href="../type_definitions/TermSplitter.html">TermSplitter</a></li>
   <li><a href="../type_definitions/TokenFilter.html">TokenFilter</a></li>
   <li><a href="../type_definitions/Tokenizer.html">Tokenizer</a></li>

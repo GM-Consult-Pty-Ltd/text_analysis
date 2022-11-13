@@ -31,22 +31,21 @@ abstract class _TermFilter implements TextAnalyzer {
     if (exception != null) {
       return {exception};
     }
-    if (term.isNotEmpty && !stopWords.contains(term)) {
+    if (term.isNotEmpty && !isStopWord(term)) {
       // exclude empty terms and that are stopwords
       final abbreviationTerms = term._abbreviatedVersions(abbreviations);
       retVal.addAll(abbreviationTerms);
       term = abbreviationTerms.length > 1 ? abbreviationTerms[1] : term;
-
       term = termExceptions[term] ?? term;
-      if (!stopWords.contains(term) && term.length > 1) {
+      if (!isStopWord(term) && term.length > 1) {
         // - add term and a version without hyphens to the return value
-        retVal.addAll([term.unApostrophied, term.unHyphenated]);
-        // split the term at non-word characters and add a term (or its
-        // exception) for each.
-        retVal.addAll(term._splitTerm(termExceptions, stopWords));
+        retVal.addAll([term, term.unApostrophied, term.spaceHyphenated, term.unHyphenated]);        
       }
     }
-    retVal.removeWhere((e) => e.trim().isEmpty);
+    retVal.removeWhere((e) {
+      e = e.trim();
+      return e.isEmpty || isStopWord(e);
+    });
     return retVal;
   }
 
@@ -73,46 +72,51 @@ extension _TermFilterExtension on String {
   /// word character
   String get unHyphenated => replaceAll(RegExp(r'-+(?=[\w])'), '').trim();
 
+    /// Replaces all hyphenation characters with a space, where followed by a
+  /// word character
+  String get spaceHyphenated => replaceAll(RegExp(r'-+(?=[\w])'), ' ').trim();
+
   /// Removes all possesive apostrophed "'s" suffixes.
   String get unApostrophied =>
       replaceAll(RegExp(r"('s|'S)(?=[^\w])"), '').trim();
 
-  /// Splits the term at all non-word characters unless the word starts or
-  /// finishes with a number.
-  ///
-  /// - Removes all [stopwords].
-  /// - Replaces all terms in [termExceptions].
-  /// - Removes all terms that are only one character long.
-  /// - Split the term at all non-word characters.
-  /// - Add a phrase by rejoining terms longer than 1 character with
-  ///   white-space.
-  Set<String> _splitTerm(
-      Map<String, String> termExceptions, Set<String> stopwords) {
-    // final terms = <List<String>>{};
-    final retVal = <String>{};
-    // split at all non-word characters if not preceded or followd by a number
-    // or word boundary
-    final splitTerms = split(RegExp(
-            r'(?<=[^0-9\b])[^a-zA-Z0-9À-öø-ÿ]+|[^a-zA-Z0-9À-öø-ÿ]+(?=[^0-9\b])'))
-        .map((e) => termExceptions[e.trim()]?.trim() ?? e.trim())
-        .toList()
-        .where((element) => element.length > 1 && !stopwords.contains(element))
-        .toList();
-    retVal.addAll(splitTerms);
-    // now reconstitute the split terms with white-s[ace]
-    for (final term in splitTerms) {
-      final phrase = <String>[];
-      if (term.length > 1) {
-        phrase.add(term);
-      }
-      if (phrase.isNotEmpty) {
-        var term = phrase.join(' ');
-        term = (termExceptions[term] ?? term).trim();
-        if (term.length > 1) {
-          retVal.add(term);
-        }
-      }
-    }
-    return retVal;
-  }
+  // /// Splits the term at all non-word characters unless the word starts or
+  // /// finishes with a number.
+  // ///
+  // /// - Removes all stopwords.
+  // /// - Replaces all terms in [termExceptions].
+  // /// - Removes all terms that are only one character long.
+  // /// - Split the term at all non-word characters.
+  // /// - Add a phrase by rejoining terms longer than 1 character with
+  // ///   white-space.
+  // Set<String> _splitTerm(
+  //     Map<String, String> termExceptions,
+  //     TermFlag isStopWord) {
+  //   // final terms = <List<String>>{};
+  //   final retVal = <String>{};
+  //   // split at all non-word characters if not preceded or followed by a number
+  //   // or word boundary
+  //   final splitTerms = split(RegExp(
+  //           r'(?<=[^0-9\b])[^a-zA-Z0-9À-öø-ÿ]+|[^a-zA-Z0-9À-öø-ÿ]+(?=[^0-9\b])'))
+  //       .map((e) => termExceptions[e.trim()]?.trim() ?? e.trim())
+  //       .toList()
+  //       .where((element) => element.length > 1 && !isStopWord(element))
+  //       .toList();
+  //   retVal.addAll(splitTerms);
+  //   // now reconstitute the split terms with white-s[ace]
+  //   for (final term in splitTerms) {
+  //     final phrase = <String>[];
+  //     if (term.length > 1) {
+  //       phrase.add(term);
+  //     }
+  //     if (phrase.isNotEmpty) {
+  //       var term = phrase.join(' ');
+  //       term = (termExceptions[term] ?? term).trim();
+  //       if (term.length > 1) {
+  //         retVal.add(term);
+  //       }
+  //     }
+  //   }
+  //   return retVal;
+  // }
 }

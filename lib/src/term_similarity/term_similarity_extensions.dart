@@ -495,7 +495,7 @@ extension TermSimilarityExtensions on Term {
   /// Splits phrases into terms at all non-word characters and generates
   /// the k-grams for each word individually.
   ///
-  /// If [lowerCase] is true, the texzt is converted to to lower case before
+  /// If [lowerCase] is true, the text is converted to to lower case before
   /// generating the k-grams.
   Set<KGram> kGrams([int k = 2, bool lowerCase = true]) {
     final term = lowerCase ? trim().toLowerCase() : trim();

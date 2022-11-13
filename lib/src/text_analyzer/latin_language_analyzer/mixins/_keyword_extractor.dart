@@ -7,14 +7,18 @@ part of '../latin_language_analyzer.dart';
 abstract class _KeyWordExtractor implements TextAnalyzer {
   //
 
-  List<List<String>> _extractKeywords(String source, {NGramRange? nGramRange}) {
+  List<List<String>> _extractKeywords(String source,
+      {NGramRange? nGramRange, StringModifier? reCase}) {
+    reCase = reCase ?? (term) => term.toLowerCase();
     final retVal = <List<String>>[];
     final keyWordSet = <String>{};
-    final phrases = _textToChunks(source);
+    final phrases = _textToChunks(source, reCase);
     for (var e in phrases) {
       final phrase = <String>[];
       e = termExceptions[e] ??
+          termExceptions[reCase(e)] ??
           termExceptions[characterFilter(e)] ??
+          termExceptions[reCase(characterFilter(e))] ??
           characterFilter(e);
       if (e.isNotEmpty) {
         final terms = e.splitAtWhiteSpace();
@@ -49,29 +53,54 @@ abstract class _KeyWordExtractor implements TextAnalyzer {
       List<List<String>> retVal, NGramRange? range) {
     var keyWord = phrase.join(' ').replaceAll(RegExp(r'\s+'), ' ');
     keyWord = termExceptions[keyWord] ?? keyWord;
-    phrase = keyWord.split(RegExp(r'\s+'))
-      ..removeWhere((element) => element.trim().isEmpty);
-    if (phrase.isNotEmpty) {
-      if (!keyWordSet.contains(keyWord)) {
+    if (keyWord.isNotEmpty) {
+      phrase = keyWord.split(RegExp(r'\s+'))
+        ..removeWhere((element) => element.trim().isEmpty);
+      if (phrase.isNotEmpty) {
         if (range == null) {
           final tphrase = List<String>.from(phrase)
             ..removeWhere((element) => element.trim().isEmpty);
           if (tphrase.isNotEmpty) {
-            retVal.add(List<String>.from(phrase));
-            keyWordSet.add(keyWord);
+            keyWord = phrase.join(' ');
+            if (keyWord.isNotEmpty && keyWordSet.add(keyWord)) {
+              retVal.add(List<String>.from(phrase));
+              if (keyWord.contains('-')) {
+                final unHyphenated =
+                    keyWord.replaceAll('-', '').normalizeWhitespace();
+                if (unHyphenated.isNotEmpty && keyWordSet.add(unHyphenated)) {
+                  retVal.add(unHyphenated.splitAtWhiteSpace());
+                }
+                final spaceHyphenated =
+                    keyWord.replaceAll('-', ' ').normalizeWhitespace();
+                if (spaceHyphenated.isNotEmpty &&
+                    keyWordSet.add(spaceHyphenated)) {
+                  retVal.add(spaceHyphenated.splitAtWhiteSpace());
+                }
+              }
+            }
           }
         } else {
           final nGrams =
               phrase.nGrams(range).map((e) => e.split(RegExp(r'\s+')));
           for (var nGram in nGrams) {
-            keyWord = nGram.join(' ').replaceAll(RegExp(r'\s+'), ' ');
+            keyWord = nGram.join(' ').normalizeWhitespace();
             keyWord = termExceptions[keyWord] ?? keyWord;
-            if (!keyWordSet.contains(keyWord)) {
-              final nphrase = keyWord.split(RegExp(r'\s+'))
-                ..removeWhere((element) => element.trim().isEmpty);
+            if (keyWord.isNotEmpty && keyWordSet.add(keyWord)) {
+              final nphrase = keyWord.splitAtWhiteSpace();
               if (nphrase.isNotEmpty) {
                 retVal.add(nphrase);
-                keyWordSet.add(keyWord);
+                if (LatinLanguageAnalyzer.isHyphenated(keyWord)) {
+                  final unHyphenated = LatinLanguageAnalyzer.replaceHyphens('');
+                  if (unHyphenated.isNotEmpty && keyWordSet.add(unHyphenated)) {
+                    retVal.add(unHyphenated.splitAtWhiteSpace());
+                  }
+                  final spaceHyphenated =
+                      LatinLanguageAnalyzer.replaceHyphens(' ');
+                  if (spaceHyphenated.isNotEmpty &&
+                      keyWordSet.add(spaceHyphenated)) {
+                    retVal.add(spaceHyphenated.splitAtWhiteSpace());
+                  }
+                }
               }
             }
           }
@@ -84,23 +113,23 @@ abstract class _KeyWordExtractor implements TextAnalyzer {
   /// - punctuation not part of abbreviations or numbers;
   /// - line endings;
   /// - phrase delimiters such as double quotes, brackets and carets.
-  List<String> _textToChunks(String source) {
+  List<String> _textToChunks(String source, StringModifier reCase) {
     final retVal = <String>[];
     final split = source
-        .trim()
+        .normalizeWhitespace()
         .split(RegExp(LatinLanguageAnalyzer.rPhraseDelimiterSelector));
     for (final e in split) {
-      final phrase = e.replaceAll(RegExp(r'\s+'), ' ').trim().splitMapJoin(
+      final phrase = e.normalizeWhitespace().splitMapJoin(
         RegExp(r'\s+'),
         onNonMatch: (p0) {
-          p0 = characterFilter(p0.trim());
-          return stopWords.contains(p0) ? '%chunk%' : p0;
+          p0 = reCase(characterFilter(p0.trim())).normalizeWhitespace();
+          return isStopWord(p0) ? '%chunk%' : p0;
         },
       );
-      final phrases = phrase
-          .split('%chunk%')
-          .map((e) => termExceptions[e.trim()] ?? e.trim())
-          .toList();
+      final phrases = phrase.split('%chunk%').map((e) {
+        e = e.normalizeWhitespace();
+        return termExceptions[e] ?? e;
+      }).toList();
       phrases.removeWhere((element) => element.trim().isEmpty);
       if (phrases.isNotEmpty) {
         retVal.addAll(phrases);

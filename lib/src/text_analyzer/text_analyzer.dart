@@ -26,8 +26,6 @@ import 'package:text_analysis/type_definitions.dart';
 ///   sequences of varying length.
 /// - [termExceptions] is a hashmap of words to token terms for special words
 ///   that should not be re-capitalized, stemmed or lemmatized;
-/// - [stopWords] are terms that commonly occur in a language and that do not
-///   add material value to the analysis of text.
 /// - [abbreviations] is a hashmap of abbreviations in the analyzed language;
 ///   and
 /// - [syllableCounter] returns the number of syllables in a word or text.
@@ -76,10 +74,10 @@ abstract class TextAnalyzer {
   SyllableCounter get syllableCounter;
 
   /// Language-specific function that returns the stem of a term.
-  Stemmer get stemmer;
+  StringModifier get stemmer;
 
   /// Language-specific function that returns the lemma of a term.
-  Lemmatizer get lemmatizer;
+  StringModifier get lemmatizer;
 
   /// A language-specific function that generates n-grams from text.
   NGrammer get nGrammer;
@@ -88,11 +86,13 @@ abstract class TextAnalyzer {
   /// re-capitalized, stemmed or lemmatized.
   Map<String, String> get termExceptions;
 
+  /// A callback that returns true if the term is a stopword.
+  ///
   /// Stopwords are terms that commonly occur in a language and that do not add
   /// material value to the analysis of text.
   ///
   /// Stopwords are used by the [keywordExtractor] and [termFilter].
-  Set<String> get stopWords;
+  TermFlag get isStopWord;
 
   /// A hashmap of abbreviations in the analyzed language.
   Map<String, String> get abbreviations;

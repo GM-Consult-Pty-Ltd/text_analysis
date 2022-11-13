@@ -69,6 +69,9 @@ abstract class LatinLanguageAnalyzer
   @override
   KeywordExtractor get keywordExtractor => _extractKeywords;
 
+  @override
+  TermFlag get isStopWord => (term) => LatinLanguageAnalyzer.isNumber(term);
+
   /// Returns true if the String starts with "@" or "#" followed by one or more
   /// word-chacters only.
   static bool isHashtag(String term) =>
@@ -78,6 +81,24 @@ abstract class LatinLanguageAnalyzer
   /// commas) where delimiters are not at the start or end of the String.
   static bool isNumber(String term) =>
       RegExp(rNumber).allMatches(term.trim()).length == 1;
+
+  /// Replaces all hyphenations with [replace].
+  ///
+  /// A hypenation is a single dash character preceded and followed by a word
+  /// boundary.
+  static String replaceHyphens(String term, [String replace = ' ']) =>
+      term.replaceAll(RegExp(kHypenations), replace);
+
+  /// Returns true if the [term] contains one or more hyphens.
+  ///
+  /// A hypenation is a single dash character preceded and followed by a word
+  /// boundary.
+  static bool isHyphenated(String term) =>
+      RegExp(kHypenations).allMatches(term).isNotEmpty;
+
+  /// Selector for single hyphen characters preceded and followed by a word
+  /// boundary.
+  static const kHypenations = r'(?<=\b)-{1}(?=\b)';
 
   /// The delimiter inserted at sentence endings to allow splitting of the text
   /// into sentences.
@@ -128,8 +149,7 @@ abstract class LatinLanguageAnalyzer
   static const rPhraseDelimiterSelector = '$rLineEndingSelector|'
       '$rPunctuationSelector|'
       '$rBracketsAndCarets+|'
-      '$rQuotes+|'
-      '$rNumbersAndAmounts';
+      '"+';
 
   /// Matches all numbers, including those delimited with periods and or commas.
   static const rNumbers = r'(\d|((?<=\d)[,.]{1}(?=\d)))+';

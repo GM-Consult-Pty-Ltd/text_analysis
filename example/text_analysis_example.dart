@@ -89,8 +89,8 @@ Future<void> _readMeExample(String title) async {
 
   // Use the static English.analyzer instance to tokenize the text using the
   // English analyzer.
-  final tokens = await English.analyzer.tokenizer(readabilityExample,
-      strategy: TokenizingStrategy.all, nGramRange: NGramRange(1, 2));
+  final tokens = await English.analyzer
+      .tokenizer(readabilityExample, nGramRange: NGramRange(1, 2));
   print(tokens.terms);
 
   // hydrate the TextDocument

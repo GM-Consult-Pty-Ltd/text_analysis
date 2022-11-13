@@ -79,14 +79,12 @@ abstract class TextDocument {
   static Future<TextDocument> analyze(
       {required String sourceText,
       required TextAnalyzer analyzer,
-      TokenizingStrategy strategy = TokenizingStrategy.terms,
       TokenFilter? tokenFilter,
       NGramRange? nGramRange,
       Zone? zone}) async {
     final tokens = await analyzer.tokenizer(sourceText,
         zone: zone,
         nGramRange: nGramRange,
-        strategy: strategy,
         tokenFilter: tokenFilter);
     final terms = analyzer.termSplitter(sourceText);
     final nGrams = terms.nGrams(nGramRange ?? NGramRange(1, 2));
@@ -112,14 +110,12 @@ abstract class TextDocument {
       {required Map<String, dynamic> document,
       required TextAnalyzer analyzer,
       NGramRange? nGramRange,
-      TokenizingStrategy strategy = TokenizingStrategy.terms,
       TokenFilter? tokenFilter,
       Iterable<Zone>? zones}) async {
     final sourceText = document.toSourceText(zones);
     final tokens = await analyzer.jsonTokenizer(document,
         zones: zones,
         nGramRange: nGramRange,
-        strategy: strategy,
         tokenFilter: tokenFilter);
     final terms = analyzer.termSplitter(sourceText);
     final nGrams = terms.nGrams(nGramRange ?? NGramRange(1, 2));

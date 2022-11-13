@@ -21,7 +21,8 @@ void main() {
   final sample =
       'The Australian platypus is seemingly a hybrid-mammal and reptilian '
       'creature. It originates from the U.S.A, roaming the pavé of the Cote '
-      'D\'Azure (\$3.25 cigar in hand). He often has (three day old) stubble on his chin.';
+      'D\'Azure (\$3.25 cigar in hand). He often has (three day\'s old) stubble '
+      'on his chin.';
   //
   group('Tokenization', () {
     //
@@ -32,7 +33,6 @@ void main() {
       final textDoc = await TextDocument.analyze(
           sourceText: sample,
           analyzer: English.analyzer,
-          strategy: TokenizingStrategy.all,
           nGramRange: NGramRange(1, 2));
 
       print('Average sentence length: ${textDoc.averageSentenceLength()}');
@@ -63,14 +63,14 @@ void main() {
       final analyzer =
           English(termExceptions: {'alphabet': 'ALPHABET', 'google': 'Google'});
 
-      for (final strategy in TokenizingStrategy.values) {
+      
         // tokenize the source
         final tokens = await analyzer.tokenizer(source,
-            zone: 'text', strategy: strategy, nGramRange: NGramRange(1, 2));
+          zone: 'text', nGramRange: NGramRange(1, 2));
 
         // print the tokens
-        _printTokens('TOKENIZE JSON ($strategy)', tokens);
-      }
+      _printTokens('TOKENIZE JSON', tokens);
+      
     });
 
     test('English()', () async {
@@ -82,14 +82,14 @@ void main() {
       final analyzer =
           English(termExceptions: {'alphabet': 'ALPHABET', 'google': 'Google'});
 
-      for (final strategy in TokenizingStrategy.values) {
+      
         // tokenize the source
         final tokens = await English.analyzer.tokenizer(source,
-            strategy: strategy, nGramRange: NGramRange(1, 2));
+             nGramRange: NGramRange(1, 2));
 
         // print the tokens
-        _printTokens('TOKENIZE JSON ($strategy)', tokens);
-      }
+      _printTokens('TOKENIZE JSON ', tokens);
+
     });
 
     test('SPLITTERS', () async {
@@ -125,7 +125,7 @@ void main() {
 
       // tokenize the json with 3 zones
       final tokens = await analyzer.jsonTokenizer(TestData.json,
-          strategy: TokenizingStrategy.keyWords,
+          
           zones: ['name', 'description', 'hashTags']);
 
       // print the tokens
@@ -136,7 +136,7 @@ void main() {
     test('TextAnalyzer.JsonTokenizer', () async {
       // tokenize the json with NO zones
       final tokens = await English.analyzer.jsonTokenizer(TestData.json,
-          strategy: TokenizingStrategy.all,
+          
           nGramRange: NGramRange(1, 2),
           zones: ['description']);
       // map the document's tokens to a list of terms (strings)
@@ -168,7 +168,7 @@ void main() {
           (MapEntry<String, Map<String, dynamic>> entry) async {
         final json = entry.value;
         final tokens = await English.analyzer.jsonTokenizer(json,
-            strategy: TokenizingStrategy.all,
+           
             nGramRange: NGramRange(1, 2),
             zones: ['ticker', 'name', 'description', 'hashTag', 'symbol']);
         for (final term in Set<String>.from(tokens.map((e) => e.term))) {
@@ -260,8 +260,7 @@ void main() {
 
       final document = await TextDocument.analyze(
           sourceText: sample,
-          analyzer: English.analyzer,
-          strategy: TokenizingStrategy.all);
+          analyzer: English.analyzer);
 
       // .map((e) => e.join(' '));
       print(sample);

@@ -14,9 +14,7 @@ abstract class _CharacterFilter implements TextAnalyzer {
   /// - changes all quote marks to single apostrophe +U0027;
   /// - removes enclosing quote marks;
   /// - changes all dashes to single standard hyphen;
-  /// - replaces all non-word characters with a space;
-  /// - removes all characters except letters and numbers from the end of
-  ///   the term.
+  /// - normalizes all white-space to single space characters.
   String _filterCharacters(String term) {
     // try parsing the term to a number
     final number = num.tryParse(term);
@@ -26,21 +24,13 @@ abstract class _CharacterFilter implements TextAnalyzer {
         ? number.toString()
         // if the term is all-caps return it unchanged.
         : term
-            // change to lower case.
-            .toLowerCase()
             // change all quote marks to single apostrophe +U0027
             .replaceAll(RegExp('[\'"“”„‟’‘‛]+'), "'")
             // remove enclosing quote marks
             .replaceAll(RegExp(r"(^'+)|('+(?=$))"), '')
             // change all dashes to single standard hyphen
             .replaceAll(RegExp(r'[\-—]+'), '-')
-            // // replace all non-word characters with whitespace
-            // .replaceAll(
-            //     RegExp('${LatinLanguageAnalyzer.rNonWordChars}+'), ' ')
-            // // remove all characters except letters and numbers at end
-            // // of term
-            // .replaceAll(RegExp(r'[^a-zA-Z0-9À-öø-ÿ](?=$)'), '')
-            // // replace all white-space sequence with single space and trim
+            // replace all white-space sequence with single space and trim
             .normalizeWhitespace();
   }
 
@@ -50,10 +40,6 @@ abstract class _CharacterFilter implements TextAnalyzer {
 /// String extensions used by the [LatinLanguageAnalyzer]text analyzer.
 extension _CharacterFilterExtension on String {
 //
-
-  /// Returns true if the String contains any non-word characters.
-  bool get containsNonWordCharacters =>
-      RegExp(LatinLanguageAnalyzer.rNonWordChars).hasMatch(this);
 
 // Replace all white-space sequence with single space and trim.
   String normalizeWhitespace() => replaceAll(RegExp(r'(\s{2,})'), ' ').trim();

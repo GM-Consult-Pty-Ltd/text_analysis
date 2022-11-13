@@ -9,4 +9,3 @@ export 'n_gram_range.dart';
 export 'text_analysis_extensions.dart';
 export 'text_analyzer.dart';
 export 'token.dart';
-export 'tokenizing_strategy.dart';

@@ -54,7 +54,6 @@
 <span class="returntype"><a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../../text_analysis/TextDocument-class.html">TextDocument</a></span>&gt;</span></span>
 <span class="name ">analyze</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="analyze-param-sourceText">{<span>required</span> <span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span> <span class="parameter-name">sourceText</span>, </span></li>
 <li><span class="parameter" id="analyze-param-analyzer"><span>required</span> <span class="type-annotation"><a href="../../text_analysis/TextAnalyzer-class.html">TextAnalyzer</a></span> <span class="parameter-name">analyzer</span>, </span></li>
-<li><span class="parameter" id="analyze-param-strategy"><span class="type-annotation"><a href="../../text_analysis/TokenizingStrategy.html">TokenizingStrategy</a></span> <span class="parameter-name">strategy</span> = <span class="default-value">TokenizingStrategy.terms</span>, </span></li>
 <li><span class="parameter" id="analyze-param-tokenFilter"><span class="type-annotation"><a href="../../type_definitions/TokenFilter.html">TokenFilter</a>?</span> <span class="parameter-name">tokenFilter</span>, </span></li>
 <li><span class="parameter" id="analyze-param-nGramRange"><span class="type-annotation"><a href="../../text_analysis/NGramRange-class.html">NGramRange</a>?</span> <span class="parameter-name">nGramRange</span>, </span></li>
 <li><span class="parameter" id="analyze-param-zone"><span class="type-annotation"><a href="../../type_definitions/Zone.html">Zone</a>?</span> <span class="parameter-name">zone</span>}</span></li>
@@ -88,14 +87,12 @@ The static factory uses a <code>analyzer</code> to tokenize the
   <pre class="language-dart"><code class="language-dart">static Future&lt;TextDocument&gt; analyze(
     {required String sourceText,
     required TextAnalyzer analyzer,
-    TokenizingStrategy strategy = TokenizingStrategy.terms,
     TokenFilter? tokenFilter,
     NGramRange? nGramRange,
     Zone? zone}) async {
   final tokens = await analyzer.tokenizer(sourceText,
       zone: zone,
       nGramRange: nGramRange,
-      strategy: strategy,
       tokenFilter: tokenFilter);
   final terms = analyzer.termSplitter(sourceText);
   final nGrams = terms.nGrams(nGramRange ?? NGramRange(1, 2));

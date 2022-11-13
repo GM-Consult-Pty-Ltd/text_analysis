@@ -18,7 +18,6 @@ export 'src/_index.dart'
         TermCoOccurrenceGraphBase,
         LatinLanguageAnalyzer,
         TextDocument,
-        TokenizingStrategy,
         NGramRange,
         Token;
 
