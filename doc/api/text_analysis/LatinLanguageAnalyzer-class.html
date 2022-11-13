@@ -350,6 +350,39 @@ and indexes.
   </section>
     
     
+  <section class="summary offset-anchor" id="static-methods">
+    <h2>Static Methods</h2>
+    <dl class="callables">
+        <dt id="isHashtag" class="callable">
+  <span class="name"><a href="../text_analysis/LatinLanguageAnalyzer/isHashtag.html">isHashtag</a></span><span class="signature">(<wbr><span class="parameter" id="isHashtag-param-term"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span> <span class="parameter-name">term</span></span>)
+    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-core/bool-class.html">bool</a></span>
+  </span>
+  
+
+</dt>
+<dd>
+  Returns true if the String starts with "@" or "#" followed by one or more
+word-chacters only.
+  
+
+</dd>
+
+        <dt id="isNumber" class="callable">
+  <span class="name"><a href="../text_analysis/LatinLanguageAnalyzer/isNumber.html">isNumber</a></span><span class="signature">(<wbr><span class="parameter" id="isNumber-param-term"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span> <span class="parameter-name">term</span></span>)
+    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-core/bool-class.html">bool</a></span>
+  </span>
+  
+
+</dt>
+<dd>
+  Returns true if the String starts with "@" or "#" followed by one or more
+word-chacters only.
+  
+
+</dd>
+
+    </dl>
+  </section>
     
 
   <section class="summary offset-anchor" id="constants">
@@ -447,6 +480,22 @@ into sentences.
   </div>
 </dd>
 
+        <dt id="reNumber" class="constant">
+    <span class="name "><a href="../text_analysis/LatinLanguageAnalyzer/reNumber-constant.html">reNumber</a></span>
+  <span class="signature">&#8594; const <a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>
+  
+
+</dt>
+<dd>
+  Matches a String that includes digits and delimiters (periods and commas)
+where delimiters are not at the start or end of the string
+  
+
+  <div>
+    <span class="signature"><code>r&#39;(?&lt;=^)(\d|((?&lt;=\d)[,.]{1}(?=\d)))+(?=$)&#39;</code></span>
+  </div>
+</dd>
+
         <dt id="reNumbers" class="constant">
     <span class="name "><a href="../text_analysis/LatinLanguageAnalyzer/reNumbers-constant.html">reNumbers</a></span>
   <span class="signature">&#8594; const <a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>
@@ -454,11 +503,11 @@ into sentences.
 
 </dt>
 <dd>
-  
+  Matches all numbers, including those delimited with periods and or commas.
   
 
   <div>
-    <span class="signature"><code>r&#39;(\d|((?&lt;=\d)[,.]{1}))+&#39;</code></span>
+    <span class="signature"><code>r&#39;(\d|((?&lt;=\d)[,.]{1}(?=\d)))+&#39;</code></span>
   </div>
 </dd>
 
@@ -469,7 +518,7 @@ into sentences.
 
 </dt>
 <dd>
-  
+  Matches all numbers and amounts, including:
   
 
   <div>
@@ -519,6 +568,38 @@ into sentences.
 
   <div>
     <span class="signature"><code>r&quot;[a-zA-Z0-9À-öø-ÿ¥Œ€@™#-\&amp;_&#39;-]&quot;</code></span>
+  </div>
+</dd>
+
+        <dt id="rHashtag" class="constant">
+    <span class="name "><a href="../text_analysis/LatinLanguageAnalyzer/rHashtag-constant.html">rHashtag</a></span>
+  <span class="signature">&#8594; const <a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>
+  
+
+</dt>
+<dd>
+  Selects text that starts with "@" or "#" followed by one or more
+word-chacters only.
+  
+
+  <div>
+    <span class="signature"><code>r&#39;(?&lt;=^)[#@]{1}(\w)+(?=$)&#39;</code></span>
+  </div>
+</dd>
+
+        <dt id="rHashtags" class="constant">
+    <span class="name "><a href="../text_analysis/LatinLanguageAnalyzer/rHashtags-constant.html">rHashtags</a></span>
+  <span class="signature">&#8594; const <a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>
+  
+
+</dt>
+<dd>
+  Selects text that starts with "@" or "#" and is preceded or followed by
+non-word characters or the start/end of the String.
+  
+
+  <div>
+    <span class="signature"><code>r&#39;(?&lt;=^|\W)[#@]{1}(\w)+(?=\W|$)&#39;</code></span>
   </div>
 </dd>
 
@@ -638,6 +719,9 @@ into sentences.
 
 
 
+        <li class="section-title"><a href="../text_analysis/LatinLanguageAnalyzer-class.html#static-methods">Static methods</a></li>
+          <li><a href="../text_analysis/LatinLanguageAnalyzer/isHashtag.html">isHashtag</a></li>
+          <li><a href="../text_analysis/LatinLanguageAnalyzer/isNumber.html">isNumber</a></li>
 
         <li class="section-title"><a href="../text_analysis/LatinLanguageAnalyzer-class.html#constants">Constants</a></li>
           <li><a href="../text_analysis/LatinLanguageAnalyzer/kSentenceDelimiter-constant.html">kSentenceDelimiter</a></li>
@@ -646,11 +730,14 @@ into sentences.
           <li><a href="../text_analysis/LatinLanguageAnalyzer/rEnclosingQuotes-constant.html">rEnclosingQuotes</a></li>
           <li><a href="../text_analysis/LatinLanguageAnalyzer/rEndString-constant.html">rEndString</a></li>
           <li><a href="../text_analysis/LatinLanguageAnalyzer/reNonWordChars-constant.html">reNonWordChars</a></li>
+          <li><a href="../text_analysis/LatinLanguageAnalyzer/reNumber-constant.html">reNumber</a></li>
           <li><a href="../text_analysis/LatinLanguageAnalyzer/reNumbers-constant.html">reNumbers</a></li>
           <li><a href="../text_analysis/LatinLanguageAnalyzer/reNumbersAndAmounts-constant.html">reNumbersAndAmounts</a></li>
           <li><a href="../text_analysis/LatinLanguageAnalyzer/rePunctuationSelector-constant.html">rePunctuationSelector</a></li>
           <li><a href="../text_analysis/LatinLanguageAnalyzer/reSentenceEndingSelector-constant.html">reSentenceEndingSelector</a></li>
           <li><a href="../text_analysis/LatinLanguageAnalyzer/reWordChars-constant.html">reWordChars</a></li>
+          <li><a href="../text_analysis/LatinLanguageAnalyzer/rHashtag-constant.html">rHashtag</a></li>
+          <li><a href="../text_analysis/LatinLanguageAnalyzer/rHashtags-constant.html">rHashtags</a></li>
           <li><a href="../text_analysis/LatinLanguageAnalyzer/rPhraseDelimiterSelector-constant.html">rPhraseDelimiterSelector</a></li>
           <li><a href="../text_analysis/LatinLanguageAnalyzer/rQuotes-constant.html">rQuotes</a></li>
 </ol>

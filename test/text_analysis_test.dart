@@ -258,9 +258,6 @@ void main() {
           'your phone. Podcast production company Pacific Content got the '
           'exclusive on it. This text is taken from Google news.';
 
-      // final text = TestData.stockData.entries.first.value
-      //     .toSourceText({'name', 'description'});
-
       final document = await TextDocument.analyze(
           sourceText: sample,
           analyzer: English.analyzer,

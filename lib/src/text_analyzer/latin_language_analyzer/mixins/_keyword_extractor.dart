@@ -86,7 +86,6 @@ abstract class _KeyWordExtractor implements TextAnalyzer {
   /// - phrase delimiters such as double quotes, brackets and carets.
   List<String> _textToChunks(String source) {
     final retVal = <String>[];
-    final re = LatinLanguageAnalyzer.rPhraseDelimiterSelector;
     final split = source
         .trim()
         .split(RegExp(LatinLanguageAnalyzer.rPhraseDelimiterSelector));
