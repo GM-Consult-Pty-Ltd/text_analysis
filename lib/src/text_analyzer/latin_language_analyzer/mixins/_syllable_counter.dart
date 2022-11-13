@@ -35,7 +35,7 @@ abstract class _SyllableCounter implements TextAnalyzer {
       var count = 0;
       // split term into terms at one or more non-word characters
       final terms =
-          term.split(RegExp('${LatinLanguageAnalyzer.reNonWordChars}+'));
+          term.split(RegExp('${LatinLanguageAnalyzer.rNonWordChars}+'));
       for (var e in terms) {
         if (e.isNotEmpty) {
           if (e.length < 3) {

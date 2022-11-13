@@ -36,7 +36,7 @@ abstract class _CharacterFilter implements TextAnalyzer {
             .replaceAll(RegExp(r'[\-—]+'), '-')
             // // replace all non-word characters with whitespace
             // .replaceAll(
-            //     RegExp('${LatinLanguageAnalyzer.reNonWordChars}+'), ' ')
+            //     RegExp('${LatinLanguageAnalyzer.rNonWordChars}+'), ' ')
             // // remove all characters except letters and numbers at end
             // // of term
             // .replaceAll(RegExp(r'[^a-zA-Z0-9À-öø-ÿ](?=$)'), '')
@@ -53,7 +53,7 @@ extension _CharacterFilterExtension on String {
 
   /// Returns true if the String contains any non-word characters.
   bool get containsNonWordCharacters =>
-      RegExp(LatinLanguageAnalyzer.reNonWordChars).hasMatch(this);
+      RegExp(LatinLanguageAnalyzer.rNonWordChars).hasMatch(this);
 
 // Replace all white-space sequence with single space and trim.
   String normalizeWhitespace() => replaceAll(RegExp(r'(\s{2,})'), ' ').trim();
@@ -68,13 +68,13 @@ extension _CharacterFilterExtension on String {
   String stripPunctuation() => trim()
       .normalizeQuotesAndApostrophes()
       // replace all brackets and carets with white-space.
-      .replaceAll(RegExp(LatinLanguageAnalyzer.reLineEndingSelector), ' ')
+      .replaceAll(RegExp(LatinLanguageAnalyzer.rLineEndingSelector), ' ')
       // replace all brackets and carets with white-space.
-      .replaceAll(RegExp(LatinLanguageAnalyzer.reSentenceEndingSelector), ' ')
+      .replaceAll(RegExp(LatinLanguageAnalyzer.rSentenceEndingSelector), ' ')
       // replace all brackets and carets with white-space.
-      .replaceAll(RegExp(LatinLanguageAnalyzer.rePunctuationSelector), ' ')
+      .replaceAll(RegExp(LatinLanguageAnalyzer.rPunctuationSelector), ' ')
       // replace all brackets and carets with white-space.
-      .replaceAll(RegExp(LatinLanguageAnalyzer.reBracketsAndCarets), ' ')
+      .replaceAll(RegExp(LatinLanguageAnalyzer.rBracketsAndCarets), ' ')
       // replace all repeated white-space with a single white-space.
       .normalizeWhitespace()
       // remove leading and trailing white-space

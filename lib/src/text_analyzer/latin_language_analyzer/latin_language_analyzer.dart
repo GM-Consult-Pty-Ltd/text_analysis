@@ -34,6 +34,8 @@ abstract class LatinLanguageAnalyzer
         _Tokenizer,
         _KeyWordExtractor
     implements TextAnalyzer {
+  //
+
   /// Initializes a const [LatinLanguageAnalyzer].
   const LatinLanguageAnalyzer();
 
@@ -72,10 +74,10 @@ abstract class LatinLanguageAnalyzer
   static bool isHashtag(String term) =>
       RegExp(rHashtag).allMatches(term.trim()).length == 1;
 
-  /// Returns true if the String starts with "@" or "#" followed by one or more
-  /// word-chacters only.
+  /// Returns true if the String contains digits and delimiters (periods or
+  /// commas) where delimiters are not at the start or end of the String.
   static bool isNumber(String term) =>
-      RegExp(rHashtag).allMatches(term.trim()).length == 1;
+      RegExp(rNumber).allMatches(term.trim()).length == 1;
 
   /// The delimiter inserted at sentence endings to allow splitting of the text
   /// into sentences.
@@ -97,44 +99,44 @@ abstract class LatinLanguageAnalyzer
 
   /// Selector for enclosing quote marks.
   static const rEnclosingQuotes =
-      '(?<=^|$reNonWordChars)$rQuotes+|$rQuotes+(?=$rEndString|$reNonWordChars)';
+      '(?<=^|$rNonWordChars)$rQuotes+|$rQuotes+(?=$rEndString|$rNonWordChars)';
 
   /// Matches all brackets and carets.
-  static const reBracketsAndCarets = r'[\[\]\(\)\{\}\<\>]';
+  static const rBracketsAndCarets = r'[\[\]\(\)\{\}\<\>]';
 
   /// Matches al characters except:
   ///   - numbers 0-9;
   ///   - letters a-z;
   ///   - letters A-Z;
   ///   - ampersand, apostrophe, underscore and hyhpen ("&", "'", "_", "-")
-  static const reNonWordChars = r"[^a-zA-Z0-9À-öø-ÿ¥Œ€@™#-\&_'-]";
+  static const rNonWordChars = r"[^a-zA-Z0-9À-öø-ÿ¥Œ€@™#-\&_'-]";
 
   /// Matches characters used to write words, including:
   ///   - numbers 0-9;
   ///   - letters a-z;
   ///   - letters A-Z;
   ///   - ampersand, apostrophe, underscore and hyhpen ("&", "'", "_", "-")
-  static const reWordChars = r"[a-zA-Z0-9À-öø-ÿ¥Œ€@™#-\&_'-]";
+  static const rWordChars = r"[a-zA-Z0-9À-öø-ÿ¥Œ€@™#-\&_'-]";
 
   /// Matches all line endings.
-  static const reLineEndingSelector = '[\u000A\u000B\u000C\u000D]+';
+  static const rLineEndingSelector = '[\u000A\u000B\u000C\u000D]+';
 
   /// Matches strings where text is split for keywording:
   /// - all line endings
   /// - all punctuation
   /// - all numbers, including currency amounts and percentages
-  static const rPhraseDelimiterSelector = '$reLineEndingSelector|'
-      '$rePunctuationSelector|'
-      '$reBracketsAndCarets+|'
+  static const rPhraseDelimiterSelector = '$rLineEndingSelector|'
+      '$rPunctuationSelector|'
+      '$rBracketsAndCarets+|'
       '$rQuotes+|'
-      '$reNumbersAndAmounts';
+      '$rNumbersAndAmounts';
 
   /// Matches all numbers, including those delimited with periods and or commas.
-  static const reNumbers = r'(\d|((?<=\d)[,.]{1}(?=\d)))+';
+  static const rNumbers = r'(\d|((?<=\d)[,.]{1}(?=\d)))+';
 
   /// Matches a String that includes digits and delimiters (periods and commas)
   /// where delimiters are not at the start or end of the string
-  static const reNumber = r'(?<=^)(\d|((?<=\d)[,.]{1}(?=\d)))+(?=$)';
+  static const rNumber = r'(?<=^)(\d|((?<=\d)[,.]{1}(?=\d)))+(?=$)';
 
   /// Matches all numbers and amounts, including:
   /// - numbers delimited with periods and or commas;
@@ -144,16 +146,16 @@ abstract class LatinLanguageAnalyzer
   ///   letters.
   /// Prefixes and suffixes can include white-space between the pre-fix/suffix
   /// and the number.
-  static const reNumbersAndAmounts = r'([^\w,.]?|[A-Z]{3})\s?'
-      '$reNumbers'
+  static const rNumbersAndAmounts = r'([^\w,.]?|[A-Z]{3})\s?'
+      '$rNumbers'
       r'[\s]?(([^\w,.]?)|[A-Z]{3})'; // suffix
 
   /// Matches all sentence endings.
-  static const reSentenceEndingSelector =
-      '(?<=$reWordChars|\\s)(\\. )(?=([^a-z])|\\s+|\$)|(\\.)(?=\$)|'
+  static const rSentenceEndingSelector =
+      '(?<=$rWordChars|\\s)(\\. )(?=([^a-z])|\\s+|\$)|(\\.)(?=\$)|'
       '(?<=[^([{])([?!])(?=([^)]}])|\\s+|\$)';
 
   /// Matches all mid-sentence punctuation.
-  static const rePunctuationSelector =
+  static const rPunctuationSelector =
       r"[\!:;,\-—.]+(?=[^a-zA-Z0-9À-öø-ÿ¥Œ€@™#-\&_\'-]|$)";
 }

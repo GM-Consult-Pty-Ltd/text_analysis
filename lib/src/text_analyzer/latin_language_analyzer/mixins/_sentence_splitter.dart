@@ -22,11 +22,11 @@ extension _SentenceSplitterExtensionOnString on String {
   /// Insert sentence delimiters into the String at sentence breaks.
   String insertSentenceDelimiters() => trim()
           // replace line feeds and carriage returns with %~%
-          .replaceAll(RegExp(LatinLanguageAnalyzer.reSentenceEndingSelector),
+          .replaceAll(RegExp(LatinLanguageAnalyzer.rSentenceEndingSelector),
               LatinLanguageAnalyzer.kSentenceDelimiter)
           // select all sentences and replace the ending punctuation with %~%
           .replaceAllMapped(
-              RegExp(LatinLanguageAnalyzer.reSentenceEndingSelector),
+              RegExp(LatinLanguageAnalyzer.rSentenceEndingSelector),
               (match) {
         final sentence = match.group(0) ?? '';
         // remove white-space before delimiter then return the sentence
@@ -46,7 +46,7 @@ extension _SentenceSplitterExtensionOnString on String {
       final sentence = e
           .trim()
           .replaceAll(
-              RegExp(LatinLanguageAnalyzer.reSentenceEndingSelector), '')
+              RegExp(LatinLanguageAnalyzer.rSentenceEndingSelector), '')
           .trim();
       // add only non-empty sentences
       if (sentence.isNotEmpty) {
