@@ -352,6 +352,208 @@ and indexes.
     
     
 
+  <section class="summary offset-anchor" id="constants">
+    <h2>Constants</h2>
+
+    <dl class="properties">
+        <dt id="kSentenceDelimiter" class="constant">
+    <span class="name "><a href="../text_analysis/LatinLanguageAnalyzer/kSentenceDelimiter-constant.html">kSentenceDelimiter</a></span>
+  <span class="signature">&#8594; const <a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>
+  
+
+</dt>
+<dd>
+  The delimiter inserted at sentence endings to allow splitting of the text
+into sentences.
+  
+
+  <div>
+    <span class="signature"><code>r&#39;%~%&#39;</code></span>
+  </div>
+</dd>
+
+        <dt id="reBracketsAndCarets" class="constant">
+    <span class="name "><a href="../text_analysis/LatinLanguageAnalyzer/reBracketsAndCarets-constant.html">reBracketsAndCarets</a></span>
+  <span class="signature">&#8594; const <a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>
+  
+
+</dt>
+<dd>
+  Matches all brackets and carets.
+  
+
+  <div>
+    <span class="signature"><code>r&#39;[\[\]\(\)\{\}\&lt;\&gt;]&#39;</code></span>
+  </div>
+</dd>
+
+        <dt id="reLineEndingSelector" class="constant">
+    <span class="name "><a href="../text_analysis/LatinLanguageAnalyzer/reLineEndingSelector-constant.html">reLineEndingSelector</a></span>
+  <span class="signature">&#8594; const <a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>
+  
+
+</dt>
+<dd>
+  Matches all line endings.
+  
+
+  <div>
+    <span class="signature"><code>&#39;[\u000A\u000B\u000C\u000D]+&#39;</code></span>
+  </div>
+</dd>
+
+        <dt id="rEnclosingQuotes" class="constant">
+    <span class="name "><a href="../text_analysis/LatinLanguageAnalyzer/rEnclosingQuotes-constant.html">rEnclosingQuotes</a></span>
+  <span class="signature">&#8594; const <a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>
+  
+
+</dt>
+<dd>
+  Selector for enclosing quote marks.
+  
+
+  <div>
+    <span class="signature"><code>&#39;(?&lt;=^|$reNonWordChars)$rQuotes+|$rQuotes+(?=$rEndString|$reNonWordChars)&#39;</code></span>
+  </div>
+</dd>
+
+        <dt id="rEndString" class="constant">
+    <span class="name "><a href="../text_analysis/LatinLanguageAnalyzer/rEndString-constant.html">rEndString</a></span>
+  <span class="signature">&#8594; const <a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>
+  
+
+</dt>
+<dd>
+  Selects the end of a string.
+  
+
+  <div>
+    <span class="signature"><code>r&#39;\Z&#39;</code></span>
+  </div>
+</dd>
+
+        <dt id="reNonWordChars" class="constant">
+    <span class="name "><a href="../text_analysis/LatinLanguageAnalyzer/reNonWordChars-constant.html">reNonWordChars</a></span>
+  <span class="signature">&#8594; const <a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>
+  
+
+</dt>
+<dd>
+  Matches al characters except:
+  
+
+  <div>
+    <span class="signature"><code>r&quot;[^a-zA-Z0-9À-öø-ÿ¥Œ€@™#-\&amp;_&#39;-]&quot;</code></span>
+  </div>
+</dd>
+
+        <dt id="reNumbers" class="constant">
+    <span class="name "><a href="../text_analysis/LatinLanguageAnalyzer/reNumbers-constant.html">reNumbers</a></span>
+  <span class="signature">&#8594; const <a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>
+  
+
+</dt>
+<dd>
+  
+  
+
+  <div>
+    <span class="signature"><code>r&#39;(\d|((?&lt;=\d)[,.]{1}))+&#39;</code></span>
+  </div>
+</dd>
+
+        <dt id="reNumbersAndAmounts" class="constant">
+    <span class="name "><a href="../text_analysis/LatinLanguageAnalyzer/reNumbersAndAmounts-constant.html">reNumbersAndAmounts</a></span>
+  <span class="signature">&#8594; const <a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>
+  
+
+</dt>
+<dd>
+  
+  
+
+  <div>
+    <span class="signature"><code>r&#39;([^\w,.]?|[A-Z]{3})\s?&#39; &#39;$reNumbers&#39; r&#39;[\s]?(([^\w,.]?)|[A-Z]{3})&#39;</code></span>
+  </div>
+</dd>
+
+        <dt id="rePunctuationSelector" class="constant">
+    <span class="name "><a href="../text_analysis/LatinLanguageAnalyzer/rePunctuationSelector-constant.html">rePunctuationSelector</a></span>
+  <span class="signature">&#8594; const <a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>
+  
+
+</dt>
+<dd>
+  Matches all mid-sentence punctuation.
+  
+
+  <div>
+    <span class="signature"><code>r&quot;[\!:;,\-—.]+(?=[^a-zA-Z0-9À-öø-ÿ¥Œ€@™#-\&amp;_\&#39;-]|$)&quot;</code></span>
+  </div>
+</dd>
+
+        <dt id="reSentenceEndingSelector" class="constant">
+    <span class="name "><a href="../text_analysis/LatinLanguageAnalyzer/reSentenceEndingSelector-constant.html">reSentenceEndingSelector</a></span>
+  <span class="signature">&#8594; const <a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>
+  
+
+</dt>
+<dd>
+  Matches all sentence endings.
+  
+
+  <div>
+    <span class="signature"><code>&#39;(?&lt;=$reWordChars|\\s)(\\. )(?=([^a-z])|\\s+|\$)|(\\.)(?=\$)|&#39; &#39;(?&lt;=[^([{])([?!])(?=([^)]}])|\\s+|\$)&#39;</code></span>
+  </div>
+</dd>
+
+        <dt id="reWordChars" class="constant">
+    <span class="name "><a href="../text_analysis/LatinLanguageAnalyzer/reWordChars-constant.html">reWordChars</a></span>
+  <span class="signature">&#8594; const <a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>
+  
+
+</dt>
+<dd>
+  Matches characters used to write words, including:
+  
+
+  <div>
+    <span class="signature"><code>r&quot;[a-zA-Z0-9À-öø-ÿ¥Œ€@™#-\&amp;_&#39;-]&quot;</code></span>
+  </div>
+</dd>
+
+        <dt id="rPhraseDelimiterSelector" class="constant">
+    <span class="name "><a href="../text_analysis/LatinLanguageAnalyzer/rPhraseDelimiterSelector-constant.html">rPhraseDelimiterSelector</a></span>
+  <span class="signature">&#8594; const <a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>
+  
+
+</dt>
+<dd>
+  Matches strings where text is split for keywording:
+  
+
+  <div>
+    <span class="signature"><code>&#39;$reLineEndingSelector|&#39; &#39;$rePunctuationSelector|&#39; &#39;$reBracketsAndCarets+|&#39; &#39;$rQuotes+|&#39; &#39;$reNumbersAndAmounts&#39;</code></span>
+  </div>
+</dd>
+
+        <dt id="rQuotes" class="constant">
+    <span class="name "><a href="../text_analysis/LatinLanguageAnalyzer/rQuotes-constant.html">rQuotes</a></span>
+  <span class="signature">&#8594; const <a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>
+  
+
+</dt>
+<dd>
+  Selector for all single or double quotation marks and apostrophes.
+  
+
+  <div>
+    <span class="signature"><code>&#39;[\&#39;&quot;“”„‟’‘‛]&#39;</code></span>
+  </div>
+</dd>
+
+    </dl>
+  </section>
 
   </div> <!-- /.main-content -->
 
@@ -437,6 +639,20 @@ and indexes.
 
 
 
+        <li class="section-title"><a href="../text_analysis/LatinLanguageAnalyzer-class.html#constants">Constants</a></li>
+          <li><a href="../text_analysis/LatinLanguageAnalyzer/kSentenceDelimiter-constant.html">kSentenceDelimiter</a></li>
+          <li><a href="../text_analysis/LatinLanguageAnalyzer/reBracketsAndCarets-constant.html">reBracketsAndCarets</a></li>
+          <li><a href="../text_analysis/LatinLanguageAnalyzer/reLineEndingSelector-constant.html">reLineEndingSelector</a></li>
+          <li><a href="../text_analysis/LatinLanguageAnalyzer/rEnclosingQuotes-constant.html">rEnclosingQuotes</a></li>
+          <li><a href="../text_analysis/LatinLanguageAnalyzer/rEndString-constant.html">rEndString</a></li>
+          <li><a href="../text_analysis/LatinLanguageAnalyzer/reNonWordChars-constant.html">reNonWordChars</a></li>
+          <li><a href="../text_analysis/LatinLanguageAnalyzer/reNumbers-constant.html">reNumbers</a></li>
+          <li><a href="../text_analysis/LatinLanguageAnalyzer/reNumbersAndAmounts-constant.html">reNumbersAndAmounts</a></li>
+          <li><a href="../text_analysis/LatinLanguageAnalyzer/rePunctuationSelector-constant.html">rePunctuationSelector</a></li>
+          <li><a href="../text_analysis/LatinLanguageAnalyzer/reSentenceEndingSelector-constant.html">reSentenceEndingSelector</a></li>
+          <li><a href="../text_analysis/LatinLanguageAnalyzer/reWordChars-constant.html">reWordChars</a></li>
+          <li><a href="../text_analysis/LatinLanguageAnalyzer/rPhraseDelimiterSelector-constant.html">rPhraseDelimiterSelector</a></li>
+          <li><a href="../text_analysis/LatinLanguageAnalyzer/rQuotes-constant.html">rQuotes</a></li>
 </ol>
 
   </div><!--/.sidebar-offcanvas-->

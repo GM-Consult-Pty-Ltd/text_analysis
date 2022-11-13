@@ -20,7 +20,7 @@ extension _ParagraphSplitterExtension on String {
   /// Split the String at line endings.
   List<String> splitAtLineEndings() {
     final paragraphs =
-        trim().split(RegExp(_LatinLanguageConstants.reLineEndingSelector));
+        trim().split(RegExp(LatinLanguageAnalyzer.reLineEndingSelector));
     final retVal = <String>[];
     for (final e in paragraphs) {
       final paragraph = e.trim();

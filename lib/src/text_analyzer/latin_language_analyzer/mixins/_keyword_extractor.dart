@@ -86,9 +86,10 @@ abstract class _KeyWordExtractor implements TextAnalyzer {
   /// - phrase delimiters such as double quotes, brackets and carets.
   List<String> _textToChunks(String source) {
     final retVal = <String>[];
+    final re = LatinLanguageAnalyzer.rPhraseDelimiterSelector;
     final split = source
         .trim()
-        .split(RegExp(_LatinLanguageConstants.rPhraseDelimiterSelector));
+        .split(RegExp(LatinLanguageAnalyzer.rPhraseDelimiterSelector));
     for (final e in split) {
       final phrase = e.replaceAll(RegExp(r'\s+'), ' ').trim().splitMapJoin(
         RegExp(r'\s+'),
@@ -97,8 +98,10 @@ abstract class _KeyWordExtractor implements TextAnalyzer {
           return stopWords.contains(p0) ? '%chunk%' : p0;
         },
       );
-      final phrases =
-          phrase.split('%chunk%').map((e) => termExceptions[e] ?? e).toList();
+      final phrases = phrase
+          .split('%chunk%')
+          .map((e) => termExceptions[e.trim()] ?? e.trim())
+          .toList();
       phrases.removeWhere((element) => element.trim().isEmpty);
       if (phrases.isNotEmpty) {
         retVal.addAll(phrases);

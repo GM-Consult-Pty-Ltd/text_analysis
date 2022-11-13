@@ -22,31 +22,31 @@ extension _SentenceSplitterExtensionOnString on String {
   /// Insert sentence delimiters into the String at sentence breaks.
   String insertSentenceDelimiters() => trim()
           // replace line feeds and carriage returns with %~%
-          .replaceAll(RegExp(_LatinLanguageConstants.reSentenceEndingSelector),
-              _LatinLanguageConstants.kSentenceDelimiter)
+          .replaceAll(RegExp(LatinLanguageAnalyzer.reSentenceEndingSelector),
+              LatinLanguageAnalyzer.kSentenceDelimiter)
           // select all sentences and replace the ending punctuation with %~%
           .replaceAllMapped(
-              RegExp(_LatinLanguageConstants.reSentenceEndingSelector),
+              RegExp(LatinLanguageAnalyzer.reSentenceEndingSelector),
               (match) {
         final sentence = match.group(0) ?? '';
         // remove white-space before delimiter then return the sentence
-        return '$sentence$_LatinLanguageConstants.kSentenceDelimiter'
+        return '$sentence$LatinLanguageAnalyzer.kSentenceDelimiter'
             .replaceAll(RegExp(r'(\s+)(?=%~%)'),
-                _LatinLanguageConstants.kSentenceDelimiter);
+                LatinLanguageAnalyzer.kSentenceDelimiter);
       });
 
-  /// Split the String at _LatinLanguageConstants.kSentenceDelimiter, trim the elements
+  /// Split the String at LatinLanguageAnalyzer.kSentenceDelimiter, trim the elements
   /// and return only non-empty elements.
   List<String> splitAtSentenceDelimiters() {
-    // split at _LatinLanguageConstants.kSentenceDelimiter
-    final sources = split(RegExp(_LatinLanguageConstants.kSentenceDelimiter));
+    // split at LatinLanguageAnalyzer.kSentenceDelimiter
+    final sources = split(RegExp(LatinLanguageAnalyzer.kSentenceDelimiter));
     final sentences = <String>[];
     for (final e in sources) {
       // trim leading and trailing white-space from all elements
       final sentence = e
           .trim()
           .replaceAll(
-              RegExp(_LatinLanguageConstants.reSentenceEndingSelector), '')
+              RegExp(LatinLanguageAnalyzer.reSentenceEndingSelector), '')
           .trim();
       // add only non-empty sentences
       if (sentence.isNotEmpty) {

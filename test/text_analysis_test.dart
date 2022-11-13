@@ -21,7 +21,7 @@ void main() {
   final sample =
       'The Australian platypus is seemingly a hybrid-mammal and reptilian '
       'creature. It originates from the U.S.A, roaming the pavé of the Cote '
-      'D\'Azure (cigar in hand). He often has (three day old) stubble on his chin.';
+      'D\'Azure (\$3.25 cigar in hand). He often has (three day old) stubble on his chin.';
   //
   group('Tokenization', () {
     //
@@ -258,8 +258,8 @@ void main() {
           'your phone. Podcast production company Pacific Content got the '
           'exclusive on it. This text is taken from Google news.';
 
-      final text = TestData.stockData.entries.first.value
-          .toSourceText({'name', 'description'});
+      // final text = TestData.stockData.entries.first.value
+      //     .toSourceText({'name', 'description'});
 
       final document = await TextDocument.analyze(
           sourceText: sample,
@@ -276,7 +276,7 @@ void main() {
       }
     }));
 
-    test('English().keywordExtractor(sample)', (() {
+    test('English().keywordExtractor(stockData)', (() {
       // final text =
       //     'Google quietly rolled out a new way for Android users to listen to '
       //     'podcasts and subscribe to shows they like, and it already works on '

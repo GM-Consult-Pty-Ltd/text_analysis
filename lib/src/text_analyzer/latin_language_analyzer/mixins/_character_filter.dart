@@ -36,7 +36,7 @@ abstract class _CharacterFilter implements TextAnalyzer {
             .replaceAll(RegExp(r'[\-—]+'), '-')
             // // replace all non-word characters with whitespace
             // .replaceAll(
-            //     RegExp('${_LatinLanguageConstants.reNonWordChars}+'), ' ')
+            //     RegExp('${LatinLanguageAnalyzer.reNonWordChars}+'), ' ')
             // // remove all characters except letters and numbers at end
             // // of term
             // .replaceAll(RegExp(r'[^a-zA-Z0-9À-öø-ÿ](?=$)'), '')
@@ -53,7 +53,7 @@ extension _CharacterFilterExtension on String {
 
   /// Returns true if the String contains any non-word characters.
   bool get containsNonWordCharacters =>
-      RegExp(_LatinLanguageConstants.reNonWordChars).hasMatch(this);
+      RegExp(LatinLanguageAnalyzer.reNonWordChars).hasMatch(this);
 
 // Replace all white-space sequence with single space and trim.
   String normalizeWhitespace() => replaceAll(RegExp(r'(\s{2,})'), ' ').trim();
@@ -61,20 +61,20 @@ extension _CharacterFilterExtension on String {
   /// Replace all forms of apostrophe or quotation mark with U+0027, then
   /// replace all enclosing single quotes with double quote U+201C
   String normalizeQuotesAndApostrophes() =>
-      replaceAll(RegExp(_LatinLanguageConstants.rQuotes), "'")
-          .replaceAll(RegExp(_LatinLanguageConstants.rEnclosingQuotes), '"');
+      replaceAll(RegExp(LatinLanguageAnalyzer.rQuotes), "'")
+          .replaceAll(RegExp(LatinLanguageAnalyzer.rEnclosingQuotes), '"');
 
   /// Replace all punctuation in the String with whitespace.
   String stripPunctuation() => trim()
       .normalizeQuotesAndApostrophes()
       // replace all brackets and carets with white-space.
-      .replaceAll(RegExp(_LatinLanguageConstants.reLineEndingSelector), ' ')
+      .replaceAll(RegExp(LatinLanguageAnalyzer.reLineEndingSelector), ' ')
       // replace all brackets and carets with white-space.
-      .replaceAll(RegExp(_LatinLanguageConstants.reSentenceEndingSelector), ' ')
+      .replaceAll(RegExp(LatinLanguageAnalyzer.reSentenceEndingSelector), ' ')
       // replace all brackets and carets with white-space.
-      .replaceAll(RegExp(_LatinLanguageConstants.rePunctuationSelector), ' ')
+      .replaceAll(RegExp(LatinLanguageAnalyzer.rePunctuationSelector), ' ')
       // replace all brackets and carets with white-space.
-      .replaceAll(RegExp(_LatinLanguageConstants.reBracketsAndCarets), ' ')
+      .replaceAll(RegExp(LatinLanguageAnalyzer.reBracketsAndCarets), ' ')
       // replace all repeated white-space with a single white-space.
       .normalizeWhitespace()
       // remove leading and trailing white-space
