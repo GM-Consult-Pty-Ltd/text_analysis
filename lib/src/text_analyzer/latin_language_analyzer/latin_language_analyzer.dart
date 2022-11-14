@@ -160,7 +160,7 @@ abstract class LatinLanguageAnalyzer
       '"+';
 
   /// Matches all numbers, including those delimited with periods and or commas.
-  static const rNumbers = r'(\d|((?<=\d)[,.]{1}(?=\d)))+';
+  static const rNumbers = r'(?<=^|\W)(\d|((?<=\d)[,.]{1}(?=\d)))+(?=$|\W)';
 
   /// Matches a String that includes digits and delimiters (periods and commas)
   /// where delimiters are not at the start or end of the string
@@ -168,15 +168,13 @@ abstract class LatinLanguageAnalyzer
 
   /// Matches all numbers and amounts, including:
   /// - numbers delimited with periods and or commas;
-  /// - single non-word prefixes and or suffixes such as currency symbols or %
-  ///   signs; and
+  /// - single non-word currency symbol ($€£¥₣₹ك]) prefixes;
+  /// - any three-letter upper-case pre-fixes e.g. "USD" or "GBP"
+  /// - a single "%" suffix; and
   /// - three-letter currency identifiers in any combination of upper-case
   ///   letters.
-  /// Prefixes and suffixes can include white-space between the pre-fix/suffix
-  /// and the number.
-  static const rNumbersAndAmounts = r'([^\w,.]?|[A-Z]{3})\s?'
-      '$rNumbers'
-      r'[\s]?(([^\w,.]?)|[A-Z]{3})'; // suffix
+  static const rNumbersAndAmounts = r'(?<=^|\s)([$€£¥₣₹ك]{1}|[A-Z]{3})?(\d+|'
+      r'((?<=\d)[,.]{1}(?=\d)))+([%]{1})?(?=$|\W)';
 
   /// Matches all sentence endings.
   static const rSentenceEndingSelector =

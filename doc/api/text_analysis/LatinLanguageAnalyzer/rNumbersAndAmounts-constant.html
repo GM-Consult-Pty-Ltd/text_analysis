@@ -59,21 +59,19 @@
   <p>Matches all numbers and amounts, including:</p>
 <ul>
 <li>numbers delimited with periods and or commas;</li>
-<li>single non-word prefixes and or suffixes such as currency symbols or %
-signs; and</li>
+<li>single non-word currency symbol ($€£¥₣₹ك]) prefixes;</li>
+<li>any three-letter upper-case pre-fixes e.g. "USD" or "GBP"</li>
+<li>a single "%" suffix; and</li>
 <li>three-letter currency identifiers in any combination of upper-case
-letters.
-Prefixes and suffixes can include white-space between the pre-fix/suffix
-and the number.</li>
+letters.</li>
 </ul>
 </section>
 
         
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
-  <pre class="language-dart"><code class="language-dart">static const rNumbersAndAmounts = r&#39;([^\w,.]?|[A-Z]{3})\s?&#39;
-    &#39;$rNumbers&#39;
-    r&#39;[\s]?(([^\w,.]?)|[A-Z]{3})&#39;;
+  <pre class="language-dart"><code class="language-dart">static const rNumbersAndAmounts = r&#39;(?&lt;=^|\s)([$€£¥₣₹ك]{1}|[A-Z]{3})?(\d+|&#39;
+    r&#39;((?&lt;=\d)[,.]{1}(?=\d)))+([%]{1})?(?=$|\W)&#39;;
 
 </code></pre>
 </section>

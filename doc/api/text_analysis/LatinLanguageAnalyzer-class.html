@@ -594,7 +594,7 @@ where delimiters are not at the start or end of the string
   
 
   <div>
-    <span class="signature"><code>r&#39;(\d|((?&lt;=\d)[,.]{1}(?=\d)))+&#39;</code></span>
+    <span class="signature"><code>r&#39;(?&lt;=^|\W)(\d|((?&lt;=\d)[,.]{1}(?=\d)))+(?=$|\W)&#39;</code></span>
   </div>
 </dd>
 
@@ -609,7 +609,7 @@ where delimiters are not at the start or end of the string
   
 
   <div>
-    <span class="signature"><code>r&#39;([^\w,.]?|[A-Z]{3})\s?&#39; &#39;$rNumbers&#39; r&#39;[\s]?(([^\w,.]?)|[A-Z]{3})&#39;</code></span>
+    <span class="signature"><code>r&#39;(?&lt;=^|\s)([$€£¥₣₹ك]{1}|[A-Z]{3})?(\d+|&#39; r&#39;((?&lt;=\d)[,.]{1}(?=\d)))+([%]{1})?(?=$|\W)&#39;</code></span>
   </div>
 </dd>
 

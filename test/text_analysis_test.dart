@@ -20,7 +20,7 @@ import 'package:test/test.dart';
 void main() {
   final sample =
       'The Australian platypus is seemingly a hybrid-mammal and "reptilian '
-      'creature". It originates from the U.S.A., roaming the pavé of the Cote '
+      'creature". It 100% originates from the U.S.A., roaming the pavé of the Cote '
       'D\'Azure (\$3.25 cigar in hand). He often has (three day\'s old) stubble '
       'on his chin.';
   //

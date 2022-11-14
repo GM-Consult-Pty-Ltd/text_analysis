@@ -62,7 +62,7 @@
         
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
-  <pre class="language-dart"><code class="language-dart">static const rNumbers = r&#39;(\d|((?&lt;=\d)[,.]{1}(?=\d)))+&#39;;
+  <pre class="language-dart"><code class="language-dart">static const rNumbers = r&#39;(?&lt;=^|\W)(\d|((?&lt;=\d)[,.]{1}(?=\d)))+(?=$|\W)&#39;;
 
 </code></pre>
 </section>
