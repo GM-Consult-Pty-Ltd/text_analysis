@@ -42,7 +42,7 @@ abstract class _Tokenizer implements TextAnalyzer {
     StringModifier? reCase,
     TokenFilter? tokenFilter,
   }) async {
-    List<Token> tokens = _keyWordTokens(text, zone, nGramRange);
+    final tokens = _keyWordTokens(text, zone, nGramRange);
     final retval = tokens.toSet().toList()
       ..sort(((a, b) => a.termPosition.compareTo(b.termPosition)));
     return tokenFilter != null ? await tokenFilter(retval) : retval;

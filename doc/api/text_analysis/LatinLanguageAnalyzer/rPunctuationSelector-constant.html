@@ -56,14 +56,18 @@
         </section>
         
 <section class="desc markdown">
-  <p>Matches all mid-sentence punctuation.</p>
+  <p>Matches all punctuation. Excludes periods followed by word characters or
+lower-case text (even if separated by white-space) to avoid selecting
+periods in abbreviations.</p>
 </section>
 
         
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
   <pre class="language-dart"><code class="language-dart">static const rPunctuationSelector =
-    r&quot;[\!:;,\-—.]+(?=[^a-zA-Z0-9À-öø-ÿ¥Œ€@™#-\&amp;_\&#39;-]|$)&quot;;
+    r&quot;[\!:;,\-—]+(?=[^a-zA-Z0-9À-öø-ÿ¥Œ€@™#-\&amp;_\&#39;-]|$)|[.](?=$|[^,.!:&quot;
+    &#39;&quot;&#39;
+    r&quot;&#39;[\]{}();a-zA-Z0-9\s]|\s[A-Z0-9])&quot;;
 
 </code></pre>
 </section>

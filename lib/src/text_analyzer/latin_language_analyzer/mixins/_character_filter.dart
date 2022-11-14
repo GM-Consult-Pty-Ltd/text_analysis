@@ -44,10 +44,10 @@ extension _CharacterFilterExtension on String {
       // replace all double quote characters with U+0022, and single quote
       // characters with +U0027
       .normalizeQuotes()
-      // remove enclosing double and single quotes from start and end of string
-      .removeEnclosingQuotes()
       // change all dashes to U+2011
       .normalizeHyphens()
+      // remove all double and single quotes from string
+      .removeQuotes()
       // replace all line endings with white-space.
       .replaceAll(RegExp(LatinLanguageAnalyzer.rLineEndingSelector), ' ')
       // replace all sentence endings with white-space.

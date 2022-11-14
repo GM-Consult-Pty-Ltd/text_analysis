@@ -64,8 +64,8 @@ extension TextAnalysisExtensionsOnString on String {
 
   static const _rDashesAndHyphens = '[\\\u2011\u2012\u2013\u2014]';
 
-  /// Selector for all single or double quotation marks and apostrophes.
-  static const _rAllQuotes = '["“”„‟\'’‘‛]';
+  // /// Selector for all single or double quotation marks and apostrophes.
+  // static const _rAllQuotes = '["“”„‟\'’‘‛]';
 
   /// Selector for all single or double quotation marks and apostrophes.
   static const _rSingleQuotes = "['’‘‛]";

@@ -183,7 +183,11 @@ abstract class LatinLanguageAnalyzer
       '(?<=$rWordChars|\\s)(\\. )(?=([^a-z])|\\s+|\$)|(\\.)(?=\$)|'
       '(?<=[^([{])([?!])(?=([^)]}])|\\s+|\$)';
 
-  /// Matches all mid-sentence punctuation.
+  /// Matches all punctuation. Excludes periods followed by word characters or
+  /// lower-case text (even if separated by white-space) to avoid selecting
+  /// periods in abbreviations.
   static const rPunctuationSelector =
-      r"[\!:;,\-—.]+(?=[^a-zA-Z0-9À-öø-ÿ¥Œ€@™#-\&_\'-]|$)";
+      r"[\!:;,\-—]+(?=[^a-zA-Z0-9À-öø-ÿ¥Œ€@™#-\&_\'-]|$)|[.](?=$|[^,.!:"
+      '"'
+      r"'[\]{}();a-zA-Z0-9\s]|\s[A-Z0-9])";
 }
