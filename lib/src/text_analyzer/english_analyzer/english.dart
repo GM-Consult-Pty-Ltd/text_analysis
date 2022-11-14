@@ -53,8 +53,9 @@ class English extends LatinLanguageAnalyzer implements TextAnalyzer {
 
   @override
   TermFlag get isStopWord => (term) =>
-      _EnglishConstants.kStopWords.contains(term) || super.isStopWord(term);
-      
+      _EnglishConstants.kStopWords.contains(term.toLowerCase()) ||
+      super.isStopWord(term);
+
   @override
   NGramRange? get nGramRange => NGramRange(1, 3);
 

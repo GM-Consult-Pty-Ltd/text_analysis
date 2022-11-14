@@ -72,7 +72,8 @@ material value to the analysis of text.</p>
   <h2><span>Implementation</span></h2>
   <pre class="language-dart"><code class="language-dart">@override
 TermFlag get isStopWord =&gt; (term) =&gt;
-    _EnglishConstants.kStopWords.contains(term) || super.isStopWord(term);</code></pre>
+    _EnglishConstants.kStopWords.contains(term.toLowerCase()) ||
+    super.isStopWord(term);</code></pre>
 </section>
 
 </section>
