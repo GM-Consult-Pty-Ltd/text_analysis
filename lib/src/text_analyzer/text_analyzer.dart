@@ -94,11 +94,6 @@ abstract class TextAnalyzer {
   /// language.
   TermModifier get reCase;
 
-  /// The range of N-gram sizes to be included in tokens and keywords.
-  /// 
-  /// If [nGramRange] is null, only keyword phrases are generated.
-  NGramRange? get nGramRange;
-
   /// A callback that returns true if the term is a stopword.
   ///
   /// Stopwords are terms that commonly occur in a language and that do not add
