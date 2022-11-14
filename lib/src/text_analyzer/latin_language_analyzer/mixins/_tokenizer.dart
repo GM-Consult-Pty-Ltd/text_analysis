@@ -35,48 +35,17 @@ abstract class _Tokenizer implements TextAnalyzer {
   }
 
   /// Private [Tokenizer] function implements [TextAnalyzer.tokenizer].
-  Future<List<Token>> _tokenize(SourceText text,
-      {NGramRange? nGramRange,
-      Zone? zone,
-      StringModifier? reCase,
-      TokenFilter? tokenFilter,      
-      }) async {
-    List<Token> tokens = _keyWordTokens(text, zone, nGramRange);
-    // add term tokens and n-gram tokens
-    // if (strategy != TokenizingStrategy.keyWords) {
-    //   tokens.addAll(await _nGramAndTermTokens(
-    //       text, _effectiveNGramRange(nGramRange, strategy), zone));
-    // }
-    // add keyword tokens
-    // if (strategy == TokenizingStrategy.keyWords ||
-    //     strategy == TokenizingStrategy.all) {
-    // final keywordTokens = _keyWordTokens(text, zone);
-    // final existingTerms = tokens.map((e) => e.term);
-    // tokens.addAll(_newKeywordTokens(existingTerms, keywordTokens));
-    // }
-    // remove duplicate tokens
-    tokens = _toOrderedSet(tokens, reCase);
-    // apply the tokenFilter if it is not null and return the tokens collection
-    return tokenFilter != null ? await tokenFilter(tokens) : tokens;
-  }
-
-  // Iterable<Token> _newKeywordTokens(
-  //         Iterable<String> existingTerms, Iterable<Token> keywordTokens) =>
-  //     keywordTokens.where((e) => !existingTerms.contains(e.term));
-
-  List<Token> _toOrderedSet(
-    Iterable<Token> tokens,
+  Future<List<Token>> _tokenize(
+    SourceText text, {
+    NGramRange? nGramRange,
+    Zone? zone,
     StringModifier? reCase,
-  ) {
-    reCase = reCase ?? (term) => term;
-    final set = <String, Token>{};
-    for (final e in tokens) {
-      final key = '${e.term}_${e.termPosition}'.toLowerCase();
-      set[key] = Token(reCase(e.term), e.n, e.termPosition, e.zone);
-    }
-    final retVal = set.values.toList();
-    retVal.sort(((a, b) => a.termPosition.compareTo(b.termPosition)));
-    return retVal;
+    TokenFilter? tokenFilter,
+  }) async {
+    List<Token> tokens = _keyWordTokens(text, zone, nGramRange);
+    final retval = tokens.toSet().toList()
+      ..sort(((a, b) => a.termPosition.compareTo(b.termPosition)));
+    return tokenFilter != null ? await tokenFilter(retval) : retval;
   }
 
   /// Private worker function.
@@ -89,12 +58,11 @@ abstract class _Tokenizer implements TextAnalyzer {
     final keyWords = keywordExtractor(text, nGramRange: nGramRange);
     for (final keyWord in keyWords) {
       final List<String> tokenTerms = [];
-      tokenTerms.addAll(termFilter(
-          keyWord.join(' ').trim().replaceAll(RegExp(r'\s+'), ' ').trim()));
+      tokenTerms.addAll(termFilter(keyWord.join(' ').normalizeWhitespace()));
       for (var tokenTerm in tokenTerms) {
-        tokenTerm = tokenTerm.trim().replaceAll(RegExp(r'\s+'), ' ');
+        tokenTerm = tokenTerm.normalizeWhitespace();
         if (tokenTerm.isNotEmpty) {
-          final n = tokenTerm.split(RegExp(r'\s+')).length;
+          final n = tokenTerm.splitAtWhiteSpace().length;
           if (nGramRange == null ||
               (n >= nGramRange.min && n <= nGramRange.max)) {
             final token = Token(tokenTerm, n, position, zone);
@@ -106,6 +74,4 @@ abstract class _Tokenizer implements TextAnalyzer {
     }
     return tokens;
   }
-
-  
 }

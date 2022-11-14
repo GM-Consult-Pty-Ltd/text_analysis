@@ -70,7 +70,8 @@ abstract class LatinLanguageAnalyzer
   KeywordExtractor get keywordExtractor => _extractKeywords;
 
   @override
-  TermFlag get isStopWord => (term) => LatinLanguageAnalyzer.isNumber(term);
+  TermFlag get isStopWord =>
+      (term) => LatinLanguageAnalyzer.isNumberOrAmount(term) || term.length < 2;
 
   /// Returns true if the String starts with "@" or "#" followed by one or more
   /// word-chacters only.
@@ -81,6 +82,13 @@ abstract class LatinLanguageAnalyzer
   /// commas) where delimiters are not at the start or end of the String.
   static bool isNumber(String term) =>
       RegExp(rNumber).allMatches(term.trim()).length == 1;
+
+  /// Returns true if the String contains digits and delimiters (periods or
+  /// commas) where delimiters are not at the start or end of the String.
+  ///
+  /// Includes numbers with pre-fixes or suffixes
+  static bool isNumberOrAmount(String term) =>
+      RegExp(rNumbersAndAmounts).allMatches(term.trim()).length == 1;
 
   /// Replaces all hyphenations with [replace].
   ///

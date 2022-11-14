@@ -49,12 +49,69 @@ extension TextAnalysisExtensionsOnJSON on Map<String, dynamic> {
 extension TextAnalysisExtensionsOnString on String {
 //
 
-  /// Selector for all single or double quotation marks and apostrophes.
-  static const _rQuotes = '[\'"“”„‟’‘‛]';
+  /// Replace all white-space sequences with single space and trim.
+  String normalizeWhitespace() => replaceAll(RegExp(r'(\s{2,})'), ' ').trim();
 
-  /// Trims all forms of quotation marks from start and end of String.
-  String removeEnclosingQuotes() =>
-      replaceAll(RegExp('(^$_rQuotes+)|($_rQuotes+(?=\$))'), '');
+  /// Replaces all double quote characters with U+0022, and single quote
+  /// characters with +U0027
+  String normalizeQuotes() => replaceAll(RegExp('$_rSingleQuotes+'), "'")
+      .replaceAll(RegExp('$_rDoubleQuotes+'), '"');
+
+  /// Replaces all dashes and hyphens (U+2011 through U+2014) with a standard
+  /// hyphen (U+2011).
+  String normalizeHyphens() =>
+      replaceAll(RegExp('$_rDashesAndHyphens+'), '\u2011');
+
+  static const _rDashesAndHyphens = '[\\\u2011\u2012\u2013\u2014]';
+
+  /// Selector for all single or double quotation marks and apostrophes.
+  static const _rAllQuotes = '["“”„‟\'’‘‛]';
+
+  /// Selector for all single or double quotation marks and apostrophes.
+  static const _rSingleQuotes = "['’‘‛]";
+
+  /// Selector for all double quotation marks and apostrophes.
+  static const _rDoubleQuotes = '["“”„‟]';
+
+  static const _rQuotes =
+      '(?<=^|[^a-zA-Z])(\'+)|(?<=[^sS])\'+(?=\$|[^a-zA-Z])|["“”„‟’‘‛]+';
+
+  /// Selects all possessive apostrophes:
+  /// - selects all instances of "'s" or "'S" where U+0027 is followed by an
+  ///   "s", preceded by a letter or digit and followed by a character other
+  ///   than a letter or digit.
+  /// - selects all instances of "'" where U+0027 is preceded by "s" or "S" and
+  ///   followed by a character other than a letter or digit.
+  static const rPossessive =
+      r"(?<=[a-zA-Z0-9])('s|'S)(?=[^a-zA-Z0-9])|(?<=[sS])(')(?=[^a-zA-Z])";
+
+  /// Removes all posessive apostropes.
+  /// - removes all instances of "'s" or "'S" where U+0027 is followed by an
+  ///   "s", preceded by a letter or digit and followed by a character other
+  ///   than a letter or digit.
+  /// - removes all instances of "'" where U+0027 is preceded by "s" or "S" and
+  ///   followed by a character other than a letter or digit.
+  /// Call [normalizeQuotes] before use.
+  String removePossessives() => replaceAll(RegExp(rPossessive), '');
+
+  /// Removes all quote marks from the string, except where within a word
+  /// or where it is a apostrophe preceded by n "s" or "S" (possessive plural).
+  String removeQuotes() => replaceAll(RegExp(_rQuotes), '');
+
+  /// Trims all forms of quotation marks from start of the String.
+  ///
+  /// Trims all forms of quotation marks from end of the String if the string
+  /// starts with the same quotation mark.
+  ///
+  /// Only selects for U+0022 and U+0027, so call [normalizeQuotes] first.
+  String removeEnclosingQuotes() {
+    final term = trim();
+    final startingQuote = RegExp('(?<=^)[\'"]+').firstMatch(term)?[0];
+    return (startingQuote != null)
+        ? term.replaceAll(
+            RegExp('(?<=^)$startingQuote|$startingQuote(?=\$)'), '')
+        : term;
+  }
 
   /// Returns all the vowels in the String.
   List<String> get vowels => RegExp(r'[aeiouyà-æè-ðò-öø-ÿ]')
@@ -149,11 +206,26 @@ extension TextAnalysisExtensionsOnStringList on List<String> {
 extension TokenCollectionExtension on Iterable<Token> {
 //
 
+  /// Returns a list of unique [Phrase]s from the [terms] in the collection.
+  ///
+  /// Splits each unique term at white-space and adds it to the set.
+  Set<List<String>> toPhrases() {
+    final keywords = <List<String>>{};
+    for (var term in terms) {
+      term = term.normalizeWhitespace();
+      final kw = term.split(RegExp(r'\s+'));
+      if (kw.isNotEmpty) {
+        keywords.add(kw);
+      }
+    }
+    return keywords;
+  }
+
   /// Returns a hashmap of k-grams to terms from the collection of tokens.
   Map<KGram, Set<Term>> kGrams([int k = 2]) => terms.toKGramsMap(k);
 
   /// Returns the set of unique terms from the collection of [Token]s.
-  Set<String> get terms => Set<String>.from(map((e) => e.term));
+  Set<String> get terms => Set<String>.from(map((e) => e.term.trim()));
 
   /// Returns a list of all the terms from the collection of [Token]s, in
   /// the same order as they occur in the [SourceText].

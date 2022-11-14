@@ -16,6 +16,7 @@ abstract class _CharacterFilter implements TextAnalyzer {
   /// - changes all dashes to single standard hyphen;
   /// - normalizes all white-space to single space characters.
   String _filterCharacters(String term) {
+    term = term.trim();
     // try parsing the term to a number
     final number = num.tryParse(term);
     // return the term if it can be parsed as a number
@@ -24,13 +25,10 @@ abstract class _CharacterFilter implements TextAnalyzer {
         ? number.toString()
         // if the term is all-caps return it unchanged.
         : term
-            // change all quote marks to single apostrophe +U0027
-            .replaceAll(RegExp('[\'"“”„‟’‘‛]+'), "'")
-            // remove enclosing quote marks
-            .replaceAll(RegExp(r"(^'+)|('+(?=$))"), '')
-            // change all dashes to single standard hyphen
-            .replaceAll(RegExp(r'[\-—]+'), '-')
-            // replace all white-space sequence with single space and trim
+            .normalizeQuotes()
+            .removeEnclosingQuotes()
+            .removePossessives()
+            .normalizeHyphens()
             .normalizeWhitespace();
   }
 
@@ -40,29 +38,24 @@ abstract class _CharacterFilter implements TextAnalyzer {
 /// String extensions used by the [LatinLanguageAnalyzer]text analyzer.
 extension _CharacterFilterExtension on String {
 //
-
-// Replace all white-space sequence with single space and trim.
-  String normalizeWhitespace() => replaceAll(RegExp(r'(\s{2,})'), ' ').trim();
-
-  /// Replace all forms of apostrophe or quotation mark with U+0027, then
-  /// replace all enclosing single quotes with double quote U+201C
-  String normalizeQuotesAndApostrophes() =>
-      replaceAll(RegExp(LatinLanguageAnalyzer.rQuotes), "'")
-          .replaceAll(RegExp(LatinLanguageAnalyzer.rEnclosingQuotes), '"');
-
+  
   /// Replace all punctuation in the String with whitespace.
   String stripPunctuation() => trim()
-      .normalizeQuotesAndApostrophes()
-      // replace all brackets and carets with white-space.
+      // replace all double quote characters with U+0022, and single quote
+      // characters with +U0027
+      .normalizeQuotes()
+      // remove enclosing double and single quotes from start and end of string
+      .removeEnclosingQuotes()
+      // change all dashes to U+2011
+      .normalizeHyphens()
+      // replace all line endings with white-space.
       .replaceAll(RegExp(LatinLanguageAnalyzer.rLineEndingSelector), ' ')
-      // replace all brackets and carets with white-space.
+      // replace all sentence endings with white-space.
       .replaceAll(RegExp(LatinLanguageAnalyzer.rSentenceEndingSelector), ' ')
-      // replace all brackets and carets with white-space.
+      // replace all punctuation with white-space.
       .replaceAll(RegExp(LatinLanguageAnalyzer.rPunctuationSelector), ' ')
       // replace all brackets and carets with white-space.
       .replaceAll(RegExp(LatinLanguageAnalyzer.rBracketsAndCarets), ' ')
       // replace all repeated white-space with a single white-space.
-      .normalizeWhitespace()
-      // remove leading and trailing white-space
-      .trim();
+      .normalizeWhitespace();
 }

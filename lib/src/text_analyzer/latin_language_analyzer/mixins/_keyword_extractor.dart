@@ -45,7 +45,10 @@ abstract class _KeyWordExtractor implements TextAnalyzer {
         _addPhraseToKeywords(phrase, keyWordSet, retVal, nGramRange);
       }
     }
-
+    for (final e in retVal) {
+      e.removeWhere((element) => element.trim().isEmpty);
+    }
+    retVal.removeWhere((element) => element.isEmpty);
     return retVal;
   }
 
@@ -90,12 +93,13 @@ abstract class _KeyWordExtractor implements TextAnalyzer {
               if (nphrase.isNotEmpty) {
                 retVal.add(nphrase);
                 if (LatinLanguageAnalyzer.isHyphenated(keyWord)) {
-                  final unHyphenated = LatinLanguageAnalyzer.replaceHyphens('');
+                  final unHyphenated =
+                      LatinLanguageAnalyzer.replaceHyphens(keyWord, '');
                   if (unHyphenated.isNotEmpty && keyWordSet.add(unHyphenated)) {
                     retVal.add(unHyphenated.splitAtWhiteSpace());
                   }
                   final spaceHyphenated =
-                      LatinLanguageAnalyzer.replaceHyphens(' ');
+                      LatinLanguageAnalyzer.replaceHyphens(keyWord, ' ');
                   if (spaceHyphenated.isNotEmpty &&
                       keyWordSet.add(spaceHyphenated)) {
                     retVal.add(spaceHyphenated.splitAtWhiteSpace());
@@ -123,7 +127,11 @@ abstract class _KeyWordExtractor implements TextAnalyzer {
         RegExp(r'\s+'),
         onNonMatch: (p0) {
           p0 = reCase(characterFilter(p0.trim())).normalizeWhitespace();
-          return isStopWord(p0) ? '%chunk%' : p0;
+          return p0.isEmpty
+              ? p0
+              : isStopWord(p0)
+                  ? '%chunk%'
+                  : p0;
         },
       );
       final phrases = phrase.split('%chunk%').map((e) {

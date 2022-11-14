@@ -71,7 +71,8 @@ material value to the analysis of text.</p>
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
   <pre class="language-dart"><code class="language-dart">@override
-TermFlag get isStopWord =&gt; (term) =&gt; LatinLanguageAnalyzer.isNumber(term);</code></pre>
+TermFlag get isStopWord =&gt;
+    (term) =&gt; LatinLanguageAnalyzer.isNumberOrAmount(term) || term.length &lt; 2;</code></pre>
 </section>
 
 </section>
@@ -135,6 +136,7 @@ TermFlag get isStopWord =&gt; (term) =&gt; LatinLanguageAnalyzer.isNumber(term);
           <li><a href="../../text_analysis/LatinLanguageAnalyzer/isHashtag.html">isHashtag</a></li>
           <li><a href="../../text_analysis/LatinLanguageAnalyzer/isHyphenated.html">isHyphenated</a></li>
           <li><a href="../../text_analysis/LatinLanguageAnalyzer/isNumber.html">isNumber</a></li>
+          <li><a href="../../text_analysis/LatinLanguageAnalyzer/isNumberOrAmount.html">isNumberOrAmount</a></li>
           <li><a href="../../text_analysis/LatinLanguageAnalyzer/replaceHyphens.html">replaceHyphens</a></li>
 
         <li class="section-title"><a href="../../text_analysis/LatinLanguageAnalyzer-class.html#constants">Constants</a></li>
