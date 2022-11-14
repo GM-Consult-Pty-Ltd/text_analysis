@@ -63,14 +63,11 @@ void main() {
       final analyzer =
           English(termExceptions: {'alphabet': 'ALPHABET', 'google': 'Google'});
 
-      
-        // tokenize the source
-        final tokens = await analyzer.tokenizer(source,
-          zone: 'text', nGramRange: NGramRange(1, 2));
+      // tokenize the source
+      final tokens = await analyzer.tokenizer(source, zone: 'text');
 
-        // print the tokens
+      // print the tokens
       _printTokens('TOKENIZE JSON', tokens);
-      
     });
 
     test('English()', () async {
@@ -82,14 +79,10 @@ void main() {
       final analyzer =
           English(termExceptions: {'alphabet': 'ALPHABET', 'google': 'Google'});
 
-      
-        // tokenize the source
-        final tokens = await English.analyzer.tokenizer(source,
-             nGramRange: NGramRange(1, 2));
-
-        // print the tokens
+      // tokenize the source
+      final tokens = await English.analyzer.tokenizer(source);
+      // print the tokens
       _printTokens('TOKENIZE JSON ', tokens);
-
     });
 
     test('SPLITTERS', () async {
@@ -125,7 +118,6 @@ void main() {
 
       // tokenize the json with 3 zones
       final tokens = await analyzer.jsonTokenizer(TestData.json,
-          
           zones: ['name', 'description', 'hashTags']);
 
       // print the tokens
@@ -135,10 +127,8 @@ void main() {
     /// Tokenize JSON with NO zones.
     test('TextAnalyzer.JsonTokenizer', () async {
       // tokenize the json with NO zones
-      final tokens = await English.analyzer.jsonTokenizer(TestData.json,
-          
-          nGramRange: NGramRange(1, 2),
-          zones: ['description']);
+      final tokens = await English.analyzer
+          .jsonTokenizer(TestData.json, zones: ['description']);
       // map the document's tokens to a list of terms (strings)
 
       // print the tokens
@@ -168,8 +158,6 @@ void main() {
           (MapEntry<String, Map<String, dynamic>> entry) async {
         final json = entry.value;
         final tokens = await English.analyzer.jsonTokenizer(json,
-           
-            nGramRange: NGramRange(1, 2),
             zones: ['ticker', 'name', 'description', 'hashTag', 'symbol']);
         for (final term in Set<String>.from(tokens.map((e) => e.term))) {
           final tf = (dictionary[term] ?? 0) + 1;
@@ -232,7 +220,7 @@ void main() {
           'exclusive on it. This text is taken from Google news.';
 
       final keywords =
-          English().keywordExtractor(sample, nGramRange: NGramRange(1, 2));
+          English().keywordExtractor(sample);
 
       final graph =
           TermCoOccurrenceGraph(keywords) as TermCoOccurrenceGraphBase;
@@ -259,8 +247,7 @@ void main() {
           'exclusive on it. This text is taken from Google news.';
 
       final document = await TextDocument.analyze(
-          sourceText: sample,
-          analyzer: English.analyzer);
+          sourceText: sample, analyzer: English.analyzer);
 
       // .map((e) => e.join(' '));
       print(sample);

@@ -50,7 +50,7 @@
 
     <section class="multi-line-signature">
         <span class="name ">Tokenizer</span> =
-     <span class="returntype"><a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../text_analysis/Token-class.html">Token</a></span>&gt;</span></span>&gt;</span> Function<span class="signature">(<span class="parameter" id="param-source"><span class="type-annotation"><a href="../type_definitions/SourceText.html">SourceText</a></span> <span class="parameter-name">source</span>, </span><span class="parameter" id="param-nGramRange">{<span class="type-annotation"><a href="../text_analysis/NGramRange-class.html">NGramRange</a>?</span> <span class="parameter-name">nGramRange</span>, </span><span class="parameter" id="param-reCase"><span class="type-annotation"><a href="../type_definitions/StringModifier.html">StringModifier</a>?</span> <span class="parameter-name">reCase</span>, </span><span class="parameter" id="param-tokenFilter"><span class="type-annotation"><a href="../type_definitions/TokenFilter.html">TokenFilter</a>?</span> <span class="parameter-name">tokenFilter</span>, </span><span class="parameter" id="param-zone"><span class="type-annotation"><a href="../type_definitions/Zone.html">Zone</a>?</span> <span class="parameter-name">zone</span>}</span>)</span></span>
+     <span class="returntype"><a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../text_analysis/Token-class.html">Token</a></span>&gt;</span></span>&gt;</span> Function<span class="signature">(<span class="parameter" id="param-source"><span class="type-annotation"><a href="../type_definitions/SourceText.html">SourceText</a></span> <span class="parameter-name">source</span>, </span><span class="parameter" id="param-tokenFilter">{<span class="type-annotation"><a href="../type_definitions/TokenFilter.html">TokenFilter</a>?</span> <span class="parameter-name">tokenFilter</span>, </span><span class="parameter" id="param-zone"><span class="type-annotation"><a href="../type_definitions/Zone.html">Zone</a>?</span> <span class="parameter-name">zone</span>}</span>)</span></span>
 
     </section>
 
@@ -62,7 +62,6 @@ the <code>source</code> text.</p>
 queries and indexes.</p>
 <ul>
 <li><code>source</code> is a String that will be tokenized;</li>
-<li><code>nGramRange</code> is the range of N-gram lengths to generate;</li>
 <li><code>tokenFilter</code> is a filter function that returns a subset of a collection
 of <a href="../text_analysis/Token-class.html">Token</a>s; and</li>
 <li><code>zone</code> is the of the name of the zone to be appended to the <a href="../text_analysis/Token-class.html">Token</a>s.</li>
@@ -74,9 +73,7 @@ of <a href="../text_analysis/Token-class.html">Token</a>s; and</li>
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
   <pre class="language-dart"><code class="language-dart">typedef Tokenizer = Future&lt;List&lt;Token&gt;&gt; Function(SourceText source,
-    {NGramRange? nGramRange,
-    Zone? zone,
-    StringModifier? reCase,
+    {Zone? zone,
     TokenFilter? tokenFilter});</code></pre>
 </section>
 
@@ -118,11 +115,11 @@ of <a href="../text_analysis/Token-class.html">Token</a>s; and</li>
   <li><a href="../type_definitions/SentenceSplitter.html">SentenceSplitter</a></li>
   <li><a href="../type_definitions/SourceText.html">SourceText</a></li>
   <li><a href="../type_definitions/StopWords.html">StopWords</a></li>
-  <li><a href="../type_definitions/StringModifier.html">StringModifier</a></li>
   <li><a href="../type_definitions/SyllableCounter.html">SyllableCounter</a></li>
   <li><a href="../type_definitions/Term.html">Term</a></li>
   <li><a href="../type_definitions/TermFilter.html">TermFilter</a></li>
   <li><a href="../type_definitions/TermFlag.html">TermFlag</a></li>
+  <li><a href="../type_definitions/TermModifier.html">TermModifier</a></li>
   <li><a href="../type_definitions/TermSplitter.html">TermSplitter</a></li>
   <li><a href="../type_definitions/TokenFilter.html">TokenFilter</a></li>
   <li><a href="../type_definitions/Tokenizer.html">Tokenizer</a></li>

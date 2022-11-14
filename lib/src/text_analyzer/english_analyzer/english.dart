@@ -36,10 +36,10 @@ class English extends LatinLanguageAnalyzer implements TextAnalyzer {
       text.replaceAll(RegExp(rPosessiveApostrophe), '');
 
   @override
-  StringModifier get stemmer => _EnglishConstants.kStemmer;
+  TermModifier get stemmer => _EnglishConstants.kStemmer;
 
   @override
-  StringModifier get lemmatizer => _EnglishConstants.kLemmatizer;
+  TermModifier get lemmatizer => _EnglishConstants.kLemmatizer;
 
   @override
   Map<String, String> get abbreviations => _EnglishConstants.kAbbreviations;
@@ -54,4 +54,10 @@ class English extends LatinLanguageAnalyzer implements TextAnalyzer {
   @override
   TermFlag get isStopWord => (term) =>
       _EnglishConstants.kStopWords.contains(term) || super.isStopWord(term);
+      
+  @override
+  NGramRange? get nGramRange => NGramRange(1, 3);
+
+  @override
+  TermModifier get reCase => (term) => term.toLowerCase();
 }

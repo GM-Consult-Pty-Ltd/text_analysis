@@ -8,8 +8,7 @@ abstract class _KeyWordExtractor implements TextAnalyzer {
   //
 
   List<List<String>> _extractKeywords(String source,
-      {NGramRange? nGramRange, StringModifier? reCase}) {
-    reCase = reCase ?? (term) => term.toLowerCase();
+      {NGramRange? nGramRange}) {    
     final retVal = <List<String>>[];
     final keyWordSet = <String>{};
     final phrases = _textToChunks(source, reCase);
@@ -117,7 +116,7 @@ abstract class _KeyWordExtractor implements TextAnalyzer {
   /// - punctuation not part of abbreviations or numbers;
   /// - line endings;
   /// - phrase delimiters such as double quotes, brackets and carets.
-  List<String> _textToChunks(String source, StringModifier reCase) {
+  List<String> _textToChunks(String source, TermModifier reCase) {
     final retVal = <String>[];
     final split = source
         .normalizeWhitespace()
@@ -126,12 +125,12 @@ abstract class _KeyWordExtractor implements TextAnalyzer {
       final phrase = e.normalizeWhitespace().splitMapJoin(
         RegExp(r'\s+'),
         onNonMatch: (p0) {
-          p0 = reCase(characterFilter(p0.trim())).normalizeWhitespace();
+          p0 = characterFilter(p0.trim()).normalizeWhitespace();
           return p0.isEmpty
               ? p0
               : isStopWord(p0)
                   ? '%chunk%'
-                  : p0;
+                  : reCase(p0);
         },
       );
       final phrases = phrase.split('%chunk%').map((e) {

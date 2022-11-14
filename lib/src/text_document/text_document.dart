@@ -84,14 +84,13 @@ abstract class TextDocument {
       Zone? zone}) async {
     final tokens = await analyzer.tokenizer(sourceText,
         zone: zone,
-        nGramRange: nGramRange,
         tokenFilter: tokenFilter);
     final terms = analyzer.termSplitter(sourceText);
     final nGrams = terms.nGrams(nGramRange ?? NGramRange(1, 2));
     final sentences = analyzer.sentenceSplitter(sourceText);
     final paragraphs = analyzer.paragraphSplitter(sourceText);
     final keywords =
-        analyzer.keywordExtractor(sourceText, nGramRange: nGramRange);
+        analyzer.keywordExtractor(sourceText);
     final graph = TermCoOccurrenceGraph(keywords);
     final syllableCount = terms.map((e) => analyzer.syllableCounter(e)).sum;
     return _TextDocumentImpl(sourceText, null, tokens, paragraphs, sentences,
@@ -115,14 +114,13 @@ abstract class TextDocument {
     final sourceText = document.toSourceText(zones);
     final tokens = await analyzer.jsonTokenizer(document,
         zones: zones,
-        nGramRange: nGramRange,
         tokenFilter: tokenFilter);
     final terms = analyzer.termSplitter(sourceText);
     final nGrams = terms.nGrams(nGramRange ?? NGramRange(1, 2));
     final sentences = analyzer.sentenceSplitter(sourceText);
     final paragraphs = analyzer.paragraphSplitter(sourceText);
     final keywords =
-        analyzer.keywordExtractor(sourceText, nGramRange: nGramRange);
+        analyzer.keywordExtractor(sourceText);
     final graph = TermCoOccurrenceGraph(keywords);
     final syllableCount = terms.map((e) => analyzer.syllableCounter(e)).sum;
     return _TextDocumentImpl(sourceText, zones, tokens, paragraphs, sentences,

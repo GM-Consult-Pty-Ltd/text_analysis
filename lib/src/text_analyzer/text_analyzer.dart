@@ -1,6 +1,7 @@
 // BSD 3-Clause License
 // Copyright ©2022, GM Consult Pty Ltd
 
+import 'package:text_analysis/src/text_analyzer/n_gram_range.dart';
 import 'package:text_analysis/type_definitions.dart';
 
 /// An interface exposes language-specific properties and methods used in
@@ -74,10 +75,10 @@ abstract class TextAnalyzer {
   SyllableCounter get syllableCounter;
 
   /// Language-specific function that returns the stem of a term.
-  StringModifier get stemmer;
+  TermModifier get stemmer;
 
   /// Language-specific function that returns the lemma of a term.
-  StringModifier get lemmatizer;
+  TermModifier get lemmatizer;
 
   /// A language-specific function that generates n-grams from text.
   NGrammer get nGrammer;
@@ -85,6 +86,18 @@ abstract class TextAnalyzer {
   /// A hashmap of words to token terms for special words that should not be
   /// re-capitalized, stemmed or lemmatized.
   Map<String, String> get termExceptions;
+
+  /// A callback that re-cases the terms.
+  ///
+  /// Re-case is called on individual terms, not phrases or keywords and can be
+  /// used to preserve case on identifiers, given names or other case-sensitive
+  /// language.
+  TermModifier get reCase;
+
+  /// The range of N-gram sizes to be included in tokens and keywords.
+  /// 
+  /// If [nGramRange] is null, only keyword phrases are generated.
+  NGramRange? get nGramRange;
 
   /// A callback that returns true if the term is a stopword.
   ///

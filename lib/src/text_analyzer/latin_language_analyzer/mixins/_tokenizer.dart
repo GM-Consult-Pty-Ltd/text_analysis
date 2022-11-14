@@ -13,7 +13,6 @@ abstract class _Tokenizer implements TextAnalyzer {
   Future<List<Token>> _tokenizeJson(Map<String, dynamic> document,
       {NGramRange? nGramRange,
       Iterable<Zone>? zones,
-      StringModifier? reCase,
       TokenFilter? tokenFilter}) async {
     final tokens = <Token>[];
     zones ??= document.keys;
@@ -23,11 +22,8 @@ abstract class _Tokenizer implements TextAnalyzer {
       if (value != null) {
         final source = value.toString();
         if (source.isNotEmpty) {
-          tokens.addAll(await _tokenize(source,
-              tokenFilter: tokenFilter,
-              reCase: reCase,
-              zone: zone,
-              nGramRange: nGramRange));
+          tokens.addAll(
+              await _tokenize(source, tokenFilter: tokenFilter, zone: zone));
         }
       }
     }
@@ -37,12 +33,10 @@ abstract class _Tokenizer implements TextAnalyzer {
   /// Private [Tokenizer] function implements [TextAnalyzer.tokenizer].
   Future<List<Token>> _tokenize(
     SourceText text, {
-    NGramRange? nGramRange,
     Zone? zone,
-    StringModifier? reCase,
     TokenFilter? tokenFilter,
   }) async {
-    final tokens = _keyWordTokens(text, zone, nGramRange);
+    final tokens = _keyWordTokens(text, zone);
     final retval = tokens.toSet().toList()
       ..sort(((a, b) => a.termPosition.compareTo(b.termPosition)));
     return tokenFilter != null ? await tokenFilter(retval) : retval;
@@ -52,10 +46,11 @@ abstract class _Tokenizer implements TextAnalyzer {
   ///
   /// Splits the text into keywords, applies the termfilter to each word
   /// in the keyword and returns token(s) for each keyword.
-  List<Token> _keyWordTokens(String text, Zone? zone, NGramRange? nGramRange) {
+  List<Token> _keyWordTokens(String text, Zone? zone) {
+    final nGramRange = this.nGramRange;
     final tokens = <Token>[];
     int position = 0;
-    final keyWords = keywordExtractor(text, nGramRange: nGramRange);
+    final keyWords = keywordExtractor(text);
     for (final keyWord in keyWords) {
       final List<String> tokenTerms = [];
       tokenTerms.addAll(termFilter(keyWord.join(' ').normalizeWhitespace()));
