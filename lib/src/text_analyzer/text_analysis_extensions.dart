@@ -51,7 +51,7 @@ extension TextAnalysisExtensionsOnString on String {
 
 
   /// Split the String at (one or more) white-space characters.
-  List<String> splitAtWhitespace() => split(RegExp(r'(\s+)'));
+  List<String> splitAtWhitespace() => trim().split(RegExp(r'(\s+)'));
 
   /// Replace all white-space sequences with single space and trim.
   String normalizeWhitespace() => replaceAll(RegExp(r'(\s{2,})'), ' ').trim();
