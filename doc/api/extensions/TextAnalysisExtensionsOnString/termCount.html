@@ -4,8 +4,8 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, user-scalable=no">
-  <meta name="description" content="API docs for the vowelDipthongAndTriptongCount property from the TextAnalysisExtensionsOnString extension, for the Dart programming language.">
-  <title>vowelDipthongAndTriptongCount property - TextAnalysisExtensionsOnString extension - extensions library - Dart API</title>
+  <meta name="description" content="API docs for the termCount property from the TextAnalysisExtensionsOnString extension, for the Dart programming language.">
+  <title>termCount property - TextAnalysisExtensionsOnString extension - extensions library - Dart API</title>
 
 
   
@@ -31,9 +31,9 @@
     <li><a href="../../index.html">text_analysis</a></li>
     <li><a href="../../extensions/extensions-library.html">extensions</a></li>
     <li><a href="../../extensions/TextAnalysisExtensionsOnString.html">TextAnalysisExtensionsOnString</a></li>
-    <li class="self-crumb">vowelDipthongAndTriptongCount property</li>
+    <li class="self-crumb">termCount property</li>
   </ol>
-  <div class="self-name">vowelDipthongAndTriptongCount</div>
+  <div class="self-name">termCount</div>
   <form class="search navbar-right" role="search">
     <input type="text" id="search-box" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
   </form>
@@ -44,7 +44,7 @@
 
   <div id="dartdoc-main-content" class="main-content">
       <div>
-<h1><span class="kind-property">vowelDipthongAndTriptongCount</span> property 
+<h1><span class="kind-property">termCount</span> property 
     <a href="https://dart.dev/null-safety" class="feature feature-null-safety" title="Supports the null safety language feature.">Null safety</a>
 </h1></div>
 
@@ -54,22 +54,21 @@
 
 <section class="multi-line-signature">
   <span class="returntype"><a href="https://api.flutter.dev/flutter/dart-core/int-class.html">int</a></span>
-  <span class="name ">vowelDipthongAndTriptongCount</span>
+  <span class="name ">termCount</span>
   
 
 </section>
 
 
 <section class="desc markdown">
-  <p>Returns the number of single vowels, diphtongs and triptongs in the
-String.</p>
+  <p>Returns the number of individual terms in the String.</p>
+<p>Equivalent to <code>splitAtWhitespace().length</code></p>
 </section>
 
 
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
-  <pre class="language-dart"><code class="language-dart">int get vowelDipthongAndTriptongCount =&gt;
-    RegExp(r&#39;[aeiouyà-æè-ðò-öø-ÿ]+&#39;).allMatches(this).length;</code></pre>
+  <pre class="language-dart"><code class="language-dart">int get termCount =&gt; splitAtWhitespace().length;</code></pre>
 </section>
 
 </section>
@@ -88,7 +87,7 @@ String.</p>
   <li><a href="../../index.html">text_analysis</a></li>
   <li><a href="../../extensions/extensions-library.html">extensions</a></li>
   <li><a href="../../extensions/TextAnalysisExtensionsOnString.html">TextAnalysisExtensionsOnString</a></li>
-  <li class="self-crumb">vowelDipthongAndTriptongCount property</li>
+  <li class="self-crumb">termCount property</li>
 </ol>
 
 

@@ -49,6 +49,10 @@ extension TextAnalysisExtensionsOnJSON on Map<String, dynamic> {
 extension TextAnalysisExtensionsOnString on String {
 //
 
+  /// Returns the number of individual terms in the String.
+  ///
+  /// Equivalent to `splitAtWhitespace().length`
+  int get termCount => splitAtWhitespace().length;
 
   /// Split the String at (one or more) white-space characters.
   List<String> splitAtWhitespace() => trim().split(RegExp(r'(\s+)'));
