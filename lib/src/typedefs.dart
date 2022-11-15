@@ -89,7 +89,8 @@ typedef SentenceSplitter = List<String> Function(SourceText source);
 ///
 /// The text is split at punctuation, line endings and stop-words, resulting
 /// in an ordered collection of term sequences of varying length.
-typedef KeywordExtractor = List<List<String>> Function(SourceText source);
+typedef KeywordExtractor = List<List<String>> Function(SourceText source,
+    {NGramRange? nGramRange});
 
 /// Type definition of a function that returns a collection of [Token] from
 /// the [source] text.

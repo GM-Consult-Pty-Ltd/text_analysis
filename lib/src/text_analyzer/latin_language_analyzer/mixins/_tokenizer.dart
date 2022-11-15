@@ -22,8 +22,7 @@ abstract class _Tokenizer implements TextAnalyzer {
       if (value != null) {
         final source = value.toString();
         if (source.isNotEmpty) {
-          tokens.addAll(
-              await _tokenize(source,
+          tokens.addAll(await _tokenize(source,
               tokenFilter: tokenFilter, zone: zone, nGramRange: nGramRange));
         }
       }
@@ -51,7 +50,7 @@ abstract class _Tokenizer implements TextAnalyzer {
   List<Token> _keyWordTokens(String text, Zone? zone, NGramRange? nGramRange) {
     final tokens = <Token>[];
     int position = 0;
-    final keyWords = keywordExtractor(text);
+    final keyWords = keywordExtractor(text, nGramRange: nGramRange);
     for (final keyWord in keyWords) {
       final List<String> tokenTerms = [];
       tokenTerms.addAll(termFilter(keyWord.join(' ').normalizeWhitespace()));
