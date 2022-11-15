@@ -57,7 +57,7 @@ abstract class _Tokenizer implements TextAnalyzer {
       for (var tokenTerm in tokenTerms) {
         tokenTerm = tokenTerm.normalizeWhitespace();
         if (tokenTerm.isNotEmpty) {
-          final n = tokenTerm.splitAtWhiteSpace().length;
+          final n = tokenTerm.splitAtWhitespace().length;
           if (nGramRange == null ||
               (n >= nGramRange.min && n <= nGramRange.max)) {
             final token = Token(tokenTerm, n, position, zone);

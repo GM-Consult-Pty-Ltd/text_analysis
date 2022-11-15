@@ -15,16 +15,8 @@ abstract class _TermSplitter implements TextAnalyzer {
   /// - Trim leading and trailing white-space from all terms.
   /// - Return only non-empty terms.
   List<String> _splitToTerms(SourceText source) =>
-      source.stripPunctuation().splitAtWhiteSpace()
+      source.stripPunctuation().splitAtWhitespace()
         ..removeWhere((element) => element.isEmpty);
-}
-
-/// String extensions used by the [LatinLanguageAnalyzer]text analyzer.
-extension _TermSplitterExtension on String {
-//
-
-  /// Split the String at (one or more) white-space characters.
-  List<String> splitAtWhiteSpace() => split(RegExp(r'(\s+)'));
 }
 
 /// LatinLanguage language specific extensions on String collections.

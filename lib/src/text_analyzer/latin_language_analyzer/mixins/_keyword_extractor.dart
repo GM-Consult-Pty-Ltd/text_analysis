@@ -19,7 +19,7 @@ abstract class _KeyWordExtractor implements TextAnalyzer {
           termExceptions[reCase(characterFilter(e))] ??
           characterFilter(e);
       if (e.isNotEmpty) {
-        final terms = e.splitAtWhiteSpace();
+        final terms = e.splitAtWhitespace();
         for (var w in terms) {
           w = w.trim();
           if (w.length > 1) {
@@ -69,13 +69,13 @@ abstract class _KeyWordExtractor implements TextAnalyzer {
               //   final unHyphenated =
               //       keyWord.replaceAll('-', '').normalizeWhitespace();
               //   if (unHyphenated.isNotEmpty && keyWordSet.add(unHyphenated)) {
-              //     retVal.add(unHyphenated.splitAtWhiteSpace());
+              //     retVal.add(unHyphenated.splitAtWhitespace());
               //   }
               //   final spaceHyphenated =
               //       keyWord.replaceAll('-', ' ').normalizeWhitespace();
               //   if (spaceHyphenated.isNotEmpty &&
               //       keyWordSet.add(spaceHyphenated)) {
-              //     retVal.add(spaceHyphenated.splitAtWhiteSpace());
+              //     retVal.add(spaceHyphenated.splitAtWhitespace());
               //   }
               // }
             }
@@ -87,20 +87,20 @@ abstract class _KeyWordExtractor implements TextAnalyzer {
             keyWord = nGram.join(' ').normalizeWhitespace();
             keyWord = termExceptions[keyWord] ?? keyWord;
             if (keyWord.isNotEmpty && keyWordSet.add(keyWord)) {
-              final nphrase = keyWord.splitAtWhiteSpace();
+              final nphrase = keyWord.splitAtWhitespace();
               if (nphrase.isNotEmpty) {
                 retVal.add(nphrase);
                 // if (LatinLanguageAnalyzer.isHyphenated(keyWord)) {
                 //   final unHyphenated =
                 //       LatinLanguageAnalyzer.replaceHyphens(keyWord, '');
                 //   if (unHyphenated.isNotEmpty && keyWordSet.add(unHyphenated)) {
-                //     retVal.add(unHyphenated.splitAtWhiteSpace());
+                //     retVal.add(unHyphenated.splitAtWhitespace());
                 //   }
                 //   final spaceHyphenated =
                 //       LatinLanguageAnalyzer.replaceHyphens(keyWord, ' ');
                 //   if (spaceHyphenated.isNotEmpty &&
                 //       keyWordSet.add(spaceHyphenated)) {
-                //     retVal.add(spaceHyphenated.splitAtWhiteSpace());
+                //     retVal.add(spaceHyphenated.splitAtWhitespace());
                 //   }
                 // }
               }
