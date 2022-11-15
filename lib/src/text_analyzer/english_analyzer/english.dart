@@ -57,8 +57,5 @@ class English extends LatinLanguageAnalyzer implements TextAnalyzer {
       super.isStopWord(term);
 
   @override
-  NGramRange? get nGramRange => NGramRange(1, 3);
-
-  @override
   TermModifier get reCase => (term) => term.toLowerCase();
 }

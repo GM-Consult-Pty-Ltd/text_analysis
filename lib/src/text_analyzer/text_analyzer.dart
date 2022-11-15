@@ -1,7 +1,7 @@
 // BSD 3-Clause License
 // Copyright ©2022, GM Consult Pty Ltd
 
-import 'package:text_analysis/src/text_analyzer/n_gram_range.dart';
+// import 'package:text_analysis/src/text_analyzer/n_gram_range.dart';
 import 'package:text_analysis/type_definitions.dart';
 
 /// An interface exposes language-specific properties and methods used in

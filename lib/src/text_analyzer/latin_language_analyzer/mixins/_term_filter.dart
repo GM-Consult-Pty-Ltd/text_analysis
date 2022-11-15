@@ -69,17 +69,17 @@ extension _TermFilterExtension on String {
   //       : [term, abbreviation, term.replaceAll('.', '').trim()];
   // }
 
-  /// Removes all hyphenation characters from the string, where followed by a
-  /// word character
-  String get unHyphenated => replaceAll(RegExp(r'-+(?=[\w])'), '').trim();
+  // /// Removes all hyphenation characters from the string, where followed by a
+  // /// word character
+  // String get unHyphenated => replaceAll(RegExp(r'-+(?=[\w])'), '').trim();
 
-  /// Replaces all hyphenation characters with a space, where followed by a
-  /// word character
-  String get spaceHyphenated => replaceAll(RegExp(r'-+(?=[\w])'), ' ').trim();
+  // /// Replaces all hyphenation characters with a space, where followed by a
+  // /// word character
+  // String get spaceHyphenated => replaceAll(RegExp(r'-+(?=[\w])'), ' ').trim();
 
-  /// Removes all possesive apostrophed "'s" suffixes.
-  String get unApostrophied =>
-      replaceAll(RegExp(r"('s|'S)(?=[^\w])"), '').trim();
+  // /// Removes all possesive apostrophed "'s" suffixes.
+  // String get unApostrophied =>
+  //     replaceAll(RegExp(r"('s|'S)(?=[^\w])"), '').trim();
 
   // /// Splits the term at all non-word characters unless the word starts or
   // /// finishes with a number.
