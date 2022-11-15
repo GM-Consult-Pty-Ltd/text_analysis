@@ -89,8 +89,7 @@ typedef SentenceSplitter = List<String> Function(SourceText source);
 ///
 /// The text is split at punctuation, line endings and stop-words, resulting
 /// in an ordered collection of term sequences of varying length.
-typedef KeywordExtractor = List<List<String>> Function(
-  SourceText source);
+typedef KeywordExtractor = List<List<String>> Function(SourceText source);
 
 /// Type definition of a function that returns a collection of [Token] from
 /// the [source] text.
@@ -98,14 +97,15 @@ typedef KeywordExtractor = List<List<String>> Function(
 /// Extracts one or more tokens from [source] for use in full-text search
 /// queries and indexes.
 /// - [source] is a String that will be tokenized;
+/// - [nGramRange] is the range of N-gram lengths to generate. If [nGramRange]
+///   is null, only keyword phrases are generated;
 /// - [tokenFilter] is a filter function that returns a subset of a collection
 ///   of [Token]s; and
 /// - [zone] is the of the name of the zone to be appended to the [Token]s.
 ///
 /// Returns a List<[Token]>.
 typedef Tokenizer = Future<List<Token>> Function(SourceText source,
-    {Zone? zone,
-    TokenFilter? tokenFilter});
+    {NGramRange? nGramRange, Zone? zone, TokenFilter? tokenFilter});
 
 /// Type definition of a function that returns a collection of [Token] from
 /// the [zones] in a JSON [document].
@@ -113,6 +113,8 @@ typedef Tokenizer = Future<List<Token>> Function(SourceText source,
 /// Extracts tokens from the [zones] in a JSON [document] for use in
 /// full-text search queries and indexes.
 /// - [document] is a JSON document containing the [zones] as keys;
+/// - [nGramRange] is the range of N-gram lengths to generate. If [nGramRange]
+///   is null, only keyword phrases are generated;
 /// - [tokenFilter] is a filter function that returns a subset of a collection
 ///   of [Token]s; and
 /// - [zones] is the collection of the names of the zones in [document] that
@@ -121,7 +123,8 @@ typedef Tokenizer = Future<List<Token>> Function(SourceText source,
 /// Returns a List<[Token]>.
 typedef JsonTokenizer = Future<List<Token>> Function(
     Map<String, dynamic> document,
-    {Iterable<Zone>? zones,
+    {NGramRange? nGramRange,
+    Iterable<Zone>? zones,
     TokenFilter? tokenFilter});
 
 /// A splitter function that returns a list of paragraphs from [source].

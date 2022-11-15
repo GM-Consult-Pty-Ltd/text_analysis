@@ -17,12 +17,7 @@ abstract class _TermFilter implements TextAnalyzer {
   /// - looks up the term in [abbreviations] and, if found, returns three
   ///   versions: the abbreviation, the unabbreviated term or phrase and a
   ///   version with no punctuation;
-  /// - adds the resulting term if it is longer than 1 and not in stop words;
-  /// - add an un-hyphenated version if the term contains hyphens;
-  /// - add an un-apostrophied version if the term has a possesive "'s";
-  /// - split the term at all other non-word characters (where not preceded or
-  ///   followed by numbers to avoid splitting numbers).
-  /// - adds all the split terms
+  /// - adds the resulting term if it is longer than 1 and not in stop words.
   Set<String> _filterTerms(String term) {
     // remove white-space from start and end of term
     term = term.trim();
@@ -31,16 +26,22 @@ abstract class _TermFilter implements TextAnalyzer {
     if (exception != null) {
       return {exception};
     }
-    if (term.isNotEmpty && !isStopWord(term)) {
+    if (term.isNotEmpty && !isStopWord(term) && term.length > 1) {
       // exclude empty terms and that are stopwords
-      final abbreviationTerms = term._abbreviatedVersions(abbreviations);
-      retVal.addAll(abbreviationTerms);
-      term = abbreviationTerms.length > 1 ? abbreviationTerms[1] : term;
-      term = termExceptions[term] ?? term;
-      if (!isStopWord(term) && term.length > 1) {
+      // final abbreviationTerms = term._abbreviatedVersions(abbreviations);
+      // retVal.addAll(abbreviationTerms);
+      // term = abbreviationTerms.length > 1 ? abbreviationTerms[1] : term;
+      // term = termExceptions[term] ?? term;
+      // if (!isStopWord(term) && term.length > 1) {
         // - add term and a version without hyphens to the return value
-        retVal.addAll([term, term.unApostrophied, term.spaceHyphenated, term.unHyphenated]);        
-      }
+      retVal.add(term);
+      // retVal.addAll([
+      //   term,
+      //   term.unApostrophied,
+      //    term.spaceHyphenated,
+      //    term.unHyphenated
+      // ]);
+      // }
     }
     retVal.removeWhere((e) {
       e = e.trim();
@@ -55,24 +56,24 @@ abstract class _TermFilter implements TextAnalyzer {
 extension _TermFilterExtension on String {
   //
 
-  /// Finds the string in [abbreviations].
-  ///
-  /// If found, returns a List of strings containing the abbreviation,
-  /// the value for the abbreviation and a version of the abbreviation
-  /// with all period marks removed.
-  List<String> _abbreviatedVersions(Map<String, String> abbreviations) {
-    final term = trim();
-    final abbreviation = abbreviations[term];
-    return abbreviation == null
-        ? [term]
-        : [term, abbreviation, term.replaceAll('.', '').trim()];
-  }
+  // /// Finds the string in [abbreviations].
+  // ///
+  // /// If found, returns a List of strings containing the abbreviation,
+  // /// the value for the abbreviation and a version of the abbreviation
+  // /// with all period marks removed.
+  // List<String> _abbreviatedVersions(Map<String, String> abbreviations) {
+  //   final term = trim();
+  //   final abbreviation = abbreviations[term];
+  //   return abbreviation == null
+  //       ? [term]
+  //       : [term, abbreviation, term.replaceAll('.', '').trim()];
+  // }
 
   /// Removes all hyphenation characters from the string, where followed by a
   /// word character
   String get unHyphenated => replaceAll(RegExp(r'-+(?=[\w])'), '').trim();
 
-    /// Replaces all hyphenation characters with a space, where followed by a
+  /// Replaces all hyphenation characters with a space, where followed by a
   /// word character
   String get spaceHyphenated => replaceAll(RegExp(r'-+(?=[\w])'), ' ').trim();
 

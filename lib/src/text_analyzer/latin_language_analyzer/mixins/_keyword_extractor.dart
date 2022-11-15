@@ -7,8 +7,7 @@ part of '../latin_language_analyzer.dart';
 abstract class _KeyWordExtractor implements TextAnalyzer {
   //
 
-  List<List<String>> _extractKeywords(String source,
-      {NGramRange? nGramRange}) {    
+  List<List<String>> _extractKeywords(String source, {NGramRange? nGramRange}) {
     final retVal = <List<String>>[];
     final keyWordSet = <String>{};
     final phrases = _textToChunks(source, reCase);
@@ -66,19 +65,19 @@ abstract class _KeyWordExtractor implements TextAnalyzer {
             keyWord = phrase.join(' ');
             if (keyWord.isNotEmpty && keyWordSet.add(keyWord)) {
               retVal.add(List<String>.from(phrase));
-              if (keyWord.contains('-')) {
-                final unHyphenated =
-                    keyWord.replaceAll('-', '').normalizeWhitespace();
-                if (unHyphenated.isNotEmpty && keyWordSet.add(unHyphenated)) {
-                  retVal.add(unHyphenated.splitAtWhiteSpace());
-                }
-                final spaceHyphenated =
-                    keyWord.replaceAll('-', ' ').normalizeWhitespace();
-                if (spaceHyphenated.isNotEmpty &&
-                    keyWordSet.add(spaceHyphenated)) {
-                  retVal.add(spaceHyphenated.splitAtWhiteSpace());
-                }
-              }
+              // if (keyWord.contains('-')) {
+              //   final unHyphenated =
+              //       keyWord.replaceAll('-', '').normalizeWhitespace();
+              //   if (unHyphenated.isNotEmpty && keyWordSet.add(unHyphenated)) {
+              //     retVal.add(unHyphenated.splitAtWhiteSpace());
+              //   }
+              //   final spaceHyphenated =
+              //       keyWord.replaceAll('-', ' ').normalizeWhitespace();
+              //   if (spaceHyphenated.isNotEmpty &&
+              //       keyWordSet.add(spaceHyphenated)) {
+              //     retVal.add(spaceHyphenated.splitAtWhiteSpace());
+              //   }
+              // }
             }
           }
         } else {
@@ -91,19 +90,19 @@ abstract class _KeyWordExtractor implements TextAnalyzer {
               final nphrase = keyWord.splitAtWhiteSpace();
               if (nphrase.isNotEmpty) {
                 retVal.add(nphrase);
-                if (LatinLanguageAnalyzer.isHyphenated(keyWord)) {
-                  final unHyphenated =
-                      LatinLanguageAnalyzer.replaceHyphens(keyWord, '');
-                  if (unHyphenated.isNotEmpty && keyWordSet.add(unHyphenated)) {
-                    retVal.add(unHyphenated.splitAtWhiteSpace());
-                  }
-                  final spaceHyphenated =
-                      LatinLanguageAnalyzer.replaceHyphens(keyWord, ' ');
-                  if (spaceHyphenated.isNotEmpty &&
-                      keyWordSet.add(spaceHyphenated)) {
-                    retVal.add(spaceHyphenated.splitAtWhiteSpace());
-                  }
-                }
+                // if (LatinLanguageAnalyzer.isHyphenated(keyWord)) {
+                //   final unHyphenated =
+                //       LatinLanguageAnalyzer.replaceHyphens(keyWord, '');
+                //   if (unHyphenated.isNotEmpty && keyWordSet.add(unHyphenated)) {
+                //     retVal.add(unHyphenated.splitAtWhiteSpace());
+                //   }
+                //   final spaceHyphenated =
+                //       LatinLanguageAnalyzer.replaceHyphens(keyWord, ' ');
+                //   if (spaceHyphenated.isNotEmpty &&
+                //       keyWordSet.add(spaceHyphenated)) {
+                //     retVal.add(spaceHyphenated.splitAtWhiteSpace());
+                //   }
+                // }
               }
             }
           }
@@ -126,6 +125,10 @@ abstract class _KeyWordExtractor implements TextAnalyzer {
         RegExp(r'\s+'),
         onNonMatch: (p0) {
           p0 = characterFilter(p0.trim()).normalizeWhitespace();
+          final abbreviation = abbreviations[p0];
+          if (abbreviation != null) {
+            return reCase('$abbreviation%chunk%$p0');
+          }
           return p0.isEmpty
               ? p0
               : isStopWord(p0)

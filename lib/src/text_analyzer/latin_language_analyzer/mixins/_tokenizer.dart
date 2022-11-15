@@ -23,7 +23,8 @@ abstract class _Tokenizer implements TextAnalyzer {
         final source = value.toString();
         if (source.isNotEmpty) {
           tokens.addAll(
-              await _tokenize(source, tokenFilter: tokenFilter, zone: zone));
+              await _tokenize(source,
+              tokenFilter: tokenFilter, zone: zone, nGramRange: nGramRange));
         }
       }
     }
@@ -34,9 +35,10 @@ abstract class _Tokenizer implements TextAnalyzer {
   Future<List<Token>> _tokenize(
     SourceText text, {
     Zone? zone,
+    NGramRange? nGramRange,
     TokenFilter? tokenFilter,
   }) async {
-    final tokens = _keyWordTokens(text, zone);
+    final tokens = _keyWordTokens(text, zone, nGramRange);
     final retval = tokens.toSet().toList()
       ..sort(((a, b) => a.termPosition.compareTo(b.termPosition)));
     return tokenFilter != null ? await tokenFilter(retval) : retval;
@@ -46,8 +48,7 @@ abstract class _Tokenizer implements TextAnalyzer {
   ///
   /// Splits the text into keywords, applies the termfilter to each word
   /// in the keyword and returns token(s) for each keyword.
-  List<Token> _keyWordTokens(String text, Zone? zone) {
-    final nGramRange = this.nGramRange;
+  List<Token> _keyWordTokens(String text, Zone? zone, NGramRange? nGramRange) {
     final tokens = <Token>[];
     int position = 0;
     final keyWords = keywordExtractor(text);
