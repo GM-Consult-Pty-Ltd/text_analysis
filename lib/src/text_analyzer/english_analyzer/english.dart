@@ -3,8 +3,8 @@
 // All rights reserved
 
 import 'package:text_analysis/type_definitions.dart';
+import 'package:text_analysis/extensions.dart';
 import 'package:text_analysis/text_analysis.dart';
-import 'package:porter_2_stemmer/porter_2_stemmer.dart';
 
 part 'english_constants.dart';
 
@@ -19,9 +19,6 @@ class English extends LatinLanguageAnalyzer implements TextAnalyzer {
   /// [termExceptions] is an empty ```dart const <String, String>{}```.
   const English({this.termExceptions = const <String, String>{}});
 
-  /// Matches all instances of a posessive apostrophy, e.g. "Mary's".
-  static const rPosessiveApostrophe = _EnglishConstants.rPosessiveApostrophe;
-
   /// A collection of stop-words excluded from tokenization.
   static const kStopWords = _EnglishConstants.kStopWords;
 
@@ -31,31 +28,90 @@ class English extends LatinLanguageAnalyzer implements TextAnalyzer {
   /// Instantiates a static const [English] instance.
   static const TextAnalyzer analyzer = English();
 
-  /// Removes all posessive apostrophies from [text], e.g Mary's returns Mary.
-  static String removePossessiveApostrophes(String text) =>
-      text.replaceAll(RegExp(rPosessiveApostrophe), '');
-
   @override
   TermModifier get stemmer => _EnglishConstants.kStemmer;
 
-  @override
-  TermModifier get lemmatizer => _EnglishConstants.kLemmatizer;
+  /// A list of common English abbreviations. This list is not exhaustive.
+  Map<String, String> get abbreviations => _EnglishConstants.kAbbreviations;
 
   @override
-  Map<String, String> get abbreviations => _EnglishConstants.kAbbreviations;
+  AsyncTermModifier get characterFilter => _filterCharacters;
 
   @override
   final Map<String, String> termExceptions;
 
-  @override
-  CharacterFilter get characterFilter =>
-      (term) => removePossessiveApostrophes(super.characterFilter(term));
+  /// Implements [TextAnalyzer.characterFilter]:
+  /// - returns null if the term can be parsed as a number; else
+  /// - converts the term to lower-case;
+  /// - changes all quote marks to single apostrophe +U0027;
+  /// - removes enclosing quote marks;
+  /// - changes all dashes to single standard hyphen;
+  /// - normalizes all white-space to single space characters.
+  Future<String?> _filterCharacters(String term, [String? zone]) async {
+    term = term
+        .trim()
+        .normalizeQuotes()
+        .removeEnclosingQuotes()
+        .removePossessives()
+        .normalizeHyphens()
+        .normalizeWhitespace();
+    // try parsing the term to a number
+    final number = asNumber(term);
+    // return the term if it can be parsed as a number
+    return number != null
+        // return number.toString() if number is not null.
+        ? null
+        // if the term is all-caps return it unchanged.
+        : term;
+  }
 
   @override
-  TermFlag get isStopWord => (term) =>
-      _EnglishConstants.kStopWords.contains(term.toLowerCase()) ||
-      super.isStopWord(term);
+  TermExpander? get termExpander => ((source, [zone]) async {
+        final abbreviation = kAbbreviations[source];
+        return abbreviation == null ? {} : {abbreviation};
+      });
 
   @override
-  TermModifier get reCase => (term) => term.toLowerCase();
+  bool isStopword(String term) {
+    return LatinLanguageAnalyzer.isNumberOrAmount(term) ||
+        kStopWords.contains(term.toLowerCase());
+  }
+
+  @override
+  num? asNumber(String term) {
+    // remove commas, + signs and whitespace
+    // replace "percent" with "%"
+    term = term.replaceAll(r',\s\+', '').replaceAll('percent', '%');
+    // check for presence of leading dash, multiply by -1.0 if present.
+    var x =
+        (RegExp(r'(?<=^)-(?=\W\d|[A-Z]{3}|\d)').allMatches(term).length == 1)
+            ? -1.0
+            : 1.0;
+    // remove all dashes
+    term = term.replaceAll(r'[\-]', '');
+    // if percent then divide by 100
+    x = (RegExp(r'(?<=\d)\s?%(?=\Z)').allMatches(term).length == 1)
+        ? x / 100
+        : x;
+    // remove all "%" signs
+    term = term.replaceAll(r'[\%]', '');
+    // match all numbers where
+    // - preceded by the start of the string or
+    // - prececed by the start of the string AND a single non-word character or
+    //   three/ upper-case letters; AND
+    // - AND followed by the end of the string
+    final numbers =
+        RegExp(r'(?<=^|[A-Z]{3}|\A\W)(\d|((?<=\d)[,.]{1}(?=\d)))+(?=$)')
+            .allMatches(term.normalizeWhitespace());
+    if (numbers.length != 1) {
+      return null;
+    }
+    final text = numbers.first[0];
+    final number = (text != null) ? num.tryParse(text) : null;
+    return number == null
+        ? null
+        : term.endsWith('%')
+            ? x * number / 100
+            : number * x;
+  }
 }

@@ -12,7 +12,7 @@ abstract class TermCoOccurrenceGraph {
 
   /// Unnamed factory constructor hydrates a [TermCoOccurrenceGraph] from the
   /// [keywords].
-  factory TermCoOccurrenceGraph(List<List<String>> keywords) {
+  factory TermCoOccurrenceGraph(Iterable<List<String>> keywords) {
     final uniqueTerms = keywords.toUniqueTerms();
     final terms = uniqueTerms.toList();
     final coOccurrenceGraph = keywords.coOccurenceGraph(terms);

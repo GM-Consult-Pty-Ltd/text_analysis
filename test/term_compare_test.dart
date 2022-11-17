@@ -162,7 +162,7 @@ void main() {
         final ld = term.lengthDistance(other);
         final ls = term.lengthSimilarity(other);
         results.add(
-            {'Term': other, 'Length Distance': ld, 'Length Similarity': ls});
+            {'String': other, 'Length Distance': ld, 'Length Similarity': ls});
       }
       results.sort(((a, b) => (b['Length Similarity'] as num)
           .compareTo(a['Length Similarity'] as num)));

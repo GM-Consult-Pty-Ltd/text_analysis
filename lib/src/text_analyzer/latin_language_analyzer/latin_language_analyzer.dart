@@ -2,14 +2,15 @@
 // Copyright ©2022, GM Consult Pty Ltd
 // All rights reserved
 
+import 'dart:async';
+
 import 'package:porter_2_stemmer/porter_2_stemmer.dart';
 import 'package:porter_2_stemmer/extensions.dart';
 import 'package:text_analysis/extensions.dart';
 import 'package:text_analysis/text_analysis.dart';
 import 'package:text_analysis/type_definitions.dart';
 
-part 'mixins/_character_filter.dart';
-part 'mixins/_keyword_extractor.dart';
+part 'mixins/_phrase_splitter.dart';
 part 'mixins/_n_grammer.dart';
 part 'mixins/_paragraph_splitter.dart';
 part 'mixins/_syllable_counter.dart';
@@ -24,7 +25,6 @@ part 'mixins/_sentence_splitter.dart';
 /// Exposes a const default generative constructor.
 abstract class LatinLanguageAnalyzer
     with
-        _CharacterFilter,
         _NGrammer,
         _ParagraphSplitter,
         _SyllableCounter,
@@ -32,46 +32,43 @@ abstract class LatinLanguageAnalyzer
         _TermFilter,
         _TermSplitter,
         _Tokenizer,
-        _KeyWordExtractor
+        _PhraseSplitter
     implements TextAnalyzer {
   //
 
   /// Initializes a const [LatinLanguageAnalyzer].
   const LatinLanguageAnalyzer();
 
-  @override
-  CharacterFilter get characterFilter => _filterCharacters;
-
-  @override
-  JsonTokenizer get jsonTokenizer => _tokenizeJson;
+  static Future<List<Token>> kRecaseTokens(List<Token> tokens) async => tokens
+      .map((e) => Token(e.term.toLowerCase(), e.n, e.termPosition, e.zone))
+      .toList();
 
   @override
   NGrammer get nGrammer => _toNGrams;
 
   @override
-  ParagraphSplitter get paragraphSplitter => _splitToParagraphs;
+  JsonTokenizer get jsonTokenizer => _tokenizeJson;
 
   @override
-  SentenceSplitter get sentenceSplitter => _splitToSentences;
+  TextSplitter get paragraphSplitter => _splitToParagraphs;
+
+  @override
+  TextSplitter get sentenceSplitter => _splitToSentences;
 
   @override
   SyllableCounter get syllableCounter => _countSyllables;
 
   @override
-  TermFilter get termFilter => _filterTerms;
+  AsyncTermModifier get termFilter => _filterTerm;
 
   @override
-  TermSplitter get termSplitter => _splitToTerms;
+  TextSplitter get termSplitter => _splitToTerms;
 
   @override
   Tokenizer get tokenizer => _tokenize;
 
   @override
-  KeywordExtractor get keywordExtractor => _extractKeywords;
-
-  @override
-  TermFlag get isStopWord =>
-      (term) => LatinLanguageAnalyzer.isNumberOrAmount(term) || term.length < 2;
+  PhraseSplitter get phraseSplitter => _splitToPhrases;
 
   /// Returns true if the String starts with "@" or "#" followed by one or more
   /// word-chacters only.

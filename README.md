@@ -189,7 +189,7 @@ To compare one term with a collection of other terms, the following static metho
 * `termSimilarities`,  `editSimilarities`, `characterSimilarities`, `lengthSimilarities` and `jaccardSimilarities` all return a list of [SimilarityIndex] values for candidate terms; and
 * `matches` returns the best matches from `terms` for a term, in descending order of term similarity (best match first).
 
-*Term comparisons are NOT case-sensitive.*
+*String comparisons are NOT case-sensitive.*
 
 The  [TextSimilarity](https://pub.dev/documentation/text_analysis/latest/text_analysis/TextSimilarity-class.html) class relies on [extension methods](https://pub.dev/documentation/text_analysis/latest/extensions/TermSimilarityExtensions.html) that can be imported from the [extensions](https://pub.dev/documentation/text_analysis/0.12.0-2/extensions/extensions-library.html) library.
 

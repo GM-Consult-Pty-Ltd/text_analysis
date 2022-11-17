@@ -1,7 +1,6 @@
 // BSD 3-Clause License
 // Copyright ©2022, GM Consult Pty Ltd
 
-import 'package:text_analysis/type_definitions.dart';
 import 'package:text_analysis/text_analysis.dart';
 import 'package:text_analysis/extensions.dart';
 
@@ -41,10 +40,10 @@ abstract class TermSimilarity {
   }
 
   /// The term that is being compared to [other].
-  Term get term;
+  String get term;
 
   /// The term that is being compared to [term].
-  Term get other;
+  String get other;
 
   /// The compound similarity value on a scale of 0.0 to 1.0.
   ///
@@ -160,7 +159,7 @@ abstract class TermSimilarity {
   ///
   /// Not case-sensitive.
   static List<SimilarityIndex> editSimilarities(
-          Term term, Iterable<Term> terms) =>
+          String term, Iterable<String> terms) =>
       term.editSimilarities(terms);
 
   /// Returns a hashmap of [terms] to their [editDistance] with this.
@@ -169,7 +168,8 @@ abstract class TermSimilarity {
   /// comparison.
   ///
   /// Not case-sensitive.
-  static Map<Term, int> editDistanceMap(Term term, Iterable<Term> terms) =>
+  static Map<String, int> editDistanceMap(
+          String term, Iterable<String> terms) =>
       term.editDistanceMap(terms);
 
   /// Returns a ordered list of [SimilarityIndex] values for the [terms], in
@@ -180,7 +180,7 @@ abstract class TermSimilarity {
   ///
   /// Not case-sensitive.
   static List<SimilarityIndex> lengthSimilarities(
-          Term term, Iterable<Term> terms) =>
+          String term, Iterable<String> terms) =>
       term.lengthSimilarities(terms);
 
   /// Returns a ordered list of [SimilarityIndex] values for the [terms], in
@@ -191,7 +191,7 @@ abstract class TermSimilarity {
   ///
   /// Not case-sensitive.
   static List<SimilarityIndex> startsWithSimilarities(
-          Term term, Iterable<Term> terms) =>
+          String term, Iterable<String> terms) =>
       term.startsWithSimilarities(terms);
 
   /// Returns a ordered list of [SimilarityIndex] values of [term] to the
@@ -203,7 +203,7 @@ abstract class TermSimilarity {
   ///
   /// Not case-sensitive.
   static List<SimilarityIndex> jaccardSimilarities(
-          Term term, Iterable<Term> terms,
+          String term, Iterable<String> terms,
           [int k = 2]) =>
       term.jaccardSimilarities(terms, k);
 
@@ -215,15 +215,16 @@ abstract class TermSimilarity {
   ///
   /// Not case-sensitive.
   static List<SimilarityIndex> characterSimilarities(
-          Term term, Iterable<Term> terms) =>
+          String term, Iterable<String> terms) =>
       term.characterSimilarities(terms);
 
   /// Returns a set of (lower-case) k-grams in the [term].
-  static Set<KGram> kGrams(Term term, [int k = 2]) => term.kGrams(k);
+  static Set<String> kGrams(String term, [int k = 2]) => term.kGrams(k);
 
   /// Private static function to compute edit similarity from a known
   /// edit distance for two terms. Used by factory constructor.
-  static double _getEditSimilarity(Term term, Term other, int editDistance) {
+  static double _getEditSimilarity(
+      String term, String other, int editDistance) {
     final similarity = (term.length + other.length - editDistance) /
         (term.length + other.length);
     if (similarity > 1.0) {
@@ -250,7 +251,8 @@ abstract class TermSimilarity {
   /// matches are found.
   ///
   /// Not case-sensitive.
-  static List<SimilarityIndex> getSuggestions(String term, Iterable<Term> terms,
+  static List<SimilarityIndex> getSuggestions(
+          String term, Iterable<String> terms,
           {int limit = 10, int k = 2, double greaterThan = 0.10}) =>
       term.getSuggestions(terms, greaterThan: greaterThan, k: k);
 
@@ -261,7 +263,7 @@ abstract class TermSimilarity {
   ///
   /// Not case-sensitive.
   static List<TermSimilarity> termSimilarities(
-          String term, Iterable<Term> terms,
+          String term, Iterable<String> terms,
           {int k = 2}) =>
       term.termSimilarities(terms, k: k);
 
@@ -271,9 +273,9 @@ abstract class TermSimilarity {
   ///   defaults to 2.
   ///
   /// Not case-sensitive.
-  static Map<Term, TermSimilarity> termSimilarityMap(
+  static Map<String, TermSimilarity> termSimilarityMap(
     String term,
-    Iterable<Term> terms, {
+    Iterable<String> terms, {
     int k = 2,
   }) =>
       term.termSimilarityMap(terms, k: k);
@@ -292,7 +294,7 @@ abstract class TermSimilarity {
   /// matches are found.
   ///
   /// Not case-sensitive.
-  static List<Term> matches(String term, Iterable<Term> terms,
+  static List<String> matches(String term, Iterable<String> terms,
           {int limit = 10, int k = 2, double greaterThan = 0.10}) =>
       term.matches(terms, k: k, limit: limit, greaterThan: greaterThan);
 }
@@ -384,10 +386,10 @@ class _TermSimilarityImpl extends TermSimilarityBase {
   final double lengthSimilarity;
 
   @override
-  final Term other;
+  final String other;
 
   @override
-  final Term term;
+  final String term;
 
   _TermSimilarityImpl(
       this.term,

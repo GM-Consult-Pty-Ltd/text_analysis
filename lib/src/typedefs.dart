@@ -4,77 +4,23 @@
 import 'dart:async';
 import 'package:text_analysis/text_analysis.dart';
 
-/// An alias for String.
-typedef SourceText = String;
+/// A callback function that returns true or false based on the content of
+/// the term.
 
-/// An alias for String, when used in the context of a field or meta data field
-/// in the `corpus`. Represents the name of the field/zone.
-typedef Zone = String;
-
-/// An alias for String, used in the context of a word, term or phrase present
-/// in a text source, document or query.
-typedef Term = String;
-
-/// An alias for `List<String>` when used in the context of the terms of a
-/// phrase split to an ordered list of terms.
-typedef Phrase = List<String>;
-
-/// An alias for String, used in the context of a sequence of k characters
-/// from a [Term].
+/// `TextSplitter` - A splitter function that returns a list of paragraphs from [source].
 ///
-/// A k-gram can start with "$", dentoting the start of the [Term], and end with
-/// "$", denoting the end of the [Term].
-///
-/// The 3-grams for "castle" are { $ca, cas, ast, stl, tle, le$ }
-typedef KGram = String;
+/// In English, the [source] text is split at:
+/// - `U+000A`, NewLine;
+/// - `U+000B`, VerticalTabulation;
+/// - `U+000C`, FormFeed; and
+/// - `U+000D`, CarriageReturn.
 
-/// Alias for `Map<String, Set<String>>`.
-///
-/// A hashmap of [KGram] to Set<[Term]>, where the value is the set of unique
-/// [Term]s that contain the [KGram] in the key.
-typedef KGramsMap = Map<KGram, Set<Term>>;
+/// `TermFilter` - A filter function that returns a collection of terms from term:
+/// - return an empty collection if the term is to be excluded from analysis;
+/// - return multiple terms if the term is split; and/or
+/// - return modified term(s), such as applying a stemmer algorithm.
 
-/// An alias for a [Set] of [String], when used in the context of a collection
-/// of [Term] that are excluded from tokenization.
-typedef StopWords = Set<Term>;
-
-// /// A language-specific function that returns the stem of [term].
-// typedef Stemmer = String Function(Term term);
-
-/// A language-specific function that returns the stem of [term].
-typedef TermModifier = String Function(String term);
-
-// /// A language-specific function that returns the lemma of [term].
-// typedef Lemmatizer = String Function(Term term);
-
-/// A language-specific function that generates n-grams from text.
-typedef NGrammer = List<String> Function(
-  String text,
-  NGramRange range,
-);
-
-/// A language-specific function that returns the number of syllables in a
-/// string after stripping out all white-space and punctuation.
-///
-/// Intended for use on words or terms, rather than phrases.
-///
-/// Returns 0 if [term].isEmpty.
-typedef SyllableCounter = int Function(Term term);
-
-/// A splitter function that returns a list of terms from [source].
-///
-/// Typically, [source] is split at punctuation marks and white-space.
-///
-/// The term splitter should avoid splitting numbers, which may contain
-/// period marks or other punctuation delimited phrases such as domain names
-/// and identifiers and hyphenated words.
-///
-/// If the [TermSplitter] preserves punctuation delimited phrases, the
-/// tokenizer that uses the [TermSplitter] can include both the
-/// preserved/delimited term as well as its components as separate tokens.
-typedef TermSplitter = List<String> Function(SourceText source);
-
-/// A splitter function that returns a list of sentences from [source].
+/// `SentenceSplitter` - A splitter function that returns a list of sentences from [source].
 ///
 /// In English, the [source] text is split at sentence endings marks such as
 /// periods, question marks and exclamation marks. If the [source] contains
@@ -82,15 +28,70 @@ typedef TermSplitter = List<String> Function(SourceText source);
 ///
 /// The sentence splitter should avoid splitting after abbreviations,
 /// which may end with period marks.
-typedef SentenceSplitter = List<String> Function(SourceText source);
 
-/// A splitter function that returns an ordered collection of keyword phrases
+/// An alias for String, when used in the context of a field or meta data field
+/// in the `corpus`. Represents the name of the field/zone.
+
+/// An alias for String, used in the context of a word, term or phrase present
+/// in a text source, document or query.
+
+/// Phrase: An alias for `List<String>` when used in the context of the terms of a
+/// phrase split to an ordered list of terms.
+
+/// k-Gram: An alias for String, used in the context of a sequence of k characters
+/// from a term.
+///
+/// A k-gram can start with "$", dentoting the start of the term, and end with
+/// "$", denoting the end of the term.
+///
+/// The 3-grams for "castle" are { $ca, cas, ast, stl, tle, le$ }
+
+/// `PhraseExtractor` - a splitter function that returns an ordered collection of keyword phrases
 /// from text.
 ///
 /// The text is split at punctuation, line endings and stop-words, resulting
 /// in an ordered collection of term sequences of varying length.
-typedef KeywordExtractor = List<List<String>> Function(SourceText source,
-    {NGramRange? nGramRange});
+
+/// Alias for `Map<String, Set<String>>`.
+///
+/// A hashmap of k-Gram to Set<term>, where the value is the set of unique
+/// terms that contain the k-Gram in the key.
+typedef KGramsMap = Map<String, Set<String>>;
+
+/// Modifies the term and returns the modified version.
+typedef TermModifier = String? Function(String term);
+
+/// Modifies the term and returns the modified version.
+typedef AsyncTermModifier = Future<String?> Function(String term,
+    [String? zone]);
+
+/// A language-specific function that generates n-grams from text.
+typedef NGrammer = List<String> Function(
+  String text,
+  NGramRange range,
+);
+
+/// A callback that expands text to a collection of related Strings.
+typedef TermExpander = Future<Iterable<String>> Function(String source,
+    [String? zone]);
+
+/// A language-specific function that returns the number of syllables in a
+/// string after stripping out all white-space and punctuation.
+///
+/// Intended for use on words or terms, rather than phrases.
+///
+/// Returns 0 if [term].isEmpty.
+typedef SyllableCounter = int Function(String term);
+
+/// A splitter function that returns a list of terms from [source].
+typedef TextSplitter = List<String> Function(String source);
+
+/// A splitter function that returns a list of terms from [source].
+typedef AsyncTextSplitter = Future<List<String>> Function(String source);
+
+/// A splitter function that returns a list of terms from [source].
+typedef PhraseSplitter = Future<List<String>> Function(String source,
+    [String? zone]);
 
 /// Type definition of a function that returns a collection of [Token] from
 /// the [source] text.
@@ -105,8 +106,11 @@ typedef KeywordExtractor = List<List<String>> Function(SourceText source,
 /// - [zone] is the of the name of the zone to be appended to the [Token]s.
 ///
 /// Returns a List<[Token]>.
-typedef Tokenizer = Future<List<Token>> Function(SourceText source,
-    {NGramRange? nGramRange, Zone? zone, TokenFilter? tokenFilter});
+typedef Tokenizer = Future<List<Token>> Function(String source,
+    {NGramRange? nGramRange,
+    bool preserveCase,
+    String? zone,
+    TokenFilter? tokenFilter});
 
 /// Type definition of a function that returns a collection of [Token] from
 /// the [zones] in a JSON [document].
@@ -125,38 +129,18 @@ typedef Tokenizer = Future<List<Token>> Function(SourceText source,
 typedef JsonTokenizer = Future<List<Token>> Function(
     Map<String, dynamic> document,
     {NGramRange? nGramRange,
-    Iterable<Zone>? zones,
+    bool preserveCase,
+    Iterable<String>? zones,
     TokenFilter? tokenFilter});
-
-/// A splitter function that returns a list of paragraphs from [source].
-///
-/// In English, the [source] text is split at:
-/// - `U+000A`, NewLine;
-/// - `U+000B`, VerticalTabulation;
-/// - `U+000C`, FormFeed; and
-/// - `U+000D`, CarriageReturn.
-typedef ParagraphSplitter = List<String> Function(String source);
-
-/// A filter function that returns a collection of terms from term:
-/// - return an empty collection if the term is to be excluded from analysis;
-/// - return multiple terms if the term is split; and/or
-/// - return modified term(s), such as applying a stemmer algorithm.
-typedef TermFilter = Set<String> Function(Term term);
 
 /// A filter function that returns a subset of [tokens].
 typedef TokenFilter = Future<List<Token>> Function(List<Token> tokens);
 
 /// Type definition of a function that filters characters from the [source]
 /// text in preparation of tokenization.
-typedef CharacterFilter = String Function(SourceText source);
+typedef CharacterFilter = String Function(String source, [String? zone]);
 
-/// A callback function that returns true or false based on the content of
-/// the term.
-typedef TermFlag = bool Function(Term term);
-
-// {NGramRange nGramRange = const NGramRange(1, 1), TokenizingStrategy strategy = TokenizingStrategy.terms, Zone? zone}
-
-/// Type definition for a hashmap of [Term] to value, when used as a
+/// Type definition for a hashmap of term to value, when used as a
 /// n-dimensional vector in calculating cosine similarity between documents.
 ///
 /// Alias for `Map<String, num>`.

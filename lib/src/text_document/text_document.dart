@@ -81,7 +81,7 @@ abstract class TextDocument {
       required TextAnalyzer analyzer,
       TokenFilter? tokenFilter,
       NGramRange? nGramRange,
-      Zone? zone}) async {
+      String? zone}) async {
     final tokens = await analyzer.tokenizer(sourceText,
         zone: zone,
         tokenFilter: tokenFilter);
@@ -89,8 +89,7 @@ abstract class TextDocument {
     final nGrams = terms.nGrams(nGramRange ?? NGramRange(1, 2));
     final sentences = analyzer.sentenceSplitter(sourceText);
     final paragraphs = analyzer.paragraphSplitter(sourceText);
-    final keywords =
-        analyzer.keywordExtractor(sourceText);
+    final keywords = tokens.toPhrases();
     final graph = TermCoOccurrenceGraph(keywords);
     final syllableCount = terms.map((e) => analyzer.syllableCounter(e)).sum;
     return _TextDocumentImpl(sourceText, null, tokens, paragraphs, sentences,
@@ -110,7 +109,7 @@ abstract class TextDocument {
       required TextAnalyzer analyzer,
       NGramRange? nGramRange,
       TokenFilter? tokenFilter,
-      Iterable<Zone>? zones}) async {
+      Iterable<String>? zones}) async {
     final sourceText = document.toSourceText(zones);
     final tokens = await analyzer.jsonTokenizer(document,
         zones: zones,
@@ -119,8 +118,7 @@ abstract class TextDocument {
     final nGrams = terms.nGrams(nGramRange ?? NGramRange(1, 2));
     final sentences = analyzer.sentenceSplitter(sourceText);
     final paragraphs = analyzer.paragraphSplitter(sourceText);
-    final keywords =
-        analyzer.keywordExtractor(sourceText);
+    final keywords = tokens.toPhrases();
     final graph = TermCoOccurrenceGraph(keywords);
     final syllableCount = terms.map((e) => analyzer.syllableCounter(e)).sum;
     return _TextDocumentImpl(sourceText, zones, tokens, paragraphs, sentences,
@@ -151,7 +149,7 @@ abstract class TextDocument {
 
   /// A collection of the names of the zones in document that are to be
   /// tokenized.
-  Iterable<Zone>? get zones;
+  Iterable<String>? get zones;
 
   /// The average number of words in [sentences].
   int averageSentenceLength();

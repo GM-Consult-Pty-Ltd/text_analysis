@@ -8,46 +8,58 @@ part of '../latin_language_analyzer.dart';
 abstract class _TermFilter implements TextAnalyzer {
 //
 
+  /// Returns true if the [term] is a stopword excluded from tokenization.
+  bool isStopword(String term);
+
+  /// Attempts to parse the term to a number. Returns null if the term does not
+  /// represent a number, amount or percentage
+  num? asNumber(String term);
+
+  /// A map of term exceptions
+  Map<String, String> get termExceptions;
+
+  /// Language-specific function that returns the stem of a term.
+  TermModifier get stemmer;
+
   /// Implements [TextAnalyzer.termFilter].
   ///
-  /// Returns one or more versions of the String as follows:
-  /// - returns an empty set if the String is empty or in [stopWords];
-  /// - looks up the text in [termExceptions] and returns the value if the
-  ///   key exists;
-  /// - looks up the term in [abbreviations] and, if found, returns three
-  ///   versions: the abbreviation, the unabbreviated term or phrase and a
-  ///   version with no punctuation;
-  /// - adds the resulting term if it is longer than 1 and not in stop words.
-  Set<String> _filterTerms(String term) {
-    // remove white-space from start and end of term
-    term = term.trim();
-    final Set<String> retVal = {};
-    final exception = termExceptions[term]?.trim();
-    if (exception != null) {
-      return {exception};
+  /// Normalizes the white-space in the term then returns the term if it is
+  /// not empty.
+  Future<String?> _filterTerm(String term, [String? zone]) async {
+    String? retval = term.normalizeWhitespace();
+    // check for exceptions
+    final ex = termExceptions[retval];
+    if (ex != null) {
+      return ex.isEmpty ? null : ex;
     }
-    if (term.isNotEmpty && !isStopWord(term) && term.length > 1) {
-      // exclude empty terms and that are stopwords
-      // final abbreviationTerms = term._abbreviatedVersions(abbreviations);
-      // retVal.addAll(abbreviationTerms);
-      // term = abbreviationTerms.length > 1 ? abbreviationTerms[1] : term;
-      // term = termExceptions[term] ?? term;
-      // if (!isStopWord(term) && term.length > 1) {
-        // - add term and a version without hyphens to the return value
-      retVal.add(term);
-      // retVal.addAll([
-      //   term,
-      //   term.unApostrophied,
-      //    term.spaceHyphenated,
-      //    term.unHyphenated
-      // ]);
-      // }
+    if (!isStopword(retval)) {
+      retval = retval.isEmpty ? null : retval;
+      // stem if single word with only letters
+      if (retval != null &&
+          retval.termCount == 1 &&
+          RegExp(r'[^a-zA-Z\-]').allMatches(retval).isEmpty) {
+        retval = stemmer(retval);
+        final ex = termExceptions[retval];
+        if (ex != null) {
+          return ex.isEmpty ? null : ex;
+        }
+      }
+      // check for exceptions in n-grams
+      if (retval != null && retval.termCount > 1) {
+        final words = retval.splitAtWhitespace();
+        final newWords = <String>[];
+        for (final e in words) {
+          if (!isStopword(e)) {
+            newWords.add(termExceptions[e] ?? e);
+          }
+        }
+        retval = newWords.join(' ').normalizeWhitespace();
+      }
+      return retval == null || retval.trim().isEmpty || isStopword(retval)
+          ? null
+          : retval;
     }
-    retVal.removeWhere((e) {
-      e = e.trim();
-      return e.isEmpty || isStopWord(e);
-    });
-    return retVal;
+    return null;
   }
 
 //

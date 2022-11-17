@@ -2,7 +2,6 @@
 // Copyright ©2022, GM Consult Pty Ltd
 
 import 'package:text_analysis/text_analysis.dart';
-import 'package:text_analysis/type_definitions.dart';
 
 /// A [Token] represents a [term] (word) present in a text source:
 /// - [term] is the term that will be looked up in the index;
@@ -27,11 +26,11 @@ class Token {
   final int n;
 
   /// A [term] extracted text by a [TextAnalyzer].
-  final Term term;
+  final String term;
 
   /// The name of the zone (e.g. field name in a JSON document) that the
   /// [term] is in.
-  final Zone? zone;
+  final String? zone;
 
   /// The zero-based position of the [term] in an ordered list of all the terms
   /// in the source text.

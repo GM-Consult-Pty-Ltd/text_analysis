@@ -100,7 +100,7 @@ void main() {
       // map the document's tokens to a list of terms (strings)
       // print the terms
       print('-'.padRight(31, '-'));
-      print('${'Term'.padRight(21)} ${'Syllables'.toString().padLeft(10)}');
+      print('${'String'.padRight(21)} ${'Syllables'.toString().padLeft(10)}');
       print('-'.padRight(31, '-'));
       for (final term in terms) {
         final syllableCount = English().syllableCounter(term);
@@ -174,7 +174,7 @@ void main() {
       entries.sort((a, b) => b.value.compareTo(a.value));
       print('Found ${entries.length} terms');
       print('Printing TOP 20 terms');
-      print('Term:    Df');
+      print('String:    Df');
       print('=========================');
 
       for (final entry
@@ -203,7 +203,7 @@ void main() {
       final terms = analyzer.termSplitter(sample);
       for (final e in terms) {
         results.add({
-          'Term': e,
+          'String': e,
           'Filtered': analyzer.termFilter(e),
           'Syllables': analyzer.syllableCounter(e)
         });
@@ -212,7 +212,7 @@ void main() {
     }));
 //
 
-    test('English().keywordExtractor(sample).coOccurrenceGraph', (() {
+    test('English().keywordExtractor(sample).coOccurrenceGraph', (() async {
       final text =
           'Google quietly rolled out a new way for Android users to listen to '
           'podcasts and subscribe to shows they like, and it already works on '
@@ -220,7 +220,7 @@ void main() {
           'exclusive on it. This text is taken from Google news.';
 
       final keywords =
-          English().keywordExtractor(sample);
+         (await English().tokenizer(sample)).toPhrases();
 
       final graph =
           TermCoOccurrenceGraph(keywords) as TermCoOccurrenceGraphBase;
@@ -259,7 +259,7 @@ void main() {
       }
     }));
 
-    test('English().keywordExtractor(stockData)', (() {
+    test('English().keywordExtractor(stockData)', (() async {
       // final text =
       //     'Google quietly rolled out a new way for Android users to listen to '
       //     'podcasts and subscribe to shows they like, and it already works on '
@@ -269,7 +269,7 @@ void main() {
       final text = TestData.stockData.entries.first.value
           .toSourceText({'name', 'description'});
 
-      final keyWords = English().keywordExtractor(text);
+      final keyWords = (await English().tokenizer(text)).toPhrases();
 
       // .map((e) => e.join(' '));
       print(text);

@@ -17,44 +17,35 @@ import 'package:text_analysis/type_definitions.dart';
 ///   line endings;
 /// - [paragraphSplitter] splits text into a list of paragraphs at line
 ///   endings;
-/// - [stemmer] is a language-specific function that returns the stem of a
-///   term;
-/// - [lemmatizer] is a language-specific function that returns the lemma of a
-///   term;
-/// - [keywordExtractor] is a splitter function that returns an ordered
-///   collection of keyword phrasesfrom text. The text is split at punctuation,
-///   line endings and stop-words, resulting in an ordered collection of term
-///   sequences of varying length.
-/// - [termExceptions] is a hashmap of words to token terms for special words
-///   that should not be re-capitalized, stemmed or lemmatized;
-/// - [abbreviations] is a hashmap of abbreviations in the analyzed language;
-///   and
 /// - [syllableCounter] returns the number of syllables in a word or text.
 abstract class TextAnalyzer {
   //
 
-  /// A function that manipulates text prior to stemming and tokenization.
+  /// A function that filters out unwanted characters or replaces them with
+  /// other characters.
+  AsyncTermModifier get characterFilter;
+
+  /// A filter function that returns a modified term or null.
+  AsyncTermModifier get termFilter;
+
+  /// Expands text to a collection of related Strings, e.g. synonyms,
+  /// abbreviations or spelling suggestions.
   ///
-  /// Use a [characterFilter] to:
-  /// - convert all terms to lower case;
-  /// - remove non-word characters from terms.
-  CharacterFilter get characterFilter;
+  /// Used during tokenization and keyword extraction.
+  TermExpander? get termExpander;
 
-  /// A filter function that returns a collection of terms from term:
-  /// - return an empty collection if the term is to be excluded from analysis;
-  /// - return multiple terms if the term is split; and/or
-  /// - return modified term(s), such as applying a stemmer algorithm.
-  TermFilter get termFilter;
-
-  /// Returns a list of terms from text.
-  TermSplitter get termSplitter;
-
-  /// A splitter function that returns an ordered collection of keyword phrases
-  /// from text.
+  /// Returns a list of keywords from text.
   ///
-  /// The text is split at punctuation, line endings and stop-words, resulting
-  /// in an ordered collection of term sequences of varying length.
-  KeywordExtractor get keywordExtractor;
+  /// A keyword is a word or phrase seperated from other words/phrases by
+  /// punctuation, stopwords and/or other language delimiters.
+  PhraseSplitter get phraseSplitter;
+
+  /// Returns a list of words from text.
+  ///
+  /// A word is defined as a sequence of word-characters bound by word
+  /// boundaries either side. By definition all non-word characters are
+  /// excluded from this definition.
+  TextSplitter get termSplitter;
 
   /// Extracts one or more tokens from text for use in full-text search queries
   /// and indexes.
@@ -65,43 +56,22 @@ abstract class TextAnalyzer {
   JsonTokenizer get jsonTokenizer;
 
   /// Returns a list of sentences from text.
-  SentenceSplitter get sentenceSplitter;
+  TextSplitter get sentenceSplitter;
 
   /// Returns a list of paragraphs from text.
-  ParagraphSplitter get paragraphSplitter;
+  TextSplitter get paragraphSplitter;
 
   /// Returns the number of syllables in a string after stripping out all
   /// white-space and punctuation.
   SyllableCounter get syllableCounter;
 
-  /// Language-specific function that returns the stem of a term.
-  TermModifier get stemmer;
-
-  /// Language-specific function that returns the lemma of a term.
-  TermModifier get lemmatizer;
-
   /// A language-specific function that generates n-grams from text.
   NGrammer get nGrammer;
 
-  /// A hashmap of words to token terms for special words that should not be
-  /// re-capitalized, stemmed or lemmatized.
-  Map<String, String> get termExceptions;
+  // /// A hashmap of words to token terms for special words that should not be
+  // /// re-capitalized, stemmed or lemmatized.
+  // Map<String, String> get termExceptions;
 
-  /// A callback that re-cases the terms.
-  ///
-  /// Re-case is called on individual terms, not phrases or keywords and can be
-  /// used to preserve case on identifiers, given names or other case-sensitive
-  /// language.
-  TermModifier get reCase;
-
-  /// A callback that returns true if the term is a stopword.
-  ///
-  /// Stopwords are terms that commonly occur in a language and that do not add
-  /// material value to the analysis of text.
-  ///
-  /// Stopwords are used by the [keywordExtractor] and [termFilter].
-  TermFlag get isStopWord;
-
-  /// A hashmap of abbreviations in the analyzed language.
-  Map<String, String> get abbreviations;
+  // /// A hashmap of abbreviations in the analyzed language.
+  // Map<String, String> get abbreviations;
 }

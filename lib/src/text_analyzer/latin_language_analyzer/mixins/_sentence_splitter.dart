@@ -12,7 +12,7 @@ abstract class _SentenceSplitter implements TextAnalyzer {
   /// - Split the text into sentences at delimiters.
   /// - Trim leading and trailing white-space from all terms.
   /// - Return only non-empty elements.
-  List<String> _splitToSentences(SourceText source) =>
+  List<String> _splitToSentences(String source) =>
       source.insertSentenceDelimiters().splitAtSentenceDelimiters();
 }
 

@@ -8,7 +8,7 @@ import 'package:text_analysis/text_analysis.dart';
 import 'package:text_analysis/extensions.dart';
 import 'dart:math';
 
-/// Extension methods on [Term] that exposes methods analysing and tokenizing
+/// Extension methods on term that exposes methods analysing and tokenizing
 /// text.
 extension TextAnalysisExtensionsOnJSON on Map<String, dynamic> {
   /// Parses the JSON to text.
@@ -20,7 +20,7 @@ extension TextAnalysisExtensionsOnJSON on Map<String, dynamic> {
   ///
   /// If [fieldNames] is null, all the fields in the JSON will be parsed in
   /// the order of map entries.
-  String toSourceText([Iterable<Zone>? fieldNames]) {
+  String toSourceText([Iterable<String>? fieldNames]) {
     final buffer = StringBuffer();
     if (fieldNames == null) {
       for (final entry in entries) {
@@ -44,7 +44,7 @@ extension TextAnalysisExtensionsOnJSON on Map<String, dynamic> {
   }
 }
 
-/// Extension methods on [Term] that exposes methods analysing and tokenizing
+/// Extension methods on term that exposes methods analysing and tokenizing
 /// text.
 extension TextAnalysisExtensionsOnString on String {
 //
@@ -70,7 +70,28 @@ extension TextAnalysisExtensionsOnString on String {
   String normalizeHyphens() =>
       replaceAll(RegExp('$_rDashesAndHyphens+'), '\u2011');
 
+  /// Returns all the words in the String.
+  ///
+  /// A word is defined as a sequence of word-characters bound by word
+  /// boundaries either side. By definition all non-word characters are
+  /// excluded from this definition.
+  List<String> get words {
+    final matches = RegExp(_rWords).allMatches(this);
+    final retVal = <String>[];
+    for (final e in matches) {
+      final word = e[0];
+      if (word != null) {
+        retVal.add(word);
+      }
+    }
+    return retVal;
+  }
+
   static const _rDashesAndHyphens = '[\\\u2011\u2012\u2013\u2014]';
+
+  /// Selector for all character sequences bound by word boundaries or the
+  /// start/end of a String.
+  static const _rWords = r'(?<=^|\b)([^\s])+(?=\$|\b)';
 
   // /// Selector for all single or double quotation marks and apostrophes.
   // static const _rAllQuotes = '["“”„‟\'’‘‛]';
@@ -90,8 +111,8 @@ extension TextAnalysisExtensionsOnString on String {
   ///   than a letter or digit.
   /// - selects all instances of "'" where U+0027 is preceded by "s" or "S" and
   ///   followed by a character other than a letter or digit.
-  static const rPossessive =
-      r"(?<=[a-zA-Z0-9])('s|'S)(?=[^a-zA-Z0-9])|(?<=[sS])(')(?=[^a-zA-Z])";
+  static const _rPossessive =
+      r"(?<=[a-zA-Z0-9])('s|'S)(?=$|[^a-zA-Z0-9])|(?<=[sS])(')(?=$|[^a-zA-Z])";
 
   /// Removes all posessive apostropes.
   /// - removes all instances of "'s" or "'S" where U+0027 is followed by an
@@ -100,7 +121,7 @@ extension TextAnalysisExtensionsOnString on String {
   /// - removes all instances of "'" where U+0027 is preceded by "s" or "S" and
   ///   followed by a character other than a letter or digit.
   /// Call [normalizeQuotes] before use.
-  String removePossessives() => replaceAll(RegExp(rPossessive), '');
+  String removePossessives() => replaceAll(RegExp(_rPossessive), '');
 
   /// Removes all quote marks from the string, except where within a word
   /// or where it is a apostrophe preceded by n "s" or "S" (possessive plural).
@@ -145,7 +166,7 @@ extension TextAnalysisExtensionsOnString on String {
       RegExp(r'[aeiouyà-æè-ðò-öø-ÿ]+').allMatches(this).length;
 }
 
-/// Extension methods on [Term] that exposes methods analysing and tokenizing
+/// Extension methods on term that exposes methods analysing and tokenizing
 /// text.
 extension TextAnalysisExtensionsOnStringList on List<String> {
   //
@@ -167,7 +188,7 @@ extension TextAnalysisExtensionsOnStringList on List<String> {
       // initialize the ngrams collection
       final nGrams = <List<String>>[];
       // remove white-space at start and end of term
-      term = term.trim();
+      term = term.normalizeWhitespace();
       // ignore empty strings
       if (term.isNotEmpty) {
         nGramTerms.add(term);
@@ -188,8 +209,10 @@ extension TextAnalysisExtensionsOnStringList on List<String> {
       final tokenGrams = nGrams.where((element) =>
           element.length >= range.min && element.length <= range.max);
       for (final e in tokenGrams) {
-        final nGram = e.join(' ');
-        retVal.add(nGram);
+        final nGram = e.join(' ').normalizeWhitespace();
+        if (nGram.isNotEmpty) {
+          retVal.add(nGram);
+        }
       }
     }
     return retVal;
@@ -214,7 +237,7 @@ extension TextAnalysisExtensionsOnStringList on List<String> {
 extension TokenCollectionExtension on Iterable<Token> {
 //
 
-  /// Returns a list of unique [Phrase]s from the [terms] in the collection.
+  /// Returns a list of unique phrases from the [terms] in the collection.
   ///
   /// Splits each unique term at white-space and adds it to the set.
   Set<List<String>> toPhrases() {
@@ -230,13 +253,13 @@ extension TokenCollectionExtension on Iterable<Token> {
   }
 
   /// Returns a hashmap of k-grams to terms from the collection of tokens.
-  Map<KGram, Set<Term>> kGrams([int k = 2]) => terms.toKGramsMap(k);
+  Map<String, Set<String>> kGrams([int k = 2]) => terms.toKGramsMap(k);
 
   /// Returns the set of unique terms from the collection of [Token]s.
   Set<String> get terms => Set<String>.from(map((e) => e.term.trim()));
 
   /// Returns a list of all the terms from the collection of [Token]s, in
-  /// the same order as they occur in the [SourceText].
+  /// the same order as they occur in the text.
   List<String> get allTerms {
     final allTerms = List<Token>.from(this);
     allTerms.sort(((a, b) => a.termPosition.compareTo(b.termPosition)));
@@ -246,30 +269,30 @@ extension TokenCollectionExtension on Iterable<Token> {
   /// Filters the collection for tokens with [Token.term] == [term].
   ///
   /// Orders the filtered [Token]s by [Token.termPosition] in ascending order.
-  Iterable<Token> byTerm(Term term) {
+  Iterable<Token> byTerm(String term) {
     final tokens = where((element) => element.term == term).toList();
     tokens.sort((a, b) => a.termPosition.compareTo(b.termPosition));
     return tokens;
   }
 
   /// Returns the count where [Token.term] == [term].
-  int termCount(Term term) => byTerm(term).length;
+  int termCount(String term) => byTerm(term).length;
 
   /// Returns the highest [Token.termPosition] where [Token.term] == [term].
   @Deprecated('The [maxIndex] extension method will be removed.')
-  int lastPosition(Term term) => byTerm(term).last.termPosition;
+  int lastPosition(String term) => byTerm(term).last.termPosition;
 
   /// Returns the lowest [Token.termPosition] where [Token.term] == [term].
-  int firstPosition(Term term) => byTerm(term).first.termPosition;
+  int firstPosition(String term) => byTerm(term).first.termPosition;
 }
 
 /// String collection extensions to generate k-gram maps.
 extension KGramExtensionOnTermCollection on Iterable<String> {
   /// Returns a hashmap of k-grams to terms from the collection of tokens.
-  Map<KGram, Set<Term>> toKGramsMap([int k = 2]) {
+  Map<String, Set<String>> toKGramsMap([int k = 2]) {
     final terms = this;
     // print the terms
-    final Map<String, Set<Term>> kGramIndex = {};
+    final Map<String, Set<String>> kGramIndex = {};
     for (final term in terms) {
       final kGrams = term.kGrams(k);
       for (final kGram in kGrams) {
@@ -325,7 +348,7 @@ extension VectorSpaceMapExtensions on VectorSpace {
   /// Calculates the similarity of the vectors measured as the cosine of the
   /// angle between them, i.e. the dot product of the vectors divided by the
   /// product of their euclidian lengths
-  double cosineSimilarity(Map<Term, num> other) {
+  double cosineSimilarity(Map<String, num> other) {
     // initialize square of euclidian length for the document.
     double eLDSq = 0.0;
     // initialize square of euclidian length for query.

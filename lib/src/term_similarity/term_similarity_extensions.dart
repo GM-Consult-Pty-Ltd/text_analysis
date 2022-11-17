@@ -3,13 +3,12 @@
 
 // ignore_for_file: camel_case_types
 
-import 'package:text_analysis/type_definitions.dart';
 import 'package:text_analysis/text_analysis.dart';
 import 'package:text_analysis/extensions.dart';
 import 'dart:math';
 
-/// Extension methods on [Term] that exposes methods for computing similarity.
-extension TermSimilarityExtensions on Term {
+/// Extension methods on term that exposes methods for computing similarity.
+extension TermSimilarityExtensions on String {
   //
 
   /// A normalized measure of [editDistance] on a scale of 0.0 to 1.0.
@@ -23,7 +22,7 @@ extension TermSimilarityExtensions on Term {
   ///   lengths) have an edit similarity of 0.0.
   ///
   /// Not case-sensitive.
-  double editSimilarity(Term other) {
+  double editSimilarity(String other) {
     other = other.trim().toLowerCase();
     final term = trim().toLowerCase();
     final similarity = (term.length + other.length - editDistance(other)) /
@@ -38,7 +37,7 @@ extension TermSimilarityExtensions on Term {
   /// descending order of [SimilarityIndex.similarity].
   ///
   /// Not case-sensitive.
-  List<SimilarityIndex> editSimilarities(Iterable<Term> terms) =>
+  List<SimilarityIndex> editSimilarities(Iterable<String> terms) =>
       editSimilarityMap(terms)
           .entries
           .map((e) => SimilarityIndex(e.key, e.value))
@@ -47,8 +46,8 @@ extension TermSimilarityExtensions on Term {
   /// Returns a hashmap of [terms] to their [editSimilarity] with this.
   ///
   /// Not case-sensitive.
-  Map<Term, double> editSimilarityMap(Iterable<Term> terms) {
-    final retVal = <Term, double>{};
+  Map<String, double> editSimilarityMap(Iterable<String> terms) {
+    final retVal = <String, double>{};
     for (var other in terms) {
       retVal[other] = editSimilarity(other);
     }
@@ -58,8 +57,8 @@ extension TermSimilarityExtensions on Term {
   /// Returns a hashmap of [terms] to their [editDistance] with this.
   ///
   /// Not case-sensitive.
-  Map<Term, int> editDistanceMap(Iterable<Term> terms) {
-    final retVal = <Term, int>{};
+  Map<String, int> editDistanceMap(Iterable<String> terms) {
+    final retVal = <String, int>{};
     for (var other in terms) {
       retVal[other] = editDistance(other);
     }
@@ -75,7 +74,7 @@ extension TermSimilarityExtensions on Term {
   ///
   /// Not case-sensitive.
   /// See https://en.wikipedia.org/wiki/Damerau%E2%80%93Levenshtein_distance.
-  int editDistance(Term other) {
+  int editDistance(String other) {
     //
     other = other.trim().toLowerCase();
 
@@ -178,7 +177,7 @@ extension TermSimilarityExtensions on Term {
   /// comparison.
   ///
   /// Not case-sensitive.
-  double characterSimilarity(Term other) {
+  double characterSimilarity(String other) {
     final term = trim().toLowerCase();
     other = other.trim().toLowerCase();
     if (term == other) return 1.0;
@@ -201,15 +200,15 @@ extension TermSimilarityExtensions on Term {
   /// comparison.
   ///
   /// Not case-sensitive.
-  List<SimilarityIndex> characterSimilarities(Iterable<Term> terms) =>
+  List<SimilarityIndex> characterSimilarities(Iterable<String> terms) =>
       characterSimilarityMap(terms)
           .entries
           .map((e) => SimilarityIndex(e.key, e.value))
           .sortBySimilarity();
 
   /// Returns a hashmap of [terms] to their [lengthSimilarity] with this.
-  Map<Term, double> characterSimilarityMap(Iterable<Term> terms) {
-    final retVal = <Term, double>{};
+  Map<String, double> characterSimilarityMap(Iterable<String> terms) {
+    final retVal = <String, double>{};
     for (var other in terms) {
       retVal[other] = characterSimilarity(other);
     }
@@ -219,7 +218,8 @@ extension TermSimilarityExtensions on Term {
   /// Returns the absolute value of the difference in length between two terms.
   ///
   /// The String and [other] are trimmed for the calculation.
-  int lengthDistance(Term other) => (trim().length - other.trim().length).abs();
+  int lengthDistance(String other) =>
+      (trim().length - other.trim().length).abs();
 
   /// Returns the similarity in length between two terms, defined as:
   /// lengthSimilarity = 1 minus the log of the ratio between the term lengths,
@@ -232,7 +232,7 @@ extension TermSimilarityExtensions on Term {
   ///
   /// The String and [other] are converted to lower-case and trimmed for the
   /// comparison.
-  double lengthSimilarity(Term other) {
+  double lengthSimilarity(String other) {
     final term = trim().toLowerCase();
     other = other.trim().toLowerCase();
     final logRatio = term.isEmpty
@@ -315,7 +315,7 @@ extension TermSimilarityExtensions on Term {
   ///   cases.
   ///
   /// Not case sensitive.
-  double startsWithSimilarity(Term other) {
+  double startsWithSimilarity(String other) {
     final term = toLowerCase().trim();
     other = other.toLowerCase().trim();
     if (term == other) {
@@ -336,15 +336,15 @@ extension TermSimilarityExtensions on Term {
   /// descending order of [SimilarityIndex.similarity].
   ///
   /// Not case-sensitive.
-  List<SimilarityIndex> lengthSimilarities(Iterable<Term> terms) =>
+  List<SimilarityIndex> lengthSimilarities(Iterable<String> terms) =>
       lengthSimilarityMap(terms)
           .entries
           .map((e) => SimilarityIndex(e.key, e.value))
           .sortBySimilarity();
 
   /// Returns a hashmap of [terms] to their [lengthSimilarity] with this.
-  Map<Term, double> lengthSimilarityMap(Iterable<Term> terms) {
-    final retVal = <Term, double>{};
+  Map<String, double> lengthSimilarityMap(Iterable<String> terms) {
+    final retVal = <String, double>{};
     for (var other in terms) {
       retVal[other] = lengthSimilarity(other);
     }
@@ -358,10 +358,10 @@ extension TermSimilarityExtensions on Term {
   /// comparison.
   ///
   /// Not case-sensitive.
-  double jaccardSimilarity(Term other, [int k = 2]) =>
+  double jaccardSimilarity(String other, [int k = 2]) =>
       _jaccardSimilarity(trim().toLowerCase().kGrams(k), other, k);
 
-  double _jaccardSimilarity(Set<String> termGrams, Term other, int k) {
+  double _jaccardSimilarity(Set<String> termGrams, String other, int k) {
     other = other.trim().toLowerCase();
     final otherGrams = other.kGrams(k);
     final intersection = termGrams.intersection(otherGrams);
@@ -377,8 +377,9 @@ extension TermSimilarityExtensions on Term {
   /// using a [k]-gram length of [k].
   ///
   /// Not case-sensitive.
-  Map<Term, double> jaccardSimilarityMap(Iterable<Term> terms, [int k = 2]) {
-    final retVal = <Term, double>{};
+  Map<String, double> jaccardSimilarityMap(Iterable<String> terms,
+      [int k = 2]) {
+    final retVal = <String, double>{};
     final termGrams = kGrams(k);
     for (final other in terms) {
       retVal[other] = _jaccardSimilarity(termGrams, other, k);
@@ -391,7 +392,7 @@ extension TermSimilarityExtensions on Term {
   /// [k]-gram length of [k]. [k] defaults to 2.
   ///
   /// Not case-sensitive.
-  List<SimilarityIndex> jaccardSimilarities(Iterable<Term> terms,
+  List<SimilarityIndex> jaccardSimilarities(Iterable<String> terms,
           [int k = 2]) =>
       jaccardSimilarityMap(terms, k)
           .entries
@@ -405,7 +406,7 @@ extension TermSimilarityExtensions on Term {
   /// The default [k] is 2.
   ///
   /// Not case-sensitive.
-  List<TermSimilarity> termSimilarities(Iterable<Term> terms, {int k = 2}) =>
+  List<TermSimilarity> termSimilarities(Iterable<String> terms, {int k = 2}) =>
       termSimilarityMap(terms, k: k).values.sortBySimilarity();
 
   /// Returns an hashmap of [terms] to [TermSimilarity] with this term.
@@ -414,9 +415,9 @@ extension TermSimilarityExtensions on Term {
   ///   defaults to 2.
   ///
   /// Not case-sensitive.
-  Map<Term, TermSimilarity> termSimilarityMap(Iterable<Term> terms,
+  Map<String, TermSimilarity> termSimilarityMap(Iterable<String> terms,
       {int k = 2}) {
-    final retVal = <Term, TermSimilarity>{};
+    final retVal = <String, TermSimilarity>{};
     for (final other in terms) {
       retVal[other] = TermSimilarity(this, other, k: k);
     }
@@ -441,7 +442,7 @@ extension TermSimilarityExtensions on Term {
   /// matches are found.
   ///
   /// Not case-sensitive.
-  List<SimilarityIndex> getSuggestions(Iterable<Term> terms,
+  List<SimilarityIndex> getSuggestions(Iterable<String> terms,
       {int limit = 10, int k = 2, double greaterThan = 0.10, int roundTo = 3}) {
     final retVal = <SimilarityIndex>[];
     for (final other in terms.toSet()) {
@@ -483,7 +484,7 @@ extension TermSimilarityExtensions on Term {
   /// matches are found.
   ///
   /// Not case-sensitive.
-  List<Term> matches(Iterable<Term> terms,
+  List<String> matches(Iterable<String> terms,
           {int limit = 10, int k = 2, double greaterThan = 0.10}) =>
       getSuggestions(terms, k: k, limit: limit, greaterThan: greaterThan)
           .where((element) => element.similarity > 0)
@@ -497,9 +498,9 @@ extension TermSimilarityExtensions on Term {
   ///
   /// If [lowerCase] is true, the text is converted to to lower case before
   /// generating the k-grams.
-  Set<KGram> kGrams([int k = 2, bool lowerCase = true]) {
+  Set<String> kGrams([int k = 2, bool lowerCase = true]) {
     final term = lowerCase ? trim().toLowerCase() : trim();
-    final Set<KGram> kGrams = {};
+    final Set<String> kGrams = {};
     final terms = term.split(RegExp(r"[^a-zA-Z0-9À-öø-ÿ¥Œ€@™#-\&_\'\-\$]+"));
     for (var term in terms) {
       term = term.trim();
@@ -530,7 +531,7 @@ class _Da extends _Array<int> {
   _Da() : super(List<int>.generate(26, (index) => 0), 1);
 }
 
-/// Splits a [Term] into characters and places them in a 1-based array.
+/// Splits a term into characters and places them in a 1-based array.
 class _CharArray extends _Array<int> {
   //
 
