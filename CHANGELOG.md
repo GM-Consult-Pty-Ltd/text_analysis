@@ -8,10 +8,15 @@ All rights reserved.
 **BREAKING CHANGES**
 
 ### *Breaking changes*
-* 
+* Interface `TextTokenizer` removed. Use `TextAnalyzer.tokenize` and `TextAnalyzer.tokenizeJson` in stead.
+* Deleted mixin `LatinLanguageAnalyzerMixin`.
+* Moved class `TermSimilarityBase` from `text_analysis` library.
+* Moved all mixins and base-classes to `implementation` mini-library.
 
 ### *New*
-* 
+* New method `TextAnalyzer.tokenize`.
+* New method `TextAnalyzer.tokenizeJson`.
+* New class `LatinLanguageAnalyzer`.
 
 ### *Updated*
 * Dependencies.
