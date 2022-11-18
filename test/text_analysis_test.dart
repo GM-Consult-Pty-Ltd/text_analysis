@@ -64,7 +64,8 @@ void main() {
           English(termExceptions: {'alphabet': 'ALPHABET', 'google': 'Google'});
 
       // tokenize the source
-      final tokens = await analyzer.tokenizer(source, zone: 'text');
+      final tokens = await analyzer.tokenizer(source,
+          zone: 'text', nGramRange: NGramRange(1, 2));
 
       // print the tokens
       _printTokens('TOKENIZE JSON', tokens);

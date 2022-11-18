@@ -83,7 +83,7 @@ abstract class TextDocument {
       NGramRange? nGramRange,
       String? zone}) async {
     final tokens = await analyzer.tokenizer(sourceText,
-        zone: zone, tokenFilter: tokenFilter);
+        zone: zone, tokenFilter: tokenFilter, nGramRange: nGramRange);
     final terms = analyzer.termSplitter(sourceText);
     final nGrams = terms.nGrams(nGramRange ?? NGramRange(1, 2));
     final sentences = analyzer.sentenceSplitter(sourceText);

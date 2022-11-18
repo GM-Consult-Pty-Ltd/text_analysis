@@ -4,6 +4,15 @@ Copyright (c) 2022, GM Consult Pty Ltd
 All rights reserved. 
 -->
 
+
+## 0.24.0-4
+
+### *Bug fixes*
+* Fixed tokenizer term position bug.
+
+### *Updated*
+* Documentation
+
 ## 0.24.0-3
 **BREAKING CHANGES**
 

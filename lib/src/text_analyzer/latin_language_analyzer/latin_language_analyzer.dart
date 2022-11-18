@@ -39,10 +39,6 @@ abstract class LatinLanguageAnalyzer
   /// Initializes a const [LatinLanguageAnalyzer].
   const LatinLanguageAnalyzer();
 
-  static Future<List<Token>> kRecaseTokens(List<Token> tokens) async => tokens
-      .map((e) => Token(e.term.toLowerCase(), e.n, e.termPosition, e.zone))
-      .toList();
-
   @override
   NGrammer get nGrammer => _toNGrams;
 
