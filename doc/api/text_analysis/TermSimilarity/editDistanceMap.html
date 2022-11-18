@@ -51,9 +51,9 @@
     <section class="multi-line-signature">
       
 
-<span class="returntype"><a href="https://api.flutter.dev/flutter/dart-core/Map-class.html">Map</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../../type_definitions/Term.html">Term</a></span>, <span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/int-class.html">int</a></span>&gt;</span></span>
-<span class="name ">editDistanceMap</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="editDistanceMap-param-term"><span class="type-annotation"><a href="../../type_definitions/Term.html">Term</a></span> <span class="parameter-name">term</span>, </span></li>
-<li><span class="parameter" id="editDistanceMap-param-terms"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../../type_definitions/Term.html">Term</a></span>&gt;</span></span> <span class="parameter-name">terms</span></span></li>
+<span class="returntype"><a href="https://api.flutter.dev/flutter/dart-core/Map-class.html">Map</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>, <span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/int-class.html">int</a></span>&gt;</span></span>
+<span class="name ">editDistanceMap</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="editDistanceMap-param-term"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span> <span class="parameter-name">term</span>, </span></li>
+<li><span class="parameter" id="editDistanceMap-param-terms"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>&gt;</span></span> <span class="parameter-name">terms</span></span></li>
 </ol>)
 
       
@@ -71,7 +71,8 @@ comparison.</p>
     
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
-  <pre class="language-dart"><code class="language-dart">static Map&lt;Term, int&gt; editDistanceMap(Term term, Iterable&lt;Term&gt; terms) =&gt;
+  <pre class="language-dart"><code class="language-dart">static Map&lt;String, int&gt; editDistanceMap(
+        String term, Iterable&lt;String&gt; terms) =&gt;
     term.editDistanceMap(terms);</code></pre>
 </section>
 
@@ -152,7 +153,7 @@ comparison.</p>
 <footer>
   <span class="no-break">
     text_analysis
-      0.24.0-1
+      0.24.0-2
   </span>
 
   

@@ -52,7 +52,7 @@
       
 
 <span class="returntype"><a href="https://api.flutter.dev/flutter/dart-core/double-class.html">double</a></span>
-<span class="name ">jaccardSimilarity</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="jaccardSimilarity-param-other"><span class="type-annotation"><a href="../../type_definitions/Term.html">Term</a></span> <span class="parameter-name">other</span>, </span></li>
+<span class="name ">jaccardSimilarity</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="jaccardSimilarity-param-other"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span> <span class="parameter-name">other</span>, </span></li>
 <li><span class="parameter" id="jaccardSimilarity-param-k">[<span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/int-class.html">int</a></span> <span class="parameter-name">k</span> = <span class="default-value">2</span>]</span></li>
 </ol>)
 
@@ -72,7 +72,7 @@ comparison.</p>
     
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
-  <pre class="language-dart"><code class="language-dart">double jaccardSimilarity(Term other, [int k = 2]) =&gt;
+  <pre class="language-dart"><code class="language-dart">double jaccardSimilarity(String other, [int k = 2]) =&gt;
     _jaccardSimilarity(trim().toLowerCase().kGrams(k), other, k);</code></pre>
 </section>
 
@@ -142,7 +142,7 @@ comparison.</p>
 <footer>
   <span class="no-break">
     text_analysis
-      0.24.0-1
+      0.24.0-2
   </span>
 
   

@@ -56,7 +56,7 @@
 <li><span class="parameter" id="analyzeJson-param-analyzer"><span>required</span> <span class="type-annotation"><a href="../../text_analysis/TextAnalyzer-class.html">TextAnalyzer</a></span> <span class="parameter-name">analyzer</span>, </span></li>
 <li><span class="parameter" id="analyzeJson-param-nGramRange"><span class="type-annotation"><a href="../../text_analysis/NGramRange-class.html">NGramRange</a>?</span> <span class="parameter-name">nGramRange</span>, </span></li>
 <li><span class="parameter" id="analyzeJson-param-tokenFilter"><span class="type-annotation"><a href="../../type_definitions/TokenFilter.html">TokenFilter</a>?</span> <span class="parameter-name">tokenFilter</span>, </span></li>
-<li><span class="parameter" id="analyzeJson-param-zones"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../../type_definitions/Zone.html">Zone</a></span>&gt;</span>?</span> <span class="parameter-name">zones</span>}</span></li>
+<li><span class="parameter" id="analyzeJson-param-zones"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>&gt;</span>?</span> <span class="parameter-name">zones</span>}</span></li>
 </ol>)
 
       
@@ -85,7 +85,7 @@ populate the <code>tokens</code> property.</li>
     required TextAnalyzer analyzer,
     NGramRange? nGramRange,
     TokenFilter? tokenFilter,
-    Iterable&lt;Zone&gt;? zones}) async {
+    Iterable&lt;String&gt;? zones}) async {
   final sourceText = document.toSourceText(zones);
   final tokens = await analyzer.jsonTokenizer(document,
       zones: zones,
@@ -94,8 +94,7 @@ populate the <code>tokens</code> property.</li>
   final nGrams = terms.nGrams(nGramRange ?? NGramRange(1, 2));
   final sentences = analyzer.sentenceSplitter(sourceText);
   final paragraphs = analyzer.paragraphSplitter(sourceText);
-  final keywords =
-      analyzer.keywordExtractor(sourceText);
+  final keywords = tokens.toPhrases();
   final graph = TermCoOccurrenceGraph(keywords);
   final syllableCount = terms.map((e) =&gt; analyzer.syllableCounter(e)).sum;
   return _TextDocumentImpl(sourceText, zones, tokens, paragraphs, sentences,
@@ -173,7 +172,7 @@ populate the <code>tokens</code> property.</li>
 <footer>
   <span class="no-break">
     text_analysis
-      0.24.0-1
+      0.24.0-2
   </span>
 
   

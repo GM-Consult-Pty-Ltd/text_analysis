@@ -51,22 +51,106 @@
     <section class="multi-line-signature">
         
   
-<span class="name ">KGramsMap</span> = <a href="https://api.flutter.dev/flutter/dart-core/Map-class.html">Map</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../type_definitions/KGram.html">KGram</a></span>, <span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/Set-class.html">Set</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../type_definitions/Term.html">Term</a></span>&gt;</span></span>&gt;</span></span>
+<span class="name ">KGramsMap</span> = <a href="https://api.flutter.dev/flutter/dart-core/Map-class.html">Map</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>, <span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/Set-class.html">Set</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>&gt;</span></span>&gt;</span></span>
 
 
     </section>
 
     
 <section class="desc markdown">
-  <p>Alias for <code>Map&lt;String, Set&lt;String&gt;&gt;</code>.</p>
-<p>A hashmap of <a href="../type_definitions/KGram.html">KGram</a> to Set&lt;<a href="../type_definitions/Term.html">Term</a>&gt;, where the value is the set of unique
-<a href="../type_definitions/Term.html">Term</a>s that contain the <a href="../type_definitions/KGram.html">KGram</a> in the key.</p>
+  <p>A callback function that returns true or false based on the content of
+the term.
+<code>TextSplitter</code> - A splitter function that returns a list of paragraphs from <code>source</code>.</p>
+<p>In English, the <code>source</code> text is split at:</p>
+<ul>
+<li><code>U+000A</code>, NewLine;</li>
+<li><code>U+000B</code>, VerticalTabulation;</li>
+<li><code>U+000C</code>, FormFeed; and</li>
+<li><code>U+000D</code>, CarriageReturn.
+<code>TermFilter</code> - A filter function that returns a collection of terms from term:</li>
+<li>return an empty collection if the term is to be excluded from analysis;</li>
+<li>return multiple terms if the term is split; and/or</li>
+<li>return modified term(s), such as applying a stemmer algorithm.
+<code>SentenceSplitter</code> - A splitter function that returns a list of sentences from <code>source</code>.</li>
+</ul>
+<p>In English, the <code>source</code> text is split at sentence endings marks such as
+periods, question marks and exclamation marks. If the <code>source</code> contains
+paragraph ending marks it should also be split at these.</p>
+<p>The sentence splitter should avoid splitting after abbreviations,
+which may end with period marks.
+An alias for String, when used in the context of a field or meta data field
+in the <code>corpus</code>. Represents the name of the field/zone.
+An alias for String, used in the context of a word, term or phrase present
+in a text source, document or query.
+Phrase: An alias for <code>List&lt;String&gt;</code> when used in the context of the terms of a
+phrase split to an ordered list of terms.
+k-Gram: An alias for String, used in the context of a sequence of k characters
+from a term.</p>
+<p>A k-gram can start with "$", dentoting the start of the term, and end with
+"$", denoting the end of the term.</p>
+<p>The 3-grams for "castle" are { $ca, cas, ast, stl, tle, le$ }
+<code>PhraseExtractor</code> - a splitter function that returns an ordered collection of keyword phrases
+from text.</p>
+<p>The text is split at punctuation, line endings and stop-words, resulting
+in an ordered collection of term sequences of varying length.
+Alias for <code>Map&lt;String, Set&lt;String&gt;&gt;</code>.</p>
+<p>A hashmap of k-Gram to Set<term>, where the value is the set of unique
+terms that contain the k-Gram in the key.</term></p>
 </section>
 
     
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
-  <pre class="language-dart"><code class="language-dart">typedef KGramsMap = Map&lt;KGram, Set&lt;Term&gt;&gt;;</code></pre>
+  <pre class="language-dart"><code class="language-dart">&#47;&#47;&#47; `TextSplitter` - A splitter function that returns a list of paragraphs from [source].
+&#47;&#47;&#47;
+&#47;&#47;&#47; In English, the [source] text is split at:
+&#47;&#47;&#47; - `U+000A`, NewLine;
+&#47;&#47;&#47; - `U+000B`, VerticalTabulation;
+&#47;&#47;&#47; - `U+000C`, FormFeed; and
+&#47;&#47;&#47; - `U+000D`, CarriageReturn.
+
+&#47;&#47;&#47; `TermFilter` - A filter function that returns a collection of terms from term:
+&#47;&#47;&#47; - return an empty collection if the term is to be excluded from analysis;
+&#47;&#47;&#47; - return multiple terms if the term is split; and&#47;or
+&#47;&#47;&#47; - return modified term(s), such as applying a stemmer algorithm.
+
+&#47;&#47;&#47; `SentenceSplitter` - A splitter function that returns a list of sentences from [source].
+&#47;&#47;&#47;
+&#47;&#47;&#47; In English, the [source] text is split at sentence endings marks such as
+&#47;&#47;&#47; periods, question marks and exclamation marks. If the [source] contains
+&#47;&#47;&#47; paragraph ending marks it should also be split at these.
+&#47;&#47;&#47;
+&#47;&#47;&#47; The sentence splitter should avoid splitting after abbreviations,
+&#47;&#47;&#47; which may end with period marks.
+
+&#47;&#47;&#47; An alias for String, when used in the context of a field or meta data field
+&#47;&#47;&#47; in the `corpus`. Represents the name of the field&#47;zone.
+
+&#47;&#47;&#47; An alias for String, used in the context of a word, term or phrase present
+&#47;&#47;&#47; in a text source, document or query.
+
+&#47;&#47;&#47; Phrase: An alias for `List&lt;String&gt;` when used in the context of the terms of a
+&#47;&#47;&#47; phrase split to an ordered list of terms.
+
+&#47;&#47;&#47; k-Gram: An alias for String, used in the context of a sequence of k characters
+&#47;&#47;&#47; from a term.
+&#47;&#47;&#47;
+&#47;&#47;&#47; A k-gram can start with &quot;$&quot;, dentoting the start of the term, and end with
+&#47;&#47;&#47; &quot;$&quot;, denoting the end of the term.
+&#47;&#47;&#47;
+&#47;&#47;&#47; The 3-grams for &quot;castle&quot; are { $ca, cas, ast, stl, tle, le$ }
+
+&#47;&#47;&#47; `PhraseExtractor` - a splitter function that returns an ordered collection of keyword phrases
+&#47;&#47;&#47; from text.
+&#47;&#47;&#47;
+&#47;&#47;&#47; The text is split at punctuation, line endings and stop-words, resulting
+&#47;&#47;&#47; in an ordered collection of term sequences of varying length.
+
+&#47;&#47;&#47; Alias for `Map&lt;String, Set&lt;String&gt;&gt;`.
+&#47;&#47;&#47;
+&#47;&#47;&#47; A hashmap of k-Gram to Set&lt;term&gt;, where the value is the set of unique
+&#47;&#47;&#47; terms that contain the k-Gram in the key.
+typedef KGramsMap = Map&lt;String, Set&lt;String&gt;&gt;;</code></pre>
 </section>
 
 
@@ -96,27 +180,20 @@
 
 
   <li class="section-title"><a href="../type_definitions/type_definitions-library.html#typedefs">Typedefs</a></li>
+  <li><a href="../type_definitions/AsyncTermModifier.html">AsyncTermModifier</a></li>
+  <li><a href="../type_definitions/AsyncTextSplitter.html">AsyncTextSplitter</a></li>
   <li><a href="../type_definitions/CharacterFilter.html">CharacterFilter</a></li>
   <li><a href="../type_definitions/JsonTokenizer.html">JsonTokenizer</a></li>
-  <li><a href="../type_definitions/KeywordExtractor.html">KeywordExtractor</a></li>
-  <li><a href="../type_definitions/KGram.html">KGram</a></li>
   <li><a href="../type_definitions/KGramsMap.html">KGramsMap</a></li>
   <li><a href="../type_definitions/NGrammer.html">NGrammer</a></li>
-  <li><a href="../type_definitions/ParagraphSplitter.html">ParagraphSplitter</a></li>
-  <li><a href="../type_definitions/Phrase.html">Phrase</a></li>
-  <li><a href="../type_definitions/SentenceSplitter.html">SentenceSplitter</a></li>
-  <li><a href="../type_definitions/SourceText.html">SourceText</a></li>
-  <li><a href="../type_definitions/StopWords.html">StopWords</a></li>
+  <li><a href="../type_definitions/PhraseSplitter.html">PhraseSplitter</a></li>
   <li><a href="../type_definitions/SyllableCounter.html">SyllableCounter</a></li>
-  <li><a href="../type_definitions/Term.html">Term</a></li>
-  <li><a href="../type_definitions/TermFilter.html">TermFilter</a></li>
-  <li><a href="../type_definitions/TermFlag.html">TermFlag</a></li>
+  <li><a href="../type_definitions/TermExpander.html">TermExpander</a></li>
   <li><a href="../type_definitions/TermModifier.html">TermModifier</a></li>
-  <li><a href="../type_definitions/TermSplitter.html">TermSplitter</a></li>
+  <li><a href="../type_definitions/TextSplitter.html">TextSplitter</a></li>
   <li><a href="../type_definitions/TokenFilter.html">TokenFilter</a></li>
   <li><a href="../type_definitions/Tokenizer.html">Tokenizer</a></li>
   <li><a href="../type_definitions/VectorSpace.html">VectorSpace</a></li>
-  <li><a href="../type_definitions/Zone.html">Zone</a></li>
 
 </ol>
 
@@ -130,7 +207,7 @@
 <footer>
   <span class="no-break">
     text_analysis
-      0.24.0-1
+      0.24.0-2
   </span>
 
   

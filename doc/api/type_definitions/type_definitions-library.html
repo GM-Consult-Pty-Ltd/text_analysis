@@ -65,9 +65,37 @@
 
       <dl>
           
+  <dt id="AsyncTermModifier" class="callable">
+    <span class="name"><a href="../type_definitions/AsyncTermModifier.html">AsyncTermModifier</a></span><span class="signature">
+      <span class="returntype parameter">= <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a>?</span>&gt;</span> Function<span class="signature">(<span class="parameter" id="param-term"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span> <span class="parameter-name">term</span>, </span><span class="parameter" id="param-zone">[<span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a>?</span> <span class="parameter-name">zone</span>]</span>)</span></span>
+    </span>
+    
+
+  </dt>
+  <dd>
+    Modifies the term and returns the modified version.
+    
+
+  </dd>
+
+          
+  <dt id="AsyncTextSplitter" class="callable">
+    <span class="name"><a href="../type_definitions/AsyncTextSplitter.html">AsyncTextSplitter</a></span><span class="signature">
+      <span class="returntype parameter">= <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>&gt;</span></span>&gt;</span> Function<span class="signature">(<span class="parameter" id="param-source"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span> <span class="parameter-name">source</span></span>)</span></span>
+    </span>
+    
+
+  </dt>
+  <dd>
+    A splitter function that returns a list of terms from <code>source</code>.
+    
+
+  </dd>
+
+          
   <dt id="CharacterFilter" class="callable">
     <span class="name"><a href="../type_definitions/CharacterFilter.html">CharacterFilter</a></span><span class="signature">
-      <span class="returntype parameter">= <a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a> Function<span class="signature">(<span class="parameter" id="param-source"><span class="type-annotation"><a href="../type_definitions/SourceText.html">SourceText</a></span> <span class="parameter-name">source</span></span>)</span></span>
+      <span class="returntype parameter">= <a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a> Function<span class="signature">(<span class="parameter" id="param-source"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span> <span class="parameter-name">source</span>, </span><span class="parameter" id="param-zone">[<span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a>?</span> <span class="parameter-name">zone</span>]</span>)</span></span>
     </span>
     
 
@@ -82,7 +110,7 @@ text in preparation of tokenization.
           
   <dt id="JsonTokenizer" class="callable">
     <span class="name"><a href="../type_definitions/JsonTokenizer.html">JsonTokenizer</a></span><span class="signature">
-      <span class="returntype parameter">= <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../text_analysis/Token-class.html">Token</a></span>&gt;</span></span>&gt;</span> Function<span class="signature">(<span class="parameter" id="param-document"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Map-class.html">Map</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>, <span class="type-parameter">dynamic</span>&gt;</span></span> <span class="parameter-name">document</span>, </span><span class="parameter" id="param-nGramRange">{<span class="type-annotation"><a href="../text_analysis/NGramRange-class.html">NGramRange</a>?</span> <span class="parameter-name">nGramRange</span>, </span><span class="parameter" id="param-tokenFilter"><span class="type-annotation"><a href="../type_definitions/TokenFilter.html">TokenFilter</a>?</span> <span class="parameter-name">tokenFilter</span>, </span><span class="parameter" id="param-zones"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../type_definitions/Zone.html">Zone</a></span>&gt;</span>?</span> <span class="parameter-name">zones</span>}</span>)</span></span>
+      <span class="returntype parameter">= <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../text_analysis/Token-class.html">Token</a></span>&gt;</span></span>&gt;</span> Function<span class="signature">(<span class="parameter" id="param-document"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Map-class.html">Map</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>, <span class="type-parameter">dynamic</span>&gt;</span></span> <span class="parameter-name">document</span>, </span><span class="parameter" id="param-nGramRange">{<span class="type-annotation"><a href="../text_analysis/NGramRange-class.html">NGramRange</a>?</span> <span class="parameter-name">nGramRange</span>, </span><span class="parameter" id="param-preserveCase"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/bool-class.html">bool</a></span> <span class="parameter-name">preserveCase</span>, </span><span class="parameter" id="param-tokenFilter"><span class="type-annotation"><a href="../type_definitions/TokenFilter.html">TokenFilter</a>?</span> <span class="parameter-name">tokenFilter</span>, </span><span class="parameter" id="param-zones"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>&gt;</span>?</span> <span class="parameter-name">zones</span>}</span>)</span></span>
     </span>
     
 
@@ -95,46 +123,17 @@ the <code>zones</code> in a JSON <code>document</code>.
   </dd>
 
           
-  <dt id="KeywordExtractor" class="callable">
-    <span class="name"><a href="../type_definitions/KeywordExtractor.html">KeywordExtractor</a></span><span class="signature">
-      <span class="returntype parameter">= <a href="https://api.flutter.dev/flutter/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>&gt;</span></span>&gt;</span> Function<span class="signature">(<span class="parameter" id="param-source"><span class="type-annotation"><a href="../type_definitions/SourceText.html">SourceText</a></span> <span class="parameter-name">source</span>, </span><span class="parameter" id="param-nGramRange">{<span class="type-annotation"><a href="../text_analysis/NGramRange-class.html">NGramRange</a>?</span> <span class="parameter-name">nGramRange</span>}</span>)</span></span>
-    </span>
-    
-
-  </dt>
-  <dd>
-    A splitter function that returns an ordered collection of keyword phrases
-from text.
-    
-
-  </dd>
-
-          
-  <dt id="KGram" class="">
-  <span class="name"><a href="../type_definitions/KGram.html">KGram</a></span>
-    = <a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a>
-  </span>
-  
-
-</dt>
-<dd>
-  An alias for String, used in the context of a sequence of k characters
-from a <a href="../type_definitions/Term.html">Term</a>.
-  
-
-</dd>
-
-
-          
   <dt id="KGramsMap" class="">
   <span class="name"><a href="../type_definitions/KGramsMap.html">KGramsMap</a></span>
-    = <a href="https://api.flutter.dev/flutter/dart-core/Map-class.html">Map</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../type_definitions/KGram.html">KGram</a></span>, <span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/Set-class.html">Set</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../type_definitions/Term.html">Term</a></span>&gt;</span></span>&gt;</span>
+    = <a href="https://api.flutter.dev/flutter/dart-core/Map-class.html">Map</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>, <span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/Set-class.html">Set</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>&gt;</span></span>&gt;</span>
   </span>
   
 
 </dt>
 <dd>
-  Alias for <code>Map&lt;String, Set&lt;String&gt;&gt;</code>.
+  A callback function that returns true or false based on the content of
+the term.
+<code>TextSplitter</code> - A splitter function that returns a list of paragraphs from <code>source</code>.
   
 
 </dd>
@@ -155,84 +154,23 @@ from a <a href="../type_definitions/Term.html">Term</a>.
   </dd>
 
           
-  <dt id="ParagraphSplitter" class="callable">
-    <span class="name"><a href="../type_definitions/ParagraphSplitter.html">ParagraphSplitter</a></span><span class="signature">
-      <span class="returntype parameter">= <a href="https://api.flutter.dev/flutter/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>&gt;</span> Function<span class="signature">(<span class="parameter" id="param-source"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span> <span class="parameter-name">source</span></span>)</span></span>
+  <dt id="PhraseSplitter" class="callable">
+    <span class="name"><a href="../type_definitions/PhraseSplitter.html">PhraseSplitter</a></span><span class="signature">
+      <span class="returntype parameter">= <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>&gt;</span></span>&gt;</span> Function<span class="signature">(<span class="parameter" id="param-source"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span> <span class="parameter-name">source</span>, </span><span class="parameter" id="param-zone">[<span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a>?</span> <span class="parameter-name">zone</span>]</span>)</span></span>
     </span>
     
 
   </dt>
   <dd>
-    A splitter function that returns a list of paragraphs from <code>source</code>.
+    A splitter function that returns a list of terms from <code>source</code>.
     
 
   </dd>
-
-          
-  <dt id="Phrase" class="">
-  <span class="name"><a href="../type_definitions/Phrase.html">Phrase</a></span>
-    = <a href="https://api.flutter.dev/flutter/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>&gt;</span>
-  </span>
-  
-
-</dt>
-<dd>
-  An alias for <code>List&lt;String&gt;</code> when used in the context of the terms of a
-phrase split to an ordered list of terms.
-  
-
-</dd>
-
-
-          
-  <dt id="SentenceSplitter" class="callable">
-    <span class="name"><a href="../type_definitions/SentenceSplitter.html">SentenceSplitter</a></span><span class="signature">
-      <span class="returntype parameter">= <a href="https://api.flutter.dev/flutter/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>&gt;</span> Function<span class="signature">(<span class="parameter" id="param-source"><span class="type-annotation"><a href="../type_definitions/SourceText.html">SourceText</a></span> <span class="parameter-name">source</span></span>)</span></span>
-    </span>
-    
-
-  </dt>
-  <dd>
-    A splitter function that returns a list of sentences from <code>source</code>.
-    
-
-  </dd>
-
-          
-  <dt id="SourceText" class="">
-  <span class="name"><a href="../type_definitions/SourceText.html">SourceText</a></span>
-    = <a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a>
-  </span>
-  
-
-</dt>
-<dd>
-  An alias for String.
-  
-
-</dd>
-
-
-          
-  <dt id="StopWords" class="">
-  <span class="name"><a href="../type_definitions/StopWords.html">StopWords</a></span>
-    = <a href="https://api.flutter.dev/flutter/dart-core/Set-class.html">Set</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../type_definitions/Term.html">Term</a></span>&gt;</span>
-  </span>
-  
-
-</dt>
-<dd>
-  An alias for a <a href="https://api.flutter.dev/flutter/dart-core/Set-class.html">Set</a> of <a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a>, when used in the context of a collection
-of <a href="../type_definitions/Term.html">Term</a> that are excluded from tokenization.
-  
-
-</dd>
-
 
           
   <dt id="SyllableCounter" class="callable">
     <span class="name"><a href="../type_definitions/SyllableCounter.html">SyllableCounter</a></span><span class="signature">
-      <span class="returntype parameter">= <a href="https://api.flutter.dev/flutter/dart-core/int-class.html">int</a> Function<span class="signature">(<span class="parameter" id="param-term"><span class="type-annotation"><a href="../type_definitions/Term.html">Term</a></span> <span class="parameter-name">term</span></span>)</span></span>
+      <span class="returntype parameter">= <a href="https://api.flutter.dev/flutter/dart-core/int-class.html">int</a> Function<span class="signature">(<span class="parameter" id="param-term"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span> <span class="parameter-name">term</span></span>)</span></span>
     </span>
     
 
@@ -245,46 +183,15 @@ string after stripping out all white-space and punctuation.
   </dd>
 
           
-  <dt id="Term" class="">
-  <span class="name"><a href="../type_definitions/Term.html">Term</a></span>
-    = <a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a>
-  </span>
-  
-
-</dt>
-<dd>
-  An alias for String, used in the context of a word, term or phrase present
-in a text source, document or query.
-  
-
-</dd>
-
-
-          
-  <dt id="TermFilter" class="callable">
-    <span class="name"><a href="../type_definitions/TermFilter.html">TermFilter</a></span><span class="signature">
-      <span class="returntype parameter">= <a href="https://api.flutter.dev/flutter/dart-core/Set-class.html">Set</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>&gt;</span> Function<span class="signature">(<span class="parameter" id="param-term"><span class="type-annotation"><a href="../type_definitions/Term.html">Term</a></span> <span class="parameter-name">term</span></span>)</span></span>
+  <dt id="TermExpander" class="callable">
+    <span class="name"><a href="../type_definitions/TermExpander.html">TermExpander</a></span><span class="signature">
+      <span class="returntype parameter">= <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>&gt;</span></span>&gt;</span> Function<span class="signature">(<span class="parameter" id="param-source"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span> <span class="parameter-name">source</span>, </span><span class="parameter" id="param-zone">[<span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a>?</span> <span class="parameter-name">zone</span>]</span>)</span></span>
     </span>
     
 
   </dt>
   <dd>
-    A filter function that returns a collection of terms from term:
-    
-
-  </dd>
-
-          
-  <dt id="TermFlag" class="callable">
-    <span class="name"><a href="../type_definitions/TermFlag.html">TermFlag</a></span><span class="signature">
-      <span class="returntype parameter">= <a href="https://api.flutter.dev/flutter/dart-core/bool-class.html">bool</a> Function<span class="signature">(<span class="parameter" id="param-term"><span class="type-annotation"><a href="../type_definitions/Term.html">Term</a></span> <span class="parameter-name">term</span></span>)</span></span>
-    </span>
-    
-
-  </dt>
-  <dd>
-    A callback function that returns true or false based on the content of
-the term.
+    A callback that expands text to a collection of related Strings.
     
 
   </dd>
@@ -292,21 +199,21 @@ the term.
           
   <dt id="TermModifier" class="callable">
     <span class="name"><a href="../type_definitions/TermModifier.html">TermModifier</a></span><span class="signature">
-      <span class="returntype parameter">= <a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a> Function<span class="signature">(<span class="parameter" id="param-term"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span> <span class="parameter-name">term</span></span>)</span></span>
+      <span class="returntype parameter">= <a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a>? Function<span class="signature">(<span class="parameter" id="param-term"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span> <span class="parameter-name">term</span></span>)</span></span>
     </span>
     
 
   </dt>
   <dd>
-    A language-specific function that returns the stem of <code>term</code>.
+    Modifies the term and returns the modified version.
     
 
   </dd>
 
           
-  <dt id="TermSplitter" class="callable">
-    <span class="name"><a href="../type_definitions/TermSplitter.html">TermSplitter</a></span><span class="signature">
-      <span class="returntype parameter">= <a href="https://api.flutter.dev/flutter/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>&gt;</span> Function<span class="signature">(<span class="parameter" id="param-source"><span class="type-annotation"><a href="../type_definitions/SourceText.html">SourceText</a></span> <span class="parameter-name">source</span></span>)</span></span>
+  <dt id="TextSplitter" class="callable">
+    <span class="name"><a href="../type_definitions/TextSplitter.html">TextSplitter</a></span><span class="signature">
+      <span class="returntype parameter">= <a href="https://api.flutter.dev/flutter/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>&gt;</span> Function<span class="signature">(<span class="parameter" id="param-source"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span> <span class="parameter-name">source</span></span>)</span></span>
     </span>
     
 
@@ -334,7 +241,7 @@ the term.
           
   <dt id="Tokenizer" class="callable">
     <span class="name"><a href="../type_definitions/Tokenizer.html">Tokenizer</a></span><span class="signature">
-      <span class="returntype parameter">= <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../text_analysis/Token-class.html">Token</a></span>&gt;</span></span>&gt;</span> Function<span class="signature">(<span class="parameter" id="param-source"><span class="type-annotation"><a href="../type_definitions/SourceText.html">SourceText</a></span> <span class="parameter-name">source</span>, </span><span class="parameter" id="param-nGramRange">{<span class="type-annotation"><a href="../text_analysis/NGramRange-class.html">NGramRange</a>?</span> <span class="parameter-name">nGramRange</span>, </span><span class="parameter" id="param-tokenFilter"><span class="type-annotation"><a href="../type_definitions/TokenFilter.html">TokenFilter</a>?</span> <span class="parameter-name">tokenFilter</span>, </span><span class="parameter" id="param-zone"><span class="type-annotation"><a href="../type_definitions/Zone.html">Zone</a>?</span> <span class="parameter-name">zone</span>}</span>)</span></span>
+      <span class="returntype parameter">= <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../text_analysis/Token-class.html">Token</a></span>&gt;</span></span>&gt;</span> Function<span class="signature">(<span class="parameter" id="param-source"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span> <span class="parameter-name">source</span>, </span><span class="parameter" id="param-nGramRange">{<span class="type-annotation"><a href="../text_analysis/NGramRange-class.html">NGramRange</a>?</span> <span class="parameter-name">nGramRange</span>, </span><span class="parameter" id="param-preserveCase"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/bool-class.html">bool</a></span> <span class="parameter-name">preserveCase</span>, </span><span class="parameter" id="param-tokenFilter"><span class="type-annotation"><a href="../type_definitions/TokenFilter.html">TokenFilter</a>?</span> <span class="parameter-name">tokenFilter</span>, </span><span class="parameter" id="param-zone"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a>?</span> <span class="parameter-name">zone</span>}</span>)</span></span>
     </span>
     
 
@@ -355,24 +262,8 @@ the <code>source</code> text.
 
 </dt>
 <dd>
-  Type definition for a hashmap of <a href="../type_definitions/Term.html">Term</a> to value, when used as a
+  Type definition for a hashmap of term to value, when used as a
 n-dimensional vector in calculating cosine similarity between documents.
-  
-
-</dd>
-
-
-          
-  <dt id="Zone" class="">
-  <span class="name"><a href="../type_definitions/Zone.html">Zone</a></span>
-    = <a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a>
-  </span>
-  
-
-</dt>
-<dd>
-  An alias for String, when used in the context of a field or meta data field
-in the <code>corpus</code>. Represents the name of the field/zone.
   
 
 </dd>
@@ -419,27 +310,20 @@ in the <code>corpus</code>. Represents the name of the field/zone.
 
 
   <li class="section-title"><a href="../type_definitions/type_definitions-library.html#typedefs">Typedefs</a></li>
+  <li><a href="../type_definitions/AsyncTermModifier.html">AsyncTermModifier</a></li>
+  <li><a href="../type_definitions/AsyncTextSplitter.html">AsyncTextSplitter</a></li>
   <li><a href="../type_definitions/CharacterFilter.html">CharacterFilter</a></li>
   <li><a href="../type_definitions/JsonTokenizer.html">JsonTokenizer</a></li>
-  <li><a href="../type_definitions/KeywordExtractor.html">KeywordExtractor</a></li>
-  <li><a href="../type_definitions/KGram.html">KGram</a></li>
   <li><a href="../type_definitions/KGramsMap.html">KGramsMap</a></li>
   <li><a href="../type_definitions/NGrammer.html">NGrammer</a></li>
-  <li><a href="../type_definitions/ParagraphSplitter.html">ParagraphSplitter</a></li>
-  <li><a href="../type_definitions/Phrase.html">Phrase</a></li>
-  <li><a href="../type_definitions/SentenceSplitter.html">SentenceSplitter</a></li>
-  <li><a href="../type_definitions/SourceText.html">SourceText</a></li>
-  <li><a href="../type_definitions/StopWords.html">StopWords</a></li>
+  <li><a href="../type_definitions/PhraseSplitter.html">PhraseSplitter</a></li>
   <li><a href="../type_definitions/SyllableCounter.html">SyllableCounter</a></li>
-  <li><a href="../type_definitions/Term.html">Term</a></li>
-  <li><a href="../type_definitions/TermFilter.html">TermFilter</a></li>
-  <li><a href="../type_definitions/TermFlag.html">TermFlag</a></li>
+  <li><a href="../type_definitions/TermExpander.html">TermExpander</a></li>
   <li><a href="../type_definitions/TermModifier.html">TermModifier</a></li>
-  <li><a href="../type_definitions/TermSplitter.html">TermSplitter</a></li>
+  <li><a href="../type_definitions/TextSplitter.html">TextSplitter</a></li>
   <li><a href="../type_definitions/TokenFilter.html">TokenFilter</a></li>
   <li><a href="../type_definitions/Tokenizer.html">Tokenizer</a></li>
   <li><a href="../type_definitions/VectorSpace.html">VectorSpace</a></li>
-  <li><a href="../type_definitions/Zone.html">Zone</a></li>
 
 </ol>
 
@@ -450,7 +334,7 @@ in the <code>corpus</code>. Represents the name of the field/zone.
 <footer>
   <span class="no-break">
     text_analysis
-      0.24.0-1
+      0.24.0-2
   </span>
 
   

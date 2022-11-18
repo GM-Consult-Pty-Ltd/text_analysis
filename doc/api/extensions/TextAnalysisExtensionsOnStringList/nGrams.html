@@ -82,7 +82,7 @@ the list will be returned as is.</p>
     &#47;&#47; initialize the ngrams collection
     final nGrams = &lt;List&lt;String&gt;&gt;[];
     &#47;&#47; remove white-space at start and end of term
-    term = term.trim();
+    term = term.normalizeWhitespace();
     &#47;&#47; ignore empty strings
     if (term.isNotEmpty) {
       nGramTerms.add(term);
@@ -103,8 +103,10 @@ the list will be returned as is.</p>
     final tokenGrams = nGrams.where((element) =&gt;
         element.length &gt;= range.min &amp;&amp; element.length &lt;= range.max);
     for (final e in tokenGrams) {
-      final nGram = e.join(&#39; &#39;);
-      retVal.add(nGram);
+      final nGram = e.join(&#39; &#39;).normalizeWhitespace();
+      if (nGram.isNotEmpty) {
+        retVal.add(nGram);
+      }
     }
   }
   return retVal;
@@ -154,7 +156,7 @@ the list will be returned as is.</p>
 <footer>
   <span class="no-break">
     text_analysis
-      0.24.0-1
+      0.24.0-2
   </span>
 
   

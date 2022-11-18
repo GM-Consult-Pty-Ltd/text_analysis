@@ -52,7 +52,7 @@
       
 
 <span class="returntype"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>
-<span class="name ">toSourceText</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="toSourceText-param-fieldNames">[<span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../../type_definitions/Zone.html">Zone</a></span>&gt;</span>?</span> <span class="parameter-name">fieldNames</span>]</span></li>
+<span class="name ">toSourceText</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="toSourceText-param-fieldNames">[<span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>&gt;</span>?</span> <span class="parameter-name">fieldNames</span>]</span></li>
 </ol>)
 
       
@@ -72,7 +72,7 @@ the order of map entries.</p>
     
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
-  <pre class="language-dart"><code class="language-dart">String toSourceText([Iterable&lt;Zone&gt;? fieldNames]) {
+  <pre class="language-dart"><code class="language-dart">String toSourceText([Iterable&lt;String&gt;? fieldNames]) {
   final buffer = StringBuffer();
   if (fieldNames == null) {
     for (final entry in entries) {
@@ -139,7 +139,7 @@ the order of map entries.</p>
 <footer>
   <span class="no-break">
     text_analysis
-      0.24.0-1
+      0.24.0-2
   </span>
 
   

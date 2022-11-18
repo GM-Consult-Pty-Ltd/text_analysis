@@ -53,7 +53,7 @@
 <section id="getter">
 
 <section class="multi-line-signature">
-  <span class="returntype"><a href="../../type_definitions/CharacterFilter.html">CharacterFilter</a></span>
+  <span class="returntype"><a href="../../type_definitions/AsyncTermModifier.html">AsyncTermModifier</a></span>
   <span class="name ">characterFilter</span>
   <div class="features">override</div>
 
@@ -61,20 +61,15 @@
 
 
 <section class="desc markdown">
-  <p>A function that manipulates text prior to stemming and tokenization.</p>
-<p>Use a <a href="../../text_analysis/English/characterFilter.html">characterFilter</a> to:</p>
-<ul>
-<li>convert all terms to lower case;</li>
-<li>remove non-word characters from terms.</li>
-</ul>
+  <p>A function that filters out unwanted characters or replaces them with
+other characters.</p>
 </section>
 
 
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
   <pre class="language-dart"><code class="language-dart">@override
-CharacterFilter get characterFilter =&gt;
-    (term) =&gt; removePossessiveApostrophes(super.characterFilter(term));</code></pre>
+AsyncTermModifier get characterFilter =&gt; _filterCharacters;</code></pre>
 </section>
 
 </section>
@@ -110,24 +105,23 @@ CharacterFilter get characterFilter =&gt;
     <li><a href="../../text_analysis/English/abbreviations.html">abbreviations</a></li>
     <li><a href="../../text_analysis/English/characterFilter.html">characterFilter</a></li>
     <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/hashCode.html">hashCode</a></li>
-    <li><a href="../../text_analysis/English/isStopWord.html">isStopWord</a></li>
     <li class="inherited"><a href="../../text_analysis/LatinLanguageAnalyzer/jsonTokenizer.html">jsonTokenizer</a></li>
-    <li class="inherited"><a href="../../text_analysis/LatinLanguageAnalyzer/keywordExtractor.html">keywordExtractor</a></li>
-    <li><a href="../../text_analysis/English/lemmatizer.html">lemmatizer</a></li>
     <li class="inherited"><a href="../../text_analysis/LatinLanguageAnalyzer/nGrammer.html">nGrammer</a></li>
-    <li><a href="../../text_analysis/English/nGramRange.html">nGramRange</a></li>
     <li class="inherited"><a href="../../text_analysis/LatinLanguageAnalyzer/paragraphSplitter.html">paragraphSplitter</a></li>
-    <li><a href="../../text_analysis/English/reCase.html">reCase</a></li>
+    <li class="inherited"><a href="../../text_analysis/LatinLanguageAnalyzer/phraseSplitter.html">phraseSplitter</a></li>
     <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/runtimeType.html">runtimeType</a></li>
     <li class="inherited"><a href="../../text_analysis/LatinLanguageAnalyzer/sentenceSplitter.html">sentenceSplitter</a></li>
     <li><a href="../../text_analysis/English/stemmer.html">stemmer</a></li>
     <li class="inherited"><a href="../../text_analysis/LatinLanguageAnalyzer/syllableCounter.html">syllableCounter</a></li>
     <li><a href="../../text_analysis/English/termExceptions.html">termExceptions</a></li>
+    <li><a href="../../text_analysis/English/termExpander.html">termExpander</a></li>
     <li class="inherited"><a href="../../text_analysis/LatinLanguageAnalyzer/termFilter.html">termFilter</a></li>
     <li class="inherited"><a href="../../text_analysis/LatinLanguageAnalyzer/termSplitter.html">termSplitter</a></li>
     <li class="inherited"><a href="../../text_analysis/LatinLanguageAnalyzer/tokenizer.html">tokenizer</a></li>
 
-    <li class="section-title inherited"><a href="../../text_analysis/English-class.html#instance-methods">Methods</a></li>
+    <li class="section-title"><a href="../../text_analysis/English-class.html#instance-methods">Methods</a></li>
+    <li><a href="../../text_analysis/English/asNumber.html">asNumber</a></li>
+    <li><a href="../../text_analysis/English/isStopword.html">isStopword</a></li>
     <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/noSuchMethod.html">noSuchMethod</a></li>
     <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/toString.html">toString</a></li>
 
@@ -136,14 +130,11 @@ CharacterFilter get characterFilter =&gt;
 
 
 
-        <li class="section-title"><a href="../../text_analysis/English-class.html#static-methods">Static methods</a></li>
-          <li><a href="../../text_analysis/English/removePossessiveApostrophes.html">removePossessiveApostrophes</a></li>
 
         <li class="section-title"><a href="../../text_analysis/English-class.html#constants">Constants</a></li>
           <li><a href="../../text_analysis/English/analyzer-constant.html">analyzer</a></li>
           <li><a href="../../text_analysis/English/kAbbreviations-constant.html">kAbbreviations</a></li>
           <li><a href="../../text_analysis/English/kStopWords-constant.html">kStopWords</a></li>
-          <li><a href="../../text_analysis/English/rPosessiveApostrophe-constant.html">rPosessiveApostrophe</a></li>
 </ol>
 
   </div><!--/.sidebar-offcanvas-->
@@ -156,7 +147,7 @@ CharacterFilter get characterFilter =&gt;
 <footer>
   <span class="no-break">
     text_analysis
-      0.24.0-1
+      0.24.0-2
   </span>
 
   

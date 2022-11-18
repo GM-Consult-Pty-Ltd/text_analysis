@@ -64,18 +64,6 @@ and / or, returns modified term(s), such as applying a stemmer algorithm; and</l
 line endings;</li>
 <li><a href="../text_analysis/TextAnalyzer/paragraphSplitter.html">paragraphSplitter</a> splits text into a list of paragraphs at line
 endings;</li>
-<li><a href="../text_analysis/TextAnalyzer/stemmer.html">stemmer</a> is a language-specific function that returns the stem of a
-term;</li>
-<li><a href="../text_analysis/TextAnalyzer/lemmatizer.html">lemmatizer</a> is a language-specific function that returns the lemma of a
-term;</li>
-<li><a href="../text_analysis/TextAnalyzer/keywordExtractor.html">keywordExtractor</a> is a splitter function that returns an ordered
-collection of keyword phrasesfrom text. The text is split at punctuation,
-line endings and stop-words, resulting in an ordered collection of term
-sequences of varying length.</li>
-<li><a href="../text_analysis/TextAnalyzer/termExceptions.html">termExceptions</a> is a hashmap of words to token terms for special words
-that should not be re-capitalized, stemmed or lemmatized;</li>
-<li><a href="../text_analysis/TextAnalyzer/abbreviations.html">abbreviations</a> is a hashmap of abbreviations in the analyzed language;
-and</li>
 <li><a href="../text_analysis/TextAnalyzer/syllableCounter.html">syllableCounter</a> returns the number of syllables in a word or text.</li>
 </ul>
 </section>
@@ -117,24 +105,14 @@ and</li>
       <h2>Properties</h2>
 
       <dl class="properties">
-        <dt id="abbreviations" class="property">
-  <span class="name"><a href="../text_analysis/TextAnalyzer/abbreviations.html">abbreviations</a></span>
-  <span class="signature">&#8594; <a href="https://api.flutter.dev/flutter/dart-core/Map-class.html">Map</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>, <span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>&gt;</span></span> 
-
-</dt>
-<dd>
-  A hashmap of abbreviations in the analyzed language.
-  <div class="features">read-only</div>
-
-</dd>
-
         <dt id="characterFilter" class="property">
   <span class="name"><a href="../text_analysis/TextAnalyzer/characterFilter.html">characterFilter</a></span>
-  <span class="signature">&#8594; <a href="../type_definitions/CharacterFilter.html">CharacterFilter</a></span> 
+  <span class="signature">&#8594; <a href="../type_definitions/AsyncTermModifier.html">AsyncTermModifier</a></span> 
 
 </dt>
 <dd>
-  A function that manipulates text prior to stemming and tokenization.
+  A function that filters out unwanted characters or replaces them with
+other characters.
   <div class="features">read-only</div>
 
 </dd>
@@ -150,17 +128,6 @@ and</li>
 
 </dd>
 
-        <dt id="isStopWord" class="property">
-  <span class="name"><a href="../text_analysis/TextAnalyzer/isStopWord.html">isStopWord</a></span>
-  <span class="signature">&#8594; <a href="../type_definitions/TermFlag.html">TermFlag</a></span> 
-
-</dt>
-<dd>
-  A callback that returns true if the term is a stopword.
-  <div class="features">read-only</div>
-
-</dd>
-
         <dt id="jsonTokenizer" class="property">
   <span class="name"><a href="../text_analysis/TextAnalyzer/jsonTokenizer.html">jsonTokenizer</a></span>
   <span class="signature">&#8594; <a href="../type_definitions/JsonTokenizer.html">JsonTokenizer</a></span> 
@@ -169,29 +136,6 @@ and</li>
 <dd>
   Extracts tokens from the fields in a JSON document for use in full-text
 search queries and indexes.
-  <div class="features">read-only</div>
-
-</dd>
-
-        <dt id="keywordExtractor" class="property">
-  <span class="name"><a href="../text_analysis/TextAnalyzer/keywordExtractor.html">keywordExtractor</a></span>
-  <span class="signature">&#8594; <a href="../type_definitions/KeywordExtractor.html">KeywordExtractor</a></span> 
-
-</dt>
-<dd>
-  A splitter function that returns an ordered collection of keyword phrases
-from text.
-  <div class="features">read-only</div>
-
-</dd>
-
-        <dt id="lemmatizer" class="property">
-  <span class="name"><a href="../text_analysis/TextAnalyzer/lemmatizer.html">lemmatizer</a></span>
-  <span class="signature">&#8594; <a href="../type_definitions/TermModifier.html">TermModifier</a></span> 
-
-</dt>
-<dd>
-  Language-specific function that returns the lemma of a term.
   <div class="features">read-only</div>
 
 </dd>
@@ -209,7 +153,7 @@ from text.
 
         <dt id="paragraphSplitter" class="property">
   <span class="name"><a href="../text_analysis/TextAnalyzer/paragraphSplitter.html">paragraphSplitter</a></span>
-  <span class="signature">&#8594; <a href="../type_definitions/ParagraphSplitter.html">ParagraphSplitter</a></span> 
+  <span class="signature">&#8594; <a href="../type_definitions/TextSplitter.html">TextSplitter</a></span> 
 
 </dt>
 <dd>
@@ -218,13 +162,13 @@ from text.
 
 </dd>
 
-        <dt id="reCase" class="property">
-  <span class="name"><a href="../text_analysis/TextAnalyzer/reCase.html">reCase</a></span>
-  <span class="signature">&#8594; <a href="../type_definitions/TermModifier.html">TermModifier</a></span> 
+        <dt id="phraseSplitter" class="property">
+  <span class="name"><a href="../text_analysis/TextAnalyzer/phraseSplitter.html">phraseSplitter</a></span>
+  <span class="signature">&#8594; <a href="../type_definitions/PhraseSplitter.html">PhraseSplitter</a></span> 
 
 </dt>
 <dd>
-  A callback that re-cases the terms.
+  Returns a list of keywords from text.
   <div class="features">read-only</div>
 
 </dd>
@@ -242,22 +186,11 @@ from text.
 
         <dt id="sentenceSplitter" class="property">
   <span class="name"><a href="../text_analysis/TextAnalyzer/sentenceSplitter.html">sentenceSplitter</a></span>
-  <span class="signature">&#8594; <a href="../type_definitions/SentenceSplitter.html">SentenceSplitter</a></span> 
+  <span class="signature">&#8594; <a href="../type_definitions/TextSplitter.html">TextSplitter</a></span> 
 
 </dt>
 <dd>
   Returns a list of sentences from text.
-  <div class="features">read-only</div>
-
-</dd>
-
-        <dt id="stemmer" class="property">
-  <span class="name"><a href="../text_analysis/TextAnalyzer/stemmer.html">stemmer</a></span>
-  <span class="signature">&#8594; <a href="../type_definitions/TermModifier.html">TermModifier</a></span> 
-
-</dt>
-<dd>
-  Language-specific function that returns the stem of a term.
   <div class="features">read-only</div>
 
 </dd>
@@ -274,36 +207,36 @@ white-space and punctuation.
 
 </dd>
 
-        <dt id="termExceptions" class="property">
-  <span class="name"><a href="../text_analysis/TextAnalyzer/termExceptions.html">termExceptions</a></span>
-  <span class="signature">&#8594; <a href="https://api.flutter.dev/flutter/dart-core/Map-class.html">Map</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>, <span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>&gt;</span></span> 
+        <dt id="termExpander" class="property">
+  <span class="name"><a href="../text_analysis/TextAnalyzer/termExpander.html">termExpander</a></span>
+  <span class="signature">&#8594; <a href="../type_definitions/TermExpander.html">TermExpander</a>?</span> 
 
 </dt>
 <dd>
-  A hashmap of words to token terms for special words that should not be
-re-capitalized, stemmed or lemmatized.
+  Expands text to a collection of related Strings, e.g. synonyms,
+abbreviations or spelling suggestions.
   <div class="features">read-only</div>
 
 </dd>
 
         <dt id="termFilter" class="property">
   <span class="name"><a href="../text_analysis/TextAnalyzer/termFilter.html">termFilter</a></span>
-  <span class="signature">&#8594; <a href="../type_definitions/TermFilter.html">TermFilter</a></span> 
+  <span class="signature">&#8594; <a href="../type_definitions/AsyncTermModifier.html">AsyncTermModifier</a></span> 
 
 </dt>
 <dd>
-  A filter function that returns a collection of terms from term:
+  A filter function that returns a modified term or null.
   <div class="features">read-only</div>
 
 </dd>
 
         <dt id="termSplitter" class="property">
   <span class="name"><a href="../text_analysis/TextAnalyzer/termSplitter.html">termSplitter</a></span>
-  <span class="signature">&#8594; <a href="../type_definitions/TermSplitter.html">TermSplitter</a></span> 
+  <span class="signature">&#8594; <a href="../type_definitions/TextSplitter.html">TextSplitter</a></span> 
 
 </dt>
 <dd>
-  Returns a list of terms from text.
+  Returns a list of words from text.
   <div class="features">read-only</div>
 
 </dd>
@@ -438,21 +371,16 @@ and indexes.
     <li class="section-title">
       <a href="../text_analysis/TextAnalyzer-class.html#instance-properties">Properties</a>
     </li>
-    <li><a href="../text_analysis/TextAnalyzer/abbreviations.html">abbreviations</a></li>
     <li><a href="../text_analysis/TextAnalyzer/characterFilter.html">characterFilter</a></li>
     <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/hashCode.html">hashCode</a></li>
-    <li><a href="../text_analysis/TextAnalyzer/isStopWord.html">isStopWord</a></li>
     <li><a href="../text_analysis/TextAnalyzer/jsonTokenizer.html">jsonTokenizer</a></li>
-    <li><a href="../text_analysis/TextAnalyzer/keywordExtractor.html">keywordExtractor</a></li>
-    <li><a href="../text_analysis/TextAnalyzer/lemmatizer.html">lemmatizer</a></li>
     <li><a href="../text_analysis/TextAnalyzer/nGrammer.html">nGrammer</a></li>
     <li><a href="../text_analysis/TextAnalyzer/paragraphSplitter.html">paragraphSplitter</a></li>
-    <li><a href="../text_analysis/TextAnalyzer/reCase.html">reCase</a></li>
+    <li><a href="../text_analysis/TextAnalyzer/phraseSplitter.html">phraseSplitter</a></li>
     <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/runtimeType.html">runtimeType</a></li>
     <li><a href="../text_analysis/TextAnalyzer/sentenceSplitter.html">sentenceSplitter</a></li>
-    <li><a href="../text_analysis/TextAnalyzer/stemmer.html">stemmer</a></li>
     <li><a href="../text_analysis/TextAnalyzer/syllableCounter.html">syllableCounter</a></li>
-    <li><a href="../text_analysis/TextAnalyzer/termExceptions.html">termExceptions</a></li>
+    <li><a href="../text_analysis/TextAnalyzer/termExpander.html">termExpander</a></li>
     <li><a href="../text_analysis/TextAnalyzer/termFilter.html">termFilter</a></li>
     <li><a href="../text_analysis/TextAnalyzer/termSplitter.html">termSplitter</a></li>
     <li><a href="../text_analysis/TextAnalyzer/tokenizer.html">tokenizer</a></li>
@@ -476,7 +404,7 @@ and indexes.
 <footer>
   <span class="no-break">
     text_analysis
-      0.24.0-1
+      0.24.0-2
   </span>
 
   

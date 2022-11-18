@@ -53,7 +53,7 @@
 <section id="getter">
 
 <section class="multi-line-signature">
-  <span class="returntype"><a href="../../type_definitions/TermFilter.html">TermFilter</a></span>
+  <span class="returntype"><a href="../../type_definitions/AsyncTermModifier.html">AsyncTermModifier</a></span>
   <span class="name ">termFilter</span>
   
 
@@ -61,18 +61,13 @@
 
 
 <section class="desc markdown">
-  <p>A filter function that returns a collection of terms from term:</p>
-<ul>
-<li>return an empty collection if the term is to be excluded from analysis;</li>
-<li>return multiple terms if the term is split; and/or</li>
-<li>return modified term(s), such as applying a stemmer algorithm.</li>
-</ul>
+  <p>A filter function that returns a modified term or null.</p>
 </section>
 
 
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
-  <pre class="language-dart"><code class="language-dart">TermFilter get termFilter;</code></pre>
+  <pre class="language-dart"><code class="language-dart">AsyncTermModifier get termFilter;</code></pre>
 </section>
 
 </section>
@@ -105,21 +100,16 @@
     <li class="section-title">
       <a href="../../text_analysis/TextAnalyzer-class.html#instance-properties">Properties</a>
     </li>
-    <li><a href="../../text_analysis/TextAnalyzer/abbreviations.html">abbreviations</a></li>
     <li><a href="../../text_analysis/TextAnalyzer/characterFilter.html">characterFilter</a></li>
     <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/hashCode.html">hashCode</a></li>
-    <li><a href="../../text_analysis/TextAnalyzer/isStopWord.html">isStopWord</a></li>
     <li><a href="../../text_analysis/TextAnalyzer/jsonTokenizer.html">jsonTokenizer</a></li>
-    <li><a href="../../text_analysis/TextAnalyzer/keywordExtractor.html">keywordExtractor</a></li>
-    <li><a href="../../text_analysis/TextAnalyzer/lemmatizer.html">lemmatizer</a></li>
     <li><a href="../../text_analysis/TextAnalyzer/nGrammer.html">nGrammer</a></li>
     <li><a href="../../text_analysis/TextAnalyzer/paragraphSplitter.html">paragraphSplitter</a></li>
-    <li><a href="../../text_analysis/TextAnalyzer/reCase.html">reCase</a></li>
+    <li><a href="../../text_analysis/TextAnalyzer/phraseSplitter.html">phraseSplitter</a></li>
     <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/runtimeType.html">runtimeType</a></li>
     <li><a href="../../text_analysis/TextAnalyzer/sentenceSplitter.html">sentenceSplitter</a></li>
-    <li><a href="../../text_analysis/TextAnalyzer/stemmer.html">stemmer</a></li>
     <li><a href="../../text_analysis/TextAnalyzer/syllableCounter.html">syllableCounter</a></li>
-    <li><a href="../../text_analysis/TextAnalyzer/termExceptions.html">termExceptions</a></li>
+    <li><a href="../../text_analysis/TextAnalyzer/termExpander.html">termExpander</a></li>
     <li><a href="../../text_analysis/TextAnalyzer/termFilter.html">termFilter</a></li>
     <li><a href="../../text_analysis/TextAnalyzer/termSplitter.html">termSplitter</a></li>
     <li><a href="../../text_analysis/TextAnalyzer/tokenizer.html">tokenizer</a></li>
@@ -146,7 +136,7 @@
 <footer>
   <span class="no-break">
     text_analysis
-      0.24.0-1
+      0.24.0-2
   </span>
 
   

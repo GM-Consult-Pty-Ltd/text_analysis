@@ -51,7 +51,7 @@
     <section class="multi-line-signature">
       
 
-<span class="returntype"><a href="https://api.flutter.dev/flutter/dart-core/Set-class.html">Set</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../../type_definitions/KGram.html">KGram</a></span>&gt;</span></span>
+<span class="returntype"><a href="https://api.flutter.dev/flutter/dart-core/Set-class.html">Set</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>&gt;</span></span>
 <span class="name ">kGrams</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="kGrams-param-k">[<span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/int-class.html">int</a></span> <span class="parameter-name">k</span> = <span class="default-value">2</span>, </span></li>
 <li><span class="parameter" id="kGrams-param-lowerCase"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/bool-class.html">bool</a></span> <span class="parameter-name">lowerCase</span> = <span class="default-value">true</span>]</span></li>
 </ol>)
@@ -72,9 +72,9 @@ generating the k-grams.</p>
     
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
-  <pre class="language-dart"><code class="language-dart">Set&lt;KGram&gt; kGrams([int k = 2, bool lowerCase = true]) {
+  <pre class="language-dart"><code class="language-dart">Set&lt;String&gt; kGrams([int k = 2, bool lowerCase = true]) {
   final term = lowerCase ? trim().toLowerCase() : trim();
-  final Set&lt;KGram&gt; kGrams = {};
+  final Set&lt;String&gt; kGrams = {};
   final terms = term.split(RegExp(r&quot;[^a-zA-Z0-9À-öø-ÿ¥Œ€@™#-\&amp;_\&#39;\-\$]+&quot;));
   for (var term in terms) {
     term = term.trim();
@@ -164,7 +164,7 @@ generating the k-grams.</p>
 <footer>
   <span class="no-break">
     text_analysis
-      0.24.0-1
+      0.24.0-2
   </span>
 
   

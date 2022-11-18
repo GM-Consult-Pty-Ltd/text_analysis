@@ -56,7 +56,7 @@
 <li><span class="parameter" id="analyze-param-analyzer"><span>required</span> <span class="type-annotation"><a href="../../text_analysis/TextAnalyzer-class.html">TextAnalyzer</a></span> <span class="parameter-name">analyzer</span>, </span></li>
 <li><span class="parameter" id="analyze-param-tokenFilter"><span class="type-annotation"><a href="../../type_definitions/TokenFilter.html">TokenFilter</a>?</span> <span class="parameter-name">tokenFilter</span>, </span></li>
 <li><span class="parameter" id="analyze-param-nGramRange"><span class="type-annotation"><a href="../../text_analysis/NGramRange-class.html">NGramRange</a>?</span> <span class="parameter-name">nGramRange</span>, </span></li>
-<li><span class="parameter" id="analyze-param-zone"><span class="type-annotation"><a href="../../type_definitions/Zone.html">Zone</a>?</span> <span class="parameter-name">zone</span>}</span></li>
+<li><span class="parameter" id="analyze-param-zone"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a>?</span> <span class="parameter-name">zone</span>}</span></li>
 </ol>)
 
       
@@ -89,7 +89,7 @@ The static factory uses a <code>analyzer</code> to tokenize the
     required TextAnalyzer analyzer,
     TokenFilter? tokenFilter,
     NGramRange? nGramRange,
-    Zone? zone}) async {
+    String? zone}) async {
   final tokens = await analyzer.tokenizer(sourceText,
       zone: zone,
       tokenFilter: tokenFilter);
@@ -97,8 +97,7 @@ The static factory uses a <code>analyzer</code> to tokenize the
   final nGrams = terms.nGrams(nGramRange ?? NGramRange(1, 2));
   final sentences = analyzer.sentenceSplitter(sourceText);
   final paragraphs = analyzer.paragraphSplitter(sourceText);
-  final keywords =
-      analyzer.keywordExtractor(sourceText);
+  final keywords = tokens.toPhrases();
   final graph = TermCoOccurrenceGraph(keywords);
   final syllableCount = terms.map((e) =&gt; analyzer.syllableCounter(e)).sum;
   return _TextDocumentImpl(sourceText, null, tokens, paragraphs, sentences,
@@ -176,7 +175,7 @@ The static factory uses a <code>analyzer</code> to tokenize the
 <footer>
   <span class="no-break">
     text_analysis
-      0.24.0-1
+      0.24.0-2
   </span>
 
   

@@ -52,7 +52,7 @@
       
 
 <span class="returntype"><a href="https://api.flutter.dev/flutter/dart-core/int-class.html">int</a></span>
-<span class="name ">lengthDistance</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="lengthDistance-param-other"><span class="type-annotation"><a href="../../type_definitions/Term.html">Term</a></span> <span class="parameter-name">other</span></span></li>
+<span class="name ">lengthDistance</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="lengthDistance-param-other"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span> <span class="parameter-name">other</span></span></li>
 </ol>)
 
       
@@ -68,7 +68,8 @@
     
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
-  <pre class="language-dart"><code class="language-dart">int lengthDistance(Term other) =&gt; (trim().length - other.trim().length).abs();</code></pre>
+  <pre class="language-dart"><code class="language-dart">int lengthDistance(String other) =&gt;
+    (trim().length - other.trim().length).abs();</code></pre>
 </section>
 
 
@@ -137,7 +138,7 @@
 <footer>
   <span class="no-break">
     text_analysis
-      0.24.0-1
+      0.24.0-2
   </span>
 
   

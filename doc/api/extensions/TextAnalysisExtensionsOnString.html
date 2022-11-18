@@ -50,7 +50,7 @@
 
     
 <section class="desc markdown">
-  <p>Extension methods on <a href="../type_definitions/Term.html">Term</a> that exposes methods analysing and tokenizing
+  <p>Extension methods on term that exposes methods analysing and tokenizing
 text.</p>
 </section>
 
@@ -122,6 +122,17 @@ String.
 </dt>
 <dd>
   Returns all the vowels in the String.
+  <div class="features">read-only</div>
+
+</dd>
+
+            <dt id="words" class="property">
+  <span class="name"><a href="../extensions/TextAnalysisExtensionsOnString/words.html">words</a></span>
+  <span class="signature">&#8594; <a href="https://api.flutter.dev/flutter/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>&gt;</span></span> 
+
+</dt>
+<dd>
+  Returns all the words in the String.
   <div class="features">read-only</div>
 
 </dd>
@@ -236,27 +247,6 @@ or where it is a apostrophe preceded by n "s" or "S" (possessive plural).
     
     
 
-  <section class="summary offset-anchor" id="constants">
-    <h2>Constants</h2>
-
-    <dl class="properties">
-        <dt id="rPossessive" class="constant">
-    <span class="name "><a href="../extensions/TextAnalysisExtensionsOnString/rPossessive-constant.html">rPossessive</a></span>
-  <span class="signature">&#8594; const <a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>
-  
-
-</dt>
-<dd>
-  Selects all possessive apostrophes:
-  
-
-  <div>
-    <span class="signature"><code>r&quot;(?&lt;=[a-zA-Z0-9])(&#39;s|&#39;S)(?=[^a-zA-Z0-9])|(?&lt;=[sS])(&#39;)(?=[^a-zA-Z])&quot;</code></span>
-  </div>
-</dd>
-
-    </dl>
-  </section>
 
 </div> <!-- /.main-content -->
 
@@ -313,6 +303,7 @@ or where it is a apostrophe preceded by n "s" or "S" (possessive plural).
     <li><a href="../extensions/TextAnalysisExtensionsOnString/triptongs.html">triptongs</a></li>
     <li><a href="../extensions/TextAnalysisExtensionsOnString/vowelDipthongAndTriptongCount.html">vowelDipthongAndTriptongCount</a></li>
     <li><a href="../extensions/TextAnalysisExtensionsOnString/vowels.html">vowels</a></li>
+    <li><a href="../extensions/TextAnalysisExtensionsOnString/words.html">words</a></li>
 
     <li class="section-title"><a href="../extensions/TextAnalysisExtensionsOnString.html#instance-methods">Methods</a></li>
     <li><a href="../extensions/TextAnalysisExtensionsOnString/normalizeHyphens.html">normalizeHyphens</a></li>
@@ -326,8 +317,6 @@ or where it is a apostrophe preceded by n "s" or "S" (possessive plural).
 
 
 
-        <li class="section-title"><a href="../extensions/TextAnalysisExtensionsOnString.html#constants">Constants</a></li>
-          <li><a href="../extensions/TextAnalysisExtensionsOnString/rPossessive-constant.html">rPossessive</a></li>
 </ol>
 
 </div><!--/.sidebar-offcanvas-->
@@ -337,7 +326,7 @@ or where it is a apostrophe preceded by n "s" or "S" (possessive plural).
 <footer>
   <span class="no-break">
     text_analysis
-      0.24.0-1
+      0.24.0-2
   </span>
 
   
