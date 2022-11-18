@@ -26,13 +26,11 @@ extension _SentenceSplitterExtensionOnString on String {
               LatinLanguageAnalyzer.kSentenceDelimiter)
           // select all sentences and replace the ending punctuation with %~%
           .replaceAllMapped(
-              RegExp(LatinLanguageAnalyzer.rSentenceEndingSelector),
-              (match) {
+              RegExp(LatinLanguageAnalyzer.rSentenceEndingSelector), (match) {
         final sentence = match.group(0) ?? '';
         // remove white-space before delimiter then return the sentence
-        return '$sentence$LatinLanguageAnalyzer.kSentenceDelimiter'
-            .replaceAll(RegExp(r'(\s+)(?=%~%)'),
-                LatinLanguageAnalyzer.kSentenceDelimiter);
+        return '$sentence$LatinLanguageAnalyzer.kSentenceDelimiter'.replaceAll(
+            RegExp(r'(\s+)(?=%~%)'), LatinLanguageAnalyzer.kSentenceDelimiter);
       });
 
   /// Split the String at LatinLanguageAnalyzer.kSentenceDelimiter, trim the elements
@@ -45,8 +43,7 @@ extension _SentenceSplitterExtensionOnString on String {
       // trim leading and trailing white-space from all elements
       final sentence = e
           .trim()
-          .replaceAll(
-              RegExp(LatinLanguageAnalyzer.rSentenceEndingSelector), '')
+          .replaceAll(RegExp(LatinLanguageAnalyzer.rSentenceEndingSelector), '')
           .trim();
       // add only non-empty sentences
       if (sentence.isNotEmpty) {

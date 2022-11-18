@@ -22,11 +22,14 @@ abstract class _TermFilter implements TextAnalyzer {
   TermModifier get stemmer;
 
   /// Implements [TextAnalyzer.termFilter].
-  ///
-  /// Normalizes the white-space in the term then returns the term if it is
-  /// not empty.
+  /// - Normalizes the white-space in the term.
+  /// - Checks term against [termExceptions].
+  /// - Checks term against
   Future<String?> _filterTerm(String term, [String? zone]) async {
     String? retval = term.normalizeWhitespace();
+    if (retval.isEmpty) {
+      return null;
+    }
     // check for exceptions
     final ex = termExceptions[retval];
     if (ex != null) {
@@ -34,10 +37,10 @@ abstract class _TermFilter implements TextAnalyzer {
     }
     if (!isStopword(retval)) {
       retval = retval.isEmpty ? null : retval;
-      // stem if single word with only letters
+      // stem if single word with only letters and apostrophes
       if (retval != null &&
           retval.termCount == 1 &&
-          RegExp(r'[^a-zA-Z\-]').allMatches(retval).isEmpty) {
+          RegExp(r"[^a-zA-Z\-']").allMatches(retval).isEmpty) {
         retval = stemmer(retval);
         final ex = termExceptions[retval];
         if (ex != null) {

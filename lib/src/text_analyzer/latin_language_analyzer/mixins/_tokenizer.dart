@@ -12,7 +12,6 @@ abstract class _Tokenizer implements TextAnalyzer {
   /// Private [JsonTokenizer] function implements [TextAnalyzer.jsonTokenizer].
   Future<List<Token>> _tokenizeJson(Map<String, dynamic> document,
       {NGramRange? nGramRange,
-      bool preserveCase = false,
       Iterable<String>? zones,
       TokenFilter? tokenFilter}) async {
     final tokens = <Token>[];
@@ -24,10 +23,7 @@ abstract class _Tokenizer implements TextAnalyzer {
         final source = value.toString();
         if (source.isNotEmpty) {
           tokens.addAll(await _tokenize(source,
-              preserveCase: preserveCase,
-              tokenFilter: tokenFilter,
-              zone: zone,
-              nGramRange: nGramRange));
+              tokenFilter: tokenFilter, zone: zone, nGramRange: nGramRange));
         }
       }
     }
@@ -38,7 +34,6 @@ abstract class _Tokenizer implements TextAnalyzer {
   Future<List<Token>> _tokenize(
     String text, {
     String? zone,
-    bool preserveCase = false,
     NGramRange? nGramRange,
     TokenFilter? tokenFilter,
   }) async {
@@ -49,13 +44,11 @@ abstract class _Tokenizer implements TextAnalyzer {
       final ngrams =
           (nGramRange == null ? [e] : nGrammer(e, nGramRange)).toSet();
       await Future.forEach(ngrams, (String term) async {
-        tokens.add(Token(preserveCase ? term : term.toLowerCase(),
-            term.termCount, position, zone));
+        tokens.add(Token(term, term.termCount, position, zone));
         if (termExpander != null) {
           final expanded = await termExpander!(term, zone);
           for (final et in expanded) {
-            tokens.add(Token(preserveCase ? et : et.toLowerCase(), et.termCount,
-                position, zone));
+            tokens.add(Token(et, et.termCount, position, zone));
           }
         }
       });

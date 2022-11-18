@@ -83,8 +83,7 @@ abstract class TextDocument {
       NGramRange? nGramRange,
       String? zone}) async {
     final tokens = await analyzer.tokenizer(sourceText,
-        zone: zone,
-        tokenFilter: tokenFilter);
+        zone: zone, tokenFilter: tokenFilter);
     final terms = analyzer.termSplitter(sourceText);
     final nGrams = terms.nGrams(nGramRange ?? NGramRange(1, 2));
     final sentences = analyzer.sentenceSplitter(sourceText);
@@ -112,8 +111,7 @@ abstract class TextDocument {
       Iterable<String>? zones}) async {
     final sourceText = document.toSourceText(zones);
     final tokens = await analyzer.jsonTokenizer(document,
-        zones: zones,
-        tokenFilter: tokenFilter);
+        zones: zones, tokenFilter: tokenFilter);
     final terms = analyzer.termSplitter(sourceText);
     final nGrams = terms.nGrams(nGramRange ?? NGramRange(1, 2));
     final sentences = analyzer.sentenceSplitter(sourceText);

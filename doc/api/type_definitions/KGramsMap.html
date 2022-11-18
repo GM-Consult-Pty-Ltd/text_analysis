@@ -58,42 +58,7 @@
 
     
 <section class="desc markdown">
-  <p>A callback function that returns true or false based on the content of
-the term.
-<code>TextSplitter</code> - A splitter function that returns a list of paragraphs from <code>source</code>.</p>
-<p>In English, the <code>source</code> text is split at:</p>
-<ul>
-<li><code>U+000A</code>, NewLine;</li>
-<li><code>U+000B</code>, VerticalTabulation;</li>
-<li><code>U+000C</code>, FormFeed; and</li>
-<li><code>U+000D</code>, CarriageReturn.
-<code>TermFilter</code> - A filter function that returns a collection of terms from term:</li>
-<li>return an empty collection if the term is to be excluded from analysis;</li>
-<li>return multiple terms if the term is split; and/or</li>
-<li>return modified term(s), such as applying a stemmer algorithm.
-<code>SentenceSplitter</code> - A splitter function that returns a list of sentences from <code>source</code>.</li>
-</ul>
-<p>In English, the <code>source</code> text is split at sentence endings marks such as
-periods, question marks and exclamation marks. If the <code>source</code> contains
-paragraph ending marks it should also be split at these.</p>
-<p>The sentence splitter should avoid splitting after abbreviations,
-which may end with period marks.
-An alias for String, when used in the context of a field or meta data field
-in the <code>corpus</code>. Represents the name of the field/zone.
-An alias for String, used in the context of a word, term or phrase present
-in a text source, document or query.
-Phrase: An alias for <code>List&lt;String&gt;</code> when used in the context of the terms of a
-phrase split to an ordered list of terms.
-k-Gram: An alias for String, used in the context of a sequence of k characters
-from a term.</p>
-<p>A k-gram can start with "$", dentoting the start of the term, and end with
-"$", denoting the end of the term.</p>
-<p>The 3-grams for "castle" are { $ca, cas, ast, stl, tle, le$ }
-<code>PhraseExtractor</code> - a splitter function that returns an ordered collection of keyword phrases
-from text.</p>
-<p>The text is split at punctuation, line endings and stop-words, resulting
-in an ordered collection of term sequences of varying length.
-Alias for <code>Map&lt;String, Set&lt;String&gt;&gt;</code>.</p>
+  <p>Alias for <code>Map&lt;String, Set&lt;String&gt;&gt;</code>.</p>
 <p>A hashmap of k-Gram to Set<term>, where the value is the set of unique
 terms that contain the k-Gram in the key.</term></p>
 </section>
@@ -101,56 +66,7 @@ terms that contain the k-Gram in the key.</term></p>
     
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
-  <pre class="language-dart"><code class="language-dart">&#47;&#47;&#47; `TextSplitter` - A splitter function that returns a list of paragraphs from [source].
-&#47;&#47;&#47;
-&#47;&#47;&#47; In English, the [source] text is split at:
-&#47;&#47;&#47; - `U+000A`, NewLine;
-&#47;&#47;&#47; - `U+000B`, VerticalTabulation;
-&#47;&#47;&#47; - `U+000C`, FormFeed; and
-&#47;&#47;&#47; - `U+000D`, CarriageReturn.
-
-&#47;&#47;&#47; `TermFilter` - A filter function that returns a collection of terms from term:
-&#47;&#47;&#47; - return an empty collection if the term is to be excluded from analysis;
-&#47;&#47;&#47; - return multiple terms if the term is split; and&#47;or
-&#47;&#47;&#47; - return modified term(s), such as applying a stemmer algorithm.
-
-&#47;&#47;&#47; `SentenceSplitter` - A splitter function that returns a list of sentences from [source].
-&#47;&#47;&#47;
-&#47;&#47;&#47; In English, the [source] text is split at sentence endings marks such as
-&#47;&#47;&#47; periods, question marks and exclamation marks. If the [source] contains
-&#47;&#47;&#47; paragraph ending marks it should also be split at these.
-&#47;&#47;&#47;
-&#47;&#47;&#47; The sentence splitter should avoid splitting after abbreviations,
-&#47;&#47;&#47; which may end with period marks.
-
-&#47;&#47;&#47; An alias for String, when used in the context of a field or meta data field
-&#47;&#47;&#47; in the `corpus`. Represents the name of the field&#47;zone.
-
-&#47;&#47;&#47; An alias for String, used in the context of a word, term or phrase present
-&#47;&#47;&#47; in a text source, document or query.
-
-&#47;&#47;&#47; Phrase: An alias for `List&lt;String&gt;` when used in the context of the terms of a
-&#47;&#47;&#47; phrase split to an ordered list of terms.
-
-&#47;&#47;&#47; k-Gram: An alias for String, used in the context of a sequence of k characters
-&#47;&#47;&#47; from a term.
-&#47;&#47;&#47;
-&#47;&#47;&#47; A k-gram can start with &quot;$&quot;, dentoting the start of the term, and end with
-&#47;&#47;&#47; &quot;$&quot;, denoting the end of the term.
-&#47;&#47;&#47;
-&#47;&#47;&#47; The 3-grams for &quot;castle&quot; are { $ca, cas, ast, stl, tle, le$ }
-
-&#47;&#47;&#47; `PhraseExtractor` - a splitter function that returns an ordered collection of keyword phrases
-&#47;&#47;&#47; from text.
-&#47;&#47;&#47;
-&#47;&#47;&#47; The text is split at punctuation, line endings and stop-words, resulting
-&#47;&#47;&#47; in an ordered collection of term sequences of varying length.
-
-&#47;&#47;&#47; Alias for `Map&lt;String, Set&lt;String&gt;&gt;`.
-&#47;&#47;&#47;
-&#47;&#47;&#47; A hashmap of k-Gram to Set&lt;term&gt;, where the value is the set of unique
-&#47;&#47;&#47; terms that contain the k-Gram in the key.
-typedef KGramsMap = Map&lt;String, Set&lt;String&gt;&gt;;</code></pre>
+  <pre class="language-dart"><code class="language-dart">typedef KGramsMap = Map&lt;String, Set&lt;String&gt;&gt;;</code></pre>
 </section>
 
 
@@ -207,7 +123,7 @@ typedef KGramsMap = Map&lt;String, Set&lt;String&gt;&gt;;</code></pre>
 <footer>
   <span class="no-break">
     text_analysis
-      0.24.0-2
+      0.24.0-3
   </span>
 
   

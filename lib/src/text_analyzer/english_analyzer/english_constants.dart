@@ -17,7 +17,6 @@ abstract class _EnglishConstants {
   // /// Matches all instances of a posessive apostrophy, e.g. "Mary's".
   // static const rPosessiveApostrophe = r"(?<=\w)'[sS]{1}(?=\W|$)";
 
-
   /// A collection of stop-words excluded from tokenization.
   static const kStopWords = {
     'a',
@@ -1658,7 +1657,7 @@ abstract class _EnglishConstants {
     'N.E.': 'north-east, north-eastern',
     'N.E.D.': 'New English Dictionary',
     'N.S. Wales': 'New South Wales',
-    'N.S.W.': 'New South Wales',    
+    'N.S.W.': 'New South Wales',
     'NSW': 'New South Wales',
     'N.T.': 'New Testament',
     'NT': ' Northern Territory',

@@ -89,8 +89,7 @@ Future<void> _readMeExample(String title) async {
 
   // Use the static English.analyzer instance to tokenize the text using the
   // English analyzer.
-  final tokens = await English.analyzer
-      .tokenizer(readabilityExample);
+  final tokens = await English.analyzer.tokenizer(readabilityExample);
   print(tokens.terms);
 
   // hydrate the TextDocument
@@ -213,8 +212,7 @@ Future<List<Token>> _tokenizeParagraphs(Iterable<String> paragraphs) async {
   final source = sourceBuilder.toString();
 
   // tokenize the source
-  final tokens =
-      await English.analyzer.tokenizer(source);
+  final tokens = await English.analyzer.tokenizer(source);
 
   return tokens;
 }

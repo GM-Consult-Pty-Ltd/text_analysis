@@ -219,8 +219,7 @@ void main() {
           'your phone. Podcast production company Pacific Content got the '
           'exclusive on it. This text is taken from Google news.';
 
-      final keywords =
-         (await English().tokenizer(sample)).toPhrases();
+      final keywords = (await English().tokenizer(sample)).toPhrases();
 
       final graph =
           TermCoOccurrenceGraph(keywords) as TermCoOccurrenceGraphBase;

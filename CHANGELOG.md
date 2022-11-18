@@ -4,6 +4,16 @@ Copyright (c) 2022, GM Consult Pty Ltd
 All rights reserved. 
 -->
 
+## 0.24.0-3
+**BREAKING CHANGES**
+
+### *Breaking changes*
+* Changed signature of function definition `Tokenizer`.
+* Changed signature of function definition `JsonTokenizer`.
+
+### *Updated*
+* Documentation
+
 ## 0.24.0-2
 **BREAKING CHANGES**
 
@@ -23,7 +33,6 @@ All rights reserved.
 * Tests.
 * Documentation
 * Examples.
-
 
 ## 0.24.0-1
 **BREAKING CHANGES**
