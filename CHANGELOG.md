@@ -5,6 +5,17 @@ All rights reserved.
 -->
 
 
+## 0.24.0-5
+
+### *New*
+* Added extension method `Map<String, double> toKeywordScores()` on `terable<Token>`.
+
+### *Bug fixes*
+* Fixed tokenizer phrase splitter bug.
+
+### *Updated*
+* Documentation
+
 ## 0.24.0-4
 
 ### *Bug fixes*

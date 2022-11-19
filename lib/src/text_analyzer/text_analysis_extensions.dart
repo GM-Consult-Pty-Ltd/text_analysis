@@ -252,6 +252,10 @@ extension TokenCollectionExtension on Iterable<Token> {
     return keywords;
   }
 
+  /// Returns a mapping of the terms in the collection to their RAKE scores.
+  Map<String, double> toKeywordScores() =>
+      TermCoOccurrenceGraph(toPhrases()).keywordScores;
+
   /// Returns a hashmap of k-grams to terms from the collection of tokens.
   Map<String, Set<String>> kGrams([int k = 2]) => terms.toKGramsMap(k);
 

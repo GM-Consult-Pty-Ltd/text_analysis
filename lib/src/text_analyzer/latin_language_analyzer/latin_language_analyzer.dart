@@ -147,10 +147,10 @@ abstract class LatinLanguageAnalyzer
   /// - all line endings
   /// - all punctuation
   /// - all numbers, including currency amounts and percentages
-  static const rPhraseDelimiterSelector = '$rLineEndingSelector|'
-      '$rPunctuationSelector|'
-      '$rBracketsAndCarets+|'
-      '"+';
+  static const rPhraseDelimiterSelector = r'[\r\n]+|[\!:;,\-—."\'
+      r"'}\)\]]+\W+|\W+[\!:;,\-—."
+      r'"\'
+      r"'}\)\]\(\[\{]+|\W(?=$)|(?<=^)\W";
 
   /// Matches all numbers, including those delimited with periods and or commas.
   static const rNumbers = r'(?<=^|\W)(\d|((?<=\d)[,.]{1}(?=\d)))+(?=$|\W)';
@@ -174,11 +174,11 @@ abstract class LatinLanguageAnalyzer
       '(?<=$rWordChars|\\s)(\\. )(?=([^a-z])|\\s+|\$)|(\\.)(?=\$)|'
       '(?<=[^([{])([?!])(?=([^)]}])|\\s+|\$)';
 
-  /// Matches all punctuation. Excludes periods followed by word characters or
-  /// lower-case text (even if separated by white-space) to avoid selecting
-  /// periods in abbreviations.
-  static const rPunctuationSelector =
-      r"[\!:;,\-—]+(?=[^a-zA-Z0-9À-öø-ÿ¥Œ€@™#-\&_\'-]|$)|[.](?=$|[^,.!:"
-      '"'
-      r"'[\]{}();a-zA-Z0-9\s]|\s[A-Z0-9])";
+  // /// Matches all punctuation. Excludes periods followed by word characters or
+  // /// lower-case text (even if separated by white-space) to avoid selecting
+  // /// periods in abbreviations.
+  // static const rPunctuationSelector =
+  //     r"[\!:;,\-—]+(?=[^a-zA-Z0-9À-öø-ÿ¥Œ€@™#-\&_\'-]|$)|[.](?=$|[^,.!:"
+  //     '"'
+  //     r"'[\]{}();a-zA-Z0-9\s]|\s[A-Z0-9])";
 }

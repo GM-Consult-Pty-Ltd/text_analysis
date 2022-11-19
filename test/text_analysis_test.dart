@@ -8,6 +8,7 @@
 
 import 'package:gmconsult_dev/gmconsult_dev.dart';
 import 'package:gmconsult_dev/test_data.dart';
+import 'package:gmconsult_dev/type_definitions.dart';
 // import 'package:gmconsult_dev/type_definitions.dart';
 import '../dev/data/lexicon/english_lexicon.dart';
 import 'package:text_analysis/extensions.dart';
@@ -128,12 +129,17 @@ void main() {
     /// Tokenize JSON with NO zones.
     test('TextAnalyzer.JsonTokenizer', () async {
       // tokenize the json with NO zones
-      final tokens = await English.analyzer
-          .jsonTokenizer(TestData.json, zones: ['description']);
-      // map the document's tokens to a list of terms (strings)
-
+      final tokens = await English.analyzer.jsonTokenizer(
+          TestData.stockNews.values.first,
+          zones: ['name', 'description']);
       // print the tokens
       _printTokens('TOKENIZE JSON (${tokens.length})', tokens);
+      final phrases = tokens.toPhrases();
+      final graph = TermCoOccurrenceGraph(phrases);
+      final entries = graph.keywordScores.entries.toList()
+        ..sort(((a, b) => b.value.compareTo(a.value)));
+      final results = entries.map((e) => {'Keyword': e.key, 'Score': e.value});
+      Console.out(title: 'Keyword Scores', results: results);
     });
 
     /// Tokenize JSON with NO zones.

@@ -629,24 +629,7 @@ where delimiters are not at the start or end of the string
   
 
   <div>
-    <span class="signature"><code>&#39;$rLineEndingSelector|&#39; &#39;$rPunctuationSelector|&#39; &#39;$rBracketsAndCarets+|&#39; &#39;&quot;+&#39;</code></span>
-  </div>
-</dd>
-
-        <dt id="rPunctuationSelector" class="constant">
-    <span class="name "><a href="../text_analysis/LatinLanguageAnalyzer/rPunctuationSelector-constant.html">rPunctuationSelector</a></span>
-  <span class="signature">&#8594; const <a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>
-  
-
-</dt>
-<dd>
-  Matches all punctuation. Excludes periods followed by word characters or
-lower-case text (even if separated by white-space) to avoid selecting
-periods in abbreviations.
-  
-
-  <div>
-    <span class="signature"><code>r&quot;[\!:;,\-—]+(?=[^a-zA-Z0-9À-öø-ÿ¥Œ€@™#-\&amp;_\&#39;-]|$)|[.](?=$|[^,.!:&quot; &#39;&quot;&#39; r&quot;&#39;[\]{}();a-zA-Z0-9\s]|\s[A-Z0-9])&quot;</code></span>
+    <span class="signature"><code>r&#39;[\r\n]+|[\!:;,\-—.&quot;\&#39; r&quot;&#39;}\)\]]+\W+|\W+[\!:;,\-—.&quot; r&#39;&quot;\&#39; r&quot;&#39;}\)\]\(\[\{]+|\W(?=$)|(?&lt;=^)\W&quot;</code></span>
   </div>
 </dd>
 
@@ -801,7 +784,6 @@ periods in abbreviations.
           <li><a href="../text_analysis/LatinLanguageAnalyzer/rNumbers-constant.html">rNumbers</a></li>
           <li><a href="../text_analysis/LatinLanguageAnalyzer/rNumbersAndAmounts-constant.html">rNumbersAndAmounts</a></li>
           <li><a href="../text_analysis/LatinLanguageAnalyzer/rPhraseDelimiterSelector-constant.html">rPhraseDelimiterSelector</a></li>
-          <li><a href="../text_analysis/LatinLanguageAnalyzer/rPunctuationSelector-constant.html">rPunctuationSelector</a></li>
           <li><a href="../text_analysis/LatinLanguageAnalyzer/rQuotes-constant.html">rQuotes</a></li>
           <li><a href="../text_analysis/LatinLanguageAnalyzer/rSentenceEndingSelector-constant.html">rSentenceEndingSelector</a></li>
           <li><a href="../text_analysis/LatinLanguageAnalyzer/rWordChars-constant.html">rWordChars</a></li>
@@ -814,7 +796,7 @@ periods in abbreviations.
 <footer>
   <span class="no-break">
     text_analysis
-      0.24.0-4
+      0.24.0-5
   </span>
 
   
