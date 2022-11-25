@@ -4,7 +4,7 @@ Copyright (c) 2022, GM Consult Pty Ltd
 All rights reserved. 
 -->
 
-[![GM Consult Pty Ltd](https://raw.githubusercontent.com/GM-Consult-Pty-Ltd/text_analysis/main/dev/images/text_analysis_header.png?raw=true "GM Consult Pty Ltd")](https://github.com/GM-Consult-Pty-Ltd/text_analysis)
+[![GM Consult Pty Ltd](https://raw.githubusercontent.com/GM-Consult-Pty-Ltd/text_analysis/main/doc/images/text_analysis_header.png?raw=true "GM Consult Pty Ltd")](https://github.com/GM-Consult-Pty-Ltd/text_analysis)
 ## **Tokenize text, compute document readbility and compare terms in Natural Language Processing.**
 
 Skip to section:
@@ -34,7 +34,7 @@ Tokenization comprises the following steps:
 * a `term filter` manipulates the terms by splitting compound or hyphenated terms or applying stemming and lemmatization. The `termFilter` can also filter out `stopwords`; and
 * the `tokenizer` converts terms to a collection of `tokens` that contain tokenized versions of the term and a pointer to the position of the tokenized term (n-gram) in the source text. The tokens are generated for keywords, terms and/or n-grams, depending on the `TokenizingStrategy` selected. The desired n-gram range can be passed in when tokenizing the text or document.
 
-![Text analysis](https://github.com/GM-Consult-Pty-Ltd/text_analysis/raw/main/assets/images/text_analysis.png?raw=true?raw=true "Tokenizing overview")
+![Text analysis](https://github.com/GM-Consult-Pty-Ltd/text_analysis/raw/main/doc/images/text_analysis.png?raw=true?raw=true "Tokenizing overview")
 
 ### Readability
 
