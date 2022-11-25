@@ -4,6 +4,10 @@ Copyright (c) 2022, GM Consult Pty Ltd
 All rights reserved. 
 -->
 
+## 1.0.0
+
+* Stable release.
+
 ## 0.24.0
 
 ### *Breaking changes*
