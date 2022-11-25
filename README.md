@@ -4,7 +4,7 @@ Copyright (c) 2022, GM Consult Pty Ltd
 All rights reserved. 
 -->
 
-[![GM Consult Pty Ltd](https://raw.githubusercontent.com/GM-Consult-Pty-Ltd/text_analysis/main/doc/images/text_analysis_header.png?raw=true "GM Consult Pty Ltd")](https://github.com/GM-Consult-Pty-Ltd/text_analysis)
+[![GM Consult Pty Ltd](https://github.com/GM-Consult-Pty-Ltd/text_analysis/blob/main/doc/images/text_analysis_header.png?raw=true "GM Consult Pty Ltd")](https://github.com/GM-Consult-Pty-Ltd/text_analysis)
 ## **Tokenize text, compute document readbility and compare terms in Natural Language Processing.**
 
 Skip to section:

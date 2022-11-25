@@ -4,7 +4,7 @@ Copyright (c) 2022, GM Consult Pty Ltd
 All rights reserved. 
 -->
 
-## 1.0.0
+## 1.0.0+2
 
 * Stable release.
 
