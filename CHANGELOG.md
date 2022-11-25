@@ -4,6 +4,31 @@ Copyright (c) 2022, GM Consult Pty Ltd
 All rights reserved. 
 -->
 
+## 0.24.0
+
+### *Breaking changes*
+* Interface `TextTokenizer` removed. Use `TextAnalyzer.tokenize` and `TextAnalyzer.tokenizeJson` in stead.
+* Deleted mixin `LatinLanguageAnalyzerMixin`.
+* Moved class `TermSimilarityBase` from `text_analysis` library.
+* Moved all mixins and base-classes to `implementation` mini-library.
+* Changed signature of function definition `Tokenizer`.
+* Changed signature of function definition `JsonTokenizer`.
+
+### *Bug fixes*
+* Fixed tokenizer phrase splitter bug.
+* Fixed tokenizer term position bug.
+
+### *New*
+* Added extension method `Map<String, double> toKeywordScores()` on `terable<Token>`.
+* New method `TextAnalyzer.tokenize`.
+* New method `TextAnalyzer.tokenizeJson`.
+* New class `LatinLanguageAnalyzer`.
+
+### *Updated*
+* Dependencies.
+* Tests.
+* Documentation
+* Examples.
 
 ## 0.24.0-5
 
@@ -73,7 +98,6 @@ All rights reserved.
 * Tests.
 * Documentation
 * Examples.
-
 
 ## 0.23.7+14
 
